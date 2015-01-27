@@ -1,0 +1,3890 @@
+<!--Hi, Welcome, Take off your shoes, make yourself at home, and enjoy the code-->
+<!--I'm not the best code in the world but it does a job - @fryford - Data Visualisation Centre - Office for National Statistics -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="lib/idangerous.swiper.css">
+	<!--<script src="lib/d3.v3.min.js"></script>-->
+    <link rel="stylesheet" href="lib/jquery-ui-1.10.4.custom.min.css">
+    <link rel="stylesheet" href="lib/style.css">
+    <link rel="stylesheet" href="lib/jquery.ui.labeledslider.css">
+
+    <script src="lib/d3.v3.min.js" charset="utf-8"></script>
+    <script src="lib/topojson.min.js"></script>
+	<script src="lib/d3.geo.projection.v0.min.js"></script>
+    <script src="lib/jquery-1.10.1.min.js"></script>
+    <script src="lib/jquery-ui-1.10.4.custom.min.js"></script>
+   	<script src="lib/modernizr.custom.56904.js"></script>
+    <script src="lib/idangerous.swiper-2.1.min.js"></script>
+    <script src="lib/idangerous.swiper.hashnav.js"></script>
+    <script src="lib/chosen.jquery.js"></script>
+    <script src="lib/jquery.ui.labeledslider.js"></script>
+    <script src="lib/jquery.ui.touch-punch.min"></script>
+
+<style>
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video
+{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: 'open_sansregular';
+	vertical-align: baseline;
+
+}
+
+		html {
+			height:100%;
+		}
+
+		@font-face {
+			font-family: 'open_sanslight';
+			src: url('./lib/OpenSans-Light-webfont.woff') format('woff');
+			font-weight: normal;
+			font-style: normal;
+
+		}
+
+		@font-face {
+			font-family: 'open_sansitalic';
+			src: url('./lib/OpenSans-Italic-webfont.woff') format('woff');
+			font-weight: normal;
+			font-style: normal;
+
+		}
+
+		@font-face {
+			font-family: 'open_sansregular';
+			src: url('./lib/OpenSans-Regular-webfont.woff') format('woff');
+			font-weight: normal;
+			font-style: normal;
+
+		}
+
+
+
+	   body {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 14px;
+		margin:0px auto;
+		height:100%;
+		background:rgb(250,250,250);
+
+      }
+
+	  #container {
+		position:relative;
+		margin: 0px auto;
+		height:710px;
+		width:940px;
+		box-shadow: 0px 0px 6px rgb(221, 221, 221);
+		/*left:0;*/
+		/*display:block;*/
+
+	  }
+
+	  #mapDiv {
+
+/*		left:20px;
+		top:50px;
+		margin:0px auto;*/
+		position:absolute;
+		display:block;
+		top:65px;
+		left:0;
+		background-color:#fff;
+		width:100%;
+		height: -webkit-calc(100% - 80px);
+		height: -ms-calc(100% - 80px);
+		height: -moz-calc(100% - 80px);
+		height: calc(100% - 80px);
+
+
+	  }
+
+	  #mapDiv svg {
+
+	  }
+
+	  #sigLabel {
+	 	position:absolute;
+		z-index:20;
+		width:120px;
+		height:16px;
+		bottom:225px;
+		right:0px;
+		background: rgba(255,255,255,0.8);
+		padding:5px 5px;
+		color:#ca5359;
+		font-family: 'open_sansregular';
+		font-size:11px;
+	  }
+
+	  #sigline {
+	 	position:absolute;
+		display:block;
+		width:20px;
+		height:2px;
+		border-top:2px #ca5359 dashed;
+		top:13px;
+	  }
+
+
+	  #siglink {
+	 	position:absolute;
+		left:30px;
+	  }
+
+	  #storytag {
+					position:absolute;
+					left:-28px;
+					top:30%;
+					color:#fff;
+					background-color:#5381ca;
+					padding: 7px 10px;
+					cursor:pointer;
+					transform: rotate(90deg);
+					-moz-transform: rotate(90deg);  /* FF3.5+ */
+					-o-transform: rotate(90deg);  /* Opera 10.5 */
+					-webkit-transform: rotate(90deg);  /* Saf3.1+, Chrome */
+
+			  }
+
+
+
+
+	  #mapSVG {
+		position:absolute;
+		top:0px;
+		left:0px;
+		width:100%;
+		height: 100%;
+		overflow: hidden;
+
+	  }
+
+
+
+	  path.mapPoly {
+        stroke: #666;
+        stroke-width: 0.05%;
+		fill:#eee;
+	  }
+
+	  .polyhigh {
+		stroke: #666;
+		stroke-width: 1;
+		fill:#53bcca;
+	  }
+
+      path.mapPoly:hover {
+		fill:#53bcca;
+      }
+
+	  #box	{
+		fill:#fff;
+
+	  }
+
+	  #mapGraticule	{
+		fill:none;
+		stroke:#C9C9C9;
+		stroke-dasharray: 2,2;
+		stroke-width:0.1%;
+	  }
+
+	 .mapArcs	{
+
+	  }
+
+	 .mapArcsLow	{
+		fill:none;
+		stroke:#53bcca;
+		stroke-width:0.1%;
+		stroke-linecap:round;
+		opacity:0.13;
+
+	  }
+
+	  .mapArcsHigh	{
+		fill:none;
+		opacity:1;
+		stroke:#ca6153;
+		stroke-width:0.3%;
+		stroke-linecap:round;
+		stroke-dasharray: 5,3;
+
+	  }
+
+
+	  .mapArcsLowP	{
+		fill:none;
+		stroke:#666;
+		stroke-width:0.1%;
+		stroke-linecap:round;
+		opacity:0.1;
+
+	  }
+
+	  .mapArcsLowN	{
+		fill:none;
+		stroke:#ca6153;
+		stroke-width:0.1%;
+		stroke-linecap:round;
+		opacity:0.1;
+
+	  }
+
+	  .mapArcsHighP	{
+		fill:none;
+		opacity:1;
+		stroke:#ca6153;
+		stroke-width:0.3%;
+		stroke-linecap:round;
+		stroke-dasharray: 5,3;
+
+	  }
+
+	  .mapArcsHighN	{
+		fill:none;
+		opacity:1;
+		stroke:#666;
+		stroke-width:0.3%;
+		stroke-linecap:round;
+		stroke-dasharray: 5,3;
+
+	  }
+
+
+	  .mapArcsSel	{
+
+		fill:none;
+		opacity:1;
+		stroke: #666;
+		stroke-width:0.3%;
+		stroke-linecap:round;
+
+	  }
+
+
+	  #flowtype {
+		position:absolute;
+		/*display:none; */
+		top:16px;
+		right:-2px;
+	  }
+
+
+/* Swiper content */
+
+.device {
+  width: 340px;
+  height: 100%;
+  position: relative;
+  background: rgba(250,250,250,0.7);
+  /*padding: 30px 40px;*/
+  /*box-shadow: 0px 0px 10px #666;*/
+  z-index:+5;
+}
+.device .arrow-left {
+  background: url(images/prev.png) no-repeat left top;
+  display:inline-block;
+  /*position: absolute;*/
+  /*left: 10px;*/
+  /*top: 50%;*/
+  width: 67px;
+  height: 65px;
+  margin-left:20px;
+  opacity:0.7;
+
+}
+.device .arrow-right {
+  background: url(images/next.png) no-repeat left bottom;
+  display:inline-block;
+  /*position: absolute;
+  left: 310px;
+  top: 50%;*/
+  width: 67px;
+  height: 65px;
+  margin-left:20px;
+  margin-right:100px;
+  opacity:0.7;
+
+
+}
+
+.device .arrow-right:hover {
+	opacity:1;
+}
+
+.device .arrow-left:hover {
+	opacity:1;
+}
+
+
+.close {
+  background: url(images/close.png) no-repeat left bottom;
+  display:block;
+  /*position: absolute;
+  left: 310px;
+  top: 50%;*/
+  font-family: 'open_sansregular';
+  line-height: 15px;
+  width: 30px;
+  height: 29px;
+  margin-left:35px;
+  padding-left: 38px;
+  opacity:0.5;
+
+}
+
+.close:hover {
+	opacity:1;
+}
+
+a.close {
+	text-decoration: none;
+}
+
+
+.swiper-container {
+  height: 600px;
+  width: 340px;
+
+  position:relative;
+  left:0px;
+}
+.content-slide {
+  width:300px;
+  height: 450px;
+  font-family: 'open_sansregular';
+  font-size:13px;
+  padding: 20px;
+  color: #666;
+}
+.title {
+  font-size: 25px;
+  margin-bottom: 10px;
+}
+.pagination {
+  position: absolute;
+  left: 0;
+  text-align: center;
+  bottom:5px;
+  width: 30%;
+}
+.swiper-pagination-switch {
+  display: inline-block;
+  width: 10px;
+  height: 0px;
+  border-radius: 10px;
+  background: #999;
+  box-shadow: 0px 1px 2px #555 inset;
+  margin: 0 3px;
+  cursor: pointer;
+}
+.swiper-active-switch {
+  background: #fff;
+}
+
+/*#curryear {
+	width:200px;
+	height:40px;
+	font-family: 'open_sansregular';
+	font-size:30px;
+	fill:#5381ca;
+	display:none;
+	stroke:#FFF;
+	stroke-width:0.3px;
+}*/
+
+#arealab {
+	font-family: 'open_sansregular';
+	font-size:22px;
+	color:#666;
+	margin: 0px 0px 5px 5px;
+	padding-right:20px;
+	line-height:1.45;
+	width:215px;
+	/*stroke:#FFF;
+	stroke-width:0.3px;*/
+}
+
+#arealab span {
+	font-family: 'open_sanslight';
+	font-size:18px;
+	color:#666;
+	line-height:1;
+}
+
+#currtime {
+	position:absolute;
+	right:385px;
+	top:3px;
+	font-family: 'open_sanslight';
+	font-size:30px;
+	color:#5381ca;
+	z-index:11;
+	/*stroke:#FFF;
+	stroke-width:0.3px;*/
+}
+
+
+#chartText {
+	position:absolute;
+	top:0px;
+	left:211px;
+	font-family: 'open_sansregular';
+	font-size:18px;
+	color:#fff;
+	margin: 8px 0px 5px -13px;
+
+}
+
+
+
+
+/* CSS for chart */
+
+#toppanel {
+
+	width:100%;
+	height:65px;
+	position:absolute;
+	left:0;
+	top:0px;
+	/*display:none;*/
+	border-bottom: 3px #5381ca solid;
+	background-color:#fff;
+	z-index:10;
+	/*pointer-events:none;*/
+
+}
+
+#titlepanel {
+	position:absolute;
+	top:10px;
+	font-family: 'open_sanslight';
+	font-size:26px;
+	padding-left:20px;
+	color:#666;
+	line-height:0.9;
+}
+
+#titlepanel span{
+
+	font-family: 'open_sansitalic';
+	font-size:14px;
+
+}
+
+
+
+#panel {
+
+	width: 100%;
+	height:225px;
+	position:absolute;
+	bottom:0px;
+	display:none;
+	left:0px;
+	background-color:rgba(255,255,255,0.9);
+	/*box-shadow: 0px 0px 6px rgba(0,0,0,.2);*/
+	z-index:10;
+	/*pointer-events:none;*/
+
+	position: absolute;
+	/*margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;*/
+
+}
+
+
+
+#panelsel {
+
+	width: 350px;
+	height:215px;
+	position:absolute;
+	top:0px;
+	display:none;
+	right:0px;
+	background-color:rgba(250,250,250,0.9);
+	z-index:8;
+	position: absolute;
+
+}
+
+#areaopts {
+	position:absolute;
+	top:0px;
+	right:73px;
+}
+
+#subselection {
+	position:absolute;
+	top:2px;
+	right:0px;
+	display:none;
+
+}
+
+#preselzoom {
+	position:absolute;
+	top:120px;
+	left:10px;
+
+}
+
+#preselzoom p {
+	position:absolute;
+	left:97px;
+	top:66px;
+	width:250px;
+	font-family: 'open_sansregular';
+	color:#666;
+
+}
+
+#london {
+	position:absolute;
+	top:0px;
+	left:240px;
+	height:80px;
+	width:80px;
+	background-color: #ccc;
+	border: 2px solid #5381ca;
+	cursor:pointer;
+	opacity:0.7;
+}
+
+#london:hover {
+	opacity:1;
+
+}
+
+
+
+
+
+#selectbtn {
+
+	position:absolute;
+	top:0px;
+	right:0px;
+	height:20px;
+	width:100px;
+	background-color:rgba(250,250,250,0.9);
+	color:#5381ca;
+	cursor:pointer;
+	font-family: 'open_sansregular';
+	padding: 5px 5px;
+	tab-index:;
+}
+
+#closebtn {
+
+	position:absolute;
+	top:0px;
+	right:0px;
+	height:20px;
+	width:340px;
+	background-color:#5381ca;
+	color:#fff;
+	cursor:pointer;
+	font-family: 'open_sansregular';
+	padding: 5px 5px;
+}
+
+
+
+#leftp {
+
+	width:209px;
+	height:172px;
+	position:absolute;
+	left:10px;
+	top:38px;
+	/*background-color:rgba(5,201,129,0.7);*/
+	/*border: rgb(5,201,129) 2px solid;*/
+}
+
+
+#lefttop {
+
+
+	height:38px;
+	position:absolute;
+	left:10px;
+	top:0px;
+	z-index:10;
+	background-color:rgba(255,255,255,0.95);
+
+
+}
+
+#middlep {
+
+	width:347px;
+	height:172px;
+	position:absolute;
+	left:240px;
+	top:38px;
+	/*background-color:rgba(50,50,50,0.4);*/
+	border-left: #A0A0A4 1px dashed;
+	border-right: #A0A0A4 1px dashed;
+}
+
+
+
+#middletop {
+
+	width:150px;
+	height:21px;
+	position:absolute;
+	left:440px;
+	top:13px;
+	/*background-color:rgba(201,5,175,0.5);*/
+	color:#666;
+	padding:5px 0px 0px 0px;
+	text-align:center;
+	text-transform:lowercase;
+}
+
+
+#rightp {
+
+	width:324px;
+	height:172px;
+	position:absolute;
+	left:602px;
+	top:38px;
+	/*background-color:rgba(50,50,50,0.1);*/
+	/*border: rgb(5,175,201) 2px solid;*/
+
+}
+
+#righttop {
+
+	width:90px;
+	height:21px;
+	position:absolute;
+	left:840px;
+	top:13px;
+	/*background-color:rgba(5,175,201,0.5);*/
+	color:#666;
+	padding:5px 0px 0px 0px;
+	text-align:center;
+}
+
+
+
+.leftLabels {
+
+	position:absolute;
+	font-family:'open_sansregular';
+	font-size:20px;
+	text-transform:lowercase;
+
+
+}
+
+.leftFigures {
+
+	position:absolute;
+	color:#666;
+	font-family:'open_sansregular';
+	font-size:20px;
+
+
+}
+
+
+
+#sliderTime {
+
+	width:30%;
+	height:50px;
+	position:absolute;
+	left:100px;
+	top:3px;
+	display:none;
+	background-color:rgba(255,255,255,0.6);
+	z-index:9;
+	padding-right:20px;
+	padding-left:20px;
+
+}
+
+
+
+		#slider
+		{
+			position:absolute;
+			display: block;
+			left:0px;
+			top:0px;
+			/*background-color:#5381ca;*/
+
+		}
+
+
+		#foot {
+			position:absolute;
+			bottom:0px;
+			left:0px;
+			height:15px;
+			width:100%;
+
+
+		}
+
+		#foot a {
+			font-size:10px;
+			float:right;
+			margin-right:10px;
+			color: #5381ca;
+			font-family: 'open_sansregular';
+
+
+		}
+
+		#source {
+			position:absolute;
+			bottom:0px;
+			left:0px;
+			height:15px;
+			width:50%;
+
+
+		}
+
+		#source a {
+			font-size:10px;
+			float:left;
+			margin-left:10px;
+			color: #5381ca;
+			font-family: 'open_sansregular';
+
+
+		}
+
+		a {
+			text-decoration:none;
+		}
+
+
+		a:hover {
+			text-decoration: underline;
+		}
+
+	/******* Chart CSS **********/
+		body
+		{
+			font-family:Arial, Helvetica, sans-serif;
+			position: relative;
+   			width: 100%;
+		}
+
+
+		#mainChart
+		{
+			position:absolute;
+			top:-40px;
+			left:10px;
+			width:340px;
+			height:210px;
+
+		}
+
+		#mainChart line, #mainChart path
+		{
+			stroke:#ccc;
+		}
+
+		#mainChart text
+		{
+			fill:#666;
+		}
+
+
+		button
+		{
+			margin: 10px 10px 0 10px;
+		}
+
+
+
+		#chartTitle
+		{
+			font-size:18px;
+		}
+
+		#chartSubtitle, #chartUnits
+		{
+			font-size:12px;
+			fill:#666;
+
+		}
+
+		#dataSource, #footNote, .credit
+		{
+			font-size:10px;
+		}
+
+		#txtTime
+		{
+			font-size:28px;
+			font-weight:bold;
+			fill:#5381ca;
+
+			font-family: 'robotothin';
+			text-anchor:middle;
+
+		}
+
+		.yLabel {
+
+			fill:#666;
+			font-size:12px;
+			/*font-weight:bold;*/
+			height:20px;
+			width:30px;
+
+		}
+
+
+		.barText {
+			text-anchor:end;
+			fill:#666;
+			font-family:Arial, Helvetica, sans-serif;
+			font-size:11px;
+		}
+
+		.barText2 {
+			text-anchor:start;
+			fill:#666;
+			font-family:Arial, Helvetica, sans-serif;
+			font-weight:bold;
+			font-size:11px;
+		}
+
+		.axis path,
+		.axis line
+		{
+			fill: none;
+			stroke: #ccc;
+			stroke-width: 0.1%
+		}
+
+		.axis text
+		{
+			fill:#666;
+			font-size:11px;
+			font-family:Arial, Helvetica, sans-serif
+		}
+
+		.grid path,
+		.grid line
+		{
+			fill: none;
+			stroke: #cccccc;
+			stroke-width: 0.1%
+		}
+
+		/*don't need to display the text on the secondary grid element*/
+		.grid text
+		{
+			display:none;
+		}
+
+		.barMarker
+		{
+			fill:steelblue;
+			fill-opacity:0.5;
+		}
+
+		.intBar
+		{
+			fill-opacity:0;
+
+		}
+
+       .intBar:hover
+	   {
+            fill:#ccc;
+            fill-opacity:0.8;
+
+        }
+
+		.intBarActive
+		{
+			fill:#ccc;
+			fill-opacity:0.8;
+		}
+
+		.chartBarSel
+		{
+			fill:red;
+		}
+
+		.chartBarsHigh
+		{
+			fill:#ca5359;
+		}
+
+		.chartBarsHighP
+		{
+			fill:#ca5359;
+
+		}
+
+		.chartBarsHighN
+		{
+			fill:#666;
+		}
+
+		.chartBarsLowP
+		{
+			fill:#ca5359;
+			fill-opacity:0.6;
+		}
+
+		.chartBarsLowN
+		{
+			fill:#ccc;
+			fill-opacity:0.6;
+		}
+
+		.chartBars
+		{
+			fill:#53bcca;
+		}
+
+		.selText
+		{
+			fill:black;
+			text-anchor:end;
+		}
+
+
+
+
+	/*Time Chart CSS */
+
+
+		#mainTimeChart
+		{
+			position:absolute;
+			top:0px;
+			left:596px;
+			width:313px;
+			height:210px;
+			/*border-radius:5px;*/
+			/*background:rgba(98,177,246,0.1);*/
+			/*z-index:11;*/
+
+		}
+
+
+		.tick .major {
+			stroke-width: 0.1%;
+			stroke: #CCC;
+			fill:none;
+
+
+		}
+
+		.legend {
+
+			font-size:11px;
+			fill:#666;
+		}
+
+
+		#controls {
+		position:absolute;
+		top:15px;
+		right:0px;
+		width:300px;
+		display:none;
+
+		}
+
+#sel {
+ width:280px;
+}
+
+
+/* Social */
+#fullscreen {
+	position:absolute;
+	top:10px;
+	right:50px;
+	height:30px;
+	width:50px;
+	background-color:#FF1FAA;
+	z-index:40;
+}
+
+
+#headingbar {
+
+
+
+			float:left;
+			height: 30px;
+			width: 100%;
+			margin: 0px auto;
+			background:#fff;
+
+			z-index:+1;
+			/*box-shadow: 2px 2px 3px rgba(0,0,0,.2);*/
+
+		}
+
+
+		#twitter {
+			display:block;
+			margin:2px 5px 5px 2px;
+			width:25px;
+			height:25px;
+			float:right;
+			background-position: right;
+			background:transparent url('./images/twitblue.png') center top no-repeat;
+
+		}
+
+		#twitter:hover {
+
+			float:right;
+			background:transparent url('./images/twitorange.png') center top no-repeat;
+		}
+
+		#face {
+			display:block;
+			margin:2px 5px 5px 2px;
+			width:25px;
+			height:25px;
+			float:right;
+			background-position: right;
+			background:transparent url('./images/faceblue.png') center top no-repeat;
+
+		}
+
+		#face:hover {
+
+			float:right;
+			background:transparent url('./images/faceorange.png') center top no-repeat;
+
+		}
+
+
+
+
+
+		#help {
+			display:block;
+			margin:2px 9px 5px 2px;
+			width:25px;
+			height:25px;
+			float:right;
+			background-position: right;
+			background:transparent url('./images/question_mark.png') center top no-repeat;
+
+		}
+
+		#help:hover {
+
+			float:right;
+			background:transparent url('./images/question_marko.png') center top no-repeat;
+
+		}
+
+
+		#embed {
+			display:block;
+			margin:2px 5px 5px 2px;
+			width:25px;
+			height:25px;
+			float:right;
+			background-position: right;
+			background:transparent url('./images/embedblue.png') center top no-repeat;
+
+		}
+
+		#embed:hover {
+
+			float:right;
+			background:transparent url('./images/embedorange.png') center top no-repeat;
+
+		}
+
+
+		#embedbox{
+
+			position:absolute;
+			right:0px;
+			top:0px;
+			height:35px;
+			width:300px;
+			display:none;
+			background:rgba(98,177,246,0.8);
+			z-index:10;
+			padding:15px;
+
+		}
+
+
+
+		#embedbox p {
+
+			font-size:12px;
+			color:#fff;
+
+		}
+
+		#helpbox{
+
+			position:absolute;
+			right:0px;
+			top:0px;
+			height:310px;
+			width:300px;
+			display:none;
+			background:rgba(98,177,246,0.8);
+			z-index:10;
+			padding:15px;
+
+		}
+
+
+
+		#helpbox p {
+
+			font-size:12px;
+			color:#fff;
+
+		}
+
+		#embedurl {
+			width:285px;
+			color:#666;
+		}
+
+		#close {
+			display:block;
+			margin:-5px -5px 5px 5px;
+			width:14px;
+			height:14px;
+			position:absolute;
+			top:13px;
+			right:10px;
+			background-position: right;
+			background:transparent url('./images/closewhite.png') center top no-repeat;
+
+		}
+
+
+/*Map zoom buttons */
+
+		.zoom-control-zoom a, .zoom-control-layers-toggle {
+		background-position: 50% 50%;
+		background-repeat: no-repeat;
+		display: block;
+		}
+		.zoom-control-zoom a {
+		width: 22px;
+		height: 22px;
+		text-align: center;
+		text-decoration: none;
+		color: #5381ca;
+		}
+
+		.zoom-control-zoom-in {
+		cursor:pointer;
+		font: bold 18px/24px Arial, Helvetica, sans-serif;
+		}
+
+		.zoom-control-zoom-in:hover {
+			color: #fff;
+			background-color: #5381ca;
+		}
+		.zoom-bar-part-top {
+		}
+		.zoom-bar-part {
+		background-color: rgba(255, 255, 255, 0.8);
+		border-bottom: 1px solid #aaa;
+		}
+
+		.zoom-control-zoom-out {
+		cursor:pointer;
+		font: bold 23px/20px Tahoma, Verdana, sans-serif;
+		}
+
+		.zoom-control-zoom-out:hover {
+			color: #fff;
+			background-color: #5381ca;
+		}
+		.zoom-bar-part-bottom {
+		border-bottom: none;
+		}
+
+		.zoom-container {
+		margin-left: 13px;
+		margin-top: 20px;
+		position: absolute;
+		left: 0px;
+		top: 0px;
+		}
+
+		.zoom-bar {
+
+		border: 1px solid #59a4da;
+		}
+		.zoom-popup-pane, .zoom-control {
+		cursor: auto;
+		}
+		.zoom-control {
+		float: left;
+		clear: both;
+		}
+		.zoom-control {
+
+		z-index: 7;
+		pointer-events: auto;
+		}
+
+/**/
+
+
+
+</style>
+
+
+<title>UK Trade in Goods, 2003-2013</title>
+
+</head>
+
+<body>
+
+<div id="altern"><p>Unfortunately your browser cannot display this graphic. You might need to upgrade to a modern browser - Find out more information here <a href="https://www.gov.uk/help/browsers">https://www.gov.uk/help/browsers</a></p><img src="images/alt.png"/></div>
+
+
+<div id="container">
+
+<div id="toppanel">
+    <div id="headingbar">
+
+        <a href='javascript:post2Twitter()' id="twitter" title="share me on twitter"></a>
+        <a href='javascript:makeFace()' id="face" title="share me on facebook"></a>
+        <a href='javascript:showEmbed()' id="embed" title="please embed me!"></a>
+        <a href='javascript:showHelp()' id="help" title="info"></a>
+
+    </div>
+
+    <div id="embedbox" display='none'>
+    		<a href='javascript:embedHide()' id="close" title="close box"></a>
+            <p>Paste HTML to embed in website</p>
+			<input type='text' id='embedurl' name='iframe'/>
+    </div>
+
+    <div id="helpbox" display='none'>
+    		<a href='javascript:helpHide()' id="close" title="close box"></a>
+            <p>About the data in this map<br><br>
+Trade in goods data is compiled by HM Revenue & Customs and published in the Overseas Trade Statistics release. This data represents the physical flow of goods across the UK border, and it should be noted that this is on a different basis to ONS trade in goods data which is produced on a Balance of Payments basis (change in ownership).<br><br>The data is sourced from the Intrastat Survey for EU despatches (exports) and arrivals (imports) and customs declaration forms for Non-EU exports and imports. All data on the map is the value of goods traded in £ Sterling. Data on trade in services, which by value in 2013 represented around 40% of all UK exports and 23% of all UK imports, is not included within this data.<br><br> For further information on the HMRC trade in goods data see <a href="www.uktradeinfo.com" target="_blank">www.uktradeinfo.com</a> </p>
+
+    </div>
+
+
+
+</div>
+<div id="mapDiv">
+
+
+ 	<div id="panel">
+
+    	<div id="leftp"></div>
+        <div id="lefttop"></div>
+    	<div id="middlep"><div id="chart"></div></div>
+        <div id="middletop"></div>
+    	<div id="rightp"></div>
+        <div id="righttop">time-series</div>
+    </div>
+
+    <div id="panelsel">
+    </div>
+
+
+
+  <div class="device">
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide" data-hash="slide1">
+          <div class="content-slide">
+            <p class="title"></p>
+            <p>The UK exported £350 billion of goods in 2013, (up 16 % on 2012, but mostly due to erratic trade in Non-monetary Gold). The UK imported £420 billion of goods in 2013 (down 5% on 2012).<br><br>In 2013 the largest UK export commodities were Non-monetary Gold (£51 billion) and Petroleum, petroleum products & related materials (£36 billion). The largest UK import commodities in 2013 were Petroleum, petroleum products & related materials (£43 billion) and Road vehicles (including air cushion vehicles) (£42 billion) </p>
+          </div>
+			<a class="arrow-right" href="#"></a>
+            <div class="pagination"></div>
+            <a class="close" href="#">
+            Skip introduction
+            </a>
+        </div>
+        <div class="swiper-slide" data-hash="slide2">
+          <div class="content-slide">
+            <p class="title">Germany</p>
+            <p>In 2013 the UK’s biggest trading partner when it comes to goods was Germany, with bilateral trade (exports plus imports) of £87 billion. Goods exports to Germany in 2013 were £31 billion.<br><br>The top exports were Petroleum, petroleum products & related materials (£3.8 billion), and Road vehicles (including air cushion vehicles) (£2.5 billion). Goods imports from Germany in 2013 were £56 billion. The top imports were Road vehicles (including air cushion vehicles) (£16.7 billion), and Medicinal & pharmaceutical products (£3.8 billion).</p>
+          </div>
+            <a class="arrow-left" href="#"></a>
+			<a class="arrow-right" href="#"></a>
+            <div class="pagination"></div>
+            <a class="close" href="#">
+            Skip introduction
+            </a>
+         </div>
+
+        <div class="swiper-slide" data-hash="slide3">
+          <div class="content-slide">
+            <p class="title">Trade partners - Exports</p>
+            <p>The UKs largest goods export destination in 2013 was Switzerland, with exports of £45 billion. However 88% of this was in Non-monetary Gold, an erratic commodity. In 2012 Switzerland was the UK’s 7th largest goods export destination. The top goods export destinations for 2013 were:<br><br>
+
+<table style="width:100%">
+  <tr>
+    <td><img src="images/swiss.png"/></td>
+    <td style="vertical-align:middle">Switzerland</td>
+    <td style="vertical-align:middle">£45bn</td>
+  </tr>
+  <tr>
+    <td><img src="images/us.png"/></td>
+    <td style="vertical-align:middle">United States</td>
+    <td style="vertical-align:middle">£40bn</td>
+  </tr>
+  <tr>
+    <td><img src="images/germany.png"/></td>
+    <td style="vertical-align:middle">Germany</td>
+    <td style="vertical-align:middle">£31bn</td>
+  </tr>
+  <tr>
+    <td><img src="images/netherlands.png"/></td>
+    <td style="vertical-align:middle">Netherlands</td>
+    <td style="vertical-align:middle">£31bn</td>
+  </tr>
+  <tr>
+    <td><img src="images/france.png"/></td>
+    <td style="vertical-align:middle">France</td>
+    <td style="vertical-align:middle">£22bn</td>
+  </tr>
+</table>
+
+
+</p>
+          </div>
+            <a class="arrow-left" href="#"></a>
+            <a class="arrow-right" href="#"></a>
+			<div class="pagination"></div>
+            <a class="close" href="#">
+            Skip introduction
+            </a>
+        </div>
+
+
+                <div class="swiper-slide" data-hash="slide4">
+          <div class="content-slide">
+            <p class="title">Trade partners - Imports</p>
+            <p>The UK's largest goods import sources in 2013 were:
+  <br><br>
+ <table style="width:100%">
+  <tr>
+    <td><img src="images/Germany.png"/></td>
+    <td style="vertical-align:middle">Germany</td>
+    <td style="vertical-align:middle">£56bn</td>
+  </tr>
+  <tr>
+    <td><img src="images/netherlands.png"/></td>
+    <td style="vertical-align:middle">Netherlands</td>
+    <td style="vertical-align:middle">£34bn</td>
+  </tr>
+  <tr>
+    <td><img src="images/us.png"/></td>
+    <td style="vertical-align:middle">United States</td>
+    <td style="vertical-align:middle">£32bn</td>
+  </tr>
+  <tr>
+    <td><img src="images/china.png"/></td>
+    <td style="vertical-align:middle">China</td>
+    <td style="vertical-align:middle">£32bn</td>
+  </tr>
+
+  <tr>
+    <td><img src="images/france.png"/></td>
+    <td style="vertical-align:middle">France</td>
+    <td style="vertical-align:middle">£25bn</td>
+  </tr>
+</table>
+		</p>
+          </div>
+            <a class="arrow-left" href="#"></a>
+            <a class="arrow-right" href="#"></a>
+			<div class="pagination"></div>
+            <a class="close" href="#">
+            Skip introduction
+            </a>
+         </div>
+
+
+        <div class="swiper-slide" data-hash="slide5">
+          <div class="content-slide">
+            <p class="title">Explore!</p>
+            <p>When you close this introduction you'll be able to interact with the map to explore the UK trade in goods with the countries of the world through time.<br><br>Currently you're looking at the UK's export partnerships in 2013. The flows highlighted in <span style="color:#ca6153">red</span> show the significant relationships for the UK - significant given the distribution of values for the year and trade type, using a method adapted from  <a href="http://onlinelibrary.wiley.com/doi/10.1111/j.1538-4632.1977.tb00591.x/abstract">Holmes and Haggett (1977). </p>
+          </div>
+			<a class="arrow-left" href="#"></a>
+            <div class="pagination"></div>
+            <a class="close" href="#">
+            Close
+            </a>
+        </div>
+
+
+
+
+      </div>
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+	<div id="sliderTime">
+
+    </div>
+
+
+
+</div>
+
+<div id="foot">
+<a href="http://bit.ly/onsdatavis" target="_blank">See more by ONS Digital</a>
+</div>
+<div id="source">
+<a href="data/2014-10-21 Download data table for ONS map.xlsx" target="_blank">Source & data: HMRC Overseas Trade Statistics</a>
+</div>
+</div>
+
+
+
+
+
+
+
+
+<script>
+
+
+if (Modernizr.inlinesvg) {
+
+
+$(document).ready(function(){
+
+	d3.select("#altern").remove();
+	//If browser supports inline SVG then show the main graphic (container)
+	$("#container").show();
+
+	dvc = [];
+
+	dvc.width = 940,
+    dvc.height = 635,
+	dvc.clipMode = false,
+	dvc.preflow = 'flow1'
+	dvc.fix = false;
+	dvc.xPadding=35;
+	dvc.yPadding=65;
+
+	dvc.chartWidth = 260,
+	dvc.chartHeight = 130,
+	dvc.gapRatio = 0,
+	dvc.timeIndex = 10;
+	dvc.selection = false;
+
+	dvc.storyover=false;
+	dvc.firsttime=true;
+	dvc.ddselect=false;
+	dvc.swiping = false;
+	dvc.preselect = "UK";
+
+	dvc.newviewminx = 200;
+	dvc.newviewminy = -40;
+
+	dvc.newviewWidth = 940;
+	dvc.newviewHeight = 635;
+
+
+	getParams();
+
+
+	/*var projection = d3.geo.airy()
+ .rotate([50, -40])
+    .scale(340)
+    .translate([width / 2, height / 2])
+    .precision(.1)
+    .clipAngle(90)
+    .radius(90);*/
+
+	dvc.projectionFlat = d3.geo.naturalEarth();
+
+	dvc.projectionGlobe = d3.geo.orthographic()
+	.rotate([70,-40])
+    .scale(300)
+    .clipAngle(90)
+    .precision(.1);
+
+	dvc.projection = dvc.projectionGlobe;
+
+	dvc.path = d3.geo.path()
+	.projection(dvc.projection);
+
+	zoom = d3.behavior.zoom()
+    .scaleExtent([1, 20])
+    .on("zoom", redraw);
+
+	dvc.svg = d3.select("#mapDiv").append("svg")
+	.attr("id","mapSVG")
+    //.attr("width", dvc.width)
+    //.attr("height", dvc.height)
+	.attr("viewBox", "0 -40 " + 650 + " "+ dvc.height)
+	.append("g")
+	.attr("id","zoomBox")
+	.attr("transform","translate(0,0)");
+
+	//.attr("preserveAspectRatio","xMinYMin meet");
+
+
+//		dvc.svg.append("rect").attr("id","box").attr("width",650).attr("x",180).attr("height",650).on("click",function(){
+//				dvc.fix=false;
+//				removeSpider();
+//				$('#areaselect').val("");
+//				$('#areaselect').trigger("chosen:updated");
+//			});
+
+	dvc.svg.append("g").attr("id","mapGraticule");
+	dvc.svg.append("g").attr("id","mapPolygons");
+
+	dvc.axes = dvc.svg.append("g").attr("id", "axes"),
+    dvc.xAxis = dvc.axes.append("line").attr("y2", dvc.height),
+    dvc.yAxis = dvc.axes.append("line").attr("x2", dvc.width);
+
+	dvc.graticule = d3.geo.graticule()
+                    .step([10, 10]);
+
+	//dvc.axes = dvc.svg.append("g").attr("id", "axes"),
+    //dvc.xAxis = dvc.axes.append("line").attr("y2", dvc.height),
+    //dvc.yAxis = dvc.axes.append("line").attr("x2", dvc.width);
+
+/*	svg.call(d3.behavior.drag()
+			  .origin(function() { var r = projection.rotate(); return {x: r[0] / sens, y: -r[1] / sens}; })
+			  .on("drag", function() {
+				var rotate = projection.rotate();
+				projection.rotate([d3.event.x * sens, -d3.event.y * sens, rotate[2]]);
+				d3.selectAll("path").attr("d", path);
+			  }));
+
+*/
+
+	d3.select("#mapGraticule").append("path")
+        .datum(dvc.graticule)
+        .attr("class", "graticule")
+        .attr("d", dvc.path);
+
+
+
+	  var filepth = 'geo/flow1.js';
+
+
+
+	 d3.json("geo/worldjson8.json", function(error, world) {
+		d3.select("#mapPolygons").selectAll("path")
+			.data(topojson.feature(world, world.objects.worldjson8).features)
+			.enter()
+			.append("path")
+			.attr("d", dvc.path)
+			.attr("class", "mapPoly")
+			.attr("pointer-events","none")
+			.attr("id", function(d) {return d.properties.fips})
+			.on("mouseover", function(d) {return sel(d.properties.fips)})
+			.on("mouseout", function(d) {return removeSpider()});
+
+
+		d3.json(filepth, function(error, json) {
+			if (error) return console.log(error);
+			dvc.flowdata=json;
+			areaopt();
+			subareaopt();
+			getCentroids();
+
+		});
+
+	    dvc.globe2map = interpolatedProjection(dvc.projectionGlobe, dvc.projectionFlat);
+  		dvc.map2globe = interpolatedProjection(dvc.projectionFlat, dvc.projectionGlobe);
+
+
+   });
+
+
+ });
+
+function getCentroids() {
+
+
+			//centroid select cases where the centroid doesn't work
+
+			centr = []
+
+			centr['UK'] = ['[-1.41,52.7]'];
+			centr['CI'] = ['[-72.94,-45.39]'];//Chili
+			centr['CA'] = ['[-107.57,52.0]'];//Canada
+			centr['US'] = ['[-101,39.23]'];//US
+			centr['TH'] = ['[-1.41,52.7]'];//Thailand
+			centr['NZ'] = ['[176,-39.27]'];//NZ
+			centr['NO'] = ['[8.47,60.47]'];//Norway
+			centr['GR'] = ['[22.06,39.19]'];//Greece
+			centr['HR'] = ['[15.13,44.59]'];//Croatia
+
+			centr['MY'] = ['[102.21,3.64]'];//Malaysia
+     		centr['PP'] = ['[143.32,-5.78]'];//Papa New Guinea
+			centr['NL'] = ['[6.3,53.1]'];//Netherlands
+			centr['FR'] = ['[2.21,46.22]'];//France
+			centr['PO'] = ['[-9.1,38.7]'];//Portugal
+			centr['AS'] = ['[133.7,-25.27]'];//Australia
+
+
+
+
+			d3.selectAll(".mapPoly")
+			.attr("data-cd", function(d,i) {if(d.properties.fips == 'UK' || d.properties.fips == 'CI' || d.properties.fips== 'CA' || d.properties.fips== 'US' || d.properties.fips== 'TH' || d.properties.fips== 'NZ' || d.properties.fips== 'NO' || d.properties.fips== 'GR' || d.properties.fips== 'HR' || d.properties.fips== 'MY' || d.properties.fips== 'PP' || d.properties.fips== 'FR' || d.properties.fips== 'PO' || d.properties.fips== 'AS')
+					{return centr[d.properties.fips]} else
+					{return "[" + d3.geo.centroid(d) + "]"}
+
+
+			});
+
+
+		dvc.allcentroids = [];
+
+		d3.selectAll(dvc.flowdata.ons.area).each(function(d,i){
+
+			dvc.allcentroids.push(d3.select("#" + dvc.flowdata.ons.area[i]).attr("data-cd"));
+
+		});
+
+
+   		if(dvc.storyover=='true') {
+			closeStory();
+		}
+
+}
+
+
+function areaopt () {
+
+// Build option menu for country list
+
+var countryzip = d3.zip(dvc.flowdata.ons.areaname, dvc.flowdata.ons.area);
+
+dvc.countryzip2 = countryzip.sort(function(b, a){ return d3.descending(a[0], b[0]) });
+
+var top = d3.select("#toppanel");
+
+	controls = top.append("div").attr("id","controls");
+
+	var sidesel = d3.select("#panelsel");
+
+	sidesel.append("div").attr("id","closebtn").text("Close").on("click",function(){$("#panelsel").hide("slide", {direction: "top" },"slow")});
+
+	d3.select("#closebtn").append("a").attr("href",'javascript:$("#panelsel").hide("slide", {direction: "top" },"slow")').attr("id","close");
+
+	areaopts = sidesel.append("div").attr("id","areaopts");
+
+	var optns = areaopts.append("div").attr("id","sel").append("select")
+		.attr("id","areaselect")
+		.attr("style","width:279px")
+		.attr("class","chosen-select");
+
+	//append message
+
+	optns.append("option")
+		.attr("value","first")
+		.text("");
+
+	optns.selectAll("p").data(dvc.countryzip2).enter().append("option")
+		.attr("value", function(d){ return d[1]})
+		.text(function(d){ return d[0]});
+
+
+	$('#areaselect').chosen({width: "279px",allow_single_deselect: true,placeholder_text_single:"Select a Local Authority"}).on('change',function(evt,params){
+
+						var subsel = d3.select("#subselection");
+
+						if(typeof params != 'undefined') {
+
+						dvc.fixareacode = this.value;
+						sel(this.value);
+						fixSpider(this.value);
+
+						}
+						else {
+						//dvc.fixareacode = "";
+						dvc.fix=false;
+						removeSpider();
+						subsel.remove();
+						}
+	});
+
+
+
+	flowselect()
+
+	top.append("h2")
+		.attr("id","titlepanel")
+		.html(dvc.flowdata.ons.name + '<br><span>' + dvc.flowdata.ons.subname + '</span>');
+
+}
+
+
+function subareaopt () {
+
+	var top = d3.select("#toppanel");
+	var countryzipa = d3.zip(dvc.flowdata.ons.areaname, dvc.flowdata.ons.area);
+	var countryzip = countryzipa.slice(1);
+	var suboptns = d3.select("#mapDiv").append("div").attr("id","subselection").append("select")
+		.attr("id","subsel")
+		.attr("style","width:279px")
+		.attr("class","chosen-select");
+
+	suboptns.append("option")
+		.attr("value","first")
+		.text("");
+
+	suboptns.selectAll("p").data(countryzip).enter().append("option")
+		.attr("value", function(d){ return d[1]})
+		.text(function(d){ return d[0]});
+
+
+	$('#subsel').chosen({width: "279px",allow_single_deselect: true,placeholder_text_single:"...choose a country"}).on('change',function(evt,params){
+
+
+						if(typeof params != 'undefined') {
+
+
+						d3.selectAll(".mapPoly").attr("pointer-events","none");
+						d3.selectAll(".intBar").attr("pointer-events","none");
+						//disablehover();
+						if(dvc.selection==true) {
+							d3.select("#int" + dvc.currentbar).attr("class","intBar")
+							unhighmatch()
+						}
+
+						dvc.currentbar=this.value;
+						freeze();
+
+						}
+						else {
+
+							dvc.selection=false;
+							d3.selectAll(".mapPoly").attr("pointer-events","all");
+							d3.selectAll(".intBar").attr("pointer-events","all");
+							d3.select("#int" + dvc.currentbar).attr("class","intBar")
+						    unhighmatch();
+							revertsel(dvc.fixareacode);
+						}
+	});
+
+
+}
+
+
+
+function freeze () {
+		d3.select("#int" + dvc.currentbar).attr("class","intBarActive")
+		highlightarc();
+		dvc.selection = true;
+
+}
+
+
+function disablehover () {
+
+	d3.selectAll(".polyhigh").attr("pointer-events","none");
+	d3.selectAll(".mapPoly").attr("pointer-events","none");
+	d3.selectAll("#mainChart").attr("pointer-events","none");
+
+}
+
+
+function enablehover () {
+	dvc.selection = false;
+	d3.selectAll(".mapPoly").attr("pointer-events","all");
+	d3.selectAll("#mainChart").attr("pointer-events","all");
+}
+
+
+
+/**********************/
+/* Time Slider 		  */
+
+function timeSlider() {
+
+dvc.timeP = dvc.flowdata.ons.timeLabels[dvc.timeIndex];
+
+dvc.time = d3.select("#mapDiv").append("div").attr("id","currtime");
+
+dvc.time.attr("x",10).attr("y",40).text(dvc.timeP);
+
+d3.select("#sliderTime").append("div").attr("id","slider");
+
+$('#slider').labeledslider({min:eval(dvc.flowdata.ons.timeLabels[0]), max:eval(dvc.flowdata.ons.timeLabels[dvc.flowdata.ons.timeLabels.length - 1]), value:eval(dvc.flowdata.ons.timeLabels[dvc.timeIndex]), tickInterval:2, step:1, change:function(event,ui){
+
+	var value = $(event.target).labeledslider( "option", "value" );
+
+	dvc.timeP=value;
+    changetext(value);
+		 if(dvc.selection==true) {
+			freeze();
+		 }
+
+
+}});
+
+
+dvc.timeMin = 0;
+dvc.timeMax = dvc.flowdata.ons.timeLabels.length - 1;
+
+}
+
+function zoomControls() {
+
+	var zoomcontrols = d3.select("#mapDiv")
+		.append('div').attr("class","zoom-container zoom-control-zoom zoom-bar zoom-control");
+
+	zoomcontrols.append("a").attr("class","zoom-control-zoom-in zoom-bar-part zoom-bar-part-top").attr("title","Zoom in").text("+").on("click",zoomin);
+	zoomcontrols.append("a").attr("class","zoom-control-zoom-out zoom-bar-part zoom-bar-part-bottom").attr("title","Zoom out").text("-").on("click",zoomout);
+
+}
+
+function zoomin(){
+	var currview = d3.select("#mapSVG").attr("viewBox");
+
+
+	var viewminx = parseFloat((currview.split(" "))[0]);
+	var viewminy = parseFloat((currview.split(" "))[1]);
+	var viewWidth = parseFloat((currview.split(" "))[2]);
+	var viewHeight = parseFloat((currview.split(" "))[3]);
+
+	viewcenX = viewminx + (viewWidth/2)
+	viewcenY = viewminy + (viewHeight/2)
+
+	dvc.newviewWidth =viewWidth*0.5;
+	dvc.newviewHeight = viewHeight*0.5;
+
+	dvc.newviewminx = viewcenX - (dvc.newviewWidth/2);
+	dvc.newviewminy = viewcenY - (dvc.newviewHeight/2);
+
+	d3.select("#mapSVG").transition().duration(500).attr("viewBox", dvc.newviewminx + " " + dvc.newviewminy + " " + dvc.newviewWidth  + " " + dvc.newviewHeight)
+
+	updateHash();
+
+}
+
+function zoomout(){
+
+	var currview = d3.select("#mapSVG").attr("viewBox");
+
+
+	var viewminx = parseFloat((currview.split(" "))[0]);
+	var viewminy = parseFloat((currview.split(" "))[1]);
+	var viewWidth = parseFloat((currview.split(" "))[2]);
+	var viewHeight = parseFloat((currview.split(" "))[3]);
+
+	viewcenX = viewminx + (viewWidth/2)
+	viewcenY = viewminy + (viewHeight/2)
+
+	dvc.newviewWidth = viewWidth*2;
+	dvc.newviewHeight = viewHeight*2;
+
+	dvc.newviewminx = viewcenX - (dvc.newviewWidth/2);
+	dvc.newviewminy = viewcenY - (dvc.newviewHeight/2);
+
+	d3.select("#mapSVG").transition().duration(500).attr("viewBox", dvc.newviewminx + " " + dvc.newviewminy + " " + dvc.newviewWidth  + " " + dvc.newviewHeight)
+
+	updateHash();
+}
+
+
+function changetext(){
+
+    var timeInd = dvc.flowdata.ons.timeLabels.indexOf(JSON.parse('"' + dvc.timeP + '"'));
+	dvc.timeIndex = timeInd;
+	dvc.ddselect=true;
+
+
+	dvc.time.attr("x",30).attr("y",40).text(dvc.timeP);
+	d3.select("#arealab").html(dvc.fixareaname + "<br><span>total</span>");
+
+
+
+	if(dvc.fix==true) {
+
+
+		removeSpiderFix();
+
+		dvc.areacode=dvc.fixareacode;
+		dvc.position = dvc.flowdata.ons.area.indexOf(dvc.areacode);
+		dvc.areaname = dvc.flowdata.ons.areaname[dvc.position];
+
+		d3.selectAll(".intBarActive").attr("class","intBar");
+		arrays();
+
+		d3.select
+
+		d3.selectAll(".intBar").attr("pointer-events","none");
+
+		d3.select("#int" + dvc.currentbar).attr("class","intBar");
+
+	};
+
+
+}
+
+
+function highlight(area){
+	dvc.areacode = area;
+	dvc.position = dvc.flowdata.ons.area.indexOf(dvc.areacode);
+	dvc.areaname = dvc.flowdata.ons.areaname[dvc.position];
+
+	dvc.fix=true;
+	dvc.ddselect=true;
+	removeSpiderFix();
+
+	arrays();
+
+
+}
+
+
+function rotate(p) {
+
+	d3.transition()
+      .duration(2500)
+      .tween("rotate", function() {
+        var r = d3.interpolate(dvc.projection.rotate(),[-p[0], -p[1]]);
+        return function(t) {
+          dvc.projection.rotate(r(t));
+		  dvc.svg.selectAll("path").attr("d", dvc.path);
+        };
+    });
+
+}
+
+/* Code to centre globe and unravel to flat projection */
+
+
+function defaultRotate() {
+
+	d3.select("#mapSVG").transition().duration(300).attr("viewBox", "0 0 " + 940 + " "+ dvc.height)
+
+
+	  d3.transition()
+		.duration(1500)
+		.tween("rotate", function() {
+		  var r = d3.interpolate(dvc.projection.rotate(), [0, 0]);
+		  return function(t) {
+			dvc.projection.rotate(r(t));
+			dvc.svg.selectAll("path").attr("d", dvc.path);
+		  };
+	  });
+
+	  setTimeout(function(){
+	  if(dvc.preselect != undefined) {
+			sel(dvc.preselect);
+			fixSpider(dvc.preselect);
+	  }},3000)
+	}
+
+
+
+function interpolatedProjection(a, b) {
+    var projection = d3.geo.projection(raw).scale(1),
+    center = projection.center,
+    translate = projection.translate,
+    clip = projection.clipAngle,
+    α;
+
+    function raw(λ, φ) {
+      var pa = a([λ *= 180 / Math.PI, φ *= 180 / Math.PI]), pb = b([λ, φ]);
+      return [(1 - α) * pa[0] + α * pb[0], (α - 1) * pa[1] - α * pb[1]];
+    }
+
+    projection.alpha = function(_) {
+      if (!arguments.length) return α;
+      α = +_;
+      var ca = a.center(), cb = b.center(),
+      ta = a.translate(), tb = b.translate();
+      center([(1 - α) * ca[0] + α * cb[0], (1 - α) * ca[1] + α * cb[1]]);
+      translate([(1 - α) * ta[0] + α * tb[0], (1 - α) * ta[1] + α * tb[1]]);
+      if (dvc.clipMode === true) {clip(180 - α * 90);}
+      return projection;
+    };
+
+    delete projection.scale;
+    delete projection.translate;
+    delete projection.center;
+    return projection.alpha(0);
+  }
+
+	function move() {
+
+	  dvc.svg.attr("transform", "translate(" + d3.event.translate  + ") scale(1)");
+	}
+
+
+	function redraw() {
+	  if (d3.event) {
+		dvc.projectionFlat
+			.translate(d3.event.translate);
+	  }
+
+
+
+	  var t = dvc.projectionFlat.translate();
+
+	  dvc.xAxis.attr("x1", t[0]).attr("x2", t[0]);
+	  dvc.yAxis.attr("y1", t[1]).attr("y2", t[1]);
+
+	  dvc.svg.selectAll("path").attr("d", dvc.path);
+
+
+	}
+
+
+	function stopped() {
+		  if (d3.event.defaultPrevented) d3.event.stopPropagation();
+	}
+
+    function trans() {
+	defaultRotate();
+
+	setTimeout(function() {
+    dvc.projection = dvc.map2globe;
+    dvc.path.projection(dvc.projection);
+
+	dvc.clipMode = true;
+
+
+
+	dvc.svg.selectAll("path").transition()
+		  .duration(750)
+		  .attrTween("d", projectionTween(dvc.projectionGlobe, dvc.projectionFlat));
+      }
+     , 1810);
+
+	 setTimeout(function() {
+
+		zoom = d3.behavior.zoom()
+			  .translate(dvc.projectionFlat.translate())
+			  .scale(dvc.projectionFlat.scale())
+			  .scaleExtent([150, 800])
+			  .on("zoom", redraw);
+
+		d3.select("#mapSVG").call(zoom);
+		}
+	 , 1830);
+
+	 //Add text to box in left hand corner detailing in/out/net
+
+	   d3.select("#lefttop").append("p").attr("id","arealab").html("" + "<span> </span>");
+
+					leftp = d3.select("#leftp");
+
+					leftp.selectAll('p')
+							.data(dvc.flowdata.ons.dataType)
+							.enter()
+							.append('p')
+							.attr('class', 'leftLabels')
+							.style('left', '10px')
+							.style('color', '#53bcca')
+							.style('top', function(d,i){ return ((i *30) + 48) + 'px';})
+							.text(function(d){ return d; });
+
+	 //add three paragraphs then append three span elements
+	 				leftp.selectAll('h1')
+							.data(dvc.flowdata.ons.dataType)
+							.enter()
+							.append('p')
+							.attr('class', 'leftFigures')
+							.style('right', '10px')
+							.style('color', '#53bcca')
+							.style('top', function(d, i){ return ((i *30) + 48) + 'px';});
+
+					var leftfig = d3.selectAll(".leftFigures");
+
+							leftfig.append("span").attr('id', function(d,i) {return "leftfigprefix" + i}).text('£')
+							leftfig.append("span").attr('class',"leftno").attr('id', function(d,i) {return "leftfig" + i}).text("0")
+							leftfig.append("span").attr('class',"leftunit").text("");
+
+		}
+
+	function projectionTween(projection0, projection1) {
+	  return function(d) {
+		var t = 0;
+
+	   var projection = d3.geo.projection(project).scale(1);
+
+		var path = d3.geo.path()
+			.projection(projection);
+
+		function project(λ, φ) {
+		  λ *= 180 / Math.PI, φ *= 180 / Math.PI;
+		  var p0 = projection0([λ, φ]), p1 = projection1([λ, φ]);
+		  return [(1 - t) * p0[0] + t * p1[0], (1 - t) * -p0[1] + t * -p1[1]];
+		}
+
+		return function(_) {
+		  t = _;
+		  return path(d);
+		};
+	  };
+	}
+
+	function changecont(slideno) {
+	var disablebutton =	d3.selectAll(".arrow-left, .arrow-right, .close");
+
+		if(slideno == "1"){
+			dvc.swiping = false;
+			d3.selectAll(".mapPoly").attr("pointer-events","none").style("fill","").style("stroke","");
+		}
+
+
+		if(slideno == "2"){
+
+			dvc.swiping = true;
+
+
+
+			disablebutton.style("opacity","0.1");
+			setTimeout(function()
+				{dvc.swiping = false;
+				disablebutton.style("opacity","0.7");
+
+			},4300);
+
+			if(dvc.fix==true){
+				  dvc.fix = false;
+				  removeSpider();
+			}
+
+
+			d3.selectAll(".mapPoly").attr("pointer-events","none");
+
+
+			d3.transition()
+					.duration(1500)
+					.tween("rotate", function() {
+					var r = d3.interpolate(dvc.projection.rotate(), [20, -40]);
+					return function(t) {
+					dvc.projection.rotate(r(t));
+					dvc.svg.selectAll("path").attr("d", dvc.path);
+
+			};
+
+
+			})
+
+			setTimeout(function() {d3.select("#mapSVG").transition().duration(2000).attr("viewBox","430 100 162 160")},1601);
+
+			d3.select("#GM").transition().duration(1000).style("fill","#5381ca").style("stroke","#fff");
+			d3.select("#UK").transition().duration(1000).style("fill","#5381ca").style("stroke","#fff");
+
+
+	setTimeout(function() {
+	var arcs = d3.select("#mapSVG").append("g").attr("id", "mapArcs");
+
+
+   myflow=[[-0.5,51.32],[10.4,51.0]];//germany
+
+   var path1 = arcs.append("path")
+	.datum({type: "LineString", coordinates: myflow})
+    .attr("class", "mapArcs")
+    .attr("d", dvc.path)
+	.attr("stroke-width","1px")
+	.attr("stroke-linecap","round")
+	.attr("stroke","#ca5359");
+
+   var totalLength = path1.node().getTotalLength();
+
+   path1.attr("stroke-dasharray", totalLength + " " + totalLength)
+      .attr("stroke-dashoffset", totalLength)
+      .transition()
+      .duration(2000)
+      .ease("linear")
+      .attr("stroke-dashoffset", 0);
+	}
+
+,1601);
+
+	}
+
+		if(slideno == "3"){
+
+			dvc.swiping = true;
+			disablebutton.style("opacity","0.1");
+			setTimeout(function(){
+				dvc.swiping = false
+				disablebutton.style("opacity","0.7");
+				},4000);
+
+			d3.selectAll(".mapPoly").attr("pointer-events","none").style("fill","").style("stroke","");
+			d3.selectAll("#mapArcs").remove();
+
+
+			d3.select("#UK").transition().duration(1000).style("fill","#5381ca");
+
+
+			var arcs = d3.select("#mapSVG").append("g").attr("id", "mapArcs");
+
+			myflow=[[-0.5,51.32],[8.3,46.75]];//Switzerland
+			myflow2=[[-0.5,51.32],[-101,39.23]];//United States
+			myflow3=[[-0.5,51.32],[10.4,51.0]];//germany
+			myflow4=[[-0.5,51.32],[5.52,51.6]];//Netherlands
+			myflow5=[[-0.5,51.32],[2.9,46.3]];//France
+
+
+			setTimeout(function() {
+
+			d3.select("#SZ").transition().duration(1000).style("fill","#5381ca").style("stroke","#fff");
+
+			var path1 = arcs.append("path")
+				.datum({type: "LineString", coordinates: myflow})
+				.attr("class", "mapArcs")
+				.attr("d", dvc.path)
+				.attr("fill","none")
+				.attr("stroke-width","1px")
+				.attr("stroke-linecap","round")
+				.attr("stroke","#ca5359");
+			var totalLength = path1.node().getTotalLength();
+
+			path1.attr("stroke-dasharray", totalLength + " " + totalLength)
+			  .attr("stroke-dashoffset", totalLength)
+			  .transition()
+			  .duration(1000)
+			  .ease("linear")
+			  .attr("stroke-dashoffset", 0);
+
+			},400);
+
+
+			setTimeout(function() {
+
+			d3.select("#US").transition().duration(1000).style("fill","#5381ca").style("stroke","#fff");
+
+			var path2 = arcs.append("path")
+				.datum({type: "LineString", coordinates: myflow2})
+				.attr("class", "mapArcs")
+				.attr("d", dvc.path)
+				.attr("fill","none")
+				.attr("stroke-width","1px")
+				.attr("stroke-linecap","round")
+				.attr("stroke","#ca5359");
+
+			var totalLength2 = path2.node().getTotalLength();
+
+			path2.attr("stroke-dasharray", totalLength2 + " " + totalLength2)
+			  .attr("stroke-dashoffset", totalLength2)
+			  .transition()
+			  .duration(3000)
+			  .ease("linear")
+			  .attr("stroke-dashoffset", 0);
+			},800);
+
+			setTimeout(function() {
+			d3.select("#GM").transition().duration(1000).style("fill","#5381ca").style("stroke","#fff");
+
+			var path3 = arcs.append("path")
+				.datum({type: "LineString", coordinates: myflow3})
+				.attr("class", "mapArcs")
+				.attr("d", dvc.path)
+				.attr("fill","none")
+				.attr("stroke-width","1px")
+				.attr("fill","none")
+				.attr("stroke-linecap","round")
+				.attr("stroke","#ca5359");
+
+			var totalLength3 = path3.node().getTotalLength();
+
+			path3.attr("stroke-dasharray", totalLength3 + " " + totalLength3)
+			  .attr("stroke-dashoffset", totalLength3)
+			  .transition()
+			  .duration(1000)
+			  .ease("linear")
+			  .attr("stroke-dashoffset", 0);
+			},1200);
+
+			setTimeout(function() {
+
+			d3.select("#NL").transition().duration(1000).style("fill","#5381ca").style("stroke","#fff");
+
+			var path4 = arcs.append("path")
+				.datum({type: "LineString", coordinates: myflow4})
+				.attr("class", "mapArcs")
+				.attr("d", dvc.path)
+				.attr("fill","none")
+				.attr("stroke-width","1px")
+				.attr("stroke-linecap","round")
+				.attr("stroke","#ca5359");
+
+			var totalLength4 = path4.node().getTotalLength();
+
+			path4.attr("stroke-dasharray", totalLength4 + " " + totalLength4)
+			  .attr("stroke-dashoffset", totalLength4)
+			  .transition()
+			  .duration(1000)
+			  .ease("linear")
+			  .attr("stroke-dashoffset", 0);
+			},1600);
+
+			setTimeout(function() {
+
+			d3.select("#FR").transition().duration(1000).style("fill","#5381ca").style("stroke","#fff");
+
+			var path5 = arcs.append("path")
+				.datum({type: "LineString", coordinates: myflow5})
+				.attr("class", "mapArcs")
+				.attr("d", dvc.path)
+				.attr("fill","none")
+				.attr("stroke-width","1px")
+				.attr("stroke-linecap","round")
+				.attr("stroke","#ca5359");
+
+			var totalLength5 = path5.node().getTotalLength();
+
+			path5.attr("stroke-dasharray", totalLength5 + " " + totalLength5)
+			  .attr("stroke-dashoffset", totalLength5)
+			  .transition()
+			  .duration(1000)
+			  .ease("linear")
+			  .attr("stroke-dashoffset", 0);
+			},2000);
+
+			setTimeout(function() {	d3.select('#mapSVG').transition().duration(2000).attr("viewBox", "0 -40 " + 650 + " "+ dvc.height)},2300);
+
+		}
+
+				if(slideno == "4"){
+
+			d3.select("#mapSVG").transition().duration(1000).attr("viewBox","430 100 162 160");
+
+			dvc.swiping = true;
+			disablebutton.style("opacity","0.1");
+			setTimeout(function(){
+				dvc.swiping = false
+				disablebutton.style("opacity","0.7");
+				},4000);
+
+			d3.selectAll(".mapPoly").attr("pointer-events","none").style("fill","").style("stroke","");
+			d3.selectAll("#mapArcs").remove();
+
+
+			d3.select("#UK").transition().duration(1000).style("fill","#5381ca");
+
+
+			var arcs = d3.select("#mapSVG").append("g").attr("id", "mapArcs");
+
+			myflow=[[10.4,51.0],[-0.5,51.32]];//Germany
+			myflow2=[[5.52,51.6],[-0.5,51.32]];//Netherlands
+			myflow3=[[-101,39.23],[-0.5,51.32]];//USA
+			myflow4=[[103,25],[-0.5,51.32]];//China
+			myflow5=[[2.9,46.3],[-0.5,51.32]];//France
+
+
+			setTimeout(function() {
+
+			d3.select("#GM").transition().duration(1000).style("fill","#5381ca").style("stroke","#fff");
+
+			var path1 = arcs.append("path")
+				.datum({type: "LineString", coordinates: myflow})
+				.attr("class", "mapArcs")
+				.attr("d", dvc.path)
+				.attr("fill","none")
+				.attr("stroke-width","1px")
+				.attr("fill","none")
+				.attr("stroke-linecap","round")
+				.attr("stroke","#ca5359");
+
+			var totalLength1 = path1.node().getTotalLength();
+
+			path1.attr("stroke-dasharray", totalLength1 + " " + totalLength1)
+			  .attr("stroke-dashoffset", totalLength1)
+			  .transition()
+			  .duration(1000)
+			  .ease("linear")
+			  .attr("stroke-dashoffset", 0);
+
+			},400);
+
+
+			setTimeout(function() {
+
+			d3.select("#NL").transition().duration(1000).style("fill","#5381ca").style("stroke","#fff");
+
+			var path2 = arcs.append("path")
+				.datum({type: "LineString", coordinates: myflow2})
+				.attr("class", "mapArcs")
+				.attr("d", dvc.path)
+				.attr("fill","none")
+				.attr("stroke-width","1px")
+				.attr("stroke-linecap","round")
+				.attr("stroke","#ca5359");
+
+			var totalLength2 = path2.node().getTotalLength();
+
+			path2.attr("stroke-dasharray", totalLength2 + " " + totalLength2)
+			  .attr("stroke-dashoffset", totalLength2)
+			  .transition()
+			  .duration(1000)
+			  .ease("linear")
+			  .attr("stroke-dashoffset", 0);
+
+			},800);
+
+
+			setTimeout(function() {
+
+			d3.select("#US").transition().duration(1000).style("fill","#5381ca").style("stroke","#fff");
+
+			var path3 = arcs.append("path")
+				.datum({type: "LineString", coordinates: myflow3})
+				.attr("class", "mapArcs")
+				.attr("d", dvc.path)
+				.attr("fill","none")
+				.attr("stroke-width","1px")
+				.attr("stroke-linecap","round")
+				.attr("stroke","#ca5359");
+
+			var totalLength3 = path3.node().getTotalLength();
+
+			path3.attr("stroke-dasharray", totalLength3 + " " + totalLength3)
+			  .attr("stroke-dashoffset", totalLength3)
+			  .transition()
+			  .duration(3000)
+			  .ease("linear")
+			  .attr("stroke-dashoffset", 0);
+
+			},1200);
+
+
+			setTimeout(function() {
+
+			d3.select("#CH").transition().duration(1000).style("fill","#5381ca").style("stroke","#fff");
+
+			var path4 = arcs.append("path")
+				.datum({type: "LineString", coordinates: myflow4})
+				.attr("class", "mapArcs")
+				.attr("d", dvc.path)
+				.attr("fill","none")
+				.attr("stroke-width","1px")
+				.attr("stroke-linecap","round")
+				.attr("stroke","#ca5359");
+
+			var totalLength4 = path4.node().getTotalLength();
+
+			path4.attr("stroke-dasharray", totalLength4 + " " + totalLength4)
+			  .attr("stroke-dashoffset", totalLength4)
+			  .transition()
+			  .duration(3000)
+			  .ease("linear")
+			  .attr("stroke-dashoffset", 0);
+
+
+			},1600);
+
+			setTimeout(function() {
+
+			d3.select("#FR").transition().duration(1000).style("fill","#5381ca").style("stroke","#fff");
+
+			var path5 = arcs.append("path")
+				.datum({type: "LineString", coordinates: myflow5})
+				.attr("class", "mapArcs")
+				.attr("d", dvc.path)
+				.attr("fill","none")
+				.attr("stroke-width","1px")
+				.attr("stroke-linecap","round")
+				.attr("stroke","#ca5359");
+
+			var totalLength5 = path5.node().getTotalLength();
+
+			path5.attr("stroke-dasharray", totalLength5 + " " + totalLength5)
+			  .attr("stroke-dashoffset", totalLength5)
+			  .transition()
+			  .duration(1000)
+			  .ease("linear")
+			  .attr("stroke-dashoffset", 0);
+			},2000);
+
+			setTimeout(function() {	d3.select('#mapSVG').transition().duration(2000).attr("viewBox", "0 -40 " + 650 + " "+ dvc.height)},2500);
+
+		}
+
+		if(slideno == "5"){
+			dvc.swiping = false;
+			d3.selectAll("#mapArcs").remove();
+			d3.selectAll(".mapPoly").attr("pointer-events","none").style("fill","").style("stroke","");
+			d3.select('#mapSVG').transition().duration(2000).attr("viewBox", "0 -40 " + 650 + " "+ dvc.height);
+			dvc.flow=dvc.preflow;
+			sel(dvc.preselect);
+			fixSpider(dvc.preselect);
+		}
+
+	}
+
+	function closeStory() {
+
+	  $(".device").hide();
+	  $("#controls").show("slide", {direction: "right" },"slow");
+	  $("#subselection").show("slide", {direction: "right" },"slow");
+	  $("#panel").show("slide", {direction: "top" },"slow");
+	  d3.selectAll("#mapArcs").remove();
+	  timeSlider();
+	  zoomControls();
+	  $("#sliderTime").show("slide", {direction: "left" },"slow");
+	  dvc.storyover=true;
+	  trans();
+	  dvc.flow=dvc.preflow;
+	  if(dvc.fix==true){
+		  dvc.fix = false;
+		  removeSpider();
+		  $('#areaselect').val("");
+		  $('#areaselect').trigger("chosen:updated");
+	  }
+
+
+	  d3.select("#mapSVG").style("cursor","pointer")
+		.on("mousedown", function() {d3.select("#mapSVG").style("cursor","move")})
+		.on("mouseup", function() {d3.select("#mapSVG").style("cursor","pointer")});
+
+	  d3.selectAll(".mapPoly").attr("pointer-events","all").style("fill","").style("stroke","");
+
+	  var siglabel = d3.select("#mapDiv").append("div").attr("id", "sigLabel")
+
+	  siglabel.append("div").attr("id","sigline");
+	  siglabel.append("a").attr("id","siglink").attr("href","http://onlinelibrary.wiley.com/doi/10.1111/j.1538-4632.1977.tb00591.x/abstract").attr("target", "_blank").text("significant flow");
+	  setTimeout(function(){updateHash()},1000);
+
+	  d3.select("#mapDiv").append("a").attr("id", "storytag").attr("href","").text("show intro").attr("color","#fff");
+
+	  dvc.flowname = $('#flowtype :radio:checked').next('label:first').text();
+      d3.select('#middletop').text(dvc.flowname + " distribution");
+
+
+        }
+
+
+
+
+
+	function flowselect(){
+
+	d3.select("#controls")
+		.append("form")
+		.append("div")
+		.attr("id","flowtype")
+		.attr("left", dvc.width - 150 + "px");
+
+	d3.selectAll(dvc.flowdata.ons.dataType).each(function(d,i){
+		$('<input type="radio" name="radio" id="flow' + i +'"/>').appendTo('#flowtype');
+		$('<label for="flow' + i + '">' + dvc.flowdata.ons.dataType[i] + '</label>').appendTo('#flowtype');
+
+	});
+
+	d3.select("#" + dvc.preflow).attr("checked", "checked");
+
+	$("#flowtype").buttonset()
+		.change(function() {
+		dvc.flow=$("#flowtype :radio:checked").attr("id");
+		dvc.flowname = $('#flowtype :radio:checked').next('label:first').text();
+		d3.select('#middletop').text(dvc.flowname  + " distribution");
+		if(dvc.fix==true) {removeSpiderFix(); definearray(); changetext();}
+		if(dvc.selection==true) {
+			freeze();
+		} else {
+			d3.selectAll(".intBar").attr("pointer-events","all");
+		}
+	});
+
+
+	}
+
+
+	/* rotate globe for story */
+
+	function projectionnext() {
+
+		d3.transition()
+    		.duration(1500)
+    		.tween("rotate", function() {
+      		var r = d3.interpolate(dvc.projection.rotate(), [280, -40]);
+			return function(t) {
+        	dvc.projection.rotate(r(t));
+			dvc.svg.selectAll("path").attr("d", dvc.path);
+
+      };
+	  })
+
+
+	}
+
+	function projectionprev() {
+
+		d3.transition()
+    		.duration(1500)
+    		.tween("rotate", function() {
+      		var r = d3.interpolate(dvc.projection.rotate(), [70, -40]);
+			return function(t) {
+        	dvc.projection.rotate(r(t));
+			dvc.svg.selectAll("path").attr("d", dvc.path);
+			};
+		})
+	}
+
+	/* Understand what flow is selected */
+
+	/* Set default checked state to in (imports/migration etc) */
+
+
+	/* On-click overwrite variable with selection */
+
+
+	/* Create the relevant flow lines when hovering over a country */
+
+	function sel(d) {
+
+		dvc.areacode=d;
+		dvc.position = dvc.flowdata.ons.area.indexOf(dvc.areacode);
+		dvc.areaname = dvc.flowdata.ons.areaname[dvc.position];
+
+		arrays();
+	}
+
+	function arrays() {
+
+		if (dvc.fix==false || (dvc.fix==true && dvc.ddselect==true)) {
+
+		dvc.ddselect=false;
+
+		//get it's position in the dvc.flowdata.ons file
+		//Now we know it's position we can get get an array of data for that area
+		//This is just the row number for imports
+		//console.log(dvc.flowdata.ons.dataValues[position]); //imports
+		dvc.areaname = dvc.flowdata.ons.areaname[dvc.position];
+
+		var into = dvc.flowdata.ons.dataValues[dvc.position];
+
+		//For exports we need to build a new array taking the i'th value from each row array
+		//We may as well build the net flow whilst we're here
+
+		var out = [];
+		var net = [];
+		for(j=i=0; i<dvc.flowdata.ons.areaname.length; i++) {
+
+			  out.push(dvc.flowdata.ons.dataValues[i][dvc.position]);
+			  net[i]=[];
+
+			  for(j=0; j<dvc.flowdata.ons.timeLabels.length; j++){
+
+					net[i].push(dvc.flowdata.ons.dataValues[i][dvc.position][j] - dvc.flowdata.ons.dataValues[dvc.position][i][j]);
+
+			  };
+
+    	};
+
+
+		//AT THIS POINT I NEED TO BUILD AN ARRAY WHICH HAS BOTH DATA AND COUNTRIES SO THAT I CAN SORT AND KEEP THE ORDER THE SAME? OR DO I JUST SORT THE ARRAY THEN FIND THE VALUE AT WHICH IT BREAKS? PROBABLY NOT BECAUSE THAT WOULD MEAN WE COULDN"T DRAW BY ORDER
+
+		//I'm going to create 3 arrays in, out and net - keeping pairs of value and country only for instances where data > 0
+
+
+		//AT THIS POINT GENERATE TWO TYPES OF ARRAYS
+
+		// 1) ONE FOR THE MAP WHICH HAS JUST THAT YEARS DATA, WITH THE COUNTRY CODE
+	dvc.infilter = d3.zip(into.map(function(value, index) {return value[dvc.timeIndex]}), dvc.flowdata.ons.area, dvc.allcentroids).filter(function(d) { return d[0] > 0; });
+	dvc.outfilter = d3.zip(out.map(function(value, index) {return value[dvc.timeIndex]}), dvc.flowdata.ons.area, dvc.allcentroids).filter(function(d) { return d[0] > 0; });
+	dvc.netfilter = d3.zip(net.map(function(value, index) {return value[dvc.timeIndex]}), dvc.flowdata.ons.area, dvc.allcentroids).filter(function(d) { return d[0] != 0;});
+
+		// 2) ONE FOR THE TIME SERIES CHART WHICH HAS ALL YEARS DATA - SORT ORDER UNIMPORTANT - KEEP NATURAL TIME ORDER
+
+		dvc.flow0time = into;
+		dvc.flow1time = out;
+		dvc.flow2time = net;
+
+
+
+		// Sort set of arrays for map and for chart (aid's drawing order for arcs and data needs to be sorted for significance testing);
+
+		dvc.flow0 = dvc.infilter.sort(function(a, b){ return d3.descending(a[0], b[0]) });/*IN*/
+		dvc.flow1 = dvc.outfilter.sort(function(a, b){ return d3.descending(a[0], b[0]) });/*OUT*/
+		dvc.flow2 = dvc.netfilter.sort(function(a, b){ return d3.descending(a[0], b[0]) });/*NET*/
+		dvc.flownet = dvc.netfilter.slice().sort(function(a, b){ return d3.ascending(Math.abs(a[0]), Math.abs(b[0])) });
+
+		dvc.flow0un = [];
+		dvc.flow1un = [];
+		flow2unsort = [];
+
+		d3.selectAll(dvc.flow0).each(function(d,i){
+			dvc.flow0un.push(dvc.flow0[i][0]);
+		});
+
+		d3.selectAll(dvc.flow1).each(function(d,i){
+			dvc.flow1un.push(dvc.flow1[i][0]);
+		});
+
+		d3.selectAll(dvc.flow2).each(function(d,i){
+			if (dvc.flow2[i][0]>=0){
+				flow2unsort.push(dvc.flow2[i][0]);
+			} else {
+				flow2unsort.push(dvc.flow2[i][0]*-1);
+			}
+		});
+
+
+		dvc.flow2un = flow2unsort.sort(function(a, b){ return d3.descending(Math.abs(a), Math.abs(b)); });
+
+		//console.log(dvc.flow2un);
+
+		//USE D3.zip to join all arrays.  zipped = d3.zip(dvc.flowdata.ons.dataValues[position],dvc.flowdata.ons.area);
+		//var  flows = d3.zip(into /*imports*/, out /*exports*/, net /*net*/,  dvc.flowdata.ons.area/*area_code*/);
+
+		// Get the coordinates once for this country
+
+		dvc.coordsfrom = d3.select("#" + dvc.areacode).attr("data-cd");
+
+
+
+		// Get the Total flows (in, out and net) for the country you're hovering over
+
+
+
+		dvc.totals = dvc.flowdata.ons.totals[dvc.position];
+		dvc.totalsin = dvc.totals[0];
+		dvc.totalsout = dvc.totals[1];
+		dvc.totalsnet = dvc.totals[2];
+
+		makeTimeChart(dvc.totalsin,dvc.totalsout,dvc.totalsnet);
+
+		d3.select("#arealab").html(dvc.areaname + "<br><span>total</span>");
+		// get current state - are we looking at in, out, or net flows?
+		definearray();
+
+
+		}
+
+		else if (dvc.fix==true && dvc.ddselect==false) {
+
+			d3.select("#int" + dvc.areacode).attr("class","intBarActive");
+
+			dvc.arc = d3.select("#arc" + dvc.areacode);
+
+			if(dvc.arc.empty() == false) {
+
+			dvc.currclass = dvc.arc.attr("class");
+			dvc.arc.attr("class", dvc.currclass + " mapArcsSel");
+
+			}
+
+			d3.select("#arealab").html(dvc.fixareaname + "<br><span> trade w/ " + dvc.areaname + "</span>");
+
+			makeTimeChart(dvc.flow0time[dvc.position],dvc.flow1time[dvc.position],dvc.flow2time[dvc.position]);
+
+		}
+
+	};
+
+
+	function definearray () {
+
+		arraynm=eval("dvc." + dvc.flow);
+		dvc.jmtothemax = calculateMyIndexYieldingMaxPearsons(eval("dvc." + dvc.flow + "un"));
+		spider(arraynm);
+
+	}
+
+	function spider(arraynm){
+		if(dvc.storyover=true)	{
+			makeChart(arraynm);
+		}
+
+	if(dvc.flow =="flow2"){
+
+		arraynm2 = dvc.flownet;
+
+	} else {
+
+		arraynm2 = arraynm.slice();
+		arraynm2.reverse();
+	}
+
+	arcs = dvc.svg.append("g").attr("id", "mapArcs");
+	arcsLow = arcs.append("g").attr("id","mapArcsLow");
+	arcsHigh = arcs.append("g").attr("id","mapArcsHigh");
+	// look at the length of your data array
+
+	lines = [];
+
+	for(i=0; i<=arraynm2.length-1; i++) {
+		lines.push({
+			type: "LineString",
+			coordinates: JSON.parse("[" + arraynm2[i][2] + "," + dvc.coordsfrom + "]")
+		});
+	}
+
+	var arrlength = arraynm2.length;
+
+	if(dvc.flow =="flow2"){
+
+	arcs.selectAll(".mapArcsLow")
+		.data(lines)
+		.enter()
+		.append("path")
+		.attr("id",function(d,i) {return "arc" + arraynm2[i][1]})
+		.attr("class",function(d,i)
+		{if(arraynm2[i][0] >= dvc.jmtothemax || arraynm2[i][0] <= (dvc.jmtothemax*-1))
+			{if(arraynm2[i][0] >= 0)
+				{return "mapArcsHighP"}
+			else
+				{return "mapArcsHighN"}
+			}
+			else {if(arraynm2[i][0] >= 0)
+					{return "mapArcsLowP"}
+				else
+					{return "mapArcsLowN"}
+			}
+			 })
+		.attr("d",dvc.path)
+		.attr("pointer-events", "none");
+
+	} else {
+
+	arcs.selectAll(".mapArcsLow")
+		.data(lines)
+		.enter()
+		.append("path")
+		.attr("id",function(d,i) {return "arc" + arraynm2[i][1]})
+		.attr("class",function(d,i)
+		{if(arraynm2[i][0] >= dvc.jmtothemax || arraynm2[i][0] <= (dvc.jmtothemax*-1))
+			{return "mapArcsHigh"}
+			else {return "mapArcsLow"} })
+		.attr("d",dvc.path)
+		.attr("pointer-events", "none");
+
+	}
+
+	animatepath();
+
+	}
+
+	function animatepath () {
+
+
+
+					d3.selectAll(".mapArcsHigh, .mapArcsHighP").transition()
+							.duration(500000)
+							.ease("linear")
+							.attr("stroke-dashoffset", function(){if(dvc.flow=="flow0" || dvc.flow =="flow2")
+									{return -2500}
+									else
+									{return 2500}
+							})
+							.each("end", animatepath);
+
+					d3.selectAll(".mapArcsHighN").transition()
+							.duration(500000)
+							.ease("linear")
+							.attr("stroke-dashoffset", 2500 )
+							.each("end", animatepath);
+	}
+
+
+
+	function removeSpider() {
+
+			if (dvc.fix==false) {
+
+				arcs.remove();
+				d3.select("#arealab").html("");
+				bar.attr("y",0).attr("height",0);
+				barint.attr("pointer-events","none");
+				updateleft([null,0,0,0]);
+				updateTimeChart([0,0,0],[0,0,0],[0,0,0]);
+
+			}
+
+			else if (dvc.fix==true) {
+				d3.select("#int" + dvc.areacode).attr("class","intBar");
+
+				if(typeof dvc.arc != "undefined"){
+				dvc.arc.attr("class",dvc.currclass);
+				}
+				revertsel(dvc.fixareacode);
+			}
+	}
+
+	function revertsel (d) {
+
+		dvc.areacode=d;
+
+
+		dvc.position = dvc.flowdata.ons.area.indexOf(dvc.areacode);
+
+		dvc.areaname = dvc.flowdata.ons.areaname[dvc.position];
+
+
+		dvc.totals = dvc.flowdata.ons.totals[dvc.position];
+
+		dvc.totalsin = dvc.totals[0];
+		dvc.totalsout = dvc.totals[1];
+		dvc.totalsnet = dvc.totals[2];
+
+		makeTimeChart(dvc.totalsin,dvc.totalsout,dvc.totalsnet);
+		d3.select("#arealab").html(dvc.fixareaname + "<br><span>total</span>");
+	}
+
+	function removeSpiderFix() {
+
+				arcs.remove();
+
+	}
+
+	function fixSpider(area) {
+			if(dvc.fix != false){
+			dvc.fix=false;
+			removeSpider();
+			sel(area);
+			}
+			dvc.fix = true;
+
+			//record which area was clicked on
+
+
+			dvc.fixareacode=area;
+
+			var position = dvc.flowdata.ons.area.indexOf(area);
+			dvc.fixareaname = dvc.flowdata.ons.areaname[position];
+
+
+		$('#areaselect').val(area);
+        $('#areaselect').trigger("chosen:updated");
+
+		updateHash();
+
+
+
+	}
+
+
+	function clearFix(){
+
+		dvc.fix=false;
+
+		removeSpider()
+
+
+	}
+
+
+
+/******SIGNIFICANCE TESTING **** LIFTED FROM INTERNAL MIGRATION EXAMPLE **********/
+
+
+function calculateMyIndexYieldingMaxPearsons(myInputArray)
+
+{
+
+	dvc.myInputDivisor			= myInputArray.length;
+
+	var myInputSum 				= calculateMyArraySum(myInputArray);
+
+	var myInputMean				= myInputSum/dvc.myInputDivisor;
+
+	var myYIMinusYBarArray 			= calculateMyElementMinusMyMeanArray(myInputArray,myInputMean);
+
+	var myYIMinusYBarSquaredArray 		= multiplyTwoArrays(myYIMinusYBarArray,myYIMinusYBarArray);
+
+	var mySigmaYIMinusYBarSquared		= calculateMyArraySum(myYIMinusYBarSquaredArray);
+
+	var mySqrtSigmaYIMinusYBarSquared 	= Math.sqrt(mySigmaYIMinusYBarSquared);
+
+
+
+	var myPearsonsRSquaredMax=-10000000000000;
+
+	var myJMax=0;
+
+	for (j=0;j<myInputArray.length;j++)
+
+	{
+
+		var myCycleArray 			= calculateMyCycleArray(myInputSum,j,myInputArray.length);
+
+		var myCycleDivisor			= myCycleArray.length;
+
+		var myCycleSum 				= calculateMyArraySum(myCycleArray);
+
+		var myCycleMean				= myCycleSum/myCycleDivisor;
+
+		var myXIMinusXBarArray 			= calculateMyElementMinusMyMeanArray(myCycleArray,myCycleMean);
+
+		var myXIMinusXBarSquaredArray 		= multiplyTwoArrays(myXIMinusXBarArray,myXIMinusXBarArray);
+
+		var mySigmaXIMinusXBarSquared		= calculateMyArraySum(myXIMinusXBarSquaredArray);
+
+		var mySqrtSigmaXIMinusXBarSquared 	= Math.sqrt(mySigmaXIMinusXBarSquared);
+
+		var myPearsonsRDivisor 			= mySqrtSigmaXIMinusXBarSquared * mySqrtSigmaYIMinusYBarSquared;
+
+		var myXIMinusXBarTimesYIMinusYBarArray 	= multiplyTwoArrays(myXIMinusXBarArray,myYIMinusYBarArray);
+
+		var mySigmaXIMinusXBarTimesYIMinusYBar	= calculateMyArraySum(myXIMinusXBarTimesYIMinusYBarArray);
+
+		var myPearsonsR				= mySigmaXIMinusXBarTimesYIMinusYBar/myPearsonsRDivisor;
+
+		var myPearsonsRSquared			= myPearsonsR*myPearsonsR
+
+		if (myPearsonsRSquared>=myPearsonsRSquaredMax) {myPearsonsRSquaredMax=myPearsonsRSquared;myJMax=myInputArray[j];}
+
+	}
+
+	return(myJMax);
+
+}
+
+
+
+function calculateMyArraySum(myInputArray)
+
+{
+
+	m=1000000;
+
+	myArraySum = 0;
+
+	for (i=0;i<myInputArray.length;i++)
+
+	{
+
+	myArraySum = ((myArraySum*m) + (myInputArray[i]*m))/m;
+
+	}
+
+	return(myArraySum);
+
+}
+
+
+
+
+
+function calculateMyElementMinusMyMeanArray(myInputArray,myInputMean)
+
+{
+
+		m=1000000;
+
+		var myOutputArray = new Array();
+
+		for (k=0;k<myInputArray.length;k++)
+
+		{
+
+			myOutputArray[k]=((myInputArray[k]*m)-(myInputMean*m))/m;
+
+		}
+
+		return(myOutputArray);
+
+}
+
+
+
+function multiplyTwoArrays(myInputArrayOne,myInputArrayTwo)
+
+{
+
+		m=1000000;
+
+		var myOutputArray = new Array();
+
+		for (k=0;k<myInputArrayOne.length;k++)
+
+		{
+
+			myOutputArray[k]=((myInputArrayOne[k]*m)*(myInputArrayTwo[k]*m))/(m*m);
+
+
+
+		}
+
+		return(myOutputArray);
+
+}
+
+
+
+function zipMultiplyMyArray(myInputArray,myInputNumber)
+
+{
+
+		m=1000000;
+
+		var myOutputArray = new Array();
+
+		for (k=0;k<myInputArray.length;k++)
+
+		{
+
+			myOutputArray[k]=((myInputArray[k]*m)*(myInputNumber*m))/(m*m);
+
+
+
+		}
+
+		return(myOutputArray);
+
+}
+
+
+
+function calculateMyCycleArray(myInputSum,j,myInputLength)
+
+{
+
+		m=1000000;
+
+		var myCycleArray = new Array();
+
+		for (k=0;k<j+1;k++)
+
+		{
+
+			myCycleArray[k]=(myInputSum*m)/((j+1)*m);
+
+		}
+
+		for (k=j+1;k<myInputLength;k++)
+
+		{
+
+			myCycleArray[k]=0;
+
+		}
+
+		return(myCycleArray);
+
+}
+
+
+
+
+
+/********CHARTING CODE *******************************************************************************/
+
+
+
+
+		//make a chart function
+
+		function makeChart(arraynm)
+		{
+			//LET'S FIND OUT MORE ABOUT THE DATA
+			//find length of series
+			dvc.index=d3.range(dvc.myInputDivisor);//the number of records as a d3.range object
+
+			//dvc.geogLength=dvc.flowdata.ons.dataValues[0][0].length;//the number of geographic elements held in each bar
+
+			//find minValue
+			dvc.minValue = arraynm[dvc.myInputDivisor-1][0];//already sorted so you don't want to resort again
+			///find max values of entire arrays (so that scale is kept constant)(first value is max)
+
+			dvc.maxValue = arraynm[0][0];
+
+
+			var prefix = d3.formatPrefix(dvc.maxValue);
+
+			if(prefix.symbol==""){dvc.yaxisSize = "£s"};
+			if(prefix.symbol=="k"){dvc.yaxisSize = "Thousands (£)"};
+			if(prefix.symbol=="M"){dvc.yaxisSize = "Millions (£)"};
+			if(prefix.symbol=="G"){dvc.yaxisSize = "Billions (£)"};
+			if(prefix.symbol=="T"){dvc.yaxisSize = "Trillions (£)"};
+
+
+
+			//create y axis scale
+			dvc.yScale=d3.scale.linear()
+				.domain([Math.min(0,prefix.scale(dvc.minValue)),prefix.scale(dvc.maxValue)])
+				.range([dvc.chartHeight,0])
+				.nice();
+
+			//create ordinal scale for y axis
+			dvc.xScale = d3.scale.ordinal()
+				.domain(arraynm.slice(1))
+				.rangeRoundBands([0, dvc.chartWidth], dvc.gapRatio);
+
+			//for some reason, xScale.rangeBand is not reurning the right cellWidth so we manually calc here...
+			dvc.cellWidth=(1-dvc.gapRatio)*dvc.chartWidth/dvc.myInputDivisor;
+
+			//set up svg and append containers for chart and axes
+
+			mainChart = d3.select("#chart").selectAll('svg').data([arraynm]);
+
+    	    mainChartEnter = mainChart.enter()
+                              .append('svg')
+							  .attr('id','mainChart')
+							  .attr("viewBox", "0 0 340 210");
+
+			mainChartEnter.append("g")
+				.attr("id","myAxes");
+
+			mainChartEnter.append('text')
+				  .attr("class","yLabel")
+				  .text(dvc.yaxisSize)
+				  .attr("text-anchor", "start")
+				  .attr("transform", "translate(10,"+(dvc.yPadding-10)+")");
+
+
+
+
+			//create basic graph
+			mainChartEnter.append("g")
+				.attr("id","grpBars")
+				.attr("transform", "translate(" + dvc.xPadding + "," + dvc.yPadding + ")");
+
+			dvc.format = d3.format(".2s");
+
+			//create main axis
+			dvc.yAxisChar=d3.svg.axis()
+					.scale(dvc.yScale)
+					.orient("left")
+					.ticks(8);
+
+			mainChartEnter.append("g")
+				.attr("class","axis")
+				.attr("transform","translate("+ dvc.xPadding + ", " + dvc.yPadding + ")")
+				.call(dvc.yAxisChar);
+
+				//create secondary axis
+			dvc.yGrid=d3.svg.axis()
+					.scale(dvc.yScale)
+					.orient("left")
+					.ticks(8)
+					.tickSize(-(dvc.chartWidth));
+
+			mainChartEnter.append("g")
+				.attr("class","grid")
+				.attr("transform","translate(" + dvc.xPadding + "," + dvc.yPadding + ")")
+				.call(dvc.yGrid);
+
+			mainChartEnter.selectAll(".domain").style("stroke","none");
+
+			bar = mainChart.select("#grpBars").selectAll(".chartBarsHighP, .chartBarsHighN, .chartBarsLowP, .chartBarsLowN, .chartBarsHigh, .chartBars")
+				.data(arraynm);
+
+			bar.enter()
+					.append("rect")
+					.attr("class", function(d,i) {
+				if(d[0] >= dvc.jmtothemax || d[0] <= (dvc.jmtothemax*-1))
+					{if(d[0] >= 0 && dvc.flow=="flow2")
+						{return "chartBarsHighP"}
+					else if(d[0] <= 0 && dvc.flow=="flow2")
+						{return "chartBarsHighN"}
+					else {return "chartBarsHigh"}
+					}
+				else {if(d[0] >= 0 && dvc.flow=="flow2")
+						{return "chartBarsLowP"}
+
+					else if(d[0] <= 0 && dvc.flow=="flow2")
+						{return "chartBarsLowN"}
+					else {return "chartBars"}
+					}
+
+					})
+					.attr("id",function(d, i) {
+						return "bar" + d[1];
+					})
+					.attr("width", dvc.cellWidth)
+					.attr("y", function(d) {
+						return dvc.yScale(Math.max(0, prefix.scale(d[0])));
+					})
+					.attr("height", function(d)	{
+						return Math.abs(prefix.scale(dvc.yScale(d[0])) - prefix.scale(dvc.yScale(0)));
+					});
+
+
+			bar.attr("width", dvc.cellWidth)
+					.attr("id",function(d, i) {
+						return "bar" + d[1];
+					})
+					.attr("class", function(d,i) {
+				if(d[0] >= dvc.jmtothemax || d[0] <= (dvc.jmtothemax*-1))
+					{if(d[0] >= 0 && dvc.flow=="flow2")
+						{return "chartBarsHighP"}
+					else if(d[0] <= 0 && dvc.flow=="flow2")
+						{return "chartBarsHighN"}
+					else {return "chartBarsHigh"}
+					}
+				else {if(d[0] >= 0 && dvc.flow=="flow2")
+						{return "chartBarsLowP"}
+
+					else if(d[0] <= 0 && dvc.flow=="flow2")
+						{return "chartBarsLowN"}
+					else {return "chartBars"}
+					}
+					})
+					.attr("y", function(d) {
+						return dvc.yScale(Math.max(0, prefix.scale(d[0])));
+					})
+					.attr("height", function(d)	{
+						return Math.abs(prefix.scale(dvc.yScale(d[0])) - prefix.scale(dvc.yScale(0)));
+					});
+
+			bar.exit().remove();
+
+			bar.attr("transform", function(d, i) {
+						return "translate(" + dvc.cellWidth* i +"," + 0  + ")";
+					});
+
+
+
+			barint = mainChart.select("#grpBars").selectAll(".intBar")
+				.data(arraynm);
+
+			barint.enter()
+					.append("rect")
+					.attr("class","intBar")
+					.attr("id",function(d, i) {
+						return "int" + d[1];
+					})
+					.attr("width", dvc.cellWidth)
+					.attr("y", function(d) {
+						return dvc.yScale(Math.max(0, d[0]));
+					})
+					.attr("height",dvc.chartHeight)
+					.on("mouseover",function(d)	{
+						highmatch(this);
+					})
+					.on("mouseout",function(d)	{
+						d3.select(this).attr("class","intBar")
+						unhighmatch(this);
+						revertsel(dvc.fixareacode);
+					});
+
+
+			barint.attr("width", dvc.cellWidth)
+					.attr("id",function(d, i) {
+						return "int" + d[1];
+					})
+					.attr("class","intBar")
+					.attr("y",0)
+					.attr("width",dvc.cellWidth);
+
+			barint.exit().remove();
+
+			barint.attr("transform", function(d, i) {
+						return "translate(" + dvc.cellWidth* i +"," + 0  + ")";
+					})
+					.attr("pointer-events","all");;
+
+
+				mainChart.select('.axis')
+       			  	.transition()
+  		          	.duration(500)
+				  	.call(dvc.yAxisChar);
+
+				mainChart.select('.grid')
+				    .transition()
+					.duration(500)
+					.call(dvc.yGrid);
+
+			dvc.xScale.domain(dvc.index);
+			bar.attr("transform", function(d, i) {
+						return "translate(" + dvc.cellWidth* i +"," + 0  + ")";
+					})
+
+
+			/*Select bar in chart*/
+			d3.selectAll(".chartBarSel").attr("class", "chartBars");
+			d3.select("#bar" + dvc.first).attr("class", "chartBarSel");
+
+
+		}//end of makeChart
+
+		               function makeTimeChart(flow0, flow1, flow2)
+                {
+
+                        if(dvc.firsttime == true) {
+                                dvc.firsttime = false;
+
+                        //LET'S FIND OUT A BIT MORE ABOUT THE DATA
+                        //find out number of time points
+                        dvc.timeLength=flow0.length; //the number of years in the dataset
+
+                                widthTime = 320,
+                                heightTime =120,
+                                paddingXTime=40,
+                                paddingYTime=70,
+                                paddingXright=60;
+
+                                maxIn=d3.max(flow0);
+                                maxOut=d3.max(flow1);
+                                maxOv=d3.max([maxIn, maxOut]);
+
+
+                         xScaleTime=d3.scale.ordinal()
+                                                .domain(dvc.flowdata.ons.timeLabels)
+                                                .rangePoints([0,widthTime-paddingXright]);
+
+
+
+
+
+                        prefix = d3.formatPrefix(maxOv);
+
+                        //  http://en.wikipedia.org/wiki/Metric_prefix
+
+                        if(prefix.symbol==""){dvc.yaxisSize = "£s"};
+                        if(prefix.symbol=="k"){dvc.yaxisSize = "Thousands (£)"; dvc.units="th";};
+                        if(prefix.symbol=="M"){dvc.yaxisSize = "Millions (£)"; dvc.units="m";};
+                        if(prefix.symbol=="G"){dvc.yaxisSize = "Billions (£)"; dvc.units="bn";};
+                        if(prefix.symbol=="T"){dvc.yaxisSize = "Trillions (£)"; dvc.units="tr";};
+
+                        yScaleTime=d3.scale.linear()
+                                .domain([0,prefix.scale(maxOv)])
+                                .range([heightTime,0])
+                                .nice();
+
+
+                        xAxisTime=d3.svg.axis()
+                                .scale(xScaleTime)
+                                .orient("bottom")
+                                .tickValues(xScaleTime.domain().filter(function(d, i) { return !(i % 2); }));
+
+                        mainTimeChart = d3.select("#panel").append("svg")
+                                .attr("id","mainTimeChart")
+                                .attr("viewBox", "0 0 313 210");
+
+					   var legenditem = dvc.flowdata.ons.dataType.slice(0,2);
+
+                        var legend = mainTimeChart.selectAll('g')
+                                                        .data(legenditem)
+                                                        .enter()
+                                                  .append('g')
+                                                        .attr('class', 'legend');
+
+                                                legend.append('rect')
+                                                        .attr('x', function(d, i){ return (i * 70) + 173;})
+                                                        .attr('y', 57)
+                                                        .attr('width', 13)
+                                                        .attr('height', 2)
+                                                        .style('fill', function(d,i) { return dvc.flowdata.ons.dataTypeColour[i]});
+
+                                                legend.append('text')
+                                                        .attr('x', function(d, i){ return (i * 70) + 193;})
+                                                        .attr('y', 61)
+                                                        .text(function(d){ return d; });
+
+                        mainTimeChart.append('text')
+                                  .attr("class","yLabel")
+                                  .text(dvc.yaxisSize)
+                                  .attr("text-anchor", "start")
+                                  .attr("transform", "translate(" + (paddingXTime-30)+","+(paddingYTime-10)+")");
+
+                        mainTimeChart.append('g').attr("class", "axis")
+                                                        .attr("id", "xAxisTime")
+                                                        .attr("transform", "translate(" + paddingXTime + ","+(paddingYTime+heightTime)+")")
+                                                        .call(xAxisTime);
+
+                        yAxisTime=d3.svg.axis()
+                                                        .scale(yScaleTime)
+                                                        .orient("left")
+                                                        .ticks(5);
+
+                        mainTimeChart.append('g').attr("class", "axis")
+                                                        .attr("id", "yAxisTime")
+                                                        .attr("transform", "translate("+paddingXTime+","+paddingYTime+")")
+                                                        .call(yAxisTime.tickSize(-(widthTime-paddingXright),0,0));
+
+
+                        mainTimeChart.selectAll(".domain").style("stroke","none");
+
+
+                        dataValues1 = flow0; //imports - teal
+                        dataValues2 = flow1; //exports - blue
+                        dataValues3 = flow2;
+
+                        catLabels = dvc.flowdata.ons.timeLabels;
+
+                         line1 =d3.svg.line()
+                                                        .interpolate("monotone")
+                                                        .defined(function(d){ return d != null;})
+                                                        .x(function(dataValues1,i) {
+                                                                        return xScaleTime(catLabels[i]);
+                                                        })
+                                                        .y(function(catLabels,i) {
+                                                                        return yScaleTime(prefix.scale(dataValues1[i]));
+                                                        });
+
+
+
+
+                                                mainTimeChart.append("path")
+                                                        .attr("id","line1")
+                                                        .attr("d", line1(dataValues1))
+                                                        .attr("stroke", dvc.flowdata.ons.dataTypeColour[0])
+                                                        .attr("stroke-width","2px")
+                                                        .attr("fill","none")
+                                                        .attr("transform", "translate("+paddingXTime+","+paddingYTime+")");
+								mainTimeChart.append('g')
+                                   .selectAll("circle")
+                                   .data(dataValues1)
+                                   .enter()
+                                   .append("circle")
+                                   .attr("class", "circles1")
+                                   .attr("stroke", dvc.flowdata.ons.dataTypeColour[0])
+                                   .attr("stroke-width","2px")
+                                   .attr("fill","rgb(250,250,250)")
+                                   .attr("cx", function(d,i){
+                                        return xScaleTime(catLabels[i])
+                                   		})
+                                   .attr("cy",function(d) {
+                                        return yScaleTime(prefix.scale(d));
+                                        })
+                                  .attr("r",3)
+                                  .attr("transform", "translate("+paddingXTime+","+paddingYTime+")");
+
+
+                                line2 =d3.svg.line()
+                                                        .interpolate("monotone")
+                                                        .defined(function(d){ return d != null;})
+                                                        .x(function(dataValues2,i) {
+                                                                        return xScaleTime(catLabels[i]);
+                                                        })
+                                                        .y(function(catLabels,i) {
+                                                                        return yScaleTime(prefix.scale(dataValues2[i]));
+                                              			});
+
+
+
+                                                mainTimeChart.append("path")
+                                                        .attr("id","line2")
+                                                        .attr("d", line2(dataValues2))
+                                                        .attr("stroke", dvc.flowdata.ons.dataTypeColour[1])
+                                                        .attr("stroke-width","2px")
+                                                        .attr("fill","none")
+                                                        .attr("transform", "translate("+paddingXTime+","+paddingYTime+")");
+								mainTimeChart.append('g')
+                                   .selectAll("circle")
+                                   .data(dataValues2)
+                                   .enter()
+                                   .append("circle")
+                                   .attr("class", "circles2")
+                                   .attr("stroke", dvc.flowdata.ons.dataTypeColour[1])
+                                   .attr("stroke-width","2px")
+                                   .attr("fill","rgb(250,250,250)")
+                                   .attr("cx", function(d,i){
+                                        return xScaleTime(catLabels[i])
+                                   		})
+                                   .attr("cy",function(d) {
+                                        return yScaleTime(prefix.scale(d));
+                                        })
+                                  .attr("r",3)
+                                  .attr("transform", "translate("+paddingXTime+","+paddingYTime+")");
+
+
+                        var leftText = [dvc.units, Math.round(prefix.scale(dataValues1[dvc.timeIndex])*10)/10, Math.round(prefix.scale(dataValues2[dvc.timeIndex])*10)/10, Math.round(prefix.scale(dataValues3[dvc.timeIndex])*10)/10];
+
+                        updateleft(leftText);
+
+                        }
+
+                        else {
+                                updateTimeChart(flow0,flow1,flow2);
+                                var leftText = [dvc.units, Math.round(prefix.scale(dataValues1[dvc.timeIndex])*10)/10, Math.round(prefix.scale(dataValues2[dvc.timeIndex])*10)/10, Math.round(prefix.scale(dataValues3[dvc.timeIndex])*10)/10];
+                                updateleft(leftText);
+                        }
+
+                }//end of makeTimeChart
+
+                function updateTimeChart (flow0, flow1, flow2) {
+
+                        maxIn=d3.max(flow0);
+                        maxOut=d3.max(flow1);
+                        maxOv=d3.max([maxIn, maxOut]);
+
+
+                        prefix = d3.formatPrefix(maxOv);
+
+                        //  http://en.wikipedia.org/wiki/Metric_prefix
+
+                        if(prefix.symbol==""){dvc.yaxisSize = "£s"};
+                        if(prefix.symbol=="k"){dvc.yaxisSize = "Thousands (£)"; dvc.units="th";};
+                        if(prefix.symbol=="M"){dvc.yaxisSize = "Millions (£)"; dvc.units="m";};
+                        if(prefix.symbol=="G"){dvc.yaxisSize = "Billions (£)"; dvc.units="bn";};
+                        if(prefix.symbol=="T"){dvc.yaxisSize = "Trillions (£)"; dvc.units="tr";};
+
+
+                        yScaleTime=d3.scale.linear()
+                                .domain([0,prefix.scale(maxOv)])
+                                .range([heightTime,0])
+                                .nice();
+
+
+                        xAxisTime=d3.svg.axis()
+								.scale(xScaleTime)
+								.orient("bottom")
+							    .tickValues(xScaleTime.domain().filter(function(d, i) { return !(i % 2); }));
+
+                        yAxisTime=d3.svg.axis()
+                                .scale(yScaleTime)
+                                .orient("left")
+                                .ticks(5);
+
+                        mainTimeChart.select(".yLabel")
+                                  .text(dvc.yaxisSize);
+
+
+                        dataValues1 = flow0; //imports - teal
+                        dataValues2 = flow1; //exports - blue
+                        dataValues3 = flow2;
+
+
+                        mainTimeChart.select("#line1").attr("d",line1(dataValues1));
+                        mainTimeChart.select("#line2").attr("d",line2(dataValues2));
+
+						mainTimeChart.selectAll(".circles1").attr("cy", function(d,i) {return yScaleTime(prefix.scale(dataValues1[i]))});
+						mainTimeChart.selectAll(".circles2").attr("cy", function(d,i) {return yScaleTime(prefix.scale(dataValues2[i]))});
+
+                        mainTimeChart.select("#yAxisTime").transition().duration(500).call(yAxisTime.tickSize(-(widthTime-paddingXright),0,0));
+                }
+
+
+
+
+		function highmatch(curr) {
+
+				dvc.currentbar = d3.select(curr).attr("id").substring(3,13);
+				highlightarc();
+
+		}
+
+		function highlightarc () {
+				dvc.curr = d3.select("#" + dvc.currentbar);
+				dvc.curr.attr("class","polyhigh");
+				dvc.arc = d3.select("#arc" + dvc.currentbar);
+				dvc.currclass = dvc.arc.attr("class");
+				dvc.arc.attr("class", dvc.currclass + " mapArcsSel");
+
+				var position = dvc.flowdata.ons.area.indexOf(dvc.currentbar);
+				dvc.areaname = dvc.flowdata.ons.areaname[position];
+				d3.select("#arealab").html(dvc.fixareaname + "<br><span> trade w/ " + dvc.areaname + "</span>");
+				makeTimeChart(dvc.flow0time[position],dvc.flow1time[position],dvc.flow2time[position]);
+
+		}
+
+		function unhighmatch() {
+				dvc.curr.attr("class","mapPoly");
+				dvc.arc.attr("class", dvc.currclass);
+
+		}
+
+		function updateleft (leftText) {
+
+				dvc.nformat = d3.format("0,000.1f");
+
+
+					if(leftText[i+1]>=0) {
+
+						d3.selectAll('.leftno').text(function(d,i){return leftText[i+1].toFixed(1)});
+
+						//$('#leftfigprefix' + i).text("£");
+
+					} else {
+
+						d3.selectAll('.leftno').text(function(d,i){return leftText[i+1].toFixed(1)})
+						//$('#leftfigprefix' + i).text("-£");
+
+					}
+
+
+
+				d3.selectAll(".leftunit")
+				.text(leftText[0]);
+
+
+		}
+
+
+
+/* Swiper controls */
+
+  var mySwiper = new Swiper('.swiper-container',{
+    pagination: '.pagination',
+    loop: false,
+    grabCursor: true,
+    paginationClickable: true,
+	hashNav: true
+  });
+
+
+  $('.arrow-left').on('click', function(e){
+    if(dvc.swiping == false){
+
+		e.preventDefault();
+		mySwiper.swipeTo(mySwiper.activeIndex-1);
+	}
+
+  });
+  $('.arrow-right').on('click', function(e){
+	if(dvc.swiping == false){
+
+		e.preventDefault();
+		mySwiper.swipeTo(mySwiper.activeIndex+1);
+
+	}
+  });
+  $('.close').on('click', closeStory);
+
+/* End swiper controls */
+
+
+
+	function requestFullScreen() {
+			/* the element you want to make full screen */
+			d3.select("#container").style("width","100%").style("height","100%");
+			var element = document.getElementById("container");
+			// Supports most browsers and their versions.
+			var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
+
+			if (requestMethod) { // Native full screen.
+				requestMethod.call(element);
+			} else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
+				var wscript = new ActiveXObject("WScript.Shell");
+				if (wscript !== null) {
+					wscript.SendKeys("{F11}");
+				}
+			}
+		}
+
+
+ 	/* Social stuff */
+
+
+		function makeFace()
+		{
+
+			var face = 'http://www.facebook.com/share.php?u=' + window.location.href;
+			window.open(face);
+		}
+
+
+		function post2Twitter()
+
+		{
+			var myLoc = "of England & Wales";
+			var myString="http://twitter.com/home?status="+escape("Who does the UK trade in goods with? #interactive #map "+ window.location.href +" via @bisgovuk");
+			window.open(myString);
+		}
+
+
+		function showEmbed()
+		{
+			$('#embedurl').val('<iframe width=940 height=660 src="' + document.URL + '" scrolling=no frameborder=0/>');
+			$('#embedbox').show(400);
+		}
+
+		function embedHide()
+		{
+			$('#embedbox').hide(400);
+		}
+
+
+		function showHelp()
+		{
+			$('#helpbox').show(400);
+		}
+
+		function helpHide()
+		{
+			$('#helpbox').hide(400);
+		}
+
+
+		//Hash URL stuff
+                function getParams() {
+
+                  firstbit = window.location.href.split(".html")[0];
+
+                  var url = decodeURI(window.location.hash);
+
+                  if(url != "") {
+                        params = url.split("&");
+                        dvc.storyover = params[0].split("=")[1];
+                        dvc.preflow = params[1].split("=")[1];
+                        dvc.timeIndex =params[2].split("=")[1];
+                        dvc.preselect =params[3].split("=")[1];
+                        dvc.view =params[4].split("=")[1];
+
+                        dvc.newviewminx = parseFloat((dvc.view.split(","))[0]);
+                        dvc.newviewminy = parseFloat((dvc.view.split(","))[1]);
+                        dvc.newviewWidth = parseFloat((dvc.view.split(","))[2]);
+                        dvc.newviewHeight = parseFloat((dvc.view.split(","))[3]);
+
+                  } else {                setTimeout(function(){changecont(1);
+                                                mySwiper.swipeTo(0)},60);
+                                                }
+                }
+
+
+		function updateHash() {
+
+			  window.location.hash = encodeURI("sty=" + dvc.storyover + "&flow=" + dvc.flow + "&period=" + dvc.timeIndex + "&fix=" + dvc.fixareacode + "&view=" + dvc.newviewminx + "," + dvc.newviewminy + "," + dvc.newviewWidth + "," +  dvc.newviewHeight);
+
+
+		}
+
+}
+else {
+$("#container").hide()
+
+}
+
+
+
+
+</script>
+
+</body>
+</html>
