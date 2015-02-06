@@ -1,0 +1,25 @@
+{
+  "name": "TradeMap",
+  "version": "0.0.0",
+  "authors": [
+    "Francesco Merletti <me@fm.to.it>"
+  ],
+  "main": "index.html",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "scripts/libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.3",
+    "bootstrap": "~3.3.2",
+    "crossfilter": "~1.3.11",
+    "d3": "~3.5.3",
+    "dcjs": "~2.0.0-beta.5",
+    "modernizr": "~2.8.3"
+  }
+}
