@@ -1,0 +1,513 @@
+{
+  "more": false,
+  "minimumInputLength": 2,
+  "classCode": "HS",
+  "className": "HS (as reported)",
+  "results": [
+    {
+      "id": "ALL",
+      "text": "ALL - All HS commodities",
+      "parent": "#"
+    },
+    {
+      "id": "TOTAL",
+      "text": "TOTAL - Total of all HS commodities",
+      "parent": "#"
+    },
+    {
+      "id": "AG2",
+      "text": "AG2 - All 2-digit HS commodities",
+      "parent": "#"
+    },
+    {
+      "id": "01",
+      "text": "01 - Live animals",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "02",
+      "text": "02 - Meat and edible meat offal",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "03",
+      "text": "03 - Fish, crustaceans, molluscs, aquatic invertebrates ne",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "04",
+      "text": "04 - Dairy products, eggs, honey, edible animal product nes",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "05",
+      "text": "05 - Products of animal origin, nes",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "06",
+      "text": "06 - Live trees, plants, bulbs, roots, cut flowers etc",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "07",
+      "text": "07 - Edible vegetables and certain roots and tubers",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "08",
+      "text": "08 - Edible fruit, nuts, peel of citrus fruit, melons",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "09",
+      "text": "09 - Coffee, tea, mate and spices",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "10",
+      "text": "10 - Cereals",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "11",
+      "text": "11 - Milling products, malt, starches, inulin, wheat glute",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "12",
+      "text": "12 - Oil seed, oleagic fruits, grain, seed, fruit, etc, ne",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "13",
+      "text": "13 - Lac, gums, resins, vegetable saps and extracts nes",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "14",
+      "text": "14 - Vegetable plaiting materials, vegetable products nes",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "15",
+      "text": "15 - Animal,vegetable fats and oils, cleavage products, et",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "16",
+      "text": "16 - Meat, fish and seafood food preparations nes",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "17",
+      "text": "17 - Sugars and sugar confectionery",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "18",
+      "text": "18 - Cocoa and cocoa preparations",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "19",
+      "text": "19 - Cereal, flour, starch, milk preparations and products",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "20",
+      "text": "20 - Vegetable, fruit, nut, etc food preparations",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "21",
+      "text": "21 - Miscellaneous edible preparations",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "22",
+      "text": "22 - Beverages, spirits and vinegar",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "23",
+      "text": "23 - Residues, wastes of food industry, animal fodder",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "24",
+      "text": "24 - Tobacco and manufactured tobacco substitutes",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "25",
+      "text": "25 - Salt, sulphur, earth, stone, plaster, lime and cement",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "26",
+      "text": "26 - Ores, slag and ash",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "27",
+      "text": "27 - Mineral fuels, oils, distillation products, etc",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "28",
+      "text": "28 - Inorganic chemicals, precious metal compound, isotope",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "29",
+      "text": "29 - Organic chemicals",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "30",
+      "text": "30 - Pharmaceutical products",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "31",
+      "text": "31 - Fertilizers",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "32",
+      "text": "32 - Tanning, dyeing extracts, tannins, derivs,pigments et",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "33",
+      "text": "33 - Essential oils, perfumes, cosmetics, toileteries",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "34",
+      "text": "34 - Soaps, lubricants, waxes, candles, modelling pastes",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "35",
+      "text": "35 - Albuminoids, modified starches, glues, enzymes",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "36",
+      "text": "36 - Explosives, pyrotechnics, matches, pyrophorics, etc",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "37",
+      "text": "37 - Photographic or cinematographic goods",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "38",
+      "text": "38 - Miscellaneous chemical products",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "39",
+      "text": "39 - Plastics and articles thereof",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "40",
+      "text": "40 - Rubber and articles thereof",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "41",
+      "text": "41 - Raw hides and skins (other than furskins) and leather",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "42",
+      "text": "42 - Articles of leather, animal gut, harness, travel good",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "43",
+      "text": "43 - Furskins and artificial fur, manufactures thereof",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "44",
+      "text": "44 - Wood and articles of wood, wood charcoal",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "45",
+      "text": "45 - Cork and articles of cork",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "46",
+      "text": "46 - Manufactures of plaiting material, basketwork, etc.",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "47",
+      "text": "47 - Pulp of wood, fibrous cellulosic material, waste etc",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "48",
+      "text": "48 - Paper & paperboard, articles of pulp, paper and board",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "49",
+      "text": "49 - Printed books, newspapers, pictures etc",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "50",
+      "text": "50 - Silk",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "51",
+      "text": "51 - Wool, animal hair, horsehair yarn and fabric thereof",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "52",
+      "text": "52 - Cotton",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "53",
+      "text": "53 - Vegetable textile fibres nes, paper yarn, woven fabri",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "54",
+      "text": "54 - manmade filaments",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "55",
+      "text": "55 - manmade staple fibres",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "56",
+      "text": "56 - Wadding, felt, nonwovens, yarns, twine, cordage, etc",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "57",
+      "text": "57 - Carpets and other textile floor coverings",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "58",
+      "text": "58 - Special woven or tufted fabric, lace, tapestry etc",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "59",
+      "text": "59 - Impregnated, coated or laminated textile fabric",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "60",
+      "text": "60 - Knitted or crocheted fabric",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "61",
+      "text": "61 - Articles of apparel, accessories, knit or crochet",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "62",
+      "text": "62 - Articles of apparel, accessories, not knit or crochet",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "63",
+      "text": "63 - Other made textile articles, sets, worn clothing etc",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "64",
+      "text": "64 - Footwear, gaiters and the like, parts thereof",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "65",
+      "text": "65 - Headgear and parts thereof",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "66",
+      "text": "66 - Umbrellas, walking-sticks, seat-sticks, whips, etc",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "67",
+      "text": "67 - Bird skin, feathers, artificial flowers, human hair",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "68",
+      "text": "68 - Stone, plaster, cement, asbestos, mica, etc articles",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "69",
+      "text": "69 - Ceramic products",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "70",
+      "text": "70 - Glass and glassware",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "71",
+      "text": "71 - Pearls, precious stones, metals, coins, etc",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "72",
+      "text": "72 - Iron and steel",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "73",
+      "text": "73 - Articles of iron or steel",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "74",
+      "text": "74 - Copper and articles thereof",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "75",
+      "text": "75 - Nickel and articles thereof",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "76",
+      "text": "76 - Aluminium and articles thereof",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "77",
+      "text": "77 - (Reserved for possible future use)",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "78",
+      "text": "78 - Lead and articles thereof",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "79",
+      "text": "79 - Zinc and articles thereof",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "80",
+      "text": "80 - Tin and articles thereof",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "81",
+      "text": "81 - Other base metals, cermets, articles thereof",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "82",
+      "text": "82 - Tools, implements, cutlery, etc of base metal",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "83",
+      "text": "83 - Miscellaneous articles of base metal",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "84",
+      "text": "84 - Nuclear reactors, boilers, machinery, etc",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "85",
+      "text": "85 - Electrical, electronic equipment",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "86",
+      "text": "86 - Railway, tramway locomotives, rolling stock, equipmen",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "87",
+      "text": "87 - Vehicles other than railway, tramway",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "88",
+      "text": "88 - Aircraft, spacecraft, and parts thereof",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "89",
+      "text": "89 - Ships, boats and other floating structures",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "90",
+      "text": "90 - Optical, photo, technical, medical, etc apparatus",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "91",
+      "text": "91 - Clocks and watches and parts thereof",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "92",
+      "text": "92 - Musical instruments, parts and accessories",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "93",
+      "text": "93 - Arms and ammunition, parts and accessories thereof",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "94",
+      "text": "94 - Furniture, lighting, signs, prefabricated buildings",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "95",
+      "text": "95 - Toys, games, sports requisites",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "96",
+      "text": "96 - Miscellaneous manufactured articles",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "97",
+      "text": "97 - Works of art, collectors pieces and antiques",
+      "parent": "TOTAL"
+    },
+    {
+      "id": "99",
+      "text": "99 - Commodities not specified according to kind",
+      "parent": "TOTAL"
+    }
+  ]
+}
