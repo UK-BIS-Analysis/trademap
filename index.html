@@ -8,13 +8,17 @@
 
     <!-- Lib Stylesheets -->
     <link rel="stylesheet" type="text/css" href="scripts/libs/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="scripts/libs/bootstrap/dist/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="scripts/libs/bootstrap/dist/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" type="text/css" href="scripts/libs/select2/select2.css"/>
+    <link rel="stylesheet" type="text/css" href="scripts/libs/select2/select2-bootstrap.css"/>
     <link rel="stylesheet" type="text/css" href="scripts/libs/dcjs/dc.css"/>
+
 
     <!-- Lib Javascript -->
     <script type="text/javascript" src="scripts/modernizr.custom.50426.js"></script>
     <script type="text/javascript" src="scripts/libs/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="scripts/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="scripts/libs/select2/select2.min.js"></script>
     <script type="text/javascript" src="scripts/libs/d3/d3.min.js"></script>
     <script type="text/javascript" src="scripts/libs/crossfilter/crossfilter.min.js"></script>
     <script type="text/javascript" src="scripts/libs/dcjs/dc.min.js"></script>
@@ -26,35 +30,82 @@
 
   <body >
 
-    <div class="container">
+
+
+
+
+
+
+    <div class="container-fluid">
+
+      <!-- NAVBAR -->
       <div class="row clearfix">
         <div class="col-md-12 column">
           <nav class="navbar navbar-default" role="navigation">
             <div class="navbar-header">
               <a class="navbar-brand" href="#">Trade Data Visualization</a>
             </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li><a href="#">About</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="#">Licence</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Info<strong class="caret"></strong></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">UN</a></li>
+                  <li><a href="#">BIS</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
           </nav>
         </div>
       </div>
 
+      <!-- Alert user when a browser not supporting SVG is being useed -->
+      <div class="alert alert-danger hidden" role="alert" id="browserAlert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span>Error: it looks like your browser does not support SVG which is required for this visualization. Please consider updating to a more recent browser.</span>
+      </div>
+
+      <!-- CONTROLS -->
       <div class="row clearfix">
-        <div class="col-md-12 column">
+        <div class="col-md-4 column">
+          <!-- Reporter selection -->
+          <span id="selectReporter" class="select2control"></span>
+        </div>
+        <div class="col-md-4 column">
+          <!-- Commodity selection -->
+          <span id="selectCommodity" class="select2control selectCommodity"></span>
 
-          <!-- Alert user when a browser not supporting SVG is being useed -->
-          <div class="alert alert-danger hidden" role="alert" id="browserAlert">
-            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-            <span>Error: it looks like your browser does not support SVG which is required for this visualization. Please consider updating to a more recent browser.</span>
+          <!-- Flow selection -->
+          <div class="btn-group btn-group-justified" id="flowButtons" role="group" aria-label="Import/Balance/Export options">
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-sm btn-default">Imports</button>
+            </div>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-sm btn-primary">Balance</button>
+            </div>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-sm btn-default">Exports</button>
+            </div>
           </div>
-
-          <!-- VIZ STUFF -->
+        </div>
+        <div class="col-md-4 column">
+          <!-- Partner selection -->
+          <span id="selectPartner" class="select2control"></span>
         </div>
       </div>
+
 
 
 
     </div>
 
     <!-- Load the purpose script at the end -->
+    <script type="text/javascript" src="scripts/controls.js"></script>
     <script type="text/javascript" src="scripts/trademap.js"></script>
 
   </body>

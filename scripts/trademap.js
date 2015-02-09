@@ -1,19 +1,17 @@
 /*jslint browser: true*/
 /*jslint white: true */
 /*jslint vars: true */
-/*global $, Modernizr, d3, dc, crossfilter, document, alert*/
+/*global $, Modernizr, d3, dc, crossfilter, document, console, alert*/
 
 // This jQuery callback makes sure that all code is run after the document and scripts have all loaded properly
 $(document).ready(function () {
 
   'use strict';
 
-  // Use Modernizr to check for SVG support and if not present display an error and don't even start loading CSV and setting up charts
-  if (!Modernizr.svg) {
-    $('#browserAlert').removeClass('hidden');
-  } else {
+  // Use Modernizr to check for SVG support and only draw if we have SVG support
+  if (Modernizr.svg) {
 
-
+    console.log('Draw SVG');
 
   }     // Close Modernizr conditional
 });     // Close $(document).ready
