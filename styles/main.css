@@ -1,6 +1,14 @@
 .select2control {
   width: 100%;
 }
-.selectCommodity {
+.selectCommodity,
+.selectPartner {
   margin-bottom: 0.5em;
+}
+#clearFilters {
+  float: right;
+}
+p.placeholder {
+  text-align: center;
+  padding: 3em 0;
 }
