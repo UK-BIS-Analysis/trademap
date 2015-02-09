@@ -16,6 +16,17 @@ define(function() {
 
       'use strict';
 
+      // Setup loader overlay
+      // Init spinner
+      var $loading = $('#loadingDiv').hide();
+      $(document)
+        .ajaxStart(function () {
+          $loading.show();
+        })
+        .ajaxStop(function () {
+          $loading.hide();
+        });
+
       // SETUP SELECT2 DROPDOWNS SELECTORS
       // Load reporters and partner lists from JSON (from local JSON file currently)
       $.ajax('/data/reporterAreas.min.json', {
