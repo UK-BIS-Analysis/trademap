@@ -41,15 +41,15 @@
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-              <li><a href="#">About</a></li>
+              <li><a href="#" data-toggle="modal" data-target="#myModal">About</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="#">Licence</a></li>
+              <li><a href="#" data-toggle="modal" data-target="#myModal">Licence</a></li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Info<strong class="caret"></strong></a>
                 <ul class="dropdown-menu">
-                  <li><a href="#">UN</a></li>
-                  <li><a href="#">BIS</a></li>
+                  <li><a href="#" data-toggle="modal" data-target="#myModal">UN</a></li>
+                  <li><a href="#" data-toggle="modal" data-target="#myModal">BIS</a></li>
                 </ul>
               </li>
             </ul>
@@ -141,6 +141,27 @@
       </div>
 
     </div>
+
+
+    <!-- CODE FOR MODALS BELOW HERE -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">A title goes here</h4>
+          </div>
+          <div class="modal-body">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at lobortis quam. Curabitur bibendum aliquet est laoreet placerat. Praesent sollicitudin lacus in mi hendrerit tempor. Etiam posuere mollis elementum. Aenean porta faucibus varius. Nulla tempus tellus a leo commodo consectetur. Fusce quis leo ac elit porttitor imperdiet. Pellentesque dictum tempus porta. Donec gravida orci eget diam accumsan lobortis. Nulla facilisi. Proin imperdiet gravida magna eget luctus. In hac habitasse platea dictumst. Sed consequat nisl et arcu gravida sit amet lacinia eros suscipit. Nam interdum ipsum non elit accumsan dictum. Ut arcu metus, vestibulum ut gravida id, imperdiet vitae leo.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
 
     <!-- Load the purpose script at the end -->
     <script data-main="scripts/main" src="scripts/libs/requirejs/require.js"></script>
