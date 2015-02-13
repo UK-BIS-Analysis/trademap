@@ -9,12 +9,16 @@
  * */
 
 
-define(function() {
+define(['./charts/choropleth', './charts/topExportCommodities', './charts/topExportDestinations', './charts/topImportCommodities', './charts/topImportSources'], function(choropleth, topExportCommodities, topExportDestinations, topImportCommodities, topImportSources) {
   'use strict';
 
   var charts = {
     setup: function () {
+      // Hide all charts except choropleth on load
+      $('#yearChart, #topImportSources, #topImportCommodities, #topExportDestinations, #topExportCommodities').slideUp(0);
 
+      // Setup charts
+      choropleth.setup();
     }
 
   };
