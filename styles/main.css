@@ -26,3 +26,6 @@ p.placeholder {
   opacity: 0.75;
   z-index: 1031;
 }
+#choropleth .placeholder {
+  min-height: 25em;
+}
