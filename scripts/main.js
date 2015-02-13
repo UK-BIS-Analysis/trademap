@@ -1,7 +1,7 @@
 /*jslint browser: true*/
 /*jslint white: true */
 /*jslint vars: true */
-/*global $, Modernizr, d3, dc, crossfilter, document, console, alert, require, window */
+/*global $, Modernizr, d3, dc, crossfilter, document, console, alert, require, window, DEBUG */
 
 /*
  * THIS RUNS THE MAIN LOGIC OF THE VIZ
@@ -20,16 +20,28 @@ require(['helpers/data', 'helpers/controls', 'helpers/charts'], function(data, c
 
     // Use Modernizr to check for SVG support and if not present display an error and don't even start loading CSV and setting up charts
     if (!Modernizr.svg) {
-      $('#browserAlert').removeClass('hidden');
+      $('#userAlert').removeClass('hidden');
+      $('#userAlert .message').html('Error: it looks like your browser does not support SVG which is required for this visualization. Please consider updating to a more recent browser.');
     } else {
 
-      // Setup the controls
-      controls.setup();
+      // Setup data by calling the initial JSON files
+      data.setup(function (err) {
+        // If the setup fails display an error and stop.
+        if (err) {
+          if (DEBUG) { console.log(err); }
+          $('#userAlert').removeClass('hidden');
+          $('#userAlert .message').html('Error: Failed to load required files for startup.');
+          return;
+        }
 
-      // Setup charts
-      charts.setup();
+        // Otherwise continue
+        // Setup the controls
+        controls.setup();
 
+        // Setup charts
+        charts.setup();
+
+      }); // Close data.setup()
     }     // Close Modernizr conditional
   });     // Close $(document).ready
-
-});
+});       // Close require

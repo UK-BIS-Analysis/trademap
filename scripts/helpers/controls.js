@@ -9,7 +9,7 @@
  * */
 
 
-define(function() {
+define(['./data'], function(data) {
   'use strict';
 
   var controls = {
@@ -20,52 +20,32 @@ define(function() {
       $(document).ajaxStart(function () { $loading.show(); }).ajaxStop(function () { $loading.hide(); });
 
       // SETUP SELECT2 DROPDOWN SELECTORS
-      // Load reporters list from JSON (from local JSON file currently)
-      $.ajax('/data/reporterAreas.min.json', {
-        error: function (xhr, status, error) {
-          console.log('Request for partner list failed with status: '+status+' and error: '+error);
-        },
-        success: function (response, status, xhr) {
-          $("#selectReporter").select2({
-            placeholder: "Select a reporter",
-            allowClear: true,
-            data: response.results
-          });
-          $("#selectReporter").on('change', controls.onFilterChange);
-        }
+      // Setup the reporters dropdown
+      $("#selectReporter").select2({
+        placeholder: "Select a reporter",
+        allowClear: true,
+        data: data.reporterAreasSelect
       });
-      // Load reporters list from JSON (from local JSON file currently)
-      $.ajax('/data/partnerAreas.min.json', {
-        error: function (xhr, status, error) {
-          console.log('Request for partner/reporter list failed with status: '+status+' and error: '+error);
-        },
-        success: function (response, status, xhr) {
-          $("#selectPartner").select2({
-            placeholder: "Select a partner",
-            allowClear: true,
-            disabled: true,
-            data: response.results
-          });
-          $("#selectPartner").on('change', controls.onFilterChange);
-          $("#selectPartner").select2('disable');
-        }
+      $("#selectReporter").on('change', controls.onFilterChange);
+      // Setup the partners dropdown
+      $("#selectPartner").select2({
+        placeholder: "Select a partner",
+        allowClear: true,
+        disabled: true,
+        data: data.partnerAreasSelect
       });
-      // Load commodities list (from local JSON file currently)
-      $.ajax('/data/classificationHS_AG2.min.json', {
-        crossDomain: false,
-        error: function (xhr, status, error) {
-          console.log('Request for commodity list failed with status: '+status+' and error: '+error);
-        },
-        success: function (response, status, xhr) {
-          $("#selectCommodity").select2({
-            placeholder: "Select a commodity",
-            allowClear: true,
-            data: response.results
-          });
-          $("#selectCommodity").on('change', controls.onFilterChange);
-          $("#selectCommodity").select2('disable');
-        }
+      $("#selectPartner").on('change', controls.onFilterChange);
+      $("#selectPartner").select2('disable');
+      // Setup the categories dropdown
+      $("#selectCommodity").select2({
+        placeholder: "Select a commodity",
+        allowClear: true,
+        data: data.classificationCodesSelect
       });
+      $("#selectCommodity").on('change', controls.onFilterChange);
+      $("#selectCommodity").select2('disable');
+
+
       // FIX: Add listener to the temporary select for year. Later on it will be controlled from the line chart
       $("#selectYear").on('change', controls.onFilterChange);
       $("#selectYear").attr('disabled','true');
@@ -74,7 +54,7 @@ define(function() {
       $('#flowButtons').click(function (evt) {
         $('#flowButtons button').removeClass('btn-primary').addClass('btn-default');
         $(event.target).closest('button').removeClass('btn-default').addClass('btn-primary');
-        console.log('Selected '+$(event.target).closest('button').html());
+        controls.onFilterChange();
       });
 
       // ADD CLEARFILTERS BUTTON BEHAVIOR
@@ -97,15 +77,14 @@ define(function() {
         reporter:   $('#selectReporter').val(),
         partner:    $('#selectPartner').val(),
         commodity:  $('#selectCommodity').val(),
+        flow:       $('#flowButtons .btn-primary').html(),
         year:       $('#selectYear').val()
       };
 
       // Activate/deactivate controls appropriately
       controls.fadeControls(filters);
       // Trigger refresh on each chart passing along the new filters
-      $('.chart').trigger('refreshFilters', { filters: filters });
-
-      if (DEBUG) { console.log('Filters changed!'); }
+      $('.chart').trigger('refreshFilters', filters);
     },
 
 
