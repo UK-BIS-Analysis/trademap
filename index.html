@@ -62,9 +62,9 @@
 
 
       <!-- Alert user when a browser not supporting SVG is being useed -->
-      <div class="alert alert-danger hidden" role="alert" id="browserAlert">
+      <div class="alert alert-danger hidden" role="alert" id="userAlert">
         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-        <span>Error: it looks like your browser does not support SVG which is required for this visualization. Please consider updating to a more recent browser.</span>
+        <span class="message"></span>
       </div>
 
 
@@ -74,7 +74,7 @@
       <div class="row clearfix">
         <div class="col-md-12 column">
           <div id="choropleth" class="chart">
-            <p class="placeholder">Map goes here</p>
+            <p class="placeholder"></p>
           </div>
         </div>
       </div>
@@ -91,7 +91,6 @@
             <div class="btn-group" role="group">
               <button type="button" class="btn btn-sm btn-default">Imports</button>
             </div>
-
             <div class="btn-group" role="group">
               <button type="button" class="btn btn-sm btn-primary">Balance</button>
             </div>
@@ -126,32 +125,36 @@
         <div class="col-md-12 column">
           <div id="yearChart" class="chart">
             <p class="placeholder">Yearly flows composite line chart with three series (imports, exports, balance) goes here. Allows selecting year range.</p>
-            Year selection (will be triggered by a brush on the yearly flow charts but only allow one year at a time):
-            <select id="selectYear">
-              <option>1993</option>
-              <option>1994</option>
-              <option>1995</option>
-              <option>1996</option>
-              <option>1997</option>
-              <option>1998</option>
-              <option>1999</option>
-              <option>2000</option>
-              <option>2001</option>
-              <option>2002</option>
-              <option>2003</option>
-              <option>2004</option>
-              <option>2005</option>
-              <option>2006</option>
-              <option>2007</option>
-              <option>2008</option>
-              <option>2009</option>
-              <option>2010</option>
-              <option>2011</option>
-              <option>2012</option>
-              <option>2013</option>
-            </select>
           </div>
         </div>
+      </div>
+      <div class="row clearfix">
+        <div class="col-md-12 column">
+          Year selection (will be triggered by a brush on the yearly flow charts but only allow one year at a time):
+          <select id="selectYear">
+            <option>1993</option>
+            <option>1994</option>
+            <option>1995</option>
+            <option>1996</option>
+            <option>1997</option>
+            <option>1998</option>
+            <option>1999</option>
+            <option>2000</option>
+            <option>2001</option>
+            <option>2002</option>
+            <option>2003</option>
+            <option>2004</option>
+            <option>2005</option>
+            <option>2006</option>
+            <option>2007</option>
+            <option>2008</option>
+            <option>2009</option>
+            <option>2010</option>
+            <option>2011</option>
+            <option>2012</option>
+            <option>2013</option>
+          </select>
+        </ddiv>
       </div>
 
 

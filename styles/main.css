@@ -12,6 +12,7 @@ p.placeholder {
   text-align: center;
   padding: 3em 0;
   border: 1px dotted rgb(0, 14, 185);
+  color: #00f;
 }
 #loadingDiv {
   background: url('../scripts/libs/svg-loaders/svg-loaders/oval.svg') no-repeat scroll 50% 50% #F9F9F9;
