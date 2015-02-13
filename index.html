@@ -58,22 +58,34 @@
         </div>
       </div>
 
+
+
+
       <!-- Alert user when a browser not supporting SVG is being useed -->
       <div class="alert alert-danger hidden" role="alert" id="browserAlert">
         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
         <span>Error: it looks like your browser does not support SVG which is required for this visualization. Please consider updating to a more recent browser.</span>
       </div>
 
+
+
+
+      <!-- CHOROPLETH -->
+      <div class="row clearfix">
+        <div class="col-md-12 column">
+          <div id="choropleth" class="chart">
+            <p class="placeholder">Map goes here</p>
+          </div>
+        </div>
+      </div>
+
+
+
+
       <!-- CONTROLS -->
       <div class="row clearfix">
+        <div class="col-md-4 column"></div>
         <div class="col-md-4 column">
-          <!-- Reporter selection -->
-          <span id="selectReporter" class="select2control"></span>
-        </div>
-        <div class="col-md-4 column">
-          <!-- Commodity selection -->
-          <span id="selectCommodity" class="select2control selectCommodity"></span>
-
           <!-- Flow selection -->
           <div class="btn-group btn-group-justified" id="flowButtons" role="group" aria-label="Import/Balance/Export options">
             <div class="btn-group" role="group">
@@ -88,6 +100,17 @@
             </div>
           </div>
         </div>
+        <div class="col-md-4 column"></div>
+      </div>
+      <div class="row clearfix">
+        <div class="col-md-4 column">
+          <!-- Reporter selection -->
+          <span id="selectReporter" class="select2control"></span>
+        </div>
+        <div class="col-md-4 column">
+          <!-- Commodity selection -->
+          <span id="selectCommodity" class="select2control selectCommodity"></span>
+        </div>
         <div class="col-md-4 column">
           <!-- Partner selection -->
           <span id="selectPartner" class="select2control selectPartner"></span>
@@ -95,47 +118,72 @@
         </div>
       </div>
 
-      <!-- CHOROPLETH -->
-      <div class="row clearfix">
-        <div class="col-md-12 column">
-          <div id="choropleth">
-            <p class="placeholder">Map goes here</p>
-          </div>
-        </div>
-      </div>
+
+
 
       <!-- Yearly flows chart and selector -->
       <div class="row clearfix">
         <div class="col-md-12 column">
-          <div id="yearChart">
-            <p class="placeholder">Yearly flows line chart with three series (imports, exports, balance) goes here.</p>
+          <div id="yearChart" class="chart">
+            <p class="placeholder">Yearly flows composite line chart with three series (imports, exports, balance) goes here. Allows selecting year range.</p>
+            Year selection (will be triggered by a brush on the yearly flow charts but only allow one year at a time):
+            <select id="selectYear">
+              <option>1993</option>
+              <option>1994</option>
+              <option>1995</option>
+              <option>1996</option>
+              <option>1997</option>
+              <option>1998</option>
+              <option>1999</option>
+              <option>2000</option>
+              <option>2001</option>
+              <option>2002</option>
+              <option>2003</option>
+              <option>2004</option>
+              <option>2005</option>
+              <option>2006</option>
+              <option>2007</option>
+              <option>2008</option>
+              <option>2009</option>
+              <option>2010</option>
+              <option>2011</option>
+              <option>2012</option>
+              <option>2013</option>
+            </select>
           </div>
         </div>
       </div>
 
-      <!-- Import charts -->
+
+
+
+      <!-- Top Import/Export Countries -->
       <div class="row clearfix importCharts">
         <div class="col-md-6 column">
-          <div id="topImportSources">
+          <div id="topImportSources" class="chart">
             <p class="placeholder">Bar chart of top importers goes here</p>
           </div>
         </div>
         <div class="col-md-6 column">
-          <div id="topImportCommodities">
-            <p class="placeholder">Bar chart of top import commodities goes here</p>
+          <div id="topExportDestinations" class="chart">
+            <p class="placeholder">Bar chart of top export destinations goes here</p>
           </div>
         </div>
       </div>
 
-      <!-- Export charts -->
+
+
+
+
+      <!-- Top Import/Export Commodities -->
       <div class="row clearfix exportCharts">
         <div class="col-md-6 column">
-          <div id="topExportDestinations">
-            <p class="placeholder">Bar chart of top export destinations goes here</p>
+          <div id="topImportCommodities" class="chart">
+            <p class="placeholder">Bar chart of top import commodities goes here</p>
           </div>
         </div>
         <div class="col-md-6 column">
-          <div id="topExportCommodities">
+          <div id="topExportCommodities" class="chart">
             <p class="placeholder">Bar chart of top export commodities goes here</p>
           </div>
         </div>
