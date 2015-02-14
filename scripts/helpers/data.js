@@ -22,7 +22,7 @@ define(function(require) {
       // Base query url
       baseQueryUrl: 'http://comtrade.un.org/api/get?fmt=csv&max=50000&type=C&freq=A&px=HS&rg=1%2C2&cc=AG2',
 
-      // Query history will be an array of query objects that we will consult before running each query
+      // Query history will be an array of query urls that we will consult before running each query
       queryHistory: [],
 
       // reporter, partner and classification arrays for select2 widgets
@@ -66,16 +66,40 @@ define(function(require) {
        *   period:   'all',   // Period can be 'all' or apecific year: 2012 (FUTURE: Multi-year queries are allowed for up to 5 years)
        *   hsCode:   72       // Can be a specific 2-digit HS code or 'TOTAL' or 'AG2'
        * }
+       * Callback is called with callback(error, data)
+       * If data was already present then data will be null
        */
       query: function (options, callback) {
-        // check istory to see if query was already run
-        // add reporter if present
-        // add partner if present
-        // add period if present
-        // add hsCode if present
-        // run query
-        // call the callback with the returned data
+        // Build URL
+        var requestUrl = data.baseQueryUrl;
+        if (options.reporter) { requestUrl += '&r=' +options.reporter; }
+        if (options.partner)  { requestUrl += '&p=' +options.partner;  }
+        if (options.period)   { requestUrl += '&ps='+options.period;   }
+        if (options.hsCode)   { requestUrl += '&cc='+options.hsCode;   }
+
+        // Check history to see if query was already run, run the query if not and then call the callback
+        if(data.queryHistory.indexOf(requestUrl) > -1) {
+          callback(null, null);
+        } else {
+          $.ajax({
+            url: requestUrl,
+            crossDomain: true,
+            context: this,    // NOTE: This is imporant as it binds the callback to the data object we are creating. Otherwise we cannot access any of the properties in the callback.
+            success: function success (data, status, xhr) {
+              // Add query to history
+              this.queryHistory.push(requestUrl);
+              // TODO: Do something with the query here
+              callback(null, data);
+            },
+            error: function error (xhr, status, err) {
+              callback(err, null);
+            },
+          });
+        }
       }
+
+
+
     };
     return data;
   };
