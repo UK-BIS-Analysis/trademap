@@ -19,6 +19,10 @@ define(['./charts/choropleth', './charts/topExportCommodities', './charts/topExp
 
       // Setup charts
       choropleth.setup();
+      topExportCommodities.setup();
+      topExportDestinations.setup();
+      topImportCommodities.setup();
+      topImportSources.setup();
     }
 
   };

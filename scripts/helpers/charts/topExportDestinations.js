@@ -13,7 +13,16 @@ define(function() {
   'use strict';
 
   var chart = {
+
     setup: function () {
+      // Initialize chart state:
+      $('#topExportDestinations .placeholder').html('');
+
+      // Add filterUpdate listener
+      $('#topExportDestinations').on('refreshFilters', chart.refresh);
+    },
+
+    refresh: function (event, filters) {
 
     }
 

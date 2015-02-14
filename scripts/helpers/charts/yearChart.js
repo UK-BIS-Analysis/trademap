@@ -13,7 +13,16 @@ define(function() {
   'use strict';
 
   var chart = {
+
     setup: function () {
+      // Initialize chart state:
+      $('#yearChart .placeholder').html('');
+
+      // Add filterUpdate listener
+      $('#yearChart').on('refreshFilters', chart.refresh);
+    },
+
+    refresh: function (event, filters) {
 
     }
 

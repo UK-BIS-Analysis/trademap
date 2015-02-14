@@ -13,7 +13,16 @@ define(function() {
   'use strict';
 
   var chart = {
+
     setup: function () {
+      // Initialize chart state:
+      $('#topImportSources .placeholder').html('');
+
+      // Add filterUpdate listener
+      $('#topImportSources').on('refreshFilters', chart.refresh);
+    },
+
+    refresh: function (event, filters) {
 
     }
 

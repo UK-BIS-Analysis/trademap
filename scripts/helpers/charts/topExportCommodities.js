@@ -13,7 +13,16 @@ define(function() {
   'use strict';
 
   var chart = {
+
     setup: function () {
+      // Initialize chart state:
+      $('#topExportCommodities .placeholder').html('');
+
+      // Add filterUpdate listener
+      $('#topExportCommodities').on('refreshFilters', chart.refresh);
+    },
+
+    refresh: function (event, filters) {
 
     }
 
