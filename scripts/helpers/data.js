@@ -92,6 +92,7 @@ define(function(require) {
 
         // Check history to see if query was already run, run the query if not and then call the callback
         if(data.queryHistory.indexOf(requestUrl) > -1) {
+          if (DEBUG) { console.log(time.getHours()+':'+time.getMinutes()+':'+time.getSeconds()+': Skipping call since it was already requested.'); }
           callback(null, null);
         } else {
           data.timestamp = time.getTime();
