@@ -12,40 +12,42 @@
 define(['../data'], function(data) {
   'use strict';
   var localData = data,
-      choropleth = {
+      $chart = $('#choropleth'),
+      chart = {
 
-    setup: function () {
-      // Initialize map state:
-      $('#choropleth .placeholder').html('Blank map, no countries selected.');
+        setup: function () {
+          $chart
+            .on('refreshFilters', this.refresh)
+            .children('.placeholder')
+            .html('Blank map, no countries selected.');
+        },
 
-      // Add filterUpdate listener
-      $('#choropleth').on('refreshFilters', choropleth.refresh);
-    },
+        refresh: function (event, filters) {
 
-    refresh: function (event, filters) {
-      // If no reporter is selected clear map and stop
-      if(!filters.reporter) {
-        $('#choropleth .placeholder').html('Blank map, no countries selected.');
-        return;
-      }
+          // CASE 1: reporter = null
+          if(!filters.reporter) {
+            $('#choropleth .placeholder').html('Blank choropleth, no countries selected.');
+            return;
+          }
 
-      // If reporter is selected then
-      data.query({
-        reporter: filters.reporter,
-        period:   filters.year
-      }, function queryCallback (err, data) {
-        // TODO: handle the data back and (re)draw map
-        // Depending on presence of commodity do something
-        if(!filters.commodity) {
-          $('#choropleth .placeholder').html('Total value of '+filters.flow+' between '+localData.reporterAreas[filters.reporter]+' and every other country for '+filters.year+'. '+localData.reporterAreas[filters.reporter]+' is highlighted on the map.');
-        } else {
-          $('#choropleth .placeholder').html('Value of '+filters.flow+' between '+localData.reporterAreas[filters.reporter]+' and each other country for '+localData.classificationCodes[filters.commodity]+' in '+filters.year);
+          // CASE 2: reprter = selected
+          data.query({
+            reporter: filters.reporter,
+            period:   filters.year,
+            hsCode:   'AG2'
+          }, function queryCallback (err, data) {
+            // TODO: handle the data back and (re)draw map
+            // Depending on presence of commodity do something
+            if(!filters.commodity) {
+              $('#choropleth .placeholder').html('Choropleth with total value of '+filters.flow+' between '+localData.reporterAreas[filters.reporter]+' and every other country for '+filters.year+'. '+localData.reporterAreas[filters.reporter]+' is highlighted on the map.');
+            } else {
+              $('#choropleth .placeholder').html('Choropleth with value of '+filters.flow+' between '+localData.reporterAreas[filters.reporter]+' and each other country for '+localData.classificationCodes[filters.commodity]+' in '+filters.year);
+            }
+          });
+
         }
-      });
-
-    }
 
   };
 
-  return choropleth;
+  return chart;
 });
