@@ -11,8 +11,8 @@
 
 define(['../data'], function(data) {
   'use strict';
-
-  var choropleth = {
+  var localData = data,
+      choropleth = {
 
     setup: function () {
       // Initialize map state:
@@ -27,20 +27,22 @@ define(['../data'], function(data) {
       if(!filters.reporter) {
         $('#choropleth .placeholder').html('Blank map, no countries selected.');
         return;
-      } else {
-        // Launch Query1
-        data.query({
-          reporter: filters.reporter,
-          period:   filters.year
-        }, function () {
-          // Then depending on presence of commodity do something
-          if(!filters.commodity) {
-            $('#choropleth .placeholder').html('Total value of '+filters.flow+' between '+data.reporterAreas[filters.reporter]+' and every other country for '+filters.year+'. '+data.reporterAreas[filters.reporter]+' is highlightes on the map.');
-          } else {
-            $('#choropleth .placeholder').html('Value of '+filters.flow+' between '+data.reporterAreas[filters.reporter]+' and each other country for '+data.classificationCodes[filters.commodity]+' in '+filters.year);
-          }
-        });
       }
+
+      // If reporter is selected then
+      data.query({
+        reporter: filters.reporter,
+        period:   filters.year
+      }, function queryCallback (err, data) {
+        // TODO: handle the data back and (re)draw map
+        // Depending on presence of commodity do something
+        if(!filters.commodity) {
+          $('#choropleth .placeholder').html('Total value of '+filters.flow+' between '+localData.reporterAreas[filters.reporter]+' and every other country for '+filters.year+'. '+localData.reporterAreas[filters.reporter]+' is highlighted on the map.');
+        } else {
+          $('#choropleth .placeholder').html('Value of '+filters.flow+' between '+localData.reporterAreas[filters.reporter]+' and each other country for '+localData.classificationCodes[filters.commodity]+' in '+filters.year);
+        }
+      });
+
     }
 
   };
