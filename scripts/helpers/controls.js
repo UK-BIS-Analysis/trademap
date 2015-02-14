@@ -13,6 +13,7 @@ define(['./data'], function(data) {
   'use strict';
 
   var controls = {
+
     setup: function () {
 
       // SETUP LOADER OVERLAY
@@ -21,44 +22,48 @@ define(['./data'], function(data) {
 
       // SETUP SELECT2 DROPDOWN SELECTORS
       // Setup the reporters dropdown
-      $("#selectReporter").select2({
-        placeholder: "Select a reporter",
-        allowClear: true,
-        data: data.reporterAreasSelect
-      });
-      $("#selectReporter").on('change', controls.onFilterChange);
+      $("#selectReporter")
+        .select2({
+          placeholder: "Select a reporter",
+          allowClear: true,
+          data: data.reporterAreasSelect
+        })
+        .on('change', controls.onFilterChange);
       // Setup the partners dropdown
-      $("#selectPartner").select2({
-        placeholder: "Select a partner",
-        allowClear: true,
-        disabled: true,
-        data: data.partnerAreasSelect
-      });
-      $("#selectPartner").on('change', controls.onFilterChange);
-      $("#selectPartner").select2('disable');
+      $("#selectPartner")
+        .select2({
+          placeholder: "Select a partner",
+          allowClear: true,
+          disabled: true,
+          data: data.partnerAreasSelect
+        })
+        .on('change', controls.onFilterChange)
+        .select2('disable');
       // Setup the categories dropdown
-      $("#selectCommodity").select2({
-        placeholder: "Select a commodity",
-        allowClear: true,
-        data: data.classificationCodesSelect
-      });
-      $("#selectCommodity").on('change', controls.onFilterChange);
-      $("#selectCommodity").select2('disable');
+      $("#selectCommodity")
+        .select2({
+          placeholder: "Select a commodity",
+          allowClear: true,
+          data: data.classificationCodesSelect
+        })
+        .on('change', controls.onFilterChange)
+        .select2('disable');
 
 
       // FIX: Add listener to the temporary select for year. Later on it will be controlled from the line chart
-      $("#selectYear").on('change', controls.onFilterChange);
-      $("#selectYear").attr('disabled','true');
+      $("#selectYear")
+        .attr('disabled','true')
+        .on('change', controls.onFilterChange);
 
       // ADD IMPORT/EXPORT/BALANCE BUTTON BEHAVIOURS
-      $('#flowButtons').click(function (evt) {
+      $('#flowButtons').on('click', function (event) {
         $('#flowButtons button').removeClass('btn-primary').addClass('btn-default');
         $(event.target).closest('button').removeClass('btn-default').addClass('btn-primary');
         controls.onFilterChange();
       });
 
       // ADD CLEARFILTERS BUTTON BEHAVIOR
-      $("#clearFilters").click(function (evt) {
+      $("#clearFilters").on('click', function (event) {
         $('.select2control')
           .off('change', controls.onFilterChange)
           .val(null)
@@ -71,7 +76,7 @@ define(['./data'], function(data) {
 
 
 
-    onFilterChange: function (evt) {
+    onFilterChange: function (event) {
       // Get new values
       var filters = {
         reporter:   $('#selectReporter').val(),
