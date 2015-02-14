@@ -38,6 +38,7 @@ define(['../data'], function(data) {
           if(filters.reporter && !filters.commodity && !filters.partner) {
             data.query({
               reporter: filters.reporter,
+              partner:  'all',
               period:   filters.year,
               hsCode:   'AG2'
             }, function queryCallback (err, data) {
