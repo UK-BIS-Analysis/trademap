@@ -1,7 +1,7 @@
 /*jslint browser: true*/
 /*jslint white: true */
 /*jslint vars: true */
-/*global $, Modernizr, d3, dc, crossfilter, document, console, alert, define, DEBUG */
+/*global $, Modernizr, d3, dc, crossfilter, document, console, alert, define, DEBUG, Date */
 
 /*
  * THIS FILE MANAGES API QUERIES AND CROSSFILTER SETUP
@@ -20,10 +20,13 @@ define(function(require) {
        */
 
       // Base query url
-      baseQueryUrl: 'http://comtrade.un.org/api/get?fmt=csv&max=50000&type=C&freq=A&px=HS&rg=1%2C2&cc=AG2',
+      baseQueryUrl: 'http://comtrade.un.org/api/get?fmt=csv&max=50000&type=C&freq=A&px=HS&rg=1%2C2',
 
       // Query history will be an array of query urls that we will consult before running each query
       queryHistory: [],
+
+      // We store the time we fire every call here in order to delay calls to fire no more than one per second.
+      timestamp: 0,
 
       // reporter, partner and classification arrays for select2 widgets
       reporterAreasSelect: [],
@@ -70,6 +73,16 @@ define(function(require) {
        * If data was already present then data will be null
        */
       query: function (options, callback) {
+        // Grab time
+        var time = new Date();
+
+        // If query was called less than a second ago we need to postpone the call by a second.
+        if (time.getTime() - data.timestamp < 1000) {
+          if (DEBUG) { console.log(time.getHours()+':'+time.getMinutes()+':'+time.getSeconds()+': Delaying call'); }
+          setTimeout(function () { data.query(options, callback); }, 1000);
+          return;
+        }
+
         // Build URL
         var requestUrl = data.baseQueryUrl;
         if (options.reporter) { requestUrl += '&r=' +options.reporter; }
@@ -81,6 +94,8 @@ define(function(require) {
         if(data.queryHistory.indexOf(requestUrl) > -1) {
           callback(null, null);
         } else {
+          data.timestamp = time.getTime();
+          if (DEBUG) { console.log(time.getHours()+':'+time.getMinutes()+':'+time.getSeconds()+': Calling: '+requestUrl); }
           $.ajax({
             url: requestUrl,
             crossDomain: true,
@@ -93,7 +108,7 @@ define(function(require) {
             },
             error: function error (xhr, status, err) {
               callback(err, null);
-            },
+            }
           });
         }
       }
