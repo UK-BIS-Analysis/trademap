@@ -43,7 +43,7 @@ define(function(require) {
        * Query static JSON files and populate variables. This is an asynchronous function that makes AJAX request and therefore uses a callback
        */
       setup : function (callback) {
-        $.when($.ajax('/data/reporterAreas.min.json'), $.ajax('/data/partnerAreas.min.json'), $.ajax('/data/classificationHS_AG2.min.json'))
+        $.when($.ajax('data/reporterAreas.min.json'), $.ajax('data/partnerAreas.min.json'), $.ajax('data/classificationHS_AG2.min.json'))
          .then(function success (reporterAreas, partnerAreas, classificationCodes) {
            // Add results to the data object for use in the app.
            data.reporterAreasSelect       = reporterAreas[0].results;
