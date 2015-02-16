@@ -16,6 +16,7 @@ define(function(require) {
     var data = {
 
       /*
+       * PROPERTIES
        * Some basic properties that we store and persist throughout the application
        */
 
@@ -24,6 +25,7 @@ define(function(require) {
 
       // Query history will be an array of query urls that we will consult before running each query
       queryHistory: [],
+      queryQueue: [],
 
       // We store the time we fire every call here in order to delay calls to fire no more than one per second.
       timestamp: 0,
@@ -36,6 +38,18 @@ define(function(require) {
       reporterAreas: {},
       partnerAreas: {},
       classificationCodes: {},
+
+
+
+
+
+
+
+
+
+      /*
+       * METHODS
+       * */
 
 
       /*
@@ -69,49 +83,61 @@ define(function(require) {
        *   period:   'all',   // Period can be 'all' or apecific year: 2012 (FUTURE: Multi-year queries are allowed for up to 5 years)
        *   hsCode:   72       // Can be a specific 2-digit HS code or 'TOTAL' or 'AG2'
        * }
-       * Callback is called with callback(error, data)
-       * If data was already present then data will be null
+       * Callback is called with callback(error, newData)
+       * newData will be true if new data was received and added to crossfilter or false otherwise.
        */
       query: function (options, callback) {
-        // Grab time
-        var time = new Date();
+        // Get current time and build URL
+        var requestUrl = data.baseQueryUrl,
+            time = new Date();
+        if (options.reporter) { requestUrl += '&r=' +options.reporter; } else { requestUrl += '&r=0'; }
+        if (options.partner)  { requestUrl += '&p=' +options.partner;  } else { requestUrl += '&p=all'; }
+        if (options.period)   { requestUrl += '&ps='+options.period;   } else { requestUrl += '&ps=now'; }
+        if (options.hsCode)   { requestUrl += '&cc='+options.hsCode;   } else { requestUrl += '&cc=AG2'; }
 
-        // If query was called less than a second ago we need to postpone the call by a second.
-        if (time.getTime() - data.timestamp < 1000) {
-          if (DEBUG) { console.log(time.getHours()+':'+time.getMinutes()+':'+time.getSeconds()+': Delaying call'); }
-          setTimeout(function () { data.query(options, callback); }, 1000);
+        // Check history to see if query was already run and skip the call if it was already run
+        if(data.queryHistory.indexOf(requestUrl) > -1) {
+          if (DEBUG) { console.log(time.getHours()+':'+time.getMinutes()+':'+time.getSeconds()+': Skipping call:'+requestUrl); }
+          callback(null, false);
           return;
         }
 
-        // Build URL
-        var requestUrl = data.baseQueryUrl;
-        if (options.reporter) { requestUrl += '&r=' +options.reporter; }
-        if (options.partner)  { requestUrl += '&p=' +options.partner;  }
-        if (options.period)   { requestUrl += '&ps='+options.period;   }
-        if (options.hsCode)   { requestUrl += '&cc='+options.hsCode;   }
-
-        // Check history to see if query was already run, run the query if not and then call the callback
-        if(data.queryHistory.indexOf(requestUrl) > -1) {
-          if (DEBUG) { console.log(time.getHours()+':'+time.getMinutes()+':'+time.getSeconds()+': Skipping call since it was already requested.'); }
-          callback(null, null);
-        } else {
-          data.timestamp = time.getTime();
-          if (DEBUG) { console.log(time.getHours()+':'+time.getMinutes()+':'+time.getSeconds()+': Calling: '+requestUrl); }
-          $.ajax({
-            url: requestUrl,
-            crossDomain: true,
-            context: this,    // NOTE: This is imporant as it binds the callback to the data object we are creating. Otherwise we cannot access any of the properties in the callback.
-            success: function success (data, status, xhr) {
-              // Add query to history
-              this.queryHistory.push(requestUrl);
-              // TODO: Do something with the query here
-              callback(null, data);
-            },
-            error: function error (xhr, status, err) {
-              callback(err, null);
-            }
-          });
+        // If the API was called less than a second ago, or if the query is in the queue then we need to postpone the call by (a little more than) a second.
+        if (time.getTime() - data.timestamp < 1000 || data.queryQueue.indexOf(requestUrl) > -1) {
+          if (DEBUG) { console.log(time.getHours()+':'+time.getMinutes()+':'+time.getSeconds()+': Delaying call: '+requestUrl); }
+          var timeoutID = window.setTimeout(function () { data.query(options, callback); }, 1100);
+          callback(null, false);
+          return;
         }
+
+        // Make call
+        $.ajax({
+          url: requestUrl,
+          crossDomain: true,
+          context: this,    // NOTE: This is imporant as it binds the callback to the data object we are creating. Otherwise we cannot access any of the properties in the callback.
+          beforeSend: function (xhr, settings) {
+            if (DEBUG) { console.log(time.getHours()+':'+time.getMinutes()+':'+time.getSeconds()+': Making call  : '+requestUrl); }
+            // Set the timestamp so that other queries will queue and add the current query to the queue.
+            data.timestamp = time.getTime();
+            this.queryQueue.push(requestUrl);
+          },
+          success: function success (data, status, xhr) {
+            // Add query to history
+            this.queryHistory.push(requestUrl);
+            // Remove query from queue if it was there:
+            var queueItem = this.queryQueue.indexOf(requestUrl);
+            if (queueItem > -1) { this.queryQueue.splice(queueItem, 1); }
+            if (DEBUG) { console.log(time.getHours()+':'+time.getMinutes()+':'+time.getSeconds()+': Call success : '+requestUrl); }
+
+            // TODO: Add data to crossfilter?
+
+            callback(null, data);
+          },
+          error: function error (xhr, status, err) {
+            if (DEBUG) { console.log(time.getHours()+':'+time.getMinutes()+':'+time.getSeconds()+': Request failed: '+requestUrl+' with status: '+status); }
+            callback(err, null);
+          }
+        });
       }
 
 
