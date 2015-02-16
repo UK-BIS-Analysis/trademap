@@ -1,3 +1,6 @@
+/*
+ * STYLES FOR CONTROLS
+ * */
 .select2control {
   width: 100%;
 }
@@ -16,7 +19,7 @@ p.placeholder {
 }
 #loadingDiv {
   background: url('../scripts/libs/svg-loaders/svg-loaders/oval.svg') no-repeat scroll 50% 50% #F9F9F9;
-  position: absolute;
+  position: fixed;
   top: 0px;
   right: 0px;
   bottom: 0px;
