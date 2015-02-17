@@ -1,0 +1,33 @@
+Dear Michael and Daniel,
+
+First of all thanks for your support in this and the amazing work on the API and documentation. I've done some testing and have gathered a few technical questions and suggestions while I plan out the development of our visualization.
+
+CORS
+I've noticed that CORS is not enabled for:
+* reporterAreas.json (http://comtrade.un.org/data/cache/reporterAreas.json)
+* partnerAreas.json (http://comtrade.un.org/data/cache/partnerAreas.json)
+* classificationHS.json (http://comtrade.un.org/data/cache/classificationHS.json).
+I will serve them off our own domain for now but it would be better to query it directly from comtrade.un.org in the future.
+
+Suggestions for the JSON files
+For our needs it would have been great to have a version of classificationHS.json restricted to 2 digits as the whole set is 800k and select2 slows down.
+Since we will be displaying data on a choropleth using d3js (as I'm sure others may want to do in the future) it would have been handy to have the country 3-digit ISO code in there too.
+I've built my own data tables for lookup but it would be great if you could provide those as generated from your database table in the future.
+
+Classification 
+I'm using a list of classifications in the visualization and started from this file:
+http://comtrade.un.org/data/cache/classificationHS.json
+However I noticed that some fields seem to be truncated. See for example:
+{
+    "id": "03",
+    "text": "03 - Fish, crustaceans, molluscs, aquatic invertebrates ne",
+    "parent": "TOTAL"
+}
+I've filtered the JSON to only AG2 values since we will only be using these in our visualization. As a suggestion for the future it would be great if you offered cached JSON files at a specific code detail level (e.g. AG2, AG3...)
+
+
+
+
+- Lifting limits to API?
+- Requesting data for multiple years
+- Filter by top X countries
