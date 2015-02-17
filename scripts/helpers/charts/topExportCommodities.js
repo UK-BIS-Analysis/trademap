@@ -46,7 +46,7 @@ define(['../data'], function(data) {
               $chart
                 .slideDown()
                 .children('.placeholder')
-                .html('Bar chart of top 20 commodities exported in '+filters.year+' by '+localData.reporterAreas[filters.reporter]);
+                .html('Bar chart of top 20 commodities exported in '+filters.year+' by '+localData.reporterAreas[filters.reporter].name);
             });
             return;
           }
@@ -63,7 +63,7 @@ define(['../data'], function(data) {
               $chart
                 .slideDown()
                 .children('.placeholder')
-                .html('Bar chart of top 20 commodities exported in '+filters.year+' by '+localData.reporterAreas[filters.reporter]+' to '+localData.partnerAreas[filters.partner]+'.');
+                .html('Bar chart of top 20 commodities exported in '+filters.year+' by '+localData.reporterAreas[filters.reporter].name+' to '+localData.partnerAreas[filters.partner].name+'.');
             });
             return;
           }

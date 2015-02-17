@@ -46,7 +46,7 @@ define(['../data'], function(data) {
               $chart
                 .slideDown()
                 .children('.placeholder')
-                .html('Bar chart with the top 20 export destinations in '+filters.year+' for '+localData.reporterAreas[filters.reporter]);
+                .html('Bar chart with the top 20 export destinations in '+filters.year+' for '+localData.reporterAreas[filters.reporter].name);
             });
             return;
           }
@@ -72,7 +72,7 @@ define(['../data'], function(data) {
               $chart
                 .slideDown()
                 .children('.placeholder')
-                .html('Bar chart with the top 20 export destinations in '+filters.year+' of '+localData.classificationCodes[filters.commodity]+' for '+localData.reporterAreas[filters.reporter]);
+                .html('Bar chart with the top 20 export destinations in '+filters.year+' of '+localData.classificationCodes[filters.commodity]+' for '+localData.reporterAreas[filters.reporter].name);
             });
             return;
           }

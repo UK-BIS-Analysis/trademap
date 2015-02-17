@@ -1,6 +1,7 @@
 /*jslint browser: true*/
 /*jslint white: true */
 /*jslint vars: true */
+/*jslint nomen: true*/
 /*global $, Modernizr, d3, dc, crossfilter, document, console, alert, define, DEBUG, Date */
 
 /*
@@ -37,6 +38,7 @@ define(function(require) {
       reporterAreas: {},
       partnerAreas: {},
       classificationCodes: {},
+      isoCodes: {},
 
       // Crossfilter data
       ndx: crossfilter(),
@@ -56,20 +58,39 @@ define(function(require) {
        * Query static JSON files and populate variables. This is an asynchronous function that makes AJAX request and therefore uses a callback
        */
       setup : function (callback) {
-        $.when($.ajax('data/reporterAreas.min.json'), $.ajax('data/partnerAreas.min.json'), $.ajax('data/classificationHS_AG2.min.json'))
-         .then(function success (reporterAreas, partnerAreas, classificationCodes) {
-           // Add results to the data object for use in the app.
-           data.reporterAreasSelect       = reporterAreas[0].results;
-           data.partnerAreasSelect        = partnerAreas[0].results;
-           data.classificationCodesSelect = classificationCodes[0].results;
-           reporterAreas[0].results.forEach(function (v) { data.reporterAreas[v.id] = v.text; });
-           partnerAreas[0].results.forEach(function (v) { data.partnerAreas[v.id] = v.text; });
-           classificationCodes[0].results.forEach(function (v) { data.classificationCodes[v.id] = v.text; });
-           // Call the callback
-           callback();
-         }, function failure (err1, err2, err3) {
-           callback('There was an error with one of the initial requests.');
-         });
+        $.when(
+          $.ajax('data/reporterAreas.min.json'),
+          $.ajax('data/partnerAreas.min.json'),
+          $.ajax('data/classificationHS_AG2.min.json'),
+          $.ajax('data/isoCodes.csv')
+        ).then(function success (reporterAreas, partnerAreas, classificationCodes, isoCodes) {
+          // Add results to the data object for use in the app.
+          data.reporterAreasSelect       = reporterAreas[0].results;
+          data.partnerAreasSelect        = partnerAreas[0].results;
+          data.classificationCodesSelect = classificationCodes[0].results;
+          d3.csv.parse(isoCodes[0]).forEach(function (d, i) {
+            data.isoCodes[d.code] = d.iso;
+          });
+
+
+          reporterAreas[0].results.forEach(function (v) {
+            data.reporterAreas[v.id] = {};
+            data.reporterAreas[v.id].name = v.text;
+            data.reporterAreas[v.id].iso = data.isoCodes[v.id];
+          });
+          partnerAreas[0].results.forEach(function (v) {
+            data.partnerAreas[v.id] = {};
+            data.partnerAreas[v.id].name = v.text;
+            data.partnerAreas[v.id].iso = data.isoCodes[v.id];
+          });
+          classificationCodes[0].results.forEach(function (v) {
+            data.classificationCodes[v.id] = v.text;
+          });
+          // Call the callback
+          callback();
+        }, function failure (err1, err2, err3, err4) {
+          callback('There was an error with one of the initial requests.');
+        });
       },
 
 
@@ -113,7 +134,7 @@ define(function(require) {
           context: this,
           beforeSend: function (xhr, settings) {
             // Set the timestamp so that other queries will queue and add the current query to the queue.
-            data.timestamp = time.getTime();
+            this.timestamp = time.getTime();
             this.queryQueue.push(requestUrl);
           },
           success: function success (data, status, xhr) {

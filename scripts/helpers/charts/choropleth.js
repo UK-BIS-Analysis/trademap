@@ -13,6 +13,8 @@ define(['../data'], function(data) {
   'use strict';
   var localData = data,
       $chart = $('#choropleth'),
+
+
       chart = {
 
         setup: function () {
@@ -39,9 +41,9 @@ define(['../data'], function(data) {
             // TODO: handle the data back and (re)draw map
             // Depending on presence of commodity do something
             if(!filters.commodity) {
-              $('#choropleth .placeholder').html('Choropleth with total value of '+filters.flow+' between '+localData.reporterAreas[filters.reporter]+' and every other country for '+filters.year+'. '+localData.reporterAreas[filters.reporter]+' is highlighted on the map.');
+              $('#choropleth .placeholder').html('Choropleth with total value of '+filters.flow+' between '+localData.reporterAreas[filters.reporter].name+' and every other country for '+filters.year+'. '+localData.reporterAreas[filters.reporter].name+' is highlighted on the map.');
             } else {
-              $('#choropleth .placeholder').html('Choropleth with value of '+filters.flow+' between '+localData.reporterAreas[filters.reporter]+' and each other country for '+localData.classificationCodes[filters.commodity]+' in '+filters.year);
+              $('#choropleth .placeholder').html('Choropleth with value of '+filters.flow+' between '+localData.reporterAreas[filters.reporter].name+' and each other country for '+localData.classificationCodes[filters.commodity]+' in '+filters.year);
             }
           });
 
