@@ -20,6 +20,8 @@
     <script type="text/javascript" src="scripts/libs/bootstrap/dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="scripts/libs/select2/select2.min.js"></script>
     <script type="text/javascript" src="scripts/libs/d3/d3.min.js"></script>
+    <script type="text/javascript" src="scripts/libs/topojson/topojson.js"></script>
+    <script type="text/javascript" src="scripts/libs/d3-geo-projection/d3.geo.projection.min.js"></script>
     <script type="text/javascript" src="scripts/libs/crossfilter/crossfilter.min.js"></script>
     <script type="text/javascript" src="scripts/libs/dcjs/dc.min.js"></script>
 
@@ -73,19 +75,7 @@
       <!-- CHOROPLETH -->
       <div class="row clearfix">
         <div class="col-md-12 column">
-          <div id="choropleth" class="chart">
-            <p class="placeholder"></p>
-          </div>
-        </div>
-      </div>
-
-
-
-
-      <!-- CONTROLS -->
-      <div class="row clearfix">
-        <div class="col-md-4 column"></div>
-        <div class="col-md-4 column">
+          <div id="choropleth" class="chart"></div>
           <!-- Flow selection -->
           <div class="btn-group btn-group-justified" id="flowButtons" role="group" aria-label="Import/Balance/Export options">
             <div class="btn-group" role="group">
@@ -99,8 +89,12 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4 column"></div>
       </div>
+
+
+
+
+      <!-- CONTROLS -->
       <div class="row clearfix">
         <div class="col-md-4 column">
           <!-- Reporter selection -->
