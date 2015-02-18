@@ -47,7 +47,7 @@ define(['../data'], function(data) {
               $chart
                 .slideDown()
                 .children('.placeholder')
-                .html('Line chart with total import, export and balance values between 1993-2013 between '+localData.reporterAreas[filters.reporter].name+' and the rest of the world.');
+                .html('Line chart with total import, export and balance values between 1993-2013 between '+localData.reporterAreas.get(filters.reporter).text+' and the rest of the world.');
             });
             return;
           }
@@ -64,7 +64,7 @@ define(['../data'], function(data) {
               $chart
                 .slideDown()
                 .children('.placeholder')
-                .html('Line chart with total import, export and balance values between 1993-2013 between '+localData.reporterAreas[filters.reporter].name+' and '+localData.partnerAreas[filters.partner].name+'.');
+                .html('Line chart with total import, export and balance values between 1993-2013 between '+localData.reporterAreas.get(filters.reporter).text+' and '+localData.partnerAreas.get(filters.partner).text+'.');
             });
             return;
           }
@@ -81,7 +81,7 @@ define(['../data'], function(data) {
               $chart
                 .slideDown()
                 .children('.placeholder')
-                .html('Line chart with total import, export and balance values of '+localData.classificationCodes[filters.commodity]+' between 1993-2013 between '+localData.reporterAreas[filters.reporter].name+' and the rest of the world.');
+                .html('Line chart with total import, export and balance values of '+localData.classificationCodes.get(filters.commodity).text+' between 1993-2013 between '+localData.reporterAreas.get(filters.reporter).text+' and the rest of the world.');
             });
             return;
           }
@@ -98,7 +98,7 @@ define(['../data'], function(data) {
               $chart
                 .slideDown()
                 .children('.placeholder')
-                .html('Line chart with total import, export and balance values of '+localData.classificationCodes[filters.commodity]+' between 1993-2013 between '+localData.reporterAreas[filters.reporter].name+' and '+localData.partnerAreas[filters.partner].name+'.');
+                .html('Line chart with total import, export and balance values of '+localData.classificationCodes.get(filters.commodity).text+' between 1993-2013 between '+localData.reporterAreas.get(filters.reporter).text+' and '+localData.partnerAreas.get(filters.partner).text+'.');
             });
             return;
           }

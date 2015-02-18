@@ -38,7 +38,8 @@ define(function(require) {
       reporterAreas: {},
       partnerAreas: {},
       classificationCodes: {},
-      isoCodes: {},
+      countryByUnNum: {},
+      countryByISONum: {},
 
       // Crossfilter data
       ndx: crossfilter(),
@@ -68,24 +69,17 @@ define(function(require) {
           data.reporterAreasSelect       = reporterAreas[0].results;
           data.partnerAreasSelect        = partnerAreas[0].results;
           data.classificationCodesSelect = classificationCodes[0].results;
-          d3.csv.parse(isoCodes[0]).forEach(function (d, i) {
-            data.isoCodes[d.code] = d.iso;
-          });
 
+          // Parse isoCodes csv
+          var codes = d3.csv.parse(isoCodes[0]);
 
-          reporterAreas[0].results.forEach(function (v) {
-            data.reporterAreas[v.id] = {};
-            data.reporterAreas[v.id].name = v.text;
-            data.reporterAreas[v.id].iso = data.isoCodes[v.id];
-          });
-          partnerAreas[0].results.forEach(function (v) {
-            data.partnerAreas[v.id] = {};
-            data.partnerAreas[v.id].name = v.text;
-            data.partnerAreas[v.id].iso = data.isoCodes[v.id];
-          });
-          classificationCodes[0].results.forEach(function (v) {
-            data.classificationCodes[v.id] = v.text;
-          });
+          // Create d3 maps (these are basically used as lookup tables thoughout the app)
+          data.countryByUnNum     = d3.map(codes,                           function (d) { return d.unCode; });
+          data.countryByISONum    = d3.map(codes,                           function (d) { return d.isoNumerical; });
+          data.reporterAreas      = d3.map(reporterAreas[0].results,        function (d) { return d.id; });
+          data.partnerAreas       = d3.map(partnerAreas[0].results,         function (d) { return d.id; });
+          data.classificationCodes= d3.map(classificationCodes[0].results,  function (d) { return d.id; });
+
           // Call the callback
           callback();
         }, function failure (err1, err2, err3, err4) {

@@ -46,7 +46,7 @@ define(['../data'], function(data) {
               $chart
                 .slideDown()
                 .children('.placeholder')
-                .html('Bar chart of top 20 import sources for '+localData.reporterAreas[filters.reporter].name+' in '+filters.year);
+                .html('Bar chart of top 20 import sources for '+localData.reporterAreas.get(filters.reporter).text+' in '+filters.year);
             });
             return;
           }
@@ -72,7 +72,7 @@ define(['../data'], function(data) {
               $chart
                 .slideDown()
                 .children('.placeholder')
-                .html('Bar chart of top 20 import sources of '+localData.classificationCodes[filters.commodity]+' for '+localData.reporterAreas[filters.reporter].name+' in '+filters.year);
+                .html('Bar chart of top 20 import sources of '+localData.classificationCodes.get(filters.commodity).text+' for '+localData.reporterAreas.get(filters.reporter).text+' in '+filters.year);
             });
             return;
           }

@@ -46,7 +46,7 @@ define(['../data'], function(data) {
               $chart
                 .slideDown()
                 .children('.placeholder')
-                .html('Bar chart with top 20 import commodities in '+filters.year+' for '+localData.reporterAreas[filters.reporter].name+' from rest of the world.');
+                .html('Bar chart with top 20 import commodities in '+filters.year+' for '+localData.reporterAreas.get(filters.reporter).text+' from rest of the world.');
             });
             return;
           }
@@ -63,7 +63,7 @@ define(['../data'], function(data) {
               $chart
                 .slideDown()
                 .children('.placeholder')
-                .html('Bar chart with top 20 import commodities in '+filters.year+' for '+localData.reporterAreas[filters.reporter].name+' from '+localData.partnerAreas[filters.partner].name+'.');
+                .html('Bar chart with top 20 import commodities in '+filters.year+' for '+localData.reporterAreas.get(filters.reporter).text+' from '+localData.partnerAreas.get(filters.partner).text+'.');
             });
             return;
           }
