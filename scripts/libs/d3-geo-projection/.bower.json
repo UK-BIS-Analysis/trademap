@@ -1,0 +1,32 @@
+{
+  "name": "d3-geo-projection",
+  "version": "0.2.13",
+  "main": "d3-geo-projection.js",
+  "scripts": [
+    "d3-geo-projection.js"
+  ],
+  "ignore": [
+    ".DS_Store",
+    ".git",
+    ".gitignore",
+    ".npmignore",
+    "Makefile",
+    "bin",
+    "index.js",
+    "node_modules",
+    "package.json",
+    "src",
+    "test"
+  ],
+  "homepage": "https://github.com/d3/d3-geo-projection",
+  "_release": "0.2.13",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.2.13",
+    "commit": "26b0147156534b3e09f402a2628d0fe209d33f8b"
+  },
+  "_source": "git://github.com/d3/d3-geo-projection.git",
+  "_target": "~0.2.13",
+  "_originalSource": "d3-geo-projection",
+  "_direct": true
+}

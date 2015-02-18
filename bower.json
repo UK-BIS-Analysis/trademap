@@ -23,6 +23,12 @@
     "modernizr": "~2.8.3",
     "select2": "~3.5.2",
     "requirejs": "~2.1.15",
-    "svg-loaders": "~1.0.2"
+    "svg-loaders": "~1.0.2",
+    "topojson": "~1.6.18",
+    "d3-tip": "~0.6.6",
+    "d3-geo-projection": "~0.2.13"
+  },
+  "resolutions": {
+    "d3": "3.x"
   }
 }
