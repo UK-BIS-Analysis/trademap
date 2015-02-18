@@ -30,9 +30,15 @@ Direct link: http://comtrade.un.org/data/cache/partnerAreas.json
 ### classificationHS.json
 
 ### Country Code and Name ISO2 ISO3.xls
-This file contains the matching of the numerical id used by the UN and the three-letter ISO country code.
-A csv file (countries.csv) is exported from this spreadsheet and used in the visualization.
+This file contains the matching of the numerical id used by the UN ISO3166-alpha3 and -numeric.
+A csv file (isoCodes.csv) is exported from this spreadsheet and used in the visualization.
+
+**The UN data is sourced here:**
 
 Found on this page: http://unstats.un.org/unsd/tradekb/Knowledgebase/Comtrade-Country-Code-and-Name
 
 Direct link: http://unstats.un.org/unsd/tradekb/Attachment321.aspx
+
+** ISO Codes (country-codes.csv) are sourced here: **
+
+Link: http://data.okfn.org/data/core/country-codes

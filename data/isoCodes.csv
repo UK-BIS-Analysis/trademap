@@ -1,289 +1,289 @@
-"code","iso"
-"4","AFG"
-"472","NULL"
-"8","ALB"
-"12","DZA"
-"16","ASM"
-"20","AND"
-"24","AGO"
-"660","AIA"
-"10","ANT"
-"28","ATG"
-"899","NULL"
-"32","ARG"
-"51","ARM"
-"533","ARB"
-"36","AUS"
-"40","AUT"
-"31","AZE"
-"44","BHS"
-"48","BHR"
-"50","BGD"
-"52","BRB"
-"112","BLR"
-"56","BEL"
-"58","BEL"
-"84","BLZ"
-"204","BEN"
-"60","BMU"
-"64","BTN"
-"68","BOL"
-"70","BIH"
-"72","BWA"
-"74","BVT"
-"80","NULL"
-"86","IOT"
-"92","VGB"
-"76","BRA"
-"96","BRN"
-"100","BGR"
-"837","NULL"
-"854","BFA"
-"108","BDI"
-"471","NULL"
-"116","KHM"
-"120","CMR"
-"124","CAN"
-"132","CPV"
-"129","NULL"
-"136","CYM"
-"140","CAF"
-"148","TCD"
-"152","CHL"
-"156","CHN"
-"344","HKG"
-"446","MAC"
-"162","CXR"
-"166","CCK"
-"170","COL"
-"174","COM"
-"178","COG"
-"184","COK"
-"188","CRI"
-"384","CIV"
-"191","HRV"
-"192","CUB"
-"196","CYP"
-"203","CZE"
-"200","CSK"
-"408","PRK"
-"180","COD"
-"208","DNK"
-"262","DJI"
-"212","DMA"
-"214","DOM"
-"588","PAK"
-"221","NULL"
-"218","ECU"
-"818","EGY"
-"222","SLV"
-"226","GNQ"
-"232","ERI"
-"233","EST"
-"231","ETH"
-"97","EU2"
-"697","NULL"
-"492","NULL"
-"234","FRO"
-"238","FLK"
-"242","FJI"
-"246","FIN"
-"886","YEM"
-"278","DDR"
-"866","VDR"
-"720","YMD"
-"230","ETH"
-"280","DEU"
-"582","PCI"
-"590","PAN"
-"592","PCZ"
-"868","VNM"
-"717","NULL"
-"835","NULL"
-"810","SUN"
-"890","YUG"
-"836","NULL"
-"260","ATF"
-"251","FRA"
-"838","NULL"
-"254","GUF"
-"258","PYF"
-"583","FSM"
-"266","GAB"
-"270","GMB"
-"268","GEO"
-"276","DEU"
-"288","GHA"
-"292","GIB"
-"300","GRC"
-"304","GRL"
-"308","GRD"
-"312","GLP"
-"316","GUM"
-"320","GTM"
-"324","GIN"
-"624","GNB"
-"328","GUY"
-"332","HTI"
-"334","HMD"
-"336","VAT"
-"340","HND"
-"348","HUN"
-"352","ISL"
-"699","IND"
-"356","IND"
-"360","IDN"
-"364","IRN"
-"368","IRQ"
-"372","IRL"
-"376","ISR"
-"381","ITA"
-"388","JAM"
-"392","JPN"
-"400","JOR"
-"398","KAZ"
-"404","KEN"
-"296","KIR"
-"414","KWT"
-"417","KGZ"
-"473","NULL"
-"418","LAO"
-"428","LVA"
-"422","LBN"
-"426","LSO"
-"430","LBR"
-"434","LBY"
-"440","LTU"
-"442","LUX"
-"450","MDG"
-"454","MWI"
-"458","MYS"
-"462","MDV"
-"466","MLI"
-"470","MLT"
-"584","MHL"
-"474","MTQ"
-"478","MRT"
-"480","MUS"
-"175","MYT"
-"484","MEX"
-"496","MNG"
-"499","MNE"
-"500","MSR"
-"504","MAR"
-"508","MOZ"
-"104","MMR"
-"580","MNP"
-"516","NAM"
-"520","NRU"
-"524","NPL"
-"530","ANT"
-"532","ANT"
-"528","NLD"
-"536","NULL"
-"540","NCL"
-"554","NZL"
-"558","NIC"
-"562","NER"
-"566","NGA"
-"570","NIU"
-"574","NFK"
-"637","NULL"
-"290","NULL"
-"579","NOR"
-"275","PSE"
-"527","NULL"
-"512","OMN"
-"577","NULL"
-"490","NULL"
-"568","NULL"
-"586","PAK"
-"585","PLW"
-"591","PAN"
-"598","PNG"
-"600","PRY"
-"459","NULL"
-"604","PER"
-"608","PHL"
-"612","PCN"
-"616","POL"
-"620","PRT"
-"634","QAT"
-"410","KOR"
-"498","MDA"
-"636","NULL"
-"638","REU"
-"642","ROM"
-"643","RUS"
-"646","RWA"
-"647","NULL"
-"461","NULL"
-"654","SHN"
-"659","KNA"
-"658","KNA"
-"662","LCA"
-"666","SPM"
-"670","VCT"
-"882","WSM"
-"674","SMR"
-"678","STP"
-"457","NULL"
-"682","SAU"
-"686","SEN"
-"688","SRB"
-"891","SCG"
-"690","SYC"
-"694","SLE"
-"698","NULL"
-"702","SGP"
-"703","SVK"
-"705","SVN"
-"711","ZAF"
-"90","SLB"
-"706","SOM"
-"710","ZAF"
-"239","SGS"
-"724","ESP"
-"839","NULL"
-"144","LKA"
-"736","SDN"
-"740","SUR"
-"748","SWZ"
-"752","SWE"
-"757","CHE"
-"760","SYR"
-"762","TJK"
-"807","MKD"
-"764","THA"
-"626","TMP"
-"768","TGO"
-"772","TKL"
-"776","TON"
-"780","TTO"
-"788","TUN"
-"792","TUR"
-"795","TKM"
-"796","TCA"
-"798","TUV"
-"800","UGA"
-"804","UKR"
-"784","ARE"
-"826","GBR"
-"834","TZA"
-"581","UMI"
-"858","URY"
-"849","NULL"
-"850","VIR"
-"842","USA"
-"841","USA"
-"860","UZB"
-"548","VUT"
-"862","VEN"
-"704","VNM"
-"876","WLF"
-"879","NULL"
-"732","ESH"
-"0","WLD"
-"887","YEM"
-"894","ZMB"
-"716","ZWE"
+"unCode","name","iso2letter","iso3letter","isoNumerical","Notes"
+0,"World","WL","WLD","NULL",
+4,"Afghanistan","AF","AFG",4,
+8,"Albania","AL","ALB",8,
+10,"Antarctica","NULL","ANT",10,
+12,"Algeria","DZ","DZA",12,
+16,"American Samoa","NULL","ASM",16,
+20,"Andorra","AD","AND",20,
+24,"Angola","AO","AGO",24,
+28,"Antigua and Barbuda","AG","ATG",28,
+31,"Azerbaijan","AZ","AZE",31,
+32,"Argentina","AR","ARG",32,
+36,"Australia","AU","AUS",36,
+40,"Austria","AT","AUT",40,
+44,"Bahamas","BS","BHS",44,
+48,"Bahrain","BH","BHR",48,
+50,"Bangladesh","BD","BGD",50,
+51,"Armenia","AM","ARM",51,
+52,"Barbados","BB","BRB",52,
+56,"Belgium","BE","BEL",56,
+58,"Belgium-Luxembourg","BE","BEL",56,"Different"
+60,"Bermuda","BM","BMU",60,
+64,"Bhutan","BT","BTN",64,
+68,"Bolivia","BO","BOL",68,
+70,"Bosnia Herzegovina","BA","BIH",70,
+72,"Botswana","BW","BWA",72,
+74,"Ile Bouvet  ","NULL","BVT",74,
+76,"Brazil","BR","BRA",76,
+80,"British Antarctic Territories","NULL","NULL","NULL",
+84,"Belize","BZ","BLZ",84,
+86,"British Indian Ocean Territories","IO","IOT",86,
+90,"Solomon Islands","SB","SLB",90,
+92,"British Virgin Islands","VG","VGB",92,
+96,"Brunei Darussalam","BN","BRN",96,
+97,"EU-27","EU","EU2","NULL",
+100,"Bulgaria","BG","BGR",100,
+104,"Myanmar","MM","MMR",104,
+108,"Burundi","BI","BDI",108,
+112,"Belarus","BY","BLR",112,
+116,"Cambodia","KH","KHM",116,
+120,"Cameroon","CM","CMR",120,
+124,"Canada","CA","CAN",124,
+129,"Caribbean, not elsewhere specified","NULL","NULL","NULL",
+132,"Cape Verde","CV","CPV",132,
+136,"Cayman Islands","KY","CYM",136,
+140,"Central African Republic","CF","CAF",140,
+144,"Sri Lanka","LK","LKA",144,
+148,"Chad","TD","TCD",148,
+152,"Chile","CL","CHL",152,
+156,"China","CN","CHN",156,
+162,"Christmas Islands","CX","CXR",162,
+166,"Cocos Islands","CC","CCK",166,
+170,"Colombia","CO","COL",170,
+174,"Comoros","KM","COM",174,
+175,"Mayotte","YT","MYT",175,
+178,"Congo","CG","COG",178,
+180,"Democratic Republic of the Congo","CD","COD",180,
+184,"Cook Islands","CK","COK",184,
+188,"Costa Rica","CR","CRI",188,
+191,"Croatia","HR","HRV",191,
+192,"Cuba","CU","CUB",192,
+196,"Cyprus","CY","CYP",196,
+200,"Czechoslovakia","CS","CSK","NULL",
+203,"Czech Republic","CZ","CZE",203,
+204,"Benin","BJ","BEN",204,
+208,"Denmark","DK","DNK",208,
+212,"Dominica","DM","DMA",212,
+214,"Dominican Republic","DO","DOM",214,
+218,"Ecuador","EC","ECU",218,
+221,"Eastern Europe, not elsewhere specified","NULL","NULL","NULL",
+222,"El Salvador","SV","SLV",222,
+226,"Equatorial Guinea","GQ","GNQ",226,
+230,"Former Ethiopia","ET","ETH",231,"Different"
+231,"Ethiopia","ET","ETH",231,
+232,"Eritrea","ER","ERI",232,
+233,"Estonia","EE","EST",233,
+234,"Faeroe Islands","FO","FRO",234,
+238,"Falkland Islands (Malvinas)","FK","FLK",238,
+239,"South Georgia and the South Sandwich Islands","NULL","SGS",239,
+242,"Fiji","FJ","FJI",242,
+246,"Finland","FI","FIN",246,
+251,"France, Monaco","FR","FRA",250,"Different"
+254,"French Guiana","GF","GUF",254,
+258,"French Polynesia","PF","PYF",258,
+260,"French South Antarctic Territories","FQ","ATF",260,
+262,"Djibouti","DJ","DJI",262,
+266,"Gabon","GA","GAB",266,
+268,"Georgia","GE","GEO",268,
+270,"Gambia","GM","GMB",270,
+275,"Occupied Palestinian Territory","PS","PSE",275,
+276,"Germany","DE","DEU",276,
+278,"Former Democratic Republic of Germany","DD","DDR","NULL",
+280,"Former Federal Republic of Germany","DE","DEU",276,"Different"
+288,"Ghana","GH","GHA",288,
+290,"Northern Africa, not elsewhere specified","NULL","NULL","NULL",
+292,"Gibraltar","GI","GIB",292,
+296,"Kiribati","KI","KIR",296,
+300,"Greece","GR","GRC",300,
+304,"Greenland","GL","GRL",304,
+308,"Grenada","GD","GRD",308,
+312,"Guadeloupe","GP","GLP",312,
+316,"Guam","NULL","GUM",316,
+320,"Guatemala","GT","GTM",320,
+324,"Guinea","GN","GIN",324,
+328,"Guyana","GY","GUY",328,
+332,"Haiti","HT","HTI",332,
+334,"Heard Island and McDonald Islands","NULL","HMD",334,
+336,"Holy See (Vatican City State)","VA","VAT",336,
+340,"Honduras","HN","HND",340,
+344,"China, Hong Kong Special Administrative Region","HK","HKG",344,
+348,"Hungary","HU","HUN",348,
+352,"Iceland","IS","ISL",352,
+356,"India, excluding Sikkim","IN","IND",356,
+360,"Indonesia","ID","IDN",360,
+364,"Iran","IR","IRN",364,
+368,"Iraq","IQ","IRQ",368,
+372,"Ireland","IE","IRL",372,
+376,"Israel","IL","ISR",376,
+381,"Italy","IT","ITA",380,"Different"
+384,"Côte d'Ivoire","CI","CIV",384,
+388,"Jamaica","JM","JAM",388,
+392,"Japan","JP","JPN",392,
+398,"Kazakhstan","KZ","KAZ",398,
+400,"Jordan","JO","JOR",400,
+404,"Kenya","KE","KEN",404,
+408,"Democratic People's Republic of Korea","KP","PRK",408,
+410,"Republic of Korea","KR","KOR",410,
+414,"Kuwait","KW","KWT",414,
+417,"Kyrgyzstan","KG","KGZ",417,
+418,"Lao People's Dem. Rep.","LA","LAO",418,
+422,"Lebanon","LB","LBN",422,
+426,"Lesotho","LS","LSO",426,
+428,"Latvia","LV","LVA",428,
+430,"Liberia","LR","LBR",430,
+434,"Libya","LY","LBY",434,
+440,"Lithuania","LT","LTU",440,
+442,"Luxembourg","LU","LUX",442,
+446,"China, Macao Special Administrative Region","MO","MAC",446,
+450,"Madagascar","MG","MDG",450,
+454,"Malawi","MW","MWI",454,
+457,"Sarawak","NULL","NULL","NULL",
+458,"Malaysia","MY","MYS",458,
+459,"Peninsula Malaysia","NULL","NULL","NULL",
+461,"Sabah","NULL","NULL","NULL",
+462,"Maldives","MV","MDV",462,
+466,"Mali","ML","MLI",466,
+470,"Malta","MT","MLT",470,
+471,"CACM, not elsewhere specified","NULL","NULL","NULL",
+472,"Africa CAMEU region, not elsewhere specified","NULL","NULL","NULL",
+473,"LAIA, not elsewhere specified","NULL","NULL","NULL",
+474,"Martinique","MQ","MTQ",474,
+478,"Mauritania","MR","MRT",478,
+480,"Mauritius","MU","MUS",480,
+484,"Mexico","MX","MEX",484,
+490,"Other Asia, not elsewhere specified","NULL","NULL","NULL",
+492,"Europe EU, not elsewhere specified","NULL","NULL",492,
+496,"Mongolia","MN","MNG",496,
+498,"Republic of Moldova","MD","MDA",498,
+499,"Montenegro","ME","MNE",499,
+500,"Montserrat","MS","MSR",500,
+504,"Morocco","MA","MAR",504,
+508,"Mozambique","MZ","MOZ",508,
+512,"Oman","OM","OMN",512,
+516,"Namibia","NA","NAM",516,
+520,"Nauru","NR","NRU",520,
+524,"Nepal","NP","NPL",524,
+527,"Oceania, not elsewhere specified","NULL","NULL","NULL",
+528,"Netherlands","NL","NLD",528,
+530,"Netherlands Antilles","AN","ANT","NULL",
+532,"Netherlands Antilles and Aruba","AN","ANT","NULL",
+533,"Aruba","AB","ARB",533,
+536,"Neutral Zone","NULL","NULL","NULL",
+540,"New Caledonia","NC","NCL",540,
+548,"Vanuatu","VU","VUT",548,
+554,"New Zealand","NZ","NZL",554,
+558,"Nicaragua","NI","NIC",558,
+562,"Niger","NE","NER",562,
+566,"Nigeria","NG","NGA",566,
+568,"Other Europe, not elsewhere specified","NULL","NULL","NULL",
+570,"Niue","NU","NIU",570,
+574,"Norfolk Islands","NF","NFK",574,
+577,"Other Africa, not elsewhere specified","NULL","NULL","NULL",
+579,"Norway, Svalbard and Jan Mayen","NO","NOR",578,"Different"
+580,"Northern Mariana Islands","MP","MNP",580,
+581,"United States Minor Outlying Islands","UM","UMI",581,
+582,"Former Pacific Islands","PC","PCI","NULL",
+583,"Federated State of Micronesia","FM","FSM",583,
+584,"Marshall Islands","MH","MHL",584,
+585,"Palau","PW","PLW",585,
+586,"Pakistan","PK","PAK",586,
+588,"East and West Pakistan","PK","PAK",586,"Different"
+590,"Former Panama, excluding Canal Zone","PA","PAN",591,"Different"
+591,"Panama","PA","PAN",591,
+592,"Former Panama-Canal-Zone","PZ","PCZ","NULL",
+598,"Papua New Guinea","PG","PNG",598,
+600,"Paraguay","PY","PRY",600,
+604,"Peru","PE","PER",604,
+608,"Philippines","PH","PHL",608,
+612,"Pitcairn","PN","PCN",612,
+616,"Poland","PL","POL",616,
+620,"Portugal","PT","PRT",620,
+624,"Guinea-Bissau","GW","GNB",624,
+626,"Timor-Leste","TP","TMP",626,
+634,"Qatar","QA","QAT",634,
+636,"Rest of America, not elsewhere specified","NULL","NULL","NULL",
+637,"North America, the Caribbean and Central America not elsewhere specified","NULL","NULL","NULL",
+638,"Réunion","RE","REU",638,
+642,"Romania","RO","ROM",642,
+643,"Russian Federation","RU","RUS",643,
+646,"Rwanda","RW","RWA",646,
+647,"Ryukyu Island","NULL","NULL","NULL",
+654,"Saint Helena","SH","SHN",654,
+658,"Saint Kitts, Nevis and Anguilla","KN","KNA",659,"Different"
+659,"Saint Kitts and Nevis","KN","KNA",659,
+660,"Anguilla","AI","AIA",660,
+662,"Saint Lucia","LC","LCA",662,
+666,"Saint Pierre and Miquelon","PM","SPM",666,
+670,"Saint Vincent and the Grenadines","VC","VCT",670,
+674,"San Marino","SM","SMR",674,
+678,"Sao Tome and Principe","ST","STP",678,
+682,"Saudi Arabia","SA","SAU",682,
+686,"Senegal","SN","SEN",686,
+688,"Serbia","RS","SRB",688,
+690,"Seychelles","SC","SYC",690,
+694,"Sierra Leone","SL","SLE",694,
+697,"Europe EFTA, not elsewhere specified","NULL","NULL","NULL",
+698,"Sikkim","NULL","NULL","NULL",
+699,"India","IN","IND",356,"Different"
+702,"Singapore","SG","SGP",702,
+703,"Slovakia","SK","SVK",703,
+704,"Viet Nam","VN","VNM",704,
+705,"Slovenia","SI","SVN",705,
+706,"Somalia","SO","SOM",706,
+710,"South Africa","ZA","ZAF",710,
+711,"Southern African Customs Union","ZA","ZAF","NULL","This is acutally south africa + botswana + lesotho + namibia + swaziland"
+716,"Zimbabwe","ZW","ZWE",716,
+717,"Former Rhodesia Nyas","NULL","NULL","NULL",
+720,"Former Democratic Yemen","YD","YMD",887,"Different"
+724,"Spain","ES","ESP",724,
+732,"Western Sahara","EH","ESH",732,
+736,"Sudan","SD","SDN",729,"Different"
+740,"Suriname","SR","SUR",740,
+748,"Swaziland","SZ","SWZ",748,
+752,"Sweden","SE","SWE",752,
+757,"Switzerland, Liechtenstein","CH","CHE",756,"Different"
+760,"Syria","SY","SYR",760,
+762,"Tajikistan","TJ","TJK",762,
+764,"Thailand","TH","THA",764,
+768,"Togo","TG","TGO",768,
+772,"Tokelau","TK","TKL",772,
+776,"Tonga","TO","TON",776,
+780,"Trinidad and Tobago","TT","TTO",780,
+784,"United Arab Emirates","AE","ARE",784,
+788,"Tunisia","TN","TUN",788,
+792,"Turkey","TR","TUR",792,
+795,"Turkmenistan","TM","TKM",795,
+796,"Turks and Caicos Islands","TC","TCA",796,
+798,"Tuvalu","TV","TUV",798,
+800,"Uganda","UG","UGA",800,
+804,"Ukraine","UA","UKR",804,
+807,"The Former Yugoslav Republic of Macedonia","MK","MKD",807,
+810,"Former USSR","SU","SUN","NULL","Perhaps select sub-republics?"
+818,"Egypt","EG","EGY",818,
+826,"United Kingdom","GB","GBR",826,
+834,"United Republic of Tanzania","TZ","TZA",834,
+835,"Former Tanganyika","NULL","NULL","NULL",
+836,"Former Zanzibar and Pemba Island","NULL","NULL","NULL",
+837,"Bunkers","NULL","NULL","NULL",
+838,"Free Zones","NULL","NULL","NULL",
+839,"Special Categories","NULL","NULL","NULL",
+841,"USA and Puerto Rico","US","USA",840,"Different"
+842,"USA, Puerto Rico and US Virgin Islands","US","USA",840,"Different"
+849,"US Miscellaneous Pacific Islands","NULL","NULL","NULL",
+850,"US Virgin Islands","VI","VIR",850,
+854,"Burkina Faso","BF","BFA",854,
+858,"Uruguay","UY","URY",858,
+860,"Uzbekistan","UZ","UZB",860,
+862,"Venezuela","VE","VEN",862,
+866,"Former Democratic Republic of Vietnam","VD","VDR",704,"Different"
+868,"Former Republic of Vietnam","VN","VNM",704,"Different"
+876,"Wallis and Futuna Islands","WF","WLF",876,
+879,"Western Asia, not elsewhere specified","NULL","NULL","NULL",
+882,"Samoa","WS","WSM",882,
+886,"Former Arab Republic of Yemen","YE","YEM",887,"Different"
+887,"Yemen","YE","YEM",887,
+890,"Former Yugoslavia","YU","YUG","NULL",
+891,"Serbia and Montenegro","CS","SCG","NULL",
+894,"Zambia","ZM","ZMB",894,
+899,"Areas, not elsewhere specified","NULL","NULL","NULL",
