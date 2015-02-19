@@ -38,10 +38,10 @@ define(['../data'], function(data) {
           // CASE 2: reporter = selected    commodity = null        partner = null
           if(filters.reporter && !filters.commodity && !filters.partner) {
             data.query({
-              reporter: filters.reporter,
+              reporter: +filters.reporter,
               period:   'all',
-              partner:  '0',
-              hsCode:   'TOTAL'
+              partner:  0,
+              commodity:   'TOTAL'
             }, function queryCallback (err, data) {
               // TODO: do something here
               $chart
@@ -55,10 +55,10 @@ define(['../data'], function(data) {
           // CASE 3: reporter = selected    commodity = null        partner = selected
           if(filters.reporter && !filters.commodity && filters.partner) {
             data.query({
-              reporter: filters.reporter,
+              reporter: +filters.reporter,
               period:   'all',
-              partner:  filters.partner,
-              hsCode:   'AG2'
+              partner:  +filters.partner,
+              commodity:   'AG2'
             }, function queryCallback (err, data) {
               // TODO: do something here
               $chart
@@ -72,34 +72,34 @@ define(['../data'], function(data) {
           // CASE 4: reporter = selected    commodity = selected    partner = null
           if(filters.reporter && filters.commodity && !filters.partner) {
             data.query({
-              reporter: filters.reporter,
+              reporter: +filters.reporter,
               period:   'all',
-              partner:  '0',
-              hsCode:   filters.commodity
+              partner:  0,
+              commodity:   filters.commodity
             }, function queryCallback (err, data) {
               // TODO: do something here
               $chart
                 .slideDown()
                 .children('.placeholder')
-                .html('Line chart with total import, export and balance values of '+localData.classificationCodes.get(filters.commodity).text+' between 1993-2013 between '+localData.reporterAreas.get(filters.reporter).text+' and the rest of the world.');
+                .html('Line chart with total import, export and balance values of '+localData.commodityCodes.get(filters.commodity).text+' between 1993-2013 between '+localData.reporterAreas.get(filters.reporter).text+' and the rest of the world.');
             });
             return;
           }
 
           // CASE 5: reporter = selected    commodity = selected    partner = selected
-          // This is already covered by the data in CASE 3 so we don't specify the hsCode in the query to avoid duplicate data
+          // This is already covered by the data in CASE 3 so we don't specify the commodity in the query to avoid duplicate data
           if(filters.reporter && filters.commodity && filters.partner) {
             data.query({
-              reporter: filters.reporter,
+              reporter: +filters.reporter,
               period:   'all',
-              partner:  filters.partner,
-              hsCode:   'AG2'
+              partner:  +filters.partner,
+              commodity:   'AG2'
             }, function queryCallback (err, data) {
               // TODO: do something here
               $chart
                 .slideDown()
                 .children('.placeholder')
-                .html('Line chart with total import, export and balance values of '+localData.classificationCodes.get(filters.commodity).text+' between 1993-2013 between '+localData.reporterAreas.get(filters.reporter).text+' and '+localData.partnerAreas.get(filters.partner).text+'.');
+                .html('Line chart with total import, export and balance values of '+localData.commodityCodes.get(filters.commodity).text+' between 1993-2013 between '+localData.reporterAreas.get(filters.reporter).text+' and '+localData.partnerAreas.get(filters.partner).text+'.');
             });
             return;
           }

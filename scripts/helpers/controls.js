@@ -52,7 +52,7 @@ define(['./data'], function(data) {
         .select2({
           placeholder: "Select a commodity",
           allowClear: true,
-          data: data.classificationCodesSelect
+          data: data.commodityCodesSelect
         })
         .on('change', controls.onFilterChange)
         .select2('disable');

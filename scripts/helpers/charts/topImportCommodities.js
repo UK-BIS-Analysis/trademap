@@ -40,7 +40,7 @@ define(['../data'], function(data) {
               reporter: filters.reporter,
               partner:  'all',
               period:   filters.year,
-              hsCode:   'AG2'
+              commodity:   'AG2'
             }, function queryCallback (err, data) {
               // TODO: do something here
               $chart
@@ -57,7 +57,7 @@ define(['../data'], function(data) {
               reporter: filters.reporter,
               period:   'all',
               partner:  filters.partner,
-              hsCode:   'AG2'
+              commodity:   'AG2'
             }, function queryCallback (err, data) {
               // TODO: do something here
               $chart
