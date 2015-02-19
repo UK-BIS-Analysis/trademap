@@ -87,12 +87,13 @@ define(['../data'], function(data) {
           }
 
           // CASE 5: reporter = selected    commodity = selected    partner = selected
+          // This is already covered by the data in CASE 3 so we don't specify the hsCode in the query to avoid duplicate data
           if(filters.reporter && filters.commodity && filters.partner) {
             data.query({
               reporter: filters.reporter,
               period:   'all',
               partner:  filters.partner,
-              hsCode:   filters.commodity
+              hsCode:   'AG2'
             }, function queryCallback (err, data) {
               // TODO: do something here
               $chart
