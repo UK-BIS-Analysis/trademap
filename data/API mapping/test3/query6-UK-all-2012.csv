@@ -1,0 +1,241 @@
+Classification,Year,Period,Period Desc.,Aggregate Level,Is Leaf Code,Trade Flow Code,Trade Flow,Reporter Code,Reporter,Reporter ISO,Partner Code,Partner,Partner ISO,Commodity Code,Commodity,Qty Unit Code,Qty Unit,Qty,Netweight (kg),Trade Value (US$),Flag
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,0,World,WLD,72,Iron and steel,1,No Quantity,,,7530362198,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,0,World,WLD,72,Iron and steel,1,No Quantity,,,9771624118,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,4,Afghanistan,AFG,72,Iron and steel,1,No Quantity,,,491830,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,8,Albania,ALB,72,Iron and steel,1,No Quantity,,,448354,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,8,Albania,ALB,72,Iron and steel,1,No Quantity,,,69835,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,12,Algeria,DZA,72,Iron and steel,1,No Quantity,,,39636418,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,24,Angola,AGO,72,Iron and steel,1,No Quantity,,,1395300,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,28,Antigua and Barbuda,ATG,72,Iron and steel,1,No Quantity,,,8295,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,31,Azerbaijan,AZE,72,Iron and steel,1,No Quantity,,,1558578,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,32,Argentina,ARG,72,Iron and steel,1,No Quantity,,,170336,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,32,Argentina,ARG,72,Iron and steel,1,No Quantity,,,2698700,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,36,Australia,AUS,72,Iron and steel,1,No Quantity,,,7653786,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,36,Australia,AUS,72,Iron and steel,1,No Quantity,,,18109895,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,40,Austria,AUT,72,Iron and steel,1,No Quantity,,,197739749,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,40,Austria,AUT,72,Iron and steel,1,No Quantity,,,50847620,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,48,Bahrain,BHR,72,Iron and steel,1,No Quantity,,,1861603,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,48,Bahrain,BHR,72,Iron and steel,1,No Quantity,,,3270401,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,50,Bangladesh,BGD,72,Iron and steel,1,No Quantity,,,23216529,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,51,Armenia,ARM,72,Iron and steel,1,No Quantity,,,9784,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,52,Barbados,BRB,72,Iron and steel,1,No Quantity,,,975447,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,56,Belgium,BEL,72,Iron and steel,1,No Quantity,,,689110850,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,56,Belgium,BEL,72,Iron and steel,1,No Quantity,,,334519266,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,60,Bermuda,BMU,72,Iron and steel,1,No Quantity,,,182238,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,64,Bhutan,BTN,72,Iron and steel,1,No Quantity,,,151759,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,68,Bolivia (Plurinational State of),BOL,72,Iron and steel,1,No Quantity,,,3272,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,70,Bosnia Herzegovina,BIH,72,Iron and steel,1,No Quantity,,,219613,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,72,Botswana,BWA,72,Iron and steel,1,No Quantity,,,4030,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,76,Brazil,BRA,72,Iron and steel,1,No Quantity,,,74633560,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,76,Brazil,BRA,72,Iron and steel,1,No Quantity,,,70520950,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,96,Brunei Darussalam,BRN,72,Iron and steel,1,No Quantity,,,5648,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,100,Bulgaria,BGR,72,Iron and steel,1,No Quantity,,,5851386,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,100,Bulgaria,BGR,72,Iron and steel,1,No Quantity,,,6111657,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,112,Belarus,BLR,72,Iron and steel,1,No Quantity,,,18680698,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,112,Belarus,BLR,72,Iron and steel,1,No Quantity,,,1206400,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,120,Cameroon,CMR,72,Iron and steel,1,No Quantity,,,314092,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,124,Canada,CAN,72,Iron and steel,1,No Quantity,,,9164269,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,124,Canada,CAN,72,Iron and steel,1,No Quantity,,,130557710,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,136,Cayman Isds,CYM,72,Iron and steel,1,No Quantity,,,35853,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,144,Sri Lanka,LKA,72,Iron and steel,1,No Quantity,,,2647913,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,152,Chile,CHL,72,Iron and steel,1,No Quantity,,,7471530,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,152,Chile,CHL,72,Iron and steel,1,No Quantity,,,2827944,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,156,China,CHN,72,Iron and steel,1,No Quantity,,,277092545,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,156,China,CHN,72,Iron and steel,1,No Quantity,,,280672724,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,170,Colombia,COL,72,Iron and steel,1,No Quantity,,,4905003,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,178,Congo,COG,72,Iron and steel,1,No Quantity,,,19425,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,178,Congo,COG,72,Iron and steel,1,No Quantity,,,178119,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,191,Croatia,HRV,72,Iron and steel,1,No Quantity,,,7658335,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,192,Cuba,CUB,72,Iron and steel,1,No Quantity,,,1246296,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,196,Cyprus,CYP,72,Iron and steel,1,No Quantity,,,7504511,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,196,Cyprus,CYP,72,Iron and steel,1,No Quantity,,,309221,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,203,Czech Rep.,CZE,72,Iron and steel,1,No Quantity,,,111923858,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,203,Czech Rep.,CZE,72,Iron and steel,1,No Quantity,,,59415683,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,208,Denmark,DNK,72,Iron and steel,1,No Quantity,,,26173051,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,208,Denmark,DNK,72,Iron and steel,1,No Quantity,,,60952270,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,214,Dominican Rep.,DOM,72,Iron and steel,1,No Quantity,,,2892226,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,218,Ecuador,ECU,72,Iron and steel,1,No Quantity,,,4187,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,218,Ecuador,ECU,72,Iron and steel,1,No Quantity,,,191977,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,222,El Salvador,SLV,72,Iron and steel,1,No Quantity,,,710696,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,222,El Salvador,SLV,72,Iron and steel,1,No Quantity,,,86244,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,226,Equatorial Guinea,GNQ,72,Iron and steel,1,No Quantity,,,90821,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,231,Ethiopia,ETH,72,Iron and steel,1,No Quantity,,,171297,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,233,Estonia,EST,72,Iron and steel,1,No Quantity,,,2275924,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,233,Estonia,EST,72,Iron and steel,1,No Quantity,,,1752671,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,234,Faeroe Isds,FRO,72,Iron and steel,1,No Quantity,,,145757,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,238,Falkland Isds (Malvinas),FLK,72,Iron and steel,1,No Quantity,,,3171,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,238,Falkland Isds (Malvinas),FLK,72,Iron and steel,1,No Quantity,,,204081,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,246,Finland,FIN,72,Iron and steel,1,No Quantity,,,211050011,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,246,Finland,FIN,72,Iron and steel,1,No Quantity,,,97645127,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,251,France,FRA,72,Iron and steel,1,No Quantity,,,575031065,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,251,France,FRA,72,Iron and steel,1,No Quantity,,,765299089,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,266,Gabon,GAB,72,Iron and steel,1,No Quantity,,,166362,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,268,Georgia,GEO,72,Iron and steel,1,No Quantity,,,1322526,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,268,Georgia,GEO,72,Iron and steel,1,No Quantity,,,137902,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,276,Germany,DEU,72,Iron and steel,1,No Quantity,,,1165854248,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,276,Germany,DEU,72,Iron and steel,1,No Quantity,,,865277419,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,288,Ghana,GHA,72,Iron and steel,1,No Quantity,,,6211512,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,292,Gibraltar,GIB,72,Iron and steel,1,No Quantity,,,53523,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,300,Greece,GRC,72,Iron and steel,1,No Quantity,,,11667366,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,300,Greece,GRC,72,Iron and steel,1,No Quantity,,,12430810,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,304,Greenland,GRL,72,Iron and steel,1,No Quantity,,,38849,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,308,Grenada,GRD,72,Iron and steel,1,No Quantity,,,122954,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,320,Guatemala,GTM,72,Iron and steel,1,No Quantity,,,150645,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,324,Guinea,GIN,72,Iron and steel,1,No Quantity,,,334910,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,328,Guyana,GUY,72,Iron and steel,1,No Quantity,,,75489,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,328,Guyana,GUY,72,Iron and steel,1,No Quantity,,,18743,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,332,Haiti,HTI,72,Iron and steel,1,No Quantity,,,2045,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,340,Honduras,HND,72,Iron and steel,1,No Quantity,,,7041,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,344,"China, Hong Kong SAR",HKG,72,Iron and steel,1,No Quantity,,,810171,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,344,"China, Hong Kong SAR",HKG,72,Iron and steel,1,No Quantity,,,34801671,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,348,Hungary,HUN,72,Iron and steel,1,No Quantity,,,10942983,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,348,Hungary,HUN,72,Iron and steel,1,No Quantity,,,17881175,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,352,Iceland,ISL,72,Iron and steel,1,No Quantity,,,20924800,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,352,Iceland,ISL,72,Iron and steel,1,No Quantity,,,2224994,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,360,Indonesia,IDN,72,Iron and steel,1,No Quantity,,,24629267,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,360,Indonesia,IDN,72,Iron and steel,1,No Quantity,,,46887216,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,364,Iran,IRN,72,Iron and steel,1,No Quantity,,,6365204,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,364,Iran,IRN,72,Iron and steel,1,No Quantity,,,11884,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,368,Iraq,IRQ,72,Iron and steel,1,No Quantity,,,1320006,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,372,Ireland,IRL,72,Iron and steel,1,No Quantity,,,105819340,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,372,Ireland,IRL,72,Iron and steel,1,No Quantity,,,343929353,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,376,Israel,ISR,72,Iron and steel,1,No Quantity,,,10893999,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,376,Israel,ISR,72,Iron and steel,1,No Quantity,,,11545500,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,381,Italy,ITA,72,Iron and steel,1,No Quantity,,,537247234,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,381,Italy,ITA,72,Iron and steel,1,No Quantity,,,236374679,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,384,Côte d'Ivoire,CIV,72,Iron and steel,1,No Quantity,,,1097331,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,388,Jamaica,JAM,72,Iron and steel,1,No Quantity,,,44935,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,392,Japan,JPN,72,Iron and steel,1,No Quantity,,,22146819,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,392,Japan,JPN,72,Iron and steel,1,No Quantity,,,34157726,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,398,Kazakhstan,KAZ,72,Iron and steel,1,No Quantity,,,34467101,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,398,Kazakhstan,KAZ,72,Iron and steel,1,No Quantity,,,1567471,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,400,Jordan,JOR,72,Iron and steel,1,No Quantity,,,301081,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,400,Jordan,JOR,72,Iron and steel,1,No Quantity,,,502425,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,404,Kenya,KEN,72,Iron and steel,1,No Quantity,,,535232,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,408,Dem. People's Rep. of Korea,PRK,72,Iron and steel,1,No Quantity,,,19162,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,410,Rep. of Korea,KOR,72,Iron and steel,1,No Quantity,,,90660045,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,410,Rep. of Korea,KOR,72,Iron and steel,1,No Quantity,,,98424880,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,414,Kuwait,KWT,72,Iron and steel,1,No Quantity,,,7629,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,414,Kuwait,KWT,72,Iron and steel,1,No Quantity,,,2531127,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,422,Lebanon,LBN,72,Iron and steel,1,No Quantity,,,840428,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,422,Lebanon,LBN,72,Iron and steel,1,No Quantity,,,835754,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,428,Latvia,LVA,72,Iron and steel,1,No Quantity,,,31275695,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,428,Latvia,LVA,72,Iron and steel,1,No Quantity,,,3343212,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,430,Liberia,LBR,72,Iron and steel,1,No Quantity,,,106756,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,430,Liberia,LBR,72,Iron and steel,1,No Quantity,,,219282,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,434,Libya,LBY,72,Iron and steel,1,No Quantity,,,8634977,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,440,Lithuania,LTU,72,Iron and steel,1,No Quantity,,,1708725,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,440,Lithuania,LTU,72,Iron and steel,1,No Quantity,,,3486276,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,442,Luxembourg,LUX,72,Iron and steel,1,No Quantity,,,75323805,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,442,Luxembourg,LUX,72,Iron and steel,1,No Quantity,,,1744100,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,446,"China, Macao SAR",MAC,72,Iron and steel,1,No Quantity,,,47804,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,450,Madagascar,MDG,72,Iron and steel,1,No Quantity,,,118614,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,454,Malawi,MWI,72,Iron and steel,1,No Quantity,,,1855,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,458,Malaysia,MYS,72,Iron and steel,1,No Quantity,,,1855737,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,458,Malaysia,MYS,72,Iron and steel,1,No Quantity,,,50795215,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,462,Maldives,MDV,72,Iron and steel,1,No Quantity,,,16817,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,466,Mali,MLI,72,Iron and steel,1,No Quantity,,,92996,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,470,Malta,MLT,72,Iron and steel,1,No Quantity,,,6372776,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,470,Malta,MLT,72,Iron and steel,1,No Quantity,,,1712243,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,478,Mauritania,MRT,72,Iron and steel,1,No Quantity,,,27934,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,480,Mauritius,MUS,72,Iron and steel,1,No Quantity,,,35722,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,484,Mexico,MEX,72,Iron and steel,1,No Quantity,,,3361497,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,484,Mexico,MEX,72,Iron and steel,1,No Quantity,,,23312040,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,490,"Other Asia, nes",,72,Iron and steel,1,No Quantity,,,87045593,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,490,"Other Asia, nes",,72,Iron and steel,1,No Quantity,,,104226254,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,499,Montenegro,MNE,72,Iron and steel,1,No Quantity,,,620777,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,499,Montenegro,MNE,72,Iron and steel,1,No Quantity,,,495717,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,504,Morocco,MAR,72,Iron and steel,1,No Quantity,,,3354117,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,504,Morocco,MAR,72,Iron and steel,1,No Quantity,,,83144134,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,512,Oman,OMN,72,Iron and steel,1,No Quantity,,,10451907,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,516,Namibia,NAM,72,Iron and steel,1,No Quantity,,,3197781,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,528,Netherlands,NLD,72,Iron and steel,1,No Quantity,,,711253622,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,528,Netherlands,NLD,72,Iron and steel,1,No Quantity,,,403912551,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,531,Curaçao,CUW,72,Iron and steel,1,No Quantity,,,57470,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,554,New Zealand,NZL,72,Iron and steel,1,No Quantity,,,134824,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,554,New Zealand,NZL,72,Iron and steel,1,No Quantity,,,3023478,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,566,Nigeria,NGA,72,Iron and steel,1,No Quantity,,,100447,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,566,Nigeria,NGA,72,Iron and steel,1,No Quantity,,,5357500,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,577,"Other Africa, nes",,72,Iron and steel,1,No Quantity,,,2551,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,579,Norway,NOR,72,Iron and steel,1,No Quantity,,,89468774,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,579,Norway,NOR,72,Iron and steel,1,No Quantity,,,60151415,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,586,Pakistan,PAK,72,Iron and steel,1,No Quantity,,,1649427,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,586,Pakistan,PAK,72,Iron and steel,1,No Quantity,,,124755505,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,591,Panama,PAN,72,Iron and steel,1,No Quantity,,,221821,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,598,Papua New Guinea,PNG,72,Iron and steel,1,No Quantity,,,48757,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,604,Peru,PER,72,Iron and steel,1,No Quantity,,,4413510,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,608,Philippines,PHL,72,Iron and steel,1,No Quantity,,,2289,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,608,Philippines,PHL,72,Iron and steel,1,No Quantity,,,2393376,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,616,Poland,POL,72,Iron and steel,1,No Quantity,,,50948885,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,616,Poland,POL,72,Iron and steel,1,No Quantity,,,94919322,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,620,Portugal,PRT,72,Iron and steel,1,No Quantity,,,53944258,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,620,Portugal,PRT,72,Iron and steel,1,No Quantity,,,207982664,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,634,Qatar,QAT,72,Iron and steel,1,No Quantity,,,14121,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,634,Qatar,QAT,72,Iron and steel,1,No Quantity,,,4861446,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,642,Romania,ROU,72,Iron and steel,1,No Quantity,,,25868691,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,642,Romania,ROU,72,Iron and steel,1,No Quantity,,,22932507,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,643,Russian Federation,RUS,72,Iron and steel,1,No Quantity,,,417966069,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,643,Russian Federation,RUS,72,Iron and steel,1,No Quantity,,,41609399,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,654,Saint Helena,SHN,72,Iron and steel,1,No Quantity,,,10034,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,659,Saint Kitts and Nevis,KNA,72,Iron and steel,1,No Quantity,,,6119,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,662,Saint Lucia,LCA,72,Iron and steel,1,No Quantity,,,702189,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,670,Saint Vincent and the Grenadines,VCT,72,Iron and steel,1,No Quantity,,,8982,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,674,San Marino,SMR,72,Iron and steel,1,No Quantity,,,60441,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,682,Saudi Arabia,SAU,72,Iron and steel,1,No Quantity,,,8450718,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,682,Saudi Arabia,SAU,72,Iron and steel,1,No Quantity,,,49156413,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,686,Senegal,SEN,72,Iron and steel,1,No Quantity,,,39482,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,688,Serbia,SRB,72,Iron and steel,1,No Quantity,,,4124325,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,688,Serbia,SRB,72,Iron and steel,1,No Quantity,,,677474,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,690,Seychelles,SYC,72,Iron and steel,1,No Quantity,,,5869007,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,690,Seychelles,SYC,72,Iron and steel,1,No Quantity,,,100089,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,694,Sierra Leone,SLE,72,Iron and steel,1,No Quantity,,,922757,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,699,India,IND,72,Iron and steel,1,No Quantity,,,57593542,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,699,India,IND,72,Iron and steel,1,No Quantity,,,721223463,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,702,Singapore,SGP,72,Iron and steel,1,No Quantity,,,2224593,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,702,Singapore,SGP,72,Iron and steel,1,No Quantity,,,43710352,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,703,Slovakia,SVK,72,Iron and steel,1,No Quantity,,,27019153,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,703,Slovakia,SVK,72,Iron and steel,1,No Quantity,,,20274018,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,704,Viet Nam,VNM,72,Iron and steel,1,No Quantity,,,5101267,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,704,Viet Nam,VNM,72,Iron and steel,1,No Quantity,,,29504809,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,705,Slovenia,SVN,72,Iron and steel,1,No Quantity,,,11094006,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,705,Slovenia,SVN,72,Iron and steel,1,No Quantity,,,13687335,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,710,South Africa,ZAF,72,Iron and steel,1,No Quantity,,,69387530,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,710,South Africa,ZAF,72,Iron and steel,1,No Quantity,,,11779305,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,724,Spain,ESP,72,Iron and steel,1,No Quantity,,,683406358,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,724,Spain,ESP,72,Iron and steel,1,No Quantity,,,675763958,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,729,Sudan,SDN,72,Iron and steel,1,No Quantity,,,2181819,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,740,Suriname,SUR,72,Iron and steel,1,No Quantity,,,4393,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,752,Sweden,SWE,72,Iron and steel,1,No Quantity,,,286429011,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,752,Sweden,SWE,72,Iron and steel,1,No Quantity,,,460446790,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,757,Switzerland,CHE,72,Iron and steel,1,No Quantity,,,25946908,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,757,Switzerland,CHE,72,Iron and steel,1,No Quantity,,,22992335,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,760,Syria,SYR,72,Iron and steel,1,No Quantity,,,129287,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,764,Thailand,THA,72,Iron and steel,1,No Quantity,,,10965191,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,764,Thailand,THA,72,Iron and steel,1,No Quantity,,,761716666,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,768,Togo,TGO,72,Iron and steel,1,No Quantity,,,246513,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,780,Trinidad and Tobago,TTO,72,Iron and steel,1,No Quantity,,,154048,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,780,Trinidad and Tobago,TTO,72,Iron and steel,1,No Quantity,,,2616110,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,784,United Arab Emirates,ARE,72,Iron and steel,1,No Quantity,,,4061206,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,784,United Arab Emirates,ARE,72,Iron and steel,1,No Quantity,,,41519726,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,788,Tunisia,TUN,72,Iron and steel,1,No Quantity,,,18840041,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,788,Tunisia,TUN,72,Iron and steel,1,No Quantity,,,3639261,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,792,Turkey,TUR,72,Iron and steel,1,No Quantity,,,112229952,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,792,Turkey,TUR,72,Iron and steel,1,No Quantity,,,1123393261,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,795,Turkmenistan,TKM,72,Iron and steel,1,No Quantity,,,230283,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,800,Uganda,UGA,72,Iron and steel,1,No Quantity,,,117541,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,804,Ukraine,UKR,72,Iron and steel,1,No Quantity,,,133512997,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,804,Ukraine,UKR,72,Iron and steel,1,No Quantity,,,1972888,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,807,TFYR of Macedonia,MKD,72,Iron and steel,1,No Quantity,,,6456492,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,807,TFYR of Macedonia,MKD,72,Iron and steel,1,No Quantity,,,217955,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,818,Egypt,EGY,72,Iron and steel,1,No Quantity,,,13924839,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,818,Egypt,EGY,72,Iron and steel,1,No Quantity,,,186883434,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,826,United Kingdom,GBR,72,Iron and steel,1,No Quantity,,,595558,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,834,United Rep. of Tanzania,TZA,72,Iron and steel,1,No Quantity,,,362464,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,842,USA,USA,72,Iron and steel,1,No Quantity,,,210624009,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,842,USA,USA,72,Iron and steel,1,No Quantity,,,627540184,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,854,Burkina Faso,BFA,72,Iron and steel,1,No Quantity,,,674407,0
+H4,2012,2012,2012,2,0,1,Import,826,United Kingdom,GBR,858,Uruguay,URY,72,Iron and steel,1,No Quantity,,,248954,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,858,Uruguay,URY,72,Iron and steel,1,No Quantity,,,14492,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,862,Venezuela,VEN,72,Iron and steel,1,No Quantity,,,420240,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,887,Yemen,YEM,72,Iron and steel,1,No Quantity,,,34752,0
+H4,2012,2012,2012,2,0,2,Export,826,United Kingdom,GBR,894,Zambia,ZMB,72,Iron and steel,1,No Quantity,,,10105,0
