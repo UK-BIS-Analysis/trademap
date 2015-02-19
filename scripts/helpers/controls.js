@@ -14,6 +14,14 @@ define(['./data'], function(data) {
 
   var controls = {
 
+    // Place some common jQuery objects so that we don't need to look for them each time.
+    $selectReporter:  $("#selectReporter"),
+    $selectPartner:   $("#selectPartner"),
+    $selectCommodity: $("#selectCommodity"),
+    $selectYear:      $("#selectYear"),
+    $flowButtons:     $('#flowButtons'),
+    $clearFilters:    $("#clearFilters"),
+
     setup: function () {
 
       // SETUP LOADER OVERLAY
@@ -22,7 +30,7 @@ define(['./data'], function(data) {
 
       // SETUP SELECT2 DROPDOWN SELECTORS
       // Setup the reporters dropdown
-      $("#selectReporter")
+      this.$selectReporter
         .select2({
           placeholder: "Select a reporter",
           allowClear: true,
@@ -30,7 +38,7 @@ define(['./data'], function(data) {
         })
         .on('change', controls.onFilterChange);
       // Setup the partners dropdown
-      $("#selectPartner")
+      this.$selectPartner
         .select2({
           placeholder: "Select a partner",
           allowClear: true,
@@ -40,7 +48,7 @@ define(['./data'], function(data) {
         .on('change', controls.onFilterChange)
         .select2('disable');
       // Setup the categories dropdown
-      $("#selectCommodity")
+      this.$selectCommodity
         .select2({
           placeholder: "Select a commodity",
           allowClear: true,
@@ -51,19 +59,19 @@ define(['./data'], function(data) {
 
 
       // FIX: Add listener to the temporary select for year. Later on it will be controlled from the line chart
-      $("#selectYear")
+      this.$selectYear
         .attr('disabled','true')
         .on('change', controls.onFilterChange);
 
       // ADD IMPORT/EXPORT/BALANCE BUTTON BEHAVIOURS
-      $('#flowButtons').on('click', function (event) {
+      this.$flowButtons.on('click', function (event) {
         $('#flowButtons button').removeClass('btn-primary').addClass('btn-default');
         $(event.target).closest('button').removeClass('btn-default').addClass('btn-primary');
         controls.onFilterChange();
       });
 
       // ADD CLEARFILTERS BUTTON BEHAVIOR
-      $("#clearFilters").on('click', function (event) {
+      this.$clearFilters.on('click', function (event) {
         $('.select2control')
           .off('change', controls.onFilterChange)
           .val(null)
@@ -79,11 +87,11 @@ define(['./data'], function(data) {
     onFilterChange: function (event) {
       // Get new values
       var filters = {
-        reporter:   $('#selectReporter').val(),
-        partner:    $('#selectPartner').val(),
-        commodity:  $('#selectCommodity').val(),
+        reporter:   controls.$selectReporter.val(),
+        partner:    controls.$selectPartner.val(),
+        commodity:  controls.$selectCommodity.val(),
         flow:       $('#flowButtons .btn-primary').html(),
-        year:       $('#selectYear').val()
+        year:       controls.$selectYear.val()
       };
 
       // Activate/deactivate controls appropriately
@@ -92,6 +100,32 @@ define(['./data'], function(data) {
       $('.chart').trigger('refreshFilters', filters);
     },
 
+
+
+
+
+    changeFilters: function (filters) {
+      // If reporter is not currently selected nor being set, don't allow any other updates
+      if (!filters.reporter && controls.$selectReporter.val() == "") {
+        return;
+      }
+
+      // Update the other fields
+      if (filters.reporter && filters.reporter != controls.$selectReporter.val()) {
+        controls.$selectReporter.val(filters.reporter).trigger("change");
+      }
+      if (filters.commodity && filters.commodity != controls.$selectCommodity.val()) {
+        controls.$selectCommodity.val(filters.commodity).trigger("change");
+      }
+      if (filters.partner && filters.partner != controls.$selectPartner.val()) {
+        controls.$selectPartner.val(filters.partner).trigger("change");
+      }
+      if (filters.year && filters.year != controls.$selectYear.val()) {
+        controls.$selectYear.val(filters.year);
+      }
+
+
+    },
 
 
 
