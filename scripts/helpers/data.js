@@ -200,9 +200,17 @@ define(function(require) {
         if (typeof filters.commodity === 'undefined')                                { this.xFilterByCommodity.filter(function (d) { return d === 'TOTAL'; } ); }
         if (typeof filters.flow !== 'undefined' && +filters.flow !== 0 )             { this.xFilterByFlow.filter(filters.flow); }
 
-        // Return resulting records
+        // Get the data from xFilter
         if (!limit) { limit = Infinity; }
-        return this.xFilterByReporter.top(limit);
+        var newData = this.xFilterByReporter.top(limit);
+
+        // If flow is balance then aggregate results
+        if (+filters.flow === 0) {
+          newData = this._getBalance(newData);
+        }
+
+        // Return resulting records
+        return newData;
       },
 
 
@@ -269,6 +277,33 @@ define(function(require) {
           console.log('xFdata: %o', xFdata);
           console.groupEnd();
         }
+      },
+
+      _getBalance: function (impExpData) {
+        var balanceData = [],
+            imports = d3.map(),
+            exports = [];
+        // Split the data into two arrays
+        impExpData.forEach(function (d) {
+          if (+d.flow === 1) { imports.set(d.partner, d); }
+          if (+d.flow === 2) { exports.push(d); }
+        });
+        console.log('Calculating balance based on %d imports and %d exports.', imports.size(), exports.length);
+        // Iterate over exports
+        exports.forEach(function (d) {
+          var importVal = imports.get(d.partner);
+          if (importVal) {
+            var b = {};
+            b.reporter  = d.reporter;
+            b.partner   = d.partner;
+            b.commodity = d.commodity;
+            b.year      = d.year;
+            b.flow      = 0;
+            b.value     = d.value - imports.get(d.partner).value;
+            balanceData.push(b);
+          }
+        });
+        return balanceData;
       }
 
     };
