@@ -191,17 +191,17 @@ define(function(require) {
         this.xFilterByAmount.filterAll();
 
         // Add filters by each dimension
-        if (typeof filters.reporter != 'undefined')                                { this.xFilterByReporter.filter(+filters.reporter); }
-        if (typeof filters.partner != 'undefined')                                 { this.xFilterByPartner.filter(+filters.partner); }
-        if (typeof filters.partner == 'undefined' || filters.partner == 'all')     { this.xFilterByPartner.filter(function (d) { return (+d != 0); }); }
-        if (typeof filters.year != 'undefined' && filters.year != 'all')           { this.xFilterByYear.filter(+filters.year); }
-        if (typeof filters.commodity != 'undefined' && filters.commodity != 'AG2') { this.xFilterByCommodity.filter(filters.commodity); }
-        if (typeof filters.commodity != 'undefined' && filters.commodity == 'AG2') { this.xFilterByCommodity.filter(function (d) { return d != 'TOTAL'; } ); }
-        if (typeof filters.commodity == 'undefined')                               { this.xFilterByCommodity.filter(function (d) { return d == 'TOTAL'; } ); }
-        if (typeof filters.flow != 'undefined' && +filters.flow != 0 )             { this.xFilterByFlow.filter(filters.flow); }
+        if (typeof filters.reporter !== 'undefined')                                 { this.xFilterByReporter.filter(+filters.reporter); }
+        if (typeof filters.partner !== 'undefined')                                  { this.xFilterByPartner.filter(+filters.partner); }
+        if (typeof filters.partner === 'undefined' || filters.partner === 'all')     { this.xFilterByPartner.filter(function (d) { return (+d !== 0); }); }
+        if (typeof filters.year !== 'undefined' && filters.year !== 'all')           { this.xFilterByYear.filter(+filters.year); }
+        if (typeof filters.commodity !== 'undefined' && filters.commodity !== 'AG2') { this.xFilterByCommodity.filter(filters.commodity); }
+        if (typeof filters.commodity !== 'undefined' && filters.commodity === 'AG2') { this.xFilterByCommodity.filter(function (d) { return d !== 'TOTAL'; } ); }
+        if (typeof filters.commodity === 'undefined')                                { this.xFilterByCommodity.filter(function (d) { return d === 'TOTAL'; } ); }
+        if (typeof filters.flow !== 'undefined' && +filters.flow !== 0 )             { this.xFilterByFlow.filter(filters.flow); }
 
         // Return resulting records
-        if (!limit) { var limit = Infinity; }
+        if (!limit) { limit = Infinity; }
         return this.xFilterByReporter.top(limit);
       },
 
@@ -216,10 +216,10 @@ define(function(require) {
        */
       _buildUrl: function (filters) {
         var requestUrl = data.baseQueryUrl;
-        if (typeof filters.reporter != 'undefined')    { requestUrl += '&r=' +filters.reporter; } else { requestUrl += '&r=0'; }
-        if (typeof filters.partner != 'undefined')     { requestUrl += '&p=' +filters.partner;  } else { requestUrl += '&p=all'; }
-        if (typeof filters.year != 'undefined')        { requestUrl += '&ps='+filters.year;     } else { requestUrl += '&ps=now'; }
-        if (typeof filters.commodity != 'undefined')   { requestUrl += '&cc='+filters.commodity;} else { requestUrl += '&cc=AG2'; }
+        if (typeof filters.reporter !== 'undefined')    { requestUrl += '&r=' +filters.reporter; } else { requestUrl += '&r=0'; }
+        if (typeof filters.partner !== 'undefined')     { requestUrl += '&p=' +filters.partner;  } else { requestUrl += '&p=all'; }
+        if (typeof filters.year !== 'undefined')        { requestUrl += '&ps='+filters.year;     } else { requestUrl += '&ps=now'; }
+        if (typeof filters.commodity !== 'undefined')   { requestUrl += '&cc='+filters.commodity;} else { requestUrl += '&cc=AG2'; }
         return requestUrl;
       },
 
@@ -229,11 +229,11 @@ define(function(require) {
           return {
             reporter:   +d['Reporter Code'],
             partner:    +d['Partner Code'],
-            year:       +d['Year'],
+            year:       +d.Year,
             commodity:   d['Commodity Code'],
             flow:       +d['Trade Flow Code'],
             value:      +d['Trade Value (US$)']
-          }
+          };
         });
 
         // Run the filters on xFilter and extract the data we already may have
@@ -245,12 +245,12 @@ define(function(require) {
           var dup = false;
           xFdata.forEach(function (xd) {
             if (
-              nd.reporter  == xd.reporter  &&
-              nd.partner   == xd.partner   &&
-              nd.commodity == xd.commodity &&
-              nd.flow      == xd.flow      &&
-              nd.year      == xd.year      &&
-              nd.value     == xd.value
+              nd.reporter  === xd.reporter  &&
+              nd.partner   === xd.partner   &&
+              nd.commodity === xd.commodity &&
+              nd.flow      === xd.flow      &&
+              nd.year      === xd.year      &&
+              nd.value     === xd.value
             ) {
               dup = true;
             }

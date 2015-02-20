@@ -86,13 +86,12 @@ define(['./data'], function(data) {
 
     onFilterChange: function (event) {
       // Get new values
-      var filters = {
-        reporter:   controls.$selectReporter.val(),
-        partner:    controls.$selectPartner.val(),
-        commodity:  controls.$selectCommodity.val(),
-        flow:       $('#flowButtons .btn-primary').html(),
-        year:       controls.$selectYear.val()
-      };
+      var filters = {};
+      if (controls.$selectReporter.val() !== '') { filters.reporter = controls.$selectReporter.val(); }
+      if (controls.$selectPartner.val() !== '') { filters.partner = controls.$selectPartner.val(); }
+      if (controls.$selectCommodity.val() !== '') { filters.commodity = controls.$selectCommodity.val(); }
+      if ($('#flowButtons .btn-primary').attr('data-value') !== '') { filters.flow = $('#flowButtons .btn-primary').attr('data-value'); }
+      if (controls.$selectYear.val() !== '') { filters.year = controls.$selectYear.val(); }
 
       // Activate/deactivate controls appropriately
       controls.fadeControls(filters);
@@ -106,21 +105,21 @@ define(['./data'], function(data) {
 
     changeFilters: function (filters) {
       // If reporter is not currently selected nor being set, don't allow any other updates
-      if (!filters.reporter && controls.$selectReporter.val() == "") {
+      if (!filters.reporter && controls.$selectReporter.val() === "") {
         return;
       }
 
       // Update the other fields
-      if (filters.reporter && filters.reporter != controls.$selectReporter.val()) {
+      if (filters.reporter && filters.reporter !== controls.$selectReporter.val()) {
         controls.$selectReporter.val(filters.reporter).trigger("change");
       }
-      if (filters.commodity && filters.commodity != controls.$selectCommodity.val()) {
+      if (filters.commodity && filters.commodity !== controls.$selectCommodity.val()) {
         controls.$selectCommodity.val(filters.commodity).trigger("change");
       }
-      if (filters.partner && filters.partner != controls.$selectPartner.val()) {
+      if (filters.partner && filters.partner !== controls.$selectPartner.val()) {
         controls.$selectPartner.val(filters.partner).trigger("change");
       }
-      if (filters.year && filters.year != controls.$selectYear.val()) {
+      if (filters.year && filters.year !== controls.$selectYear.val()) {
         controls.$selectYear.val(filters.year);
       }
 
