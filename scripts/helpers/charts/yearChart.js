@@ -39,7 +39,7 @@ define(['../data'], function(data) {
           if(filters.reporter && !filters.commodity && !filters.partner) {
             data.query({
               reporter: +filters.reporter,
-              period:   'all',
+              year:   'all',
               partner:  0,
               commodity:   'TOTAL'
             }, function queryCallback (err, data) {
@@ -56,7 +56,7 @@ define(['../data'], function(data) {
           if(filters.reporter && !filters.commodity && filters.partner) {
             data.query({
               reporter: +filters.reporter,
-              period:   'all',
+              year:   'all',
               partner:  +filters.partner,
               commodity:   'AG2'
             }, function queryCallback (err, data) {
@@ -73,7 +73,7 @@ define(['../data'], function(data) {
           if(filters.reporter && filters.commodity && !filters.partner) {
             data.query({
               reporter: +filters.reporter,
-              period:   'all',
+              year:   'all',
               partner:  0,
               commodity:   filters.commodity
             }, function queryCallback (err, data) {
@@ -91,7 +91,7 @@ define(['../data'], function(data) {
           if(filters.reporter && filters.commodity && filters.partner) {
             data.query({
               reporter: +filters.reporter,
-              period:   'all',
+              year:   'all',
               partner:  +filters.partner,
               commodity:   'AG2'
             }, function queryCallback (err, data) {

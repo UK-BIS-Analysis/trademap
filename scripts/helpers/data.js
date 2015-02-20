@@ -37,6 +37,7 @@ define(function(require) {
       commodityCodesSelect: [],
       reporterAreas: {},
       partnerAreas: {},
+      flowByCode: {},
       commodityCodes: {},
       countryByUnNum: {},
       countryByISONum: {},
@@ -89,6 +90,7 @@ define(function(require) {
           data.countryByUnNum  = d3.map(codes,                     function (d) { return d.unCode; });
           data.countryByISONum = d3.map(codes,                     function (d) { return d.isoNumerical; });
           data.reporterAreas   = d3.map(reporterAreas[0].results,  function (d) { return d.id; });
+          data.flowByCode      = d3.map([{ id: '1', text: 'imports'}, { id: '2', text: 'exports'}, { id: '0', text: 'balance'}], function (d) { return d.id; });
           data.partnerAreas    = d3.map(partnerAreas[0].results,   function (d) { return d.id; });
           data.commodityCodes  = d3.map(commodityCodes[0].results, function (d) { return d.id; });
 
@@ -100,12 +102,12 @@ define(function(require) {
 
         // Setup crossfilter and dimensions
         this.xFilter            = crossfilter();
-        this.xFilterByReporter  = this.xFilter.dimension(function(d){ return d.reporter;  });
-        this.xFilterByPartner   = this.xFilter.dimension(function(d){ return d.partner;   });
-        this.xFilterByYear      = this.xFilter.dimension(function(d){ return d.year;      });
-        this.xFilterByCommodity = this.xFilter.dimension(function(d){ return d.commodity; });
-        this.xFilterByFlow      = this.xFilter.dimension(function(d){ return d.flow;      });
-        this.xFilterByAmount    = this.xFilter.dimension(function(d){ return d.value;     });
+        this.xFilterByReporter  = this.xFilter.dimension(function(d){ return +d.reporter;  });
+        this.xFilterByPartner   = this.xFilter.dimension(function(d){ return +d.partner;   });
+        this.xFilterByYear      = this.xFilter.dimension(function(d){ return +d.year;      });
+        this.xFilterByCommodity = this.xFilter.dimension(function(d){ return d.commodity;  });
+        this.xFilterByFlow      = this.xFilter.dimension(function(d){ return +d.flow;      });
+        this.xFilterByAmount    = this.xFilter.dimension(function(d){ return +d.value;     });
       },
 
 
@@ -115,8 +117,8 @@ define(function(require) {
        * {
        *   reporter: 826,     // Reporter code in UN format
        *   partner:  862,     // Partner code in UN format
-       *   period:   'all',   // Period can be 'all' or apecific year: 2012 (FUTURE: Multi-year queries are allowed for up to 5 years)
-       *   commodity:   72       // Can be a specific 2-digit HS code or 'TOTAL' or 'AG2'
+       *   year:     'all',   // Year can be 'all' or apecific year: 2012 (FUTURE: Multi-year queries are allowed for up to 5 years)
+       *   commodity:72       // Can be a specific 2-digit HS code or 'TOTAL' or 'AG2'
        * }
        * Callback is called with callback(error, newData)
        * newData will be true if new data was received and added to crossfilter or false otherwise.
@@ -167,14 +169,15 @@ define(function(require) {
         });
       },
 
+
       /*
        * Get a dataset for display
        * filters argument should be an object in the following form:
        * {
        *   reporter: 826,     // Reporter code
        *   partner:  862,     // Partner code
-       *   period:   'all',   // Period
-       *   commodity:   72       // Can be a specific 2-digit HS code or 'TOTAL' or 'AG2'
+       *   year:     'all',   // Year
+       *   commodity:72       // Can be a specific 2-digit HS code or 'TOTAL' or 'AG2'
        * }
        * limit will be used to return the top x number of records
        */
@@ -188,11 +191,14 @@ define(function(require) {
         this.xFilterByAmount.filterAll();
 
         // Add filters by each dimension
-        if (typeof filters.reporter != 'undefined')                                { this.xFilterByReporter.filter(filters.reporter); }
-        if (typeof filters.partner != 'undefined')                                 { this.xFilterByPartner.filter(filters.partner); }
-        if (typeof filters.period != 'undefined' && filters.period != 'all')       { this.xFilterByYear.filter(filters.period); }
+        if (typeof filters.reporter != 'undefined')                                { this.xFilterByReporter.filter(+filters.reporter); }
+        if (typeof filters.partner != 'undefined')                                 { this.xFilterByPartner.filter(+filters.partner); }
+        if (typeof filters.partner == 'undefined' || filters.partner == 'all')     { this.xFilterByPartner.filter(function (d) { return (+d != 0); }); }
+        if (typeof filters.year != 'undefined' && filters.year != 'all')           { this.xFilterByYear.filter(+filters.year); }
         if (typeof filters.commodity != 'undefined' && filters.commodity != 'AG2') { this.xFilterByCommodity.filter(filters.commodity); }
-        if (typeof filters.commodity != 'undefined' && filters.commodity == 'AG2') { this.xFilterByCommodity.filter(function (d) { return d.commodity == 'TOTAL'; } ); }
+        if (typeof filters.commodity != 'undefined' && filters.commodity == 'AG2') { this.xFilterByCommodity.filter(function (d) { return d != 'TOTAL'; } ); }
+        if (typeof filters.commodity == 'undefined')                               { this.xFilterByCommodity.filter(function (d) { return d == 'TOTAL'; } ); }
+        if (typeof filters.flow != 'undefined' && +filters.flow != 0 )             { this.xFilterByFlow.filter(filters.flow); }
 
         // Return resulting records
         if (!limit) { var limit = Infinity; }
@@ -212,7 +218,7 @@ define(function(require) {
         var requestUrl = data.baseQueryUrl;
         if (typeof filters.reporter != 'undefined')    { requestUrl += '&r=' +filters.reporter; } else { requestUrl += '&r=0'; }
         if (typeof filters.partner != 'undefined')     { requestUrl += '&p=' +filters.partner;  } else { requestUrl += '&p=all'; }
-        if (typeof filters.period != 'undefined')      { requestUrl += '&ps='+filters.period;   } else { requestUrl += '&ps=now'; }
+        if (typeof filters.year != 'undefined')        { requestUrl += '&ps='+filters.year;     } else { requestUrl += '&ps=now'; }
         if (typeof filters.commodity != 'undefined')   { requestUrl += '&cc='+filters.commodity;} else { requestUrl += '&cc=AG2'; }
         return requestUrl;
       },
@@ -224,7 +230,7 @@ define(function(require) {
             reporter:   +d['Reporter Code'],
             partner:    +d['Partner Code'],
             year:       +d['Year'],
-            commodity:  d['Commodity Code'],
+            commodity:   d['Commodity Code'],
             flow:       +d['Trade Flow Code'],
             value:      +d['Trade Value (US$)']
           }
@@ -255,12 +261,14 @@ define(function(require) {
         // Add the new data to xFilter
         this.xFilter.add(insertData);
 
-        console.groupCollapsed('Added %d new records. Retrieved %d records. Discarded %d duplicates. New xFilter size: %d', insertData.length, newData.length, newData.length-insertData.length, this.xFilter.size());
-        console.log('filters: %o', filters);
-        console.log('newData: %o', newData);
-        console.log('insertData: %o', insertData);
-        console.log('xFdata: %o', xFdata);
-        console.groupEnd();
+        if(DEBUG) {
+          console.groupCollapsed('Added %d new records. Retrieved %d records. Discarded %d duplicates. New xFilter size: %d', insertData.length, newData.length, newData.length-insertData.length, this.xFilter.size());
+          console.log('filters: %o', filters);
+          console.log('newData: %o', newData);
+          console.log('insertData: %o', insertData);
+          console.log('xFdata: %o', xFdata);
+          console.groupEnd();
+        }
       }
 
     };

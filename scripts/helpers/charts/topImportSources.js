@@ -39,7 +39,7 @@ define(['../data'], function(data) {
             data.query({
               reporter: filters.reporter,
               partner:  'all',
-              period:   filters.year,
+              year:   filters.year,
               commodity:   'AG2'
             }, function queryCallback (err, data) {
               // TODO: do something here
@@ -66,7 +66,7 @@ define(['../data'], function(data) {
             data.query({
               reporter: filters.reporter,
               partner:  'all',
-              period:   filters.year,
+              year:   filters.year,
               commodity:   'AG2'
             }, function queryCallback (err, data) {
               // TODO: do something here
