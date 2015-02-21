@@ -22,11 +22,6 @@ nav.navbar {
 /*
  * STYLES FOR CONTROLS
  */
-#flowButtons {
-  width: 31.8%;
-  float: right;
-  margin-top: -2.5em;
-}
 .select2control {
   width: 100%;
 }
@@ -98,18 +93,39 @@ p.placeholder {
  * STYLES FOR THE CHOROPLETH
  */
 #choropleth {
-  min-height: 35em;
+  height: 35em;
+}
+#flowButtons {
+  position: absolute;
+  top: 32em;
+  height: 3em;
+  width: 31%;
+}
+#choroplethInfo {
+  position: absolute;
+  top: 22em;
+  width: 31%;
+  height: 10em;
+  background: rgba(47, 112, 169, 0.40);
+  border-radius: 3px;
+  padding: 5px;
 }
 #choroplethTitle {
+  display:table;
+  height: 3.5em;
+  margin-top: -3.5em;
+  width: 67%;
+  position: absolute;
+  right: 0;
+  z-index: 2000;
+}
+#choroplethTitle p {
   display:table-cell;
   vertical-align: bottom;
   background-color: rgba(255, 255, 255, 0.80);
   color: #2D6BA1;
   font-weight: bold;
   font-size: 1.5em;
-  height: 3.5em;
-  margin-top: -3.5em;
-  width: 62%;
 }
 #choropleth .stroke {
   fill: none;

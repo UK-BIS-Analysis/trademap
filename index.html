@@ -75,7 +75,13 @@
       <div class="row clearfix">
         <div class="col-md-12 column">
           <div id="choropleth" class="chart"></div>
-          <div class="chartTitle" id="choroplethTitle"></div>
+          <div id="choroplethInfo">
+            <div class="countryName">   <strong>Country:</strong> <span class="value"></span></div>
+            <div class="imports">       <strong>Imports:</strong> <span class="value"></span></div>
+            <div class="exports">       <strong>Exports:</strong> <span class="value"></span></div>
+            <div class="bilateralTrade"><strong>Bilateral Trade:</strong> <span class="value"></span></div>
+            <div class="tradeBalance">  <strong>Balance:</strong> <span class="value"></span></div>
+          </div>
           <!-- Flow selection -->
           <div class="btn-group btn-group-justified" id="flowButtons" role="group" aria-label="Import/Balance/Export options">
             <div class="btn-group" role="group">
@@ -88,6 +94,7 @@
               <button type="button" class="btn btn-sm btn-primary" data-value="2">Exports</button>
             </div>
           </div>
+          <div class="chartTitle" id="choroplethTitle"><p></p></div>
         </div>
       </div>
 

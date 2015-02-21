@@ -38,7 +38,7 @@ define(['../data', '../controls'], function(data, controls) {
               width  = $chart.width(),
               projection = d3.geo.kavrayskiy7()
                 .scale(210)
-                .translate([(width / 2), (height / 2)+40])
+                .translate([(width / 2)+70, (height / 2)+40])
                 .precision(+'.1'),
               path = d3.geo.path()
                 .projection(projection),
@@ -121,9 +121,6 @@ define(['../data', '../controls'], function(data, controls) {
                   }),
                   newDataByPartner = d3.map(newData, function (d) { return d.partner; });
 
-              console.log(filters);
-              console.log(newData.length);
-
               // Update scale with domain
               colorScale.domain(d3.extent(newData, function (d) { return +d.value; }));
 
@@ -145,7 +142,7 @@ define(['../data', '../controls'], function(data, controls) {
               // (Re)draw legend
 
               // Set title
-              $('#choroplethTitle').html('Value of ' + localData.flowByCode.get(filters.flow).text.toLowerCase() + ' between ' + localData.countryByUnNum.get(filters.reporter).name + ' and every other country in  ' + filters.year + '.');
+              $('#choroplethTitle p').html('Value of ' + localData.flowByCode.get(filters.flow).text.toLowerCase() + ' between ' + localData.countryByUnNum.get(filters.reporter).name + ' and every other country in  ' + filters.year + '.');
 
               // Highlight reporter and partner on map
               svg.select('#iso'+filters.reporter).classed('selectedReporter', true);

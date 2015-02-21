@@ -288,7 +288,6 @@ define(function(require) {
           if (+d.flow === 1) { imports.set(d.partner, d); }
           if (+d.flow === 2) { exports.push(d); }
         });
-        console.log('Calculating balance based on %d imports and %d exports.', imports.size(), exports.length);
         // Iterate over exports
         exports.forEach(function (d) {
           var importVal = imports.get(d.partner);
