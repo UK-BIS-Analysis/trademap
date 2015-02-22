@@ -141,7 +141,7 @@ define(['../data', '../controls'], function(data, controls) {
 
 
 
-        _redrawMap : function (filters) {
+        _redrawMap: function (filters) {
 
           // Get the relevant data
           var newData = localData.getData(filters),
@@ -150,6 +150,9 @@ define(['../data', '../controls'], function(data, controls) {
           // Update scale with domain and redraw map
           colorScale.domain(d3.extent(newData, function (d) { return +d.value; }));
           svg.selectAll('.country')
+            .on('mouseover', function (d,i) {
+              chart._displayInfo(d.id, filters.flow);
+            })
             .transition()
             .duration(1000)
             .style('fill', function (d,i) {
@@ -166,6 +169,9 @@ define(['../data', '../controls'], function(data, controls) {
           // (Re)draw legend
           chart._drawLegend(colorScale, colors[filters.flow]);
 
+          // Clear info
+          $('#choroplethInfo .value').html('');
+
           // TODO Highlight reporter and partner on map
           svg.select('#iso'+filters.reporter).classed('selectedReporter', true);
           if (filters.partner) { svg.select('#iso'+filters.partner).classed('selectedPartner', true); }
@@ -175,7 +181,7 @@ define(['../data', '../controls'], function(data, controls) {
 
 
 
-        _drawLegend : function (scale, currentColors) {
+        _drawLegend: function (scale, currentColors) {
           var legend = svg.select('g.legend');
           // Remove legend if present
           svg.select('g.legend').remove()
@@ -209,8 +215,15 @@ define(['../data', '../controls'], function(data, controls) {
               return numFormat(Math.round(domainExtent[0]/1000000,1)) + 'm - ' + numFormat(Math.round(domainExtent[1]/1000000,1))+'m';
             });
 
-        }
+        },
 
+
+
+
+        _displayInfo:function (isoId, flow) {
+          $('#choroplethInfo .countryName .value').html(localData.countryByISONum.get(isoId).name);
+
+        }
   };
 
   return chart;
