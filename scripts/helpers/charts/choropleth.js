@@ -96,99 +96,119 @@ define(['../data', '../controls'], function(data, controls) {
           // CASE 1: reporter = null
           if(!filters.reporter) {
             // Blank choropleth, no countries selected and no fills and no title
-            svg.selectAll('.country')
-              .classed('selectedReporter selectedPartner', false)
-              .style('fill', '#fff');
+            svg.selectAll('.country').style('fill', '#fff');
             $('#choroplethTitle').html('');
             return;
           }
 
           // CASE 2: reporter = selected    commodity = null
           if(filters.reporter && !filters.commodity) {
-            data.query({
-              reporter:  +filters.reporter,
-              partner:   'all',
-              year:    +filters.year,
-              commodity:  'TOTAL'
-            }, function queryCallback (err, data) {
-              // Get the relevant data
-              var newData = localData.getData({
-                    reporter:  filters.reporter,
-                    partner:   'all',
-                    commodity: 'TOTAL',
-                    year:      filters.year,
-                    flow:      filters.flow
-                  }),
-                  newDataByPartner = d3.map(newData, function (d) { return d.partner; });
-
-              // Update scale with domain
-              colorScale.domain(d3.extent(newData, function (d) { return +d.value; }));
-
-              // Redraw map
-              svg.selectAll('.country')
-                .transition()
-                .duration(1000)
-                .style('fill', function (d,i) {
-                  try {
-                    var unCode = localData.countryByISONum.get(d.id).unCode,
-                        countryData  = newDataByPartner.get(unCode),
-                        bucket = colorScale(countryData.value);
-                    return colors[filters.flow][bucket];
-                  } catch (exception) {
-                    return '#fff';
-                  }
-                });
-
-              // (Re)draw legend
-
-              // Set title
+            // Set query and data retrieval filters (forcing partners to all and commodity to total)
+            var dataFilter = {
+              reporter:   +filters.reporter,
+              partner:    'all',
+              commodity:  'TOTAL',
+              year:       +filters.year,
+              flow:       filters.flow
+            };
+            data.query(dataFilter, function queryCallback (err, data) {
+              // Redraw map and set title
+              chart._redrawMap(dataFilter);
               $('#choroplethTitle p').html('Value of ' + localData.flowByCode.get(filters.flow).text.toLowerCase() + ' between ' + localData.countryByUnNum.get(filters.reporter).name + ' and every other country in  ' + filters.year + '.');
-
-              // Highlight reporter and partner on map
-              svg.select('#iso'+filters.reporter).classed('selectedReporter', true);
-              if (filters.partner) { svg.select('#iso'+filters.partner).classed('selectedPartner', true); }
             });
-
             return;
           }
 
           // CASE 3: reporter = selected    commodity = selected
           if(filters.reporter && filters.commodity) {
-            data.query({
-              reporter:  +filters.reporter,
-              year:    +filters.year,
-              commodity:  filters.commodity
-            }, function queryCallback (err, data) {
-              // Clear previous selections
-              svg.selectAll('.country').classed('selectedReporter selectedPartner .q0-9 .q1-9 .q2-9 .q3-9 .q4-9 .q5-9 .q6-9 .q7-9 .q8-9', false);
-
-              // Highlight reporter and partner on map
-              svg.select('#iso'+filters.reporter).classed('selectedReporter', true);
-              if (filters.partner) { svg.select('#iso'+filters.partner).classed('selectedPartner', true); }
-
-              // Get the relevant data
-              var newData = localData.getData(filters);
-
-              console.log('filters for choropleth: ', filters);
-              console.log('newData for choropleth: ', newData);
-
-              // Update scale with range
-
-              // Redraw map
-
-              // (Re)draw legend
-
-              // Set title depending on presence of commodity
-              if(!filters.commodity) {
-                $('#choroplethTitle').html('Value of ' + filters.flow.toLowerCase() + ' between ' + localData.countryByUnNum.get(filters.reporter).name + ' and every other country in  ' + filters.year + '.');
-              } else {
-                $('#choroplethTitle').html('Value of ' + filters.flow.toLowerCase() + ' between ' + localData.countryByUnNum.get(filters.reporter).name + ' and every other country for ' + localData.commodityName(filters.commodity) + ' in ' + filters.year+'.');
-              }
-
+            // Set query and data retrieval filters (forcing partners to all and commodity to total)
+            var dataFilter = {
+              reporter:   +filters.reporter,
+              partner:    'all',
+              commodity:  filters.commodity,
+              year:       +filters.year,
+              flow:       filters.flow
+            };
+            data.query(dataFilter, function queryCallback (err, data) {
+              // Redraw map and set title
+              chart._redrawMap(dataFilter);
+              $('#choroplethTitle p').html('Value of ' + localData.flowByCode.get(filters.flow).text.toLowerCase() + ' between ' + localData.countryByUnNum.get(filters.reporter).name + ' and every other country for ' + localData.commodityName(filters.commodity) + ' in ' + filters.year+'.');
             });
-
             return;
           }
+        },
+
+
+
+
+        _redrawMap : function (filters) {
+
+          // Get the relevant data
+          var newData = localData.getData(filters),
+              newDataByPartner = d3.map(newData, function (d) { return d.partner; });
+
+          // Update scale with domain and redraw map
+          colorScale.domain(d3.extent(newData, function (d) { return +d.value; }));
+          svg.selectAll('.country')
+            .transition()
+            .duration(1000)
+            .style('fill', function (d,i) {
+              try {
+                var unCode = localData.countryByISONum.get(d.id).unCode,
+                    countryData  = newDataByPartner.get(unCode),
+                    bucket = colorScale(countryData.value);
+                return colors[filters.flow][bucket];
+              } catch (exception) {
+                return '#fff';
+              }
+            });
+
+          // (Re)draw legend
+          chart._drawLegend(colorScale, colors[filters.flow]);
+
+          // TODO Highlight reporter and partner on map
+          svg.select('#iso'+filters.reporter).classed('selectedReporter', true);
+          if (filters.partner) { svg.select('#iso'+filters.partner).classed('selectedPartner', true); }
+
+        },
+
+
+
+
+        _drawLegend : function (scale, currentColors) {
+          var legend = svg.select('g.legend');
+          // Remove legend if present
+          svg.select('g.legend').remove()
+          // Redraw legend
+          legend = svg.append("g")
+            .attr("class", "legend")
+            .attr("x", 25)
+            .attr("y", 35)
+            .attr("height", 100)
+            .attr("width", 100);
+          // Add boxes
+          legend.selectAll('rect')
+            .data(d3.range(9))
+            .enter()
+            .append("rect")
+            .attr("x", 0)
+            .attr("y", function (d, i) { return i * 20; })
+            .attr("width", 18)
+            .attr("height", 18)
+            .style("fill", function(d, i) { return currentColors[i]; });
+          // Add text
+          legend.selectAll('text')
+            .data(d3.range(9))
+            .enter()
+            .append("text")
+            .attr("x", 22)
+            .attr("y", function (d, i) { return (i * 20)+15; })
+            .text(function (d,i) {
+              var domainExtent = scale.invertExtent(i),
+                  numFormat = d3.format('$,');
+              return numFormat(Math.round(domainExtent[0]/1000000,1)) + 'm - ' + numFormat(Math.round(domainExtent[1]/1000000,1))+'m';
+            });
+
         }
 
   };

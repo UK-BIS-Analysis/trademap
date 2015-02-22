@@ -154,10 +154,6 @@ p.placeholder {
   stroke: #000;
   fill: #fff;;
 }
-#choropleth path.selectedReporter {
-  stroke: #f00;
+#choropleth g.legend {
+  fill: rgba(141, 141, 141, 0.75);
 }
-#choropleth path.selectedPartner {
-  stroke: #00f;
-}
-
