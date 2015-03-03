@@ -78,7 +78,20 @@ define(['../data', '../controls'], function(data, controls) {
                 .append("path")
                 .attr("class", "country")
                 .attr("d", path)
-                .attr('id', function(d) { return 'iso'+d.id; });
+                .attr('id', function(d) { return 'iso'+d.id; })
+                .on('mouseover', function (d,i) {
+                  chart._displayInfo({ partner: localData.countryByISONum.get(d.id).unCode });
+                  // Store current color in an attribute
+                  var $this = d3.select(this);
+                  $this.attr('data-color',$this.style('fill'));
+                  $this.transition().duration(500).style('fill','#2E6EA5');
+                })
+                .on('mouseout', function (d,i) {
+                  chart._clearInfo();
+                  // Recover color from attribute
+                  var $this = d3.select(this);
+                  $this.transition().duration(500).style('fill',$this.attr('data-color'));
+                });
 
             // Add behaviour to country: on click we set the reporter filter
             svg.selectAll('.country').on('click', function (d,i) {
@@ -93,9 +106,8 @@ define(['../data', '../controls'], function(data, controls) {
 
 
         refresh: function (event, filters) {
-          // CASE 1: reporter = null
+          // CASE 1: reporter = null    -->   Blank choropleth, no countries selected and no fills and no title
           if(!filters.reporter) {
-            // Blank choropleth, no countries selected and no fills and no title
             svg.selectAll('.country').style('fill', '#fff');
             $('#choroplethTitle').html('');
             return;
@@ -103,7 +115,7 @@ define(['../data', '../controls'], function(data, controls) {
 
           // CASE 2: reporter = selected    commodity = null
           if(filters.reporter && !filters.commodity) {
-            // Set query and data retrieval filters (forcing partners to all and commodity to total)
+            // Set query and data retrieval filters (forcing partners to all, commodity to total and ignoring flow)
             var dataFilter = {
               reporter:   +filters.reporter,
               partner:    'all',
@@ -143,15 +155,34 @@ define(['../data', '../controls'], function(data, controls) {
 
         _redrawMap: function (filters) {
 
-          // Get the relevant data
-          var newData = localData.getData(filters),
-              newDataByPartner = d3.map(newData, function (d) { return d.partner; });
+          // Get the relevant data ignoring flow and then combine the data
+          var newData = localData.getData({ reporter: filters.reporter, partner: filters.partner, commodity: filters.commodity, year: filters.year });
+          newData = localData.combineData(newData);
+          // Create map (lookup object) to access by partner
+          var newDataByPartner = d3.map(newData, function (d) { return d.partner; });
+          // Based on user selected flow predefine value accessor
+          if (+filters.flow == 1) { var flow = 'importVal'; }
+          else if (+filters.flow == 2) { var flow = 'exportVal'; }
+          else { var flow = 'balanceVal'; }
+
 
           // Update scale with domain and redraw map
-          colorScale.domain(d3.extent(newData, function (d) { return +d.value; }));
+          colorScale.domain(d3.extent(newData, function (d) { return +d[flow]; }));
           svg.selectAll('.country')
             .on('mouseover', function (d,i) {
-              chart._displayInfo(d.id, filters.flow);
+              var partner = localData.countryByISONum.get(d.id).unCode,
+                  datum = newDataByPartner.get(partner);
+              if (datum) { chart._displayInfo(datum); }
+              // Store current color in an attribute and highlight
+              var $this = d3.select(this);
+              $this.attr('data-color',$this.style('fill'));
+              $this.transition().duration(500).style('fill','#2E6EA5');
+            })
+            .on('mouseout', function (d,i) {
+              chart._clearInfo();
+              // Recover color from attribute and set it
+              var $this = d3.select(this);
+              $this.transition().duration(500).style('fill',$this.attr('data-color'));
             })
             .transition()
             .duration(1000)
@@ -159,7 +190,7 @@ define(['../data', '../controls'], function(data, controls) {
               try {
                 var unCode = localData.countryByISONum.get(d.id).unCode,
                     countryData  = newDataByPartner.get(unCode),
-                    bucket = colorScale(countryData.value);
+                    bucket = colorScale(countryData[flow]);
                 return colors[filters.flow][bucket];
               } catch (exception) {
                 return '#fff';
@@ -172,9 +203,8 @@ define(['../data', '../controls'], function(data, controls) {
           // Clear info
           $('#choroplethInfo .value').html('');
 
-          // TODO Highlight reporter and partner on map
-          svg.select('#iso'+filters.reporter).classed('selectedReporter', true);
-          if (filters.partner) { svg.select('#iso'+filters.partner).classed('selectedPartner', true); }
+          // Highlight reporter on map
+          svg.select('#iso'+filters.reporter).transition().style('fill','#2C699E', 'important');
 
         },
 
@@ -210,19 +240,32 @@ define(['../data', '../controls'], function(data, controls) {
             .attr("x", 22)
             .attr("y", function (d, i) { return (i * 20)+15; })
             .text(function (d,i) {
-              var domainExtent = scale.invertExtent(i),
-                  numFormat = d3.format('$,');
-              return numFormat(Math.round(domainExtent[0]/1000000,1)) + 'm - ' + numFormat(Math.round(domainExtent[1]/1000000,1))+'m';
+              var domainExtent = scale.invertExtent(i);
+              return localData.numFormat(Math.round(domainExtent[0]/1000000,1)) + 'm - ' + localData.numFormat(Math.round(domainExtent[1]/1000000,1))+'m';
             });
 
         },
 
+        _displayInfo: function (info) {
+          var $inf = $('#choroplethInfo');
+          if (info.partner) {
+            var partner = localData.countryByUnNum.get(info.partner).name;
+            $inf.children('.countryName').html(partner);
+          }
+          if (info.partner && info.reporter) {
+            var reporter = localData.countryByUnNum.get(info.reporter).name;
+            $inf.children('.countryName').html(reporter+' - '+partner);
+            if (info.commodity)    { $inf.children('.commodity').html(localData.commodityName(info.commodity)); }
+            if (info.importVal)    { $inf.children('.imports').html('Imports from '+partner+': '+localData.numFormat(info.importVal)); }
+            if (info.exportVal)    { $inf.children('.exports').html('Exports to '+partner+': '+localData.numFormat(info.exportVal)); }
+            if (info.balanceVal)   { $inf.children('.balance').html('Trade balance: '+localData.numFormat(info.balanceVal)); }
+            if (info.bilateralVal) { $inf.children('.bilateralTrade').html('Bilateral trade: '+localData.numFormat(info.bilateralVal)); }
+            if (info.importRank && info.exportRank) { $inf.children('.ranking').html(partner+' is the '+localData.numOrdinal(info.exportRank)+' export destination and the '+localData.numOrdinal(info.importRank)+' import source for '+reporter); }
+          }
+        },
 
-
-
-        _displayInfo:function (isoId, flow) {
-          $('#choroplethInfo .countryName .value').html(localData.countryByISONum.get(isoId).name);
-
+        _clearInfo: function () {
+          $('#choroplethInfo .value').html('');
         }
   };
 

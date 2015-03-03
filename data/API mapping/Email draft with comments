@@ -26,6 +26,8 @@ However I noticed that some fields seem to be truncated. See for example:
 I've filtered the JSON to only AG2 values since we will only be using these in our visualization. As a suggestion for the future it would be great if you offered cached JSON files at a specific code detail level (e.g. AG2, AG3...)
 
 
+Great enhancements:
+Perhaps allowing longer ranges of data to be returned with less fields or in other words the ability to customize fields returned.
 
 
 - Lifting limits to API?

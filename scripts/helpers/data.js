@@ -56,6 +56,26 @@ define(function(require) {
         var text = this.commodityCodes.get(commodity).text;
         return text.slice(text.indexOf(' - ')+3);
       },
+      numFormat: d3.format('$,'),
+      numOrdinal: function (num) {
+        if(isNaN(num) || num%1) return num;
+        if(num < 20 && num > 10) return num+'th';
+        var last = num.toString().slice(-1);
+        switch (last) {
+          case '1':
+            return num+'st';
+            break;
+          case '2':
+            return num+'nd';
+            break;
+          case '3':
+            return num+'rd';
+            break;
+          default:
+            return num+'th';
+            break;
+        }
+      },
 
 
 
@@ -204,15 +224,59 @@ define(function(require) {
         if (!limit) { limit = Infinity; }
         var newData = this.xFilterByReporter.top(limit);
 
-        // If flow is balance then aggregate results
-        if (+filters.flow === 0) {
-          newData = this._getBalance(newData);
-        }
-
         // Return resulting records
         return newData;
       },
 
+
+      /*
+       * Takes a dataset where imports and exports are in different records
+       * and combines them into a single dataset with one record per partner
+       * and different properties for import, export, balance and ranking.
+       */
+      combineData: function (impExpData) {
+        var combinedData = [],
+            imports = d3.map(),
+            exports = [];
+        // Split the data into an imports map and exports array
+        impExpData.forEach(function (d) {
+          if (+d.flow === 1) { imports.set(d.partner, d); }
+          if (+d.flow === 2) { exports.push(d); }
+        });
+        // Iterate over the exports array, search for matching import and construct new object to return
+        exports.forEach(function (Export) {
+          var Import = imports.get(Export.partner);
+          if (Import) {
+            var combined = {};
+            combined.reporter     = Export.reporter;
+            combined.partner      = Export.partner;
+            combined.commodity    = Export.commodity;
+            combined.year         = Export.year;
+            combined.importVal    = Import.value;
+            combined.exportVal    = Export.value;
+            combined.bilateralVal = Import.value + Export.value;
+            combined.balanceVal   = Export.value - Import.value;
+            combinedData.push(combined);
+          }
+        });
+        // Sort by importVal & assign importRank
+        combinedData.sort(function (a,b) {
+          return +(b.importVal > a.importVal) || +(b.importVal === a.importVal) - 1;
+        });
+        combinedData.forEach(function (v, i) {
+          combinedData[i].importRank = i+1;
+        });
+
+        // Sort by exportVal & assign exportRank
+        combinedData.sort(function (a,b) {
+          return +(b.exportVal > a.exportVal) || +(b.exportVal === a.exportVal) - 1;
+        });
+        combinedData.forEach(function (v, i) {
+          combinedData[i].exportRank = i+1;
+        });
+
+        return combinedData;
+      },
 
 
 
@@ -277,32 +341,6 @@ define(function(require) {
           console.log('xFdata: %o', xFdata);
           console.groupEnd();
         }
-      },
-
-      _getBalance: function (impExpData) {
-        var balanceData = [],
-            imports = d3.map(),
-            exports = [];
-        // Split the data into two arrays
-        impExpData.forEach(function (d) {
-          if (+d.flow === 1) { imports.set(d.partner, d); }
-          if (+d.flow === 2) { exports.push(d); }
-        });
-        // Iterate over exports
-        exports.forEach(function (d) {
-          var importVal = imports.get(d.partner);
-          if (importVal) {
-            var b = {};
-            b.reporter  = d.reporter;
-            b.partner   = d.partner;
-            b.commodity = d.commodity;
-            b.year      = d.year;
-            b.flow      = 0;
-            b.value     = d.value - imports.get(d.partner).value;
-            balanceData.push(b);
-          }
-        });
-        return balanceData;
       }
 
     };

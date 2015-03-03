@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
-    <title>Trade Data Visualization</title>
+    <title>International trade in goods by country and commodity</title>
 
     <!-- Lib Stylesheets -->
     <link rel="stylesheet" type="text/css" href="scripts/libs/bootstrap/dist/css/bootstrap.min.css"/>
@@ -76,11 +76,13 @@
         <div class="col-md-12 column">
           <div id="choropleth" class="chart"></div>
           <div id="choroplethInfo">
-            <div class="countryName">   <strong>Country:</strong> <span class="value"></span></div>
-            <div class="imports">       <strong>Imports:</strong> <span class="value"></span></div>
-            <div class="exports">       <strong>Exports:</strong> <span class="value"></span></div>
-            <div class="bilateralTrade"><strong>Bilateral Trade:</strong> <span class="value"></span></div>
-            <div class="tradeBalance">  <strong>Balance:</strong> <span class="value"></span></div>
+            <div class="value countryName"></div>
+            <div class="value commodity"></div>
+            <div class="value imports"></div>
+            <div class="value exports"></div>
+            <div class="value balance"></div>
+            <div class="value bilateralTrade"></div>
+            <div class="value ranking"></div>
           </div>
           <!-- Flow selection -->
           <div class="btn-group btn-group-justified" id="flowButtons" role="group" aria-label="Import/Balance/Export options">
@@ -114,7 +116,7 @@
         <div class="col-md-4 column">
           <!-- Partner selection -->
           <span id="selectPartner" class="select2control selectPartner"></span>
-          <button type="button" class="btn btn-sm btn-primary" id="clearFilters">Clear all filters</button>
+          <button type="button" class="btn btn-sm btn-default" id="clearFilters">Clear all filters</button>
         </div>
       </div>
 

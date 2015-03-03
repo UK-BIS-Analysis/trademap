@@ -103,12 +103,17 @@ p.placeholder {
 }
 #choroplethInfo {
   position: absolute;
-  top: 22em;
+  top: 285px;
   width: 31%;
-  height: 10em;
+  height: 15em;
   background: rgba(47, 112, 169, 0.40);
   border-radius: 3px;
   padding: 5px;
+  font-size: 11px;
+}
+#choroplethInfo .countryName,
+#choroplethInfo .commodity {
+  font-weight: bold;
 }
 #choroplethTitle {
   display:table;
@@ -126,11 +131,12 @@ p.placeholder {
   color: #2D6BA1;
   font-weight: bold;
   font-size: 1.5em;
+  line-height: 1.1em;
 }
 #choropleth .stroke {
   fill: none;
   stroke: #000;
-  stroke-width: 3px;
+  stroke-width: 2px;
 }
 #choropleth .fill {
   fill: #fff;
@@ -152,8 +158,10 @@ p.placeholder {
 #choropleth path.country {
   cursor: pointer;
   stroke: #000;
-  fill: #fff;;
+  fill: #fff;
+  stroke-width: .5px;
 }
 #choropleth g.legend {
+  font-size: 12px;
   fill: rgba(141, 141, 141, 0.75);
 }
