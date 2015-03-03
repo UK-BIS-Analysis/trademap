@@ -80,17 +80,8 @@ define(['../data', '../controls'], function(data, controls) {
                 .attr("d", path)
                 .attr('id', function(d) { return 'iso'+d.id; })
                 .on('mouseover', function (d,i) {
-                  chart._displayInfo({ partner: localData.countryByISONum.get(d.id).unCode });
-                  // Store current color in an attribute
-                  var $this = d3.select(this);
-                  $this.attr('data-color',$this.style('fill'));
-                  $this.transition().duration(500).style('fill','#2E6EA5');
-                })
-                .on('mouseout', function (d,i) {
                   chart._clearInfo();
-                  // Recover color from attribute
-                  var $this = d3.select(this);
-                  $this.transition().duration(500).style('fill',$this.attr('data-color'));
+                  chart._displayInfo({ partner: localData.countryByISONum.get(d.id).unCode });
                 });
 
             // Add behaviour to country: on click we set the reporter filter
@@ -173,16 +164,6 @@ define(['../data', '../controls'], function(data, controls) {
               var partner = localData.countryByISONum.get(d.id).unCode,
                   datum = newDataByPartner.get(partner);
               if (datum) { chart._displayInfo(datum); }
-              // Store current color in an attribute and highlight
-              var $this = d3.select(this);
-              $this.attr('data-color',$this.style('fill'));
-              $this.transition().duration(500).style('fill','#2E6EA5');
-            })
-            .on('mouseout', function (d,i) {
-              chart._clearInfo();
-              // Recover color from attribute and set it
-              var $this = d3.select(this);
-              $this.transition().duration(500).style('fill',$this.attr('data-color'));
             })
             .transition()
             .duration(1000)

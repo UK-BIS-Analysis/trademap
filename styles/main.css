@@ -106,7 +106,7 @@ p.placeholder {
   top: 285px;
   width: 31%;
   height: 15em;
-  background: rgba(47, 112, 169, 0.40);
+  background: rgba(47, 112, 169, 0.60);
   border-radius: 3px;
   padding: 5px;
   font-size: 11px;
@@ -160,6 +160,9 @@ p.placeholder {
   stroke: #000;
   fill: #fff;
   stroke-width: .5px;
+}
+#choropleth path.country:hover {
+  fill: rgb(44, 105, 158);
 }
 #choropleth g.legend {
   font-size: 12px;
