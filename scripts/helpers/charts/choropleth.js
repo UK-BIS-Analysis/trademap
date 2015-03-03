@@ -70,7 +70,7 @@ define(['../data', '../controls'], function(data, controls) {
 
             // We place all countries inside a g.countries
             svg.append('g')
-              .attr("class", "counties")
+              .attr("class", "countries")
               // Bind country data to path.country
               .selectAll(".country")
               .data(countries)
@@ -80,8 +80,11 @@ define(['../data', '../controls'], function(data, controls) {
                 .attr("d", path)
                 .attr('id', function(d) { return 'iso'+d.id; })
                 .on('mouseover', function (d,i) {
+                  // Update infobox
                   chart._clearInfo();
                   chart._displayInfo({ partner: localData.countryByISONum.get(d.id).unCode });
+                  // Bring country path node to the front (to display border highlighting better)
+                  svg.selectAll('.country').sort(function(a,b) { var s = d.id; return (a.id == s) - (b.id == s);})
                 });
 
             // Add behaviour to country: on click we set the reporter filter
@@ -164,6 +167,8 @@ define(['../data', '../controls'], function(data, controls) {
               var partner = localData.countryByISONum.get(d.id).unCode,
                   datum = newDataByPartner.get(partner);
               if (datum) { chart._displayInfo(datum); }
+              // Bring country path node to the front (to display border highlighting better)
+              svg.selectAll('.country').sort(function(a,b) { var s = d.id; return (a.id == s) - (b.id == s);})
             })
             .transition()
             .duration(1000)

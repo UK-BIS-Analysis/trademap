@@ -162,7 +162,8 @@ p.placeholder {
   stroke-width: .5px;
 }
 #choropleth path.country:hover {
-  fill: rgb(44, 105, 158);
+  stroke: rgb(44, 105, 158);
+  stroke-width: 2px;
 }
 #choropleth g.legend {
   font-size: 12px;
