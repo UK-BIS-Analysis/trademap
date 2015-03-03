@@ -38,7 +38,10 @@ p.placeholder {
   border: 1px dotted rgb(0, 14, 185);
   color: #00f;
 }
-
+.selectYearWrapper {
+  margin-top: 5px;
+  width: 50%;
+}
 
 /*
  * STYLES FOR TOOLTIP

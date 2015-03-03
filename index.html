@@ -38,7 +38,7 @@
         <div class="col-md-12 column">
           <nav class="navbar navbar-default" role="navigation">
             <div class="navbar-header">
-              <a class="navbar-brand" href="#">Trade Data Visualization</a>
+              <a class="navbar-brand" href="#">International trade in goods by country and commodity</a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
@@ -107,7 +107,11 @@
       <div class="row clearfix">
         <div class="col-md-4 column">
           <!-- Reporter selection -->
-          <span id="selectReporter" class="select2control"></span>
+          <span id="selectReporter" class="select2control"></span><br />
+          <!-- Year selection -->
+          <div class="selectYearWrapper">
+            <span id="selectYear" class="select2control"></span>
+          </div>
         </div>
         <div class="col-md-4 column">
           <!-- Commodity selection -->
@@ -129,35 +133,6 @@
           <div id="yearChart" class="chart">
             <p class="placeholder"></p>
           </div>
-        </div>
-      </div>
-      <div class="row clearfix">
-        <div class="col-md-12 column">
-          Year selection:
-          <select id="selectYear">
-            <option>2013</option>
-            <option>2012</option>
-            <option>2011</option>
-            <option>2010</option>
-            <option>2009</option>
-            <option>2008</option>
-            <option>2007</option>
-            <option>2006</option>
-            <option>2005</option>
-            <option>2004</option>
-            <option>2003</option>
-            <option>2002</option>
-            <option>2001</option>
-            <option>2000</option>
-            <option>1999</option>
-            <option>1998</option>
-            <option>1997</option>
-            <option>1996</option>
-            <option>1995</option>
-            <option>1994</option>
-            <option>1993</option>
-          </select>
-          (will be triggered by a brush on the yearly flow chart but only allow one year at a time)
         </div>
       </div>
 

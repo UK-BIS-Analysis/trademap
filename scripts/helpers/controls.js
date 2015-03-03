@@ -56,12 +56,18 @@ define(['./data'], function(data) {
         })
         .on('change', controls.onFilterChange)
         .select2('disable');
-
-
-      // FIX: Add listener to the temporary select for year. Later on it will be controlled from the line chart
+      // Setup the year selector
       this.$selectYear
-        .attr('disabled','true')
+        .select2({
+          allowClear: false,
+          minimumResultsForSearch: Infinity,
+          disabled: true,
+          data: [{ id: 2013, text: '2013' }, { id: 2012, text: '2012' }, { id: 2011, text: '2011' }, { id: 2010, text: '2010' }, { id: 2009, text: '2009' }]
+        })
         .on('change', controls.onFilterChange);
+      this.$selectYear.select2('data', { id: 2013, text: '2013' });
+      this.$selectYear.select2('disable');
+
 
       // ADD IMPORT/EXPORT/BALANCE BUTTON BEHAVIOURS
       this.$flowButtons.on('click', function (event) {
@@ -137,11 +143,11 @@ define(['./data'], function(data) {
           .on('change', controls.onFilterChange);
         $("#selectCommodity").select2('disable');
         $("#selectPartner").select2('disable');
-        $("#selectYear").attr('disabled', true);
+        $("#selectYear").select2('disable');
       } else {
         $("#selectCommodity").select2('enable');
         $("#selectPartner").select2('enable');
-        $("#selectYear").removeAttr('disabled');
+        $("#selectYear").select2('enable');;
       }
     }
 
