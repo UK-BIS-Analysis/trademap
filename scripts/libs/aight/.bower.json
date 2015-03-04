@@ -1,0 +1,41 @@
+{
+  "name": "aight",
+  "main": "./aight.js",
+  "version": "2.0.5",
+  "homepage": "https://github.com/shawnbot/aight",
+  "authors": [
+    "Shawn Allen <shawn.allen@hush.com>"
+  ],
+  "description": "un-suck JavaScript APIs in IE8 & 9",
+  "moduleType": [
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "ie8",
+    "ie9",
+    "ie",
+    "es5",
+    "css",
+    "dom",
+    "compatibility"
+  ],
+  "license": "BSD-2-Clause",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "2.0.5",
+  "_resolution": {
+    "type": "version",
+    "tag": "v2.0.5",
+    "commit": "349e47dc3e150c9324a0862e68c1664aefa8fe91"
+  },
+  "_source": "git://github.com/shawnbot/aight.git",
+  "_target": "~2.0",
+  "_originalSource": "aight",
+  "_direct": true
+}
