@@ -150,8 +150,9 @@ define(['../data', '../controls'], function(data, controls) {
         _redrawMap: function (filters) {
 
           // Get the relevant data ignoring flow and then combine the data
-          var newData = localData.getData({ reporter: filters.reporter, partner: filters.partner, commodity: filters.commodity, year: filters.year });
+          var newData = localData.getData({ reporter: filters.reporter, commodity: filters.commodity, year: filters.year });
           newData = localData.combineData(newData);
+
           // Create map (lookup object) to access by partner
           var newDataByPartner = d3.map(newData, function (d) { return d.partner; });
           // Based on user selected flow predefine value accessor
@@ -164,6 +165,7 @@ define(['../data', '../controls'], function(data, controls) {
           colorScale.domain(d3.extent(newData, function (d) { return +d[flow]; }));
           svg.selectAll('.country')
             .on('mouseover', function (d,i) {
+              chart._clearInfo();
               var partner = localData.countryByISONum.get(d.id).unCode,
                   datum = newDataByPartner.get(partner);
               if (datum) { chart._displayInfo(datum); }
@@ -227,7 +229,7 @@ define(['../data', '../controls'], function(data, controls) {
             .attr("y", function (d, i) { return (i * 20)+15; })
             .text(function (d,i) {
               var domainExtent = scale.invertExtent(i);
-              return localData.numFormat(Math.round(domainExtent[0]/1000000,1)) + 'm - ' + localData.numFormat(Math.round(domainExtent[1]/1000000,1))+'m';
+              return localData.numFormat(domainExtent[0]) + ' - ' + localData.numFormat(domainExtent[1]);
             });
 
         },
@@ -242,11 +244,25 @@ define(['../data', '../controls'], function(data, controls) {
             var reporter = localData.countryByUnNum.get(info.reporter).name;
             $inf.children('.countryName').html(reporter+' - '+partner);
             if (info.commodity)    { $inf.children('.commodity').html(localData.commodityName(info.commodity)); }
-            if (info.importVal)    { $inf.children('.imports').html('Imports from '+partner+': '+localData.numFormat(info.importVal)); }
-            if (info.exportVal)    { $inf.children('.exports').html('Exports to '+partner+': '+localData.numFormat(info.exportVal)); }
-            if (info.balanceVal)   { $inf.children('.balance').html('Trade balance: '+localData.numFormat(info.balanceVal)); }
-            if (info.bilateralVal) { $inf.children('.bilateralTrade').html('Bilateral trade: '+localData.numFormat(info.bilateralVal)); }
-            if (info.importRank && info.exportRank) { $inf.children('.ranking').html(partner+' is the '+localData.numOrdinal(info.exportRank)+' export destination and the '+localData.numOrdinal(info.importRank)+' import source for '+reporter); }
+            if (info.importVal) {
+              var text = '<dl class="dl-horizontal"><dt>Imports from '+partner+':</dt><dd>'+localData.numFormat(info.importVal);
+              if (info.importPc) { text = text + ' ('+info.importPc.toPrecision(2)+'% of '+reporter+' imports)' }
+              text = text+'</dd></dl>';
+              $inf.children('.imports').html(text);
+            }
+            if (info.exportVal) {
+              var text = '<dl class="dl-horizontal"><dt>Exports to '+partner+':</dt><dd>'+localData.numFormat(info.exportVal);
+              if (info.exportPc) { text = text + ' ('+info.exportPc.toPrecision(2)+'% of '+reporter+' exports)' }
+              text = text + '</dd></dl>';
+              $inf.children('.exports').html(text);
+            }
+            if (info.balanceVal)   { $inf.children('.balance').html('<dl class="dl-horizontal"><dt>Trade balance:</dt><dd>'+localData.numFormat(info.balanceVal)+'</dd></dl>'); }
+            if (info.bilateralVal) { $inf.children('.bilateralTrade').html('<dl class="dl-horizontal"><dt>Bilateral trade:</dt><dd>'+localData.numFormat(info.bilateralVal)+'</dd></dl>'); }
+            if (info.importRank && info.exportRank) {
+              var text = partner+' is the '+localData.numOrdinal(info.exportRank)+' export destination and the '+localData.numOrdinal(info.importRank)+' import source for '+reporter;
+              if (info.commodity != 'TOTAL') { text = text + ' in ' + localData.commodityName(info.commodity); }
+              $inf.children('.ranking').html(text);
+            }
           }
         },
 

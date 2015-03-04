@@ -114,6 +114,9 @@ p.placeholder {
   padding: 5px;
   font-size: 11px;
 }
+#choroplethInfo dl.dl-horizontal {
+  margin-bottom: 0;
+}
 #choroplethInfo .countryName,
 #choroplethInfo .commodity {
   font-weight: bold;
@@ -125,7 +128,7 @@ p.placeholder {
   width: 67%;
   position: absolute;
   right: 0;
-  z-index: 2000;
+  z-index: 1000;
 }
 #choroplethTitle p {
   display:table-cell;

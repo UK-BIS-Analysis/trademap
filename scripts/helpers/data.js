@@ -56,7 +56,12 @@ define(function(require) {
         var text = this.commodityCodes.get(commodity).text;
         return text.slice(text.indexOf(' - ')+3);
       },
-      numFormat: d3.format('$,'),
+      numFormat: function (num) {
+        var f = d3.format('$,');
+        if (num >= 1000000000) { return f(Math.round(num/1000000000))+' bn'; }
+        if (num >= 1000000)    { return f(Math.round(num/1000000))+' m'; }
+        return f(num);
+      },
       numOrdinal: function (num) {
         if(isNaN(num) || num%1) return num;
         if(num < 20 && num > 10) return num+'th';
@@ -212,8 +217,8 @@ define(function(require) {
 
         // Add filters by each dimension
         if (typeof filters.reporter !== 'undefined')                                 { this.xFilterByReporter.filter(+filters.reporter); }
-        if (typeof filters.partner !== 'undefined')                                  { this.xFilterByPartner.filter(+filters.partner); }
-        if (typeof filters.partner === 'undefined' || filters.partner === 'all')     { this.xFilterByPartner.filter(function (d) { return (+d !== 0); }); }
+        if (typeof filters.partner !== 'undefined' && filters.partner === 'all')     { this.xFilterByPartner.filter(function (d) { return (+d !== 0); }); }
+        else if (typeof filters.partner !== 'undefined')                             { this.xFilterByPartner.filter(+filters.partner); }
         if (typeof filters.year !== 'undefined' && filters.year !== 'all')           { this.xFilterByYear.filter(+filters.year); }
         if (typeof filters.commodity !== 'undefined' && filters.commodity !== 'AG2') { this.xFilterByCommodity.filter(filters.commodity); }
         if (typeof filters.commodity !== 'undefined' && filters.commodity === 'AG2') { this.xFilterByCommodity.filter(function (d) { return d !== 'TOTAL'; } ); }
@@ -233,11 +238,24 @@ define(function(require) {
        * Takes a dataset where imports and exports are in different records
        * and combines them into a single dataset with one record per partner
        * and different properties for import, export, balance and ranking.
+       * This should be called after getting data which includes "world" as a
+       * partner so that percentages of imports and exports will be calculated.
        */
       combineData: function (impExpData) {
         var combinedData = [],
             imports = d3.map(),
-            exports = [];
+            exports = [],
+            totImports = 0,
+            totExports = 0;
+        // Filter out values of partner = world while setting totImports and totExports
+        impExpData = impExpData.filter(function (v) {
+          if (+v.partner !== 0) { return true; }
+          else {
+            if (v.flow === 1) { totImports = v.value; }
+            if (v.flow === 2) { totExports = v.value; }
+            return false;
+          }
+        });
         // Split the data into an imports map and exports array
         impExpData.forEach(function (d) {
           if (+d.flow === 1) { imports.set(d.partner, d); }
@@ -256,9 +274,14 @@ define(function(require) {
             combined.exportVal    = Export.value;
             combined.bilateralVal = Import.value + Export.value;
             combined.balanceVal   = Export.value - Import.value;
+            if (totImports !== 0 && totExports !== 0) {
+              combined.importPc = (combined.importVal / totImports)*100;
+              combined.exportPc = (combined.exportVal / totExports)*100;
+            }
             combinedData.push(combined);
           }
         });
+
         // Sort by importVal & assign importRank
         combinedData.sort(function (a,b) {
           return +(b.importVal > a.importVal) || +(b.importVal === a.importVal) - 1;
