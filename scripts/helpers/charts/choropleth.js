@@ -14,11 +14,11 @@ define(['../data', '../controls'], function(data, controls) {
   var localData = data,
       $chart = $('#choropleth'),
       svg = d3.select("#choropleth").append("svg"),
-      colorScale = d3.scale.quantize().range(d3.range(9)),
+      colorScale = d3.scale.quantize().range(d3.range(5)),
       // Color schemes from http://colorbrewer2.org/
-      blues = ['rgb(247,251,255)','rgb(222,235,247)','rgb(198,219,239)','rgb(158,202,225)','rgb(107,174,214)','rgb(66,146,198)','rgb(33,113,181)','rgb(8,81,156)','rgb(8,48,107)'],
-      greens = ['rgb(247,252,245)','rgb(229,245,224)','rgb(199,233,192)','rgb(161,217,155)','rgb(116,196,118)','rgb(65,171,93)','rgb(35,139,69)','rgb(0,109,44)','rgb(0,68,27)'],
-      oranges = ['rgb(255,245,235)','rgb(254,230,206)','rgb(253,208,162)','rgb(253,174,107)','rgb(253,141,60)','rgb(241,105,19)','rgb(217,72,1)','rgb(166,54,3)','rgb(127,39,4)'],
+      blues = ['rgb(239,243,255)','rgb(189,215,231)','rgb(107,174,214)','rgb(49,130,189)','rgb(8,81,156)'],
+      greens = ['rgb(237,248,233)','rgb(186,228,179)','rgb(116,196,118)','rgb(49,163,84)','rgb(0,109,44)'],
+      oranges = ['rgb(254,237,222)','rgb(253,190,133)','rgb(253,141,60)','rgb(230,85,13)','rgb(166,54,3)'],
       colors = [blues, oranges, greens],
 
 
@@ -120,7 +120,7 @@ define(['../data', '../controls'], function(data, controls) {
             data.query(dataFilter, function queryCallback (err, data) {
               // Redraw map and set title
               chart._redrawMap(dataFilter);
-              $('#choroplethTitle p').html('Value of ' + localData.flowByCode.get(filters.flow).text.toLowerCase() + ' between ' + localData.countryByUnNum.get(filters.reporter).name + ' and every other country in  ' + filters.year + '.');
+              $('#choroplethTitle p').html('Value of ' + localData.flowByCode.get(filters.flow).text.toLowerCase() + ' between ' + localData.countryByUnNum.get(filters.reporter).name + ' and the World in  ' + filters.year + '.');
             });
             return;
           }
@@ -138,7 +138,7 @@ define(['../data', '../controls'], function(data, controls) {
             data.query(dataFilter, function queryCallback (err, data) {
               // Redraw map and set title
               chart._redrawMap(dataFilter);
-              $('#choroplethTitle p').html('Value of ' + localData.flowByCode.get(filters.flow).text.toLowerCase() + ' between ' + localData.countryByUnNum.get(filters.reporter).name + ' and every other country for ' + localData.commodityName(filters.commodity) + ' in ' + filters.year+'.');
+              $('#choroplethTitle p').html('Value of ' + localData.flowByCode.get(filters.flow).text.toLowerCase() + ' between ' + localData.countryByUnNum.get(filters.reporter).name + ' and the World for ' + localData.commodityName(filters.commodity) + ' in ' + filters.year+'.');
             });
             return;
           }
@@ -149,18 +149,19 @@ define(['../data', '../controls'], function(data, controls) {
 
         _redrawMap: function (filters) {
 
-          // Get the relevant data ignoring flow and then combine the data
+          // Get the relevant data for both flows and then combine the data
           var newData = localData.getData({ reporter: filters.reporter, commodity: filters.commodity, year: filters.year });
           newData = localData.combineData(newData);
 
-          // Create map (lookup object) to access by partner
+          // Create a lookup object to access by partner
           var newDataByPartner = d3.map(newData, function (d) { return d.partner; });
+
           // Based on user selected flow predefine value accessor
           if (+filters.flow == 1) { var flow = 'importVal'; }
           else if (+filters.flow == 2) { var flow = 'exportVal'; }
           else { var flow = 'balanceVal'; }
 
-
+          // TODO if flow == 0 then treat the colorscale differently (one color for positive and one for negative)
           // Update scale with domain and redraw map
           colorScale.domain(d3.extent(newData, function (d) { return +d[flow]; }));
           svg.selectAll('.country')
@@ -181,12 +182,12 @@ define(['../data', '../controls'], function(data, controls) {
                     bucket = colorScale(countryData[flow]);
                 return colors[filters.flow][bucket];
               } catch (exception) {
-                return '#fff';
+                return '#818181';
               }
             });
 
           // (Re)draw legend
-          chart._drawLegend(colorScale, colors[filters.flow]);
+          chart._drawLegend(colorScale, filters.flow);
 
           // Clear info
           $('#choroplethInfo .value').html('');
@@ -199,34 +200,55 @@ define(['../data', '../controls'], function(data, controls) {
 
 
 
-        _drawLegend: function (scale, currentColors) {
-          var legend = svg.select('g.legend');
+        _drawLegend: function (scale, flow) {
+          var currentColors = colors[flow],
+              flowName = ['Balance', 'Imports', 'Exports'][flow];
           // Remove legend if present
           svg.select('g.legend').remove()
           // Redraw legend
-          legend = svg.append("g")
-            .attr("class", "legend")
-            .attr("x", 25)
-            .attr("y", 35)
-            .attr("height", 100)
-            .attr("width", 100);
-          // Add boxes
+          var legend = svg.append('g')
+            .attr('class', 'legend')
+            .attr('transform', 'translate(5,20)');
+          // Add legend title
+          legend.append('text')
+            .attr('class', 'title')
+            .attr('x', 0)
+            .attr('y', 0)
+            .style('font-weight','bold')
+            .text(flowName);
+          // Add no-data box & label
+          legend.append('rect')
+            .attr('class', 'noData')
+            .attr('x', 0)
+            .attr('y', 12)
+            .attr('width', 18)
+            .attr('height', 18)
+            .style('fill', '#818181');
+          legend.append('text')
+            .attr('class', 'noData')
+            .attr('x', 22)
+            .attr('y', 25)
+            .text('No data available')
+          // Add scale boxes
+          legend = legend.append('g')
+            .attr('class', 'scale')
+            .attr('transform', 'translate(0,33)');
           legend.selectAll('rect')
-            .data(d3.range(9))
+            .data(d3.range(currentColors.length))
             .enter()
-            .append("rect")
-            .attr("x", 0)
-            .attr("y", function (d, i) { return i * 20; })
-            .attr("width", 18)
-            .attr("height", 18)
-            .style("fill", function(d, i) { return currentColors[i]; });
+            .append('rect')
+            .attr('x', 0)
+            .attr('y', function (d, i) { return i * 20; })
+            .attr('width', 18)
+            .attr('height', 18)
+            .style('fill', function(d, i) { return currentColors[i]; });
           // Add text
           legend.selectAll('text')
-            .data(d3.range(9))
+            .data(d3.range(currentColors.length))
             .enter()
-            .append("text")
-            .attr("x", 22)
-            .attr("y", function (d, i) { return (i * 20)+15; })
+            .append('text')
+            .attr('x', 22)
+            .attr('y', function (d, i) { return i * 20 +15; })
             .text(function (d,i) {
               var domainExtent = scale.invertExtent(i);
               return localData.numFormat(domainExtent[0]) + ' - ' + localData.numFormat(domainExtent[1]);
