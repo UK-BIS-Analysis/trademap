@@ -34,6 +34,7 @@ define(['../data', '../controls'], function(data, controls) {
       yAxis  = d3.svg.axis()
         .scale(yScale)
         .orient('left')
+        .ticks(6)
         .tickFormat(localData.numFormat),
       line   = d3.svg.line()
         .interpolate('linear'),
@@ -62,6 +63,12 @@ define(['../data', '../controls'], function(data, controls) {
             .attr('class', 'y axis')
             .attr('transform', 'translate('+margin.left+',' + margin.top + ')')
             .call(yAxis);
+          svg.append('g')
+            .attr('class', 'xGrid')
+            .attr('transform', 'translate('+margin.left+',' + (margin.top+innerHeight) + ')');
+          svg.append('g')
+            .attr('class', 'yGrid')
+            .attr('transform', 'translate('+margin.left+',' + margin.top + ')');
           svg.append('g')
             .attr('class', 'plots')
             .attr('transform', 'translate('+margin.left+',' + margin.top + ')');
@@ -147,19 +154,29 @@ define(['../data', '../controls'], function(data, controls) {
           yScale.domain(d3.extent(newData, function (d) { return d.value; }));
           line.x(function(d) { return xScale(d.year); })
             .y(function(d) { return yScale(d.value); });
-          xAxis
-            .scale(xScale)
-            .tickValues(d3.range(yearRange[0], yearRange[1]));
-          yAxis.scale(yScale);
+          xAxis.scale(xScale)
+            .tickValues(d3.range(yearRange[0], yearRange[1]))
+            .tickSize(6, 0)
+            .tickFormat(d3.format(".0f"));
+          yAxis.scale(yScale)
+            .tickSize(6, 0)
+            .tickFormat(localData.numFormat);
 
           // Update yearSelect dropdown with new year range
           controls.updateYears(d3.range(yearRange[0], yearRange[1]));
 
-          // Update axis
-          svg.select(".x.axis") // change the x axis
+          // Update axis and grids
+          svg.select('.x.axis') // change the x axis
             .call(xAxis);
-          svg.select(".y.axis") // change the y axis
+          svg.select('.y.axis') // change the y axis
             .call(yAxis);
+          svg.select('.xGrid')
+            .html('')
+            .call(xAxis.tickSize(-innerHeight, 0, 0).tickFormat(''));
+          svg.select('.yGrid')
+            .html('')
+            .call(yAxis.tickSize(-innerWidth, 0, 0).tickFormat(''));
+
 
           // Draw groups and then in each group lines and dots
           var plots = svg.select('.plots'),
@@ -201,27 +218,8 @@ define(['../data', '../controls'], function(data, controls) {
               controls.changeFilters({ year: d.year });
             });
 
-        },
-
-        currentFilters: {},
-
-        // TODO this can probalby be removed
-        _filterChanged: function (filters) {
-          try {
-            if (filters.reporter  === chart.currentFilters.reporter &&
-                filters.partner   === chart.currentFilters.partner &&
-                filters.commodity === chart.currentFilters.commodity &&
-                filters.year      === chart.currentFilters.year) {
-              return false;
-            } else {
-              chart.currentFilters = filters;
-              return true;
-            }
-          } catch (err) {
-            chart.currentFilters = filters;
-            return true;
-          }
         }
+
   };
 
   return chart;
