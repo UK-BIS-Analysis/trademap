@@ -176,11 +176,6 @@ p.placeholder {
   stroke: rgb(44, 105, 158);
   stroke-width: 2px !important;
 }
-#choropleth g.legend {
-  font-size: 12px;
-  fill: rgba(141, 141, 141, 0.75);
-}
-
 
 /*
  * COMMON STYLES FOR CHARTS
@@ -200,12 +195,25 @@ g.tick text {
 .xGrid .tick line {
   stroke: #afafaf;
 }
+g.legend {
+  font-size: 13px;
+  fill: rgba(141, 141, 141, 0.75);
+}
+
 
 /*
  * STYLES FOR THE YEAR CHART
  */
 #yearChart {
   height: 16em;
+}
+#yearChart .chartTitle {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.80);
+  color: #2D6BA1;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 1.1em;
 }
 #yearChart .dot {
   cursor: pointer;

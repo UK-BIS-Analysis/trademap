@@ -18,7 +18,7 @@ define(['../data', '../controls'], function(data, controls) {
 
       // SVG main properties
       svg = d3.select('#yearChart').append('svg'),
-      margin = {top: 20, right: 80, bottom: 30, left: 70},
+      margin = {top: 25, right: 80, bottom: 30, left: 70},
       height = $chart.height(),
       width  = $chart.width(),
       innerHeight = height - margin.top - margin.bottom,
@@ -52,7 +52,7 @@ define(['../data', '../controls'], function(data, controls) {
           // Bind the refresh function to the refreshFilters event
           $chart.on('refreshFilters', this.refresh);
 
-          // Setup SVG and add axises and groups
+          // Setup SVG and add axises, grids and groups
           svg.attr('width', width)
             .attr('height', height);
           svg.append('g')
@@ -73,6 +73,27 @@ define(['../data', '../controls'], function(data, controls) {
             .attr('class', 'plots')
             .attr('transform', 'translate('+margin.left+',' + margin.top + ')');
 
+          // Draw legend
+          var legendItems = svg.append('g')
+            .attr('class', 'legend')
+            .attr('transform', 'translate('+margin.left+',0)')
+            .selectAll('.legendItem')
+            .data(colors)
+            .enter()
+            .append('g')
+            .attr('class','legendItem');
+          legendItems.append('circle')
+            .attr('cx', function (d, i) { return innerWidth-(i+1)*120; })
+            .attr('cy', '10')
+            .attr('r', '5')
+            .style('fill', function (d) { return d; });
+          legendItems.append('text')
+            .attr('transform', function (d, i) {
+              return 'translate('+(innerWidth+10-(i+1)*120)+',15)';
+            })
+            .text(function(d,i) { return ['Imports','Exports'][i]; } );
+
+
           // Hide on load
           $chart.slideUp(0);
         },
@@ -82,42 +103,45 @@ define(['../data', '../controls'], function(data, controls) {
 
 
         refresh: function (event, filters) {
+          var title = '';
+
           // CASE 1: reporter = null
           if(!filters.reporter) {
             $chart.slideUp();
             return;
           }
 
+          // We build a dataFilter object to make API queries more generic (see case 2 and 5 below)
           var dataFilter = {
             reporter: +filters.reporter,
             year:   'all'
           };
 
           // CASE 2: reporter = selected    commodity = null        partner = null
-          // (Line chart with total import and export  values between 1993-2013 between reporter and the rest of the world
           if(filters.reporter && !filters.commodity && !filters.partner) {
+            title = 'Total imports and Exports of '+localData.countryByUnNum.get(filters.reporter).name;
             dataFilter.partner =  0;
             dataFilter.commodity = 'TOTAL';
           }
 
           // CASE 3: reporter = selected    commodity = null        partner = selected
-          // Line chart with total import and export  values between 1993-2013 between reporter and partner.
           if(filters.reporter && !filters.commodity && filters.partner) {
+            title = 'Imports and Exports between '+localData.countryByUnNum.get(filters.reporter).name + ' and ' + localData.countryByUnNum.get(filters.partner).name;
             dataFilter.partner = +filters.partner;
             dataFilter.commodity = 'AG2';
           }
 
           // CASE 4: reporter = selected    commodity = selected    partner = null
-          // Line chart with total import and export  values of commodity between 1993-2013 between reporter and the rest of the world;
           if(filters.reporter && filters.commodity && !filters.partner) {
+            title = 'Imports and Exports of '+localData.commodityName(filters.commodity)+' to/from '+localData.countryByUnNum.get(filters.reporter).name;
             dataFilter.partner = 0;
             dataFilter.commodity = filters.commodity;
           }
 
           // CASE 5: reporter = selected    commodity = selected    partner = selected
           // NOTE This is already covered by the data in CASE 3 so we don't specify the commodity in the query to avoid duplicate data
-          // Line chart with total import and export  values of commodity between 1993-2013 between reporter and partner
           if(filters.reporter && filters.commodity && filters.partner) {
+            title = 'Imports and Exports of '+localData.commodityName(filters.commodity)+' between '+localData.countryByUnNum.get(filters.reporter).name + ' and ' + localData.countryByUnNum.get(filters.partner).name;
             dataFilter.partner = +filters.partner;
             dataFilter.commodity = 'AG2';
           }
@@ -127,6 +151,8 @@ define(['../data', '../controls'], function(data, controls) {
             if (err) { console.log(err); }
             if (err || !ready) { return; }
             $chart.slideDown(400, function () {
+              // Update title and chart
+              $chart.children('.chartTitle').html(title);
               chart._draw(dataFilter);
             });
           });
@@ -147,7 +173,7 @@ define(['../data', '../controls'], function(data, controls) {
               tip = d3.tip()
                 .attr('class', 'd3-tip')
                 .offset([-10, 0])
-                .html(function(d) { return d.year+': '+localData.numFormat(d.value); });
+                .html(function(d) { return d.year+': '+localData.numFormat(d.value)+' '+['imports', 'exports'][d.flow-1]; });
 
           // Update scale domains with newData values and the line generation function
           xScale.domain(yearRange);
