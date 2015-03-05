@@ -88,7 +88,11 @@ define(['../data', '../controls'], function(data, controls) {
                 .on('mouseover', function (d,i) {
                   // Update infobox
                   chart._clearInfo();
-                  chart._displayInfo({ partner: localData.countryByISONum.get(d.id).unCode });
+                  try {
+                    chart._displayInfo({ partner: localData.countryByISONum.get(d.id).unCode });
+                  } catch (err) {
+                    console.log('No country in database by '+d.id+' isoCode.')
+                  }
                   // Bring country path node to the front (to display border highlighting better)
                   svg.selectAll('.country').sort(function(a,b) { return (a.id === d.id) - (b.id === d.id); });
                 });

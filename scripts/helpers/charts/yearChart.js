@@ -18,7 +18,7 @@ define(['../data', '../controls'], function(data, controls) {
 
       // SVG main properties
       svg = d3.select('#yearChart').append('svg'),
-      margin = {top: 25, right: 80, bottom: 30, left: 70},
+      margin = {top: 25, right: 15, bottom: 30, left: 70},
       height = $chart.height(),
       width  = $chart.width(),
       innerHeight = height - margin.top - margin.bottom,
@@ -101,9 +101,7 @@ define(['../data', '../controls'], function(data, controls) {
 
 
 
-
         refresh: function (event, filters) {
-          var title = '';
 
           // CASE 1: reporter = null
           if(!filters.reporter) {
@@ -111,43 +109,51 @@ define(['../data', '../controls'], function(data, controls) {
             return;
           }
 
-          // We build a dataFilter object to make API queries more generic (see case 2 and 5 below)
-          var dataFilter = {
-            reporter: +filters.reporter,
-            year:   'all'
-          };
+          // We build a queryFilter and a dataFilter object to make API queries more generic than data queries (see case 2 and 5 below)
+          var queryFilter = {
+                reporter: +filters.reporter,
+                year:   'all'
+              },
+              dataFilter = queryFilter,
+              title = '';
 
           // CASE 2: reporter = selected    commodity = null        partner = null
           if(filters.reporter && !filters.commodity && !filters.partner) {
             title = 'Total imports and Exports of '+localData.countryByUnNum.get(filters.reporter).name;
-            dataFilter.partner =  0;
-            dataFilter.commodity = 'TOTAL';
+            queryFilter.partner =  0;
+            queryFilter.commodity = 'TOTAL';
+            dataFilter = queryFilter;
           }
 
           // CASE 3: reporter = selected    commodity = null        partner = selected
           if(filters.reporter && !filters.commodity && filters.partner) {
             title = 'Imports and Exports between '+localData.countryByUnNum.get(filters.reporter).name + ' and ' + localData.countryByUnNum.get(filters.partner).name;
+            queryFilter.partner = +filters.partner;
+            queryFilter.commodity = 'AG2';
             dataFilter.partner = +filters.partner;
-            dataFilter.commodity = 'AG2';
+            dataFilter.commodity = 'TOTAL';
           }
 
           // CASE 4: reporter = selected    commodity = selected    partner = null
           if(filters.reporter && filters.commodity && !filters.partner) {
             title = 'Imports and Exports of '+localData.commodityName(filters.commodity)+' to/from '+localData.countryByUnNum.get(filters.reporter).name;
-            dataFilter.partner = 0;
-            dataFilter.commodity = filters.commodity;
+            queryFilter.partner = 0;
+            queryFilter.commodity = filters.commodity;
+            dataFilter = queryFilter;
           }
 
           // CASE 5: reporter = selected    commodity = selected    partner = selected
           // NOTE This is already covered by the data in CASE 3 so we don't specify the commodity in the query to avoid duplicate data
           if(filters.reporter && filters.commodity && filters.partner) {
             title = 'Imports and Exports of '+localData.commodityName(filters.commodity)+' between '+localData.countryByUnNum.get(filters.reporter).name + ' and ' + localData.countryByUnNum.get(filters.partner).name;
+            queryFilter.partner = +filters.partner;
+            queryFilter.commodity = 'AG2';
             dataFilter.partner = +filters.partner;
-            dataFilter.commodity = 'AG2';
+            dataFilter.commodity = filters.commodity;
           }
 
           // Run the query, display the panel and redraw the chart
-          data.query(dataFilter, function queryCallback (err, ready) {
+          data.query(queryFilter, function queryCallback (err, ready) {
             if (err) { console.log(err); }
             if (err || !ready) { return; }
             $chart.slideDown(400, function () {
