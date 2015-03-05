@@ -61,12 +61,9 @@ define(['./data'], function(data) {
         .select2({
           allowClear: false,
           minimumResultsForSearch: Infinity,
-          disabled: true,
-          data: [{ id: 2013, text: '2013' }, { id: 2012, text: '2012' }, { id: 2011, text: '2011' }, { id: 2010, text: '2010' }, { id: 2009, text: '2009' }]
+          disabled: true
         })
         .on('change', controls.onFilterChange);
-      this.$selectYear.select2('data', { id: 2013, text: '2013' });
-      this.$selectYear.select2('disable');
 
 
       // ADD IMPORT/EXPORT/BALANCE BUTTON BEHAVIOURS
@@ -126,10 +123,21 @@ define(['./data'], function(data) {
         controls.$selectPartner.val(filters.partner).trigger("change");
       }
       if (filters.year && filters.year !== controls.$selectYear.val()) {
-        controls.$selectYear.val(filters.year);
+        controls.$selectYear.val(filters.year).trigger("change");
       }
 
 
+    },
+
+
+
+    updateYears: function (yearList) {
+      var current = controls.$selectYear.val();
+      controls.$selectYear.html('');
+      yearList.sort(function (a, b) { return b-a; }).forEach(function (d) {
+        controls.$selectYear.append('<option value="'+d+'" selected>'+d+'</option>');
+      });
+      controls.$selectYear.val(+current);
     },
 
 
@@ -147,7 +155,7 @@ define(['./data'], function(data) {
       } else {
         $("#selectCommodity").select2('enable');
         $("#selectPartner").select2('enable');
-        $("#selectYear").select2('enable');;
+        $("#selectYear").select2('enable');
       }
     }
 

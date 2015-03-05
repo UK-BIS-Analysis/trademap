@@ -114,7 +114,9 @@
           <span id="selectReporter" class="select2control"></span><br />
           <!-- Year selection -->
           <div class="selectYearWrapper">
-            <span id="selectYear" class="select2control"></span>
+            <select id="selectYear" class="select2control" disabled>
+              <option value="2013" selected>2013</option>
+            </select>
           </div>
         </div>
         <div class="col-md-4 column">
@@ -134,9 +136,7 @@
       <!-- Yearly flows chart and selector -->
       <div class="row clearfix">
         <div class="col-md-12 column">
-          <div id="yearChart" class="chart">
-            <p class="placeholder"></p>
-          </div>
+          <div id="yearChart" class="chart"></div>
         </div>
       </div>
 

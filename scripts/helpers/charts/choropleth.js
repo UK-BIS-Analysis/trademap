@@ -14,6 +14,11 @@ define(['../data', '../controls'], function(data, controls) {
   'use strict';
   var localData = data,
       $chart = $('#choropleth'),
+
+      // A holder for current filters
+      currentFilters = {},
+
+      // SVG main properties
       svg = d3.select("#choropleth").append("svg"),
       // Color schemes from http://colorbrewer2.org/
       // The number of colors will drive the scales below (e.g. if you put six colors there will be six shades in the scales)
@@ -101,14 +106,14 @@ define(['../data', '../controls'], function(data, controls) {
 
 
         refresh: function (event, filters) {
+          var dataFilter = {};
+
           // CASE 1: reporter = null    -->   Blank choropleth, no countries selected and no fills and no title
           if(!filters.reporter) {
             svg.selectAll('.country').style('fill', '#fff');
             $('#choroplethTitle').html('');
             return;
           }
-
-          var dataFilter = {};
 
           // CASE 2: reporter = selected    commodity = null
           if(filters.reporter && !filters.commodity) {
@@ -120,7 +125,9 @@ define(['../data', '../controls'], function(data, controls) {
               year:       +filters.year,
               flow:       filters.flow
             };
-            data.query(dataFilter, function queryCallback (err, data) {
+            data.query(dataFilter, function queryCallback (err, ready) {
+              if (err) { console.log(err); }
+              if (err || !ready) { return; }
               // Redraw map and set title
               chart._redrawMap(dataFilter);
               $('#choroplethTitle p').html('Value of ' + localData.flowByCode.get(filters.flow).text.toLowerCase() + ' between ' + localData.countryByUnNum.get(filters.reporter).name + ' and the World in  ' + filters.year + '.');
@@ -138,7 +145,9 @@ define(['../data', '../controls'], function(data, controls) {
               year:       +filters.year,
               flow:       filters.flow
             };
-            data.query(dataFilter, function queryCallback (err, data) {
+            data.query(dataFilter, function queryCallback (err, ready) {
+              if (err) { console.log(err); }
+              if (err || !ready) { return; }
               // Redraw map and set title
               chart._redrawMap(dataFilter);
               $('#choroplethTitle p').html('Value of ' + localData.flowByCode.get(filters.flow).text.toLowerCase() + ' between ' + localData.countryByUnNum.get(filters.reporter).name + ' and the World for ' + localData.commodityName(filters.commodity) + ' in ' + filters.year+'.');
@@ -179,13 +188,16 @@ define(['../data', '../controls'], function(data, controls) {
 
           // Color the paths on the choropleth
           svg.selectAll('.country')
+            .classed('highlighted',false)
             .on('mouseover', function (d,i) {
               chart._clearInfo();
-              var partner = localData.countryByISONum.get(d.id).unCode,
-                  datum = newDataByPartner.get(partner);
-              if (datum) { chart._displayInfo(datum); }
-              // Bring country path node to the front (to display border highlighting better)
-              svg.selectAll('.country').sort(function(a,b) { return (a.id === d.id) - (b.id === d.id);});
+              try {
+                var partner = localData.countryByISONum.get(d.id).unCode,
+                    datum = newDataByPartner.get(partner);
+                if (datum) { chart._displayInfo(datum); }
+                // Bring country path node to the front (to display border highlighting better)
+                svg.selectAll('.country').sort(function(a,b) { return (a.id === d.id) - (b.id === d.id);});
+              } catch (err) {}
             })
             .transition()
             .duration(1000)
@@ -207,7 +219,7 @@ define(['../data', '../controls'], function(data, controls) {
           $('#choroplethInfo .value').html('');
 
           // Highlight reporter on map
-          svg.select('#iso'+filters.reporter).transition().style('fill','#2C699E', 'important');
+          svg.select('#iso'+filters.reporter).classed('highlighted',true);
 
         },
 

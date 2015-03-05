@@ -167,11 +167,42 @@ p.placeholder {
   fill: #fff;
   stroke-width: .5px;
 }
+#choropleth path.country.highlighted {
+  fill: #fff !important;
+  stroke: rgb(44, 105, 158);
+  stroke-width: 2px !important;
+}
 #choropleth path.country:hover {
   stroke: rgb(44, 105, 158);
-  stroke-width: 2px;
+  stroke-width: 2px !important;
 }
 #choropleth g.legend {
   font-size: 12px;
   fill: rgba(141, 141, 141, 0.75);
+}
+
+
+/*
+ * COMMON STYLES FOR CHARTS
+ */
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #2D6BA1;
+  shape-rendering: crispEdges;
+  stroke-width: 1px;
+}
+g.tick text {
+  font-size: 12px;
+  fill: rgba(141, 141, 141, 0.75);
+}
+
+/*
+ * STYLES FOR THE YEAR CHART
+ */
+#yearChart {
+  height: 16em;
+}
+#yearChart .dot {
+  cursor: pointer;
 }

@@ -63,23 +63,25 @@ define(function(require) {
         return f(num);
       },
       numOrdinal: function (num) {
-        if(isNaN(num) || num%1) return num;
-        if(num < 20 && num > 10) return num+'th';
-        var last = num.toString().slice(-1);
+        if(isNaN(num) || num%1) { return num; }
+        if(num < 20 && num > 10) { return num+'th'; }
+        var last = num.toString().slice(-1),
+            text = '';
         switch (last) {
           case '1':
-            return num+'st';
+            text = num+'st';
             break;
           case '2':
-            return num+'nd';
+            text = num+'nd';
             break;
           case '3':
-            return num+'rd';
+            text = num+'rd';
             break;
           default:
-            return num+'th';
+            text = num+'th';
             break;
         }
+        return text;
       },
 
 
@@ -145,8 +147,8 @@ define(function(require) {
        *   year:     'all',   // Year can be 'all' or apecific year: 2012 (FUTURE: Multi-year queries are allowed for up to 5 years)
        *   commodity:72       // Can be a specific 2-digit HS code or 'TOTAL' or 'AG2'
        * }
-       * Callback is called with callback(error, newData)
-       * newData will be true if new data was received and added to crossfilter or false otherwise.
+       * Callback is called with callback(error, ready)
+       * ready will be true if new data was received and added to crossfilter or false otherwise.
        */
       query: function (filters, callback) {
         // Get current time and build URL
@@ -155,14 +157,15 @@ define(function(require) {
 
         // Check history to see if query was already run and skip the call if it was already run
         if(data.queryHistory.indexOf(requestUrl) > -1) {
-          callback(null, false);
+          callback(null, true);
           return;
         }
 
         // If the API was called less than a second ago, or if the query is in the queue then we need to
         // postpone the call by (a little more than) a second.
-        if (time.getTime() - data.timestamp < 1000 || data.queryQueue.indexOf(requestUrl) > -1) {
-          window.setTimeout(function () { data.query(filters, callback); }, 1100);
+        var timeAgo = time.getTime() - data.timestamp;
+        if (timeAgo < 1000 || data.queryQueue.indexOf(requestUrl) > -1) {
+          window.setTimeout(function () { data.query(filters, callback); }, timeAgo+100);
           callback(null, false);
           return;
         }
@@ -186,7 +189,7 @@ define(function(require) {
             if (queueItem > -1) { this.queryQueue.splice(queueItem, 1); }
             // Add data to crossfilter and callback
             this._addData(data, filters);
-            callback(null, data);
+            callback(null, true);
           },
           error: function error (xhr, status, err) {
             callback(err, null);
