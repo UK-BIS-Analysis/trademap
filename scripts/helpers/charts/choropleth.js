@@ -219,7 +219,7 @@ define(['../data', '../controls'], function(data, controls) {
           $('#choroplethInfo .value').html('');
 
           // Highlight reporter on map
-          svg.select('#iso'+filters.reporter).classed('highlighted',true);
+          svg.select('#iso'+localData.countryByUnNum.get(filters.reporter).isoNumerical).classed('highlighted',true);
 
         },
 

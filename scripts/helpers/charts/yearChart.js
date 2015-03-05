@@ -169,19 +169,20 @@ define(['../data', '../controls'], function(data, controls) {
                 .key(function(d) { return d.flow; })
                 .sortValues(function(a,b) { return a.year - b.year; } )
                 .entries(newData),
-              yearRange = d3.extent(newData, function (d) { return d.year; }),
+              yearExtent = d3.extent(newData, function (d) { return d.year; }),
+              yearRange = d3.range(yearExtent[0], yearExtent[1]+1),
               tip = d3.tip()
                 .attr('class', 'd3-tip')
                 .offset([-10, 0])
                 .html(function(d) { return d.year+': '+localData.numFormat(d.value)+' '+['imports', 'exports'][d.flow-1]; });
 
           // Update scale domains with newData values and the line generation function
-          xScale.domain(yearRange);
+          xScale.domain(yearExtent);
           yScale.domain(d3.extent(newData, function (d) { return d.value; }));
           line.x(function(d) { return xScale(d.year); })
             .y(function(d) { return yScale(d.value); });
           xAxis.scale(xScale)
-            .tickValues(d3.range(yearRange[0], yearRange[1]))
+            .tickValues(yearRange)
             .tickSize(6, 0)
             .tickFormat(d3.format(".0f"));
           yAxis.scale(yScale)
@@ -189,12 +190,14 @@ define(['../data', '../controls'], function(data, controls) {
             .tickFormat(localData.numFormat);
 
           // Update yearSelect dropdown with new year range
-          controls.updateYears(d3.range(yearRange[0], yearRange[1]));
+          controls.updateYears(yearRange);
 
           // Update axis and grids
           svg.select('.x.axis') // change the x axis
+            .transition()
             .call(xAxis);
           svg.select('.y.axis') // change the y axis
+            .transition()
             .call(yAxis);
           svg.select('.xGrid')
             .html('')
@@ -205,29 +208,31 @@ define(['../data', '../controls'], function(data, controls) {
 
 
           // Draw groups and then in each group lines and dots
-          var plots = svg.select('.plots'),
-              flow  = plots.selectAll('.flow')
-                        .data(nestedData)
-                        .enter()
-                        .append('g')
-                        .attr('class', function (d) {
-                          return 'flow '+['imports', 'exports'][+d.key-1];
-                        });
-
-          plots.call(tip);
-          flow.append('path')
-            .attr('class','line')
-            .attr('d', function (d) { return line(d.values); })
+          var plotGraph = svg.select('.plots'),
+              lines = plotGraph.selectAll('path.flow')
+                .data(nestedData);
+          // Add lines
+          lines.enter()
+            .append('path')
+            .attr('class', 'flow')
             .style("stroke", function(d) { return colors[d.key-1]; })
             .style("fill", 'none')
             .style("stroke-width", '1.5px');
-          flow.selectAll('.dot')
-            .data(function (d) { return d.values; })
-            .enter()
+          // Transition to new path layout
+          lines.transition()
+            .attr('d', function (d) { return line(d.values); });
+
+          // Add dots in groups
+          var dotGroups = plotGraph.selectAll('g.flow')
+            .data(nestedData);
+          dotGroups.enter()
+            .append('g')
+            .attr('class', 'flow');
+          var dots = dotGroups.selectAll('circle.dot')
+            .data(function (d) { return d.values; });
+          dots.enter()
             .append('circle')
             .attr('class', 'dot')
-            .attr('cx', function (d) { return xScale(d.year); })
-            .attr('cy', function (d) { return yScale(d.value); })
             .attr('r', '3')
             .style("fill", function(d) { return colors[d.flow-1]; })
             .style("stroke-width", '0')
@@ -240,9 +245,23 @@ define(['../data', '../controls'], function(data, controls) {
               d3.select(this).interrupt().transition().attr('r', '3');
             })
             .on('click', function (d) {
-              console.log('select: '+d.year );
               controls.changeFilters({ year: d.year });
             });
+          // Transition dot positions
+          dots.transition()
+            .attr('cx', function (d) { return xScale(d.year); })
+            .attr('cy', function (d) { return yScale(d.value); });
+          // Remove unneeded dots
+          dots.exit().remove();
+
+          // Add tooltip
+          plotGraph.call(tip);
+
+
+
+
+
+
 
         }
 
