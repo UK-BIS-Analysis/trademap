@@ -212,6 +212,22 @@ define(['../data', '../controls'], function(data, controls) {
             .html('')
             .call(yAxis.tickSize(-innerWidth, 0, 0).tickFormat(''));
 
+          // Add rect to highlight year
+          var hl = svg.selectAll('rect.highlight')
+                     .data([1]),
+              selectedYear = $('#selectYear').val();
+          hl.enter()
+            .append('rect')
+            .attr('class', 'highlight')
+            .attr('x', '0')
+            .attr('y', margin.top)
+            .attr('width', '0')
+            .attr('height', innerHeight);
+          hl.transition()
+            .attr('width', function (d) {
+              return xScale(+selectedYear+1)-xScale(+selectedYear)
+            })
+            .attr('x', function (d) { return xScale(+selectedYear)+margin.left; });
 
           // Draw groups and then in each group lines and dots
           var plotGraph = svg.select('.plots'),
@@ -262,12 +278,6 @@ define(['../data', '../controls'], function(data, controls) {
 
           // Add tooltip
           plotGraph.call(tip);
-
-
-
-
-
-
 
         }
 

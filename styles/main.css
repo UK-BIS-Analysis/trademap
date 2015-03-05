@@ -218,3 +218,6 @@ g.legend {
 #yearChart .dot {
   cursor: pointer;
 }
+#yearChart .highlight {
+  fill: rgba(47, 112, 169, 0.50);
+}
