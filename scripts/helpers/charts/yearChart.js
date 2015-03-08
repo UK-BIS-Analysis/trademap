@@ -25,7 +25,7 @@ define(['../data', '../controls'], function(data, controls) {
       innerWidth = width - margin.left - margin.right,
 
       // Chart main objects
-      xScale = d3.scale.linear().range([0, innerWidth]),
+      xScale = d3.scale.linear().range([0, innerWidth]).clamp(true),
       yScale = d3.scale.linear().range([innerHeight, 0]),
       xAxis  = d3.svg.axis()
         .scale(xScale)
@@ -156,10 +156,11 @@ define(['../data', '../controls'], function(data, controls) {
           data.query(queryFilter, function queryCallback (err, ready) {
             if (err) { console.log(err); }
             if (err || !ready) { return; }
+            // Get the data, update title, display panel and update chart
+            var newData = localData.getData(dataFilter);
+            $chart.children('.chartTitle').html(title);
             $chart.slideDown(400, function () {
-              // Update title and chart
-              $chart.children('.chartTitle').html(title);
-              chart._draw(dataFilter);
+              chart._draw(newData);
             });
           });
 
@@ -168,10 +169,9 @@ define(['../data', '../controls'], function(data, controls) {
 
 
 
-        _draw: function (filters) {
-          // Get the relevant data for imports and exports
-          var newData = localData.getData(filters),
-              nestedData = d3.nest()
+        _draw: function (newData) {
+          // Prepare data
+          var nestedData = d3.nest()
                 .key(function(d) { return d.flow; })
                 .sortValues(function(a,b) { return a.year - b.year; } )
                 .entries(newData),
@@ -225,7 +225,7 @@ define(['../data', '../controls'], function(data, controls) {
             .attr('height', innerHeight);
           hl.transition()
             .attr('width', function (d) {
-              return xScale(+selectedYear+1)-xScale(+selectedYear)
+              return xScale(+selectedYear+1)-xScale(+selectedYear);
             })
             .attr('x', function (d) { return xScale(+selectedYear)+margin.left; });
 

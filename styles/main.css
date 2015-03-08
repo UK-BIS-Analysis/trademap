@@ -32,12 +32,6 @@ nav.navbar {
 #clearFilters {
   float: right;
 }
-p.placeholder {
-  text-align: center;
-  padding: 3em 0;
-  border: 1px dotted rgb(0, 14, 185);
-  color: #00f;
-}
 .selectYearWrapper {
   margin-top: 5px;
   width: 50%;
@@ -220,4 +214,20 @@ g.legend {
 }
 #yearChart .highlight {
   fill: rgba(47, 112, 169, 0.50);
+}
+
+/*
+ * STYLES FOR THE BAR CHARTS
+ */
+#topImportSources {
+  height: 20em;
+}
+#topExportDestinations {
+  height: 20em;
+}
+#topImportCommodities {
+  height: 20em;
+}
+#topExportCommodities {
+  height: 20em;
 }
