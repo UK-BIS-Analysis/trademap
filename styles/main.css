@@ -203,6 +203,10 @@ g.legend {
   font-size: 13px;
   line-height: 1.1em;
 }
+text.label {
+  font-size: 11px;
+  font-weight: bold;
+}
 
 
 /*
@@ -221,23 +225,25 @@ g.legend {
 /*
  * STYLES FOR THE BAR CHARTS
  */
-#topImportSources {
-  height: 20em;
-}
-#topExportDestinations {
-  height: 20em;
-}
-#topImportCommodities {
-  height: 20em;
-}
+#topImportSources,
+#topExportDestinations,
+#topImportCommodities,
 #topExportCommodities {
-  height: 20em;
+  height: 27em;
 }
-#topExportDestinations rect.bar,
-#topExportCommodities rect.bar {
+#topExportDestinations .bar rect,
+#topExportCommodities .bar rect {
   fill: rgb(0, 109, 44);
+  opacity: 0.8;
 }
-#topImportSources rect.bar,
-#topImportCommodities rect.bar {
+#topImportSources .bar rect,
+#topImportCommodities .bar rect {
   fill: rgb(166, 54, 3);
+  opacity: 0.8;
+}
+#topExportDestinations .bar,
+#topExportCommodities .bar,
+#topImportSources .bar,
+#topImportCommodities .bar {
+  cursor: pointer;
 }
