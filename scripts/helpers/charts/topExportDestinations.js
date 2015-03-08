@@ -22,6 +22,7 @@ define(['../data', '../barchart'], function(data, barchart) {
         .append('svg')
         .attr('height', height)
         .attr('width', width),
+      numEntries = 20,
 
       chart = {
 
@@ -56,7 +57,8 @@ define(['../data', '../barchart'], function(data, barchart) {
 
           // CASE 2: reporter = selected    commodity = null        partner = null
           if(filters.reporter && !filters.commodity && !filters.partner) {
-            title = 'Top export destinations for '+localData.reporterAreas.get(filters.reporter).text+'in '+filters.year+';
+            title = 'Top export destinations for '+localData.reporterAreas.get(filters.reporter).text+' in '+filters.year;
+            dataFilter.commodity = 'TOTAL';
           }
 
           // CASE 3: reporter = selected    commodity = null        partner = selected
@@ -78,11 +80,11 @@ define(['../data', '../barchart'], function(data, barchart) {
             return;
           }
 
-          data.query(queryFilter, function queryCallback (err, data) {
+          data.query(queryFilter, function queryCallback (err, ready) {
             if (err) { console.log(err); }
             if (err || !ready) { return; }
             // Get the data, update title, display panel and update chart
-            var newData = localData.getData(dataFilter);
+            var newData = localData.getData(dataFilter, numEntries);
             $chart.children('.chartTitle').html(title);
             $chart.slideDown(400, function () {
               barchart.draw(svg, newData);

@@ -22,6 +22,7 @@ define(['../data', '../barchart'], function(data, barchart) {
         .append('svg')
         .attr('height', height)
         .attr('width', width),
+      numEntries = 20,
 
       chart = {
 
@@ -44,7 +45,7 @@ define(['../data', '../barchart'], function(data, barchart) {
           // We build a queryFilter and a dataFilter object to make API queries more generic than data queries
           var queryFilter = {
                 reporter: +filters.reporter,
-                partner:  'all',
+                partner:  0,
                 year:   filters.year,
                 commodity:   'AG2'
               },
@@ -77,11 +78,11 @@ define(['../data', '../barchart'], function(data, barchart) {
             return;
           }
 
-          data.query(queryFilter, function queryCallback (err, data) {
+          data.query(queryFilter, function queryCallback (err, ready) {
             if (err) { console.log(err); }
             if (err || !ready) { return; }
             // Get the data, update title, display panel and update chart
-            var newData = localData.getData(dataFilter);
+            var newData = localData.getData(dataFilter, numEntries);
             $chart.children('.chartTitle').html(title);
             $chart.slideDown(400, function () {
               barchart.draw(svg, newData);

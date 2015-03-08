@@ -230,7 +230,7 @@ define(function(require) {
 
         // Get the data from xFilter
         if (!limit) { limit = Infinity; }
-        var newData = this.xFilterByReporter.top(limit);
+        var newData = this.xFilterByAmount.top(limit);
 
         // Return resulting records
         return newData;
