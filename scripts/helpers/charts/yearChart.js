@@ -184,7 +184,7 @@ define(['../data', '../controls'], function(data, controls) {
 
           // Update scale domains with newData values and the line generation function
           xScale.domain(yearExtent);
-          yScale.domain(d3.extent(newData, function (d) { return d.value; }));
+          yScale.domain([0,d3.max(newData, function (d) { return d.value; })]);
           line.x(function(d) { return xScale(d.year); })
             .y(function(d) { return yScale(d.value); });
           xAxis.scale(xScale)
