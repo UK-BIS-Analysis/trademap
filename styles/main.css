@@ -92,17 +92,18 @@ nav.navbar {
  * STYLES FOR THE CHOROPLETH
  */
 #choropleth {
+  margin-top: -2em;
   height: 35em;
 }
 #flowButtons {
   position: absolute;
-  top: 32em;
+  top: 30em;
   height: 3em;
   width: 31%;
 }
 #choroplethInfo {
   position: absolute;
-  top: 285px;
+  top: 23em;
   width: 31%;
   height: 15em;
   background: rgba(47, 112, 169, 0.60);

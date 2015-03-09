@@ -238,7 +238,7 @@ define(['../data', '../controls'], function(data, controls) {
           // Redraw legend
           var legend = svg.append('g')
             .attr('class', 'legend')
-            .attr('transform', 'translate(5,20)');
+            .attr('transform', 'translate(5,40)');
           // Add legend title
           legend.append('text')
             .attr('class', 'title')
