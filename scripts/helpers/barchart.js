@@ -18,20 +18,14 @@ define(['./data', './controls'], function(data, controls) {
       margin = {top: 25, right: 15, bottom: 30, left: 70},
       innerHeight = 0,
       innerWidth = 0,
-      tip = d3.tip()
-        .attr('class', 'd3-tip')
-        .offset([-10, 0])
-        .html(function(d) {
-          if (d.commodity !== 'TOTAL') {
-            // top commodities chart
-            return localData.commodityName(d.commodity)+' '+['imports', 'exports'][d.flow-1]+': '+localData.numFormat(d.value)+' in '+d.year+': '+'.';
-          } else {
-            // top partner chart
-            return localData.countryByUnNum.get(d.partner).name+' '+['imports', 'exports'][d.flow-1]+': '+localData.numFormat(d.value)+' in '+d.year+'.';
-          }
-        }),
+
+
+
 
       barchart = {
+
+
+
 
         setup: function (svg) {
 
@@ -70,7 +64,10 @@ define(['./data', './controls'], function(data, controls) {
 
         },
 
-        draw: function (svg, newData) {
+
+
+
+        draw: function (svg, newData, filters) {
           // Setup scales & axises
           var xScale = d3.scale.linear()
                 .range([0, innerWidth])
@@ -92,7 +89,18 @@ define(['./data', './controls'], function(data, controls) {
                 .tickSize(6, 0)
                 .tickFormat(localData.numFormat),
               barPadding = 6,
-              barWidth = (innerWidth / newData.length) - barPadding;
+              barWidth = (innerWidth / newData.length) - barPadding,
+              tip = d3.tip()
+                .attr('class', 'd3-tip')
+                .offset([-10, 0])
+                .html(function(d) {
+                  if (filters.partner == 'all') { // top partner chart: select partner
+                    return localData.countryByUnNum.get(d.partner).name+' '+['imports', 'exports'][d.flow-1]+': '+localData.numFormat(d.value)+' in '+d.year+'.';
+                  } else { // top commodities chart: select commodity
+                    return localData.commodityName(d.commodity)+' '+['imports', 'exports'][d.flow-1]+': '+localData.numFormat(d.value)+' in '+d.year+': '+'.';
+                  }
+                });
+
 
           // Update axises & grids
           svg.select('.x.axis') // change the x axis
@@ -113,12 +121,14 @@ define(['./data', './controls'], function(data, controls) {
                 .append('rect')
                 .attr('width', '0')
                 .attr('height', '0');
-          groups.attr('class', 'item')
+          groups.attr('class', function (d,i) {
+                  return 'item rep'+d.reporter+' part'+d.partner+' comm'+d.commodity+' v'+d.value+' y'+d.year+' i'+i;
+                })
                 .attr('transform', function (d,i) {
                   return 'translate('+xScale(i)+',0)';
                 });
           groups.selectAll('g.item text').remove();
-          var rects = groups.selectAll('rect')
+          var bars = groups.select('rect')
                 .on('mouseenter', function (d) {
                   d3.select(this).interrupt().transition().style('opacity','0.6');
                   tip.show(d);
@@ -128,32 +138,33 @@ define(['./data', './controls'], function(data, controls) {
                   tip.hide(d);
                 })
                 .on('click', function (d) {
-                  if (d.commodity !== 'TOTAL') { // top commodities chart: select commodity
-                    controls.changeFilters({ commodity: d.commodity });
-                  } else { // top partner chart: select partner
+                  if (filters.partner == 'all') { // top partner chart: select partner
                     controls.changeFilters({ partner: d.partner });
+                  } else { // top commodities chart: select commodity
+                    controls.changeFilters({ commodity: d.commodity });
                   }
                 }),
-              texts = groups.append('text');
+              labels = groups.append('text');
 
           // Update groups and bars
-          rects.transition()
+          bars.transition()
+          .attr('class', function (d,i) {
+                  return 'item rep'+d.reporter+' part'+d.partner+' comm'+d.commodity+' v'+d.value+' y'+d.year+' i'+i;
+                })
             .attr('x', barPadding)
             .attr('y',      function (d,i) { return yScale(+d.value); })
             .attr('height', function (d,i) { return innerHeight-yScale(+d.value); })
             .attr('width',  function (d,i) { return barWidth; });
-          texts
+          labels
             .attr('x', function (d,i) { return barPadding-innerHeight; })
             .attr('y', function (d,i) { return barPadding+(barPadding/2)+(barWidth/2); })
             .attr('class', 'label')
             .attr('transform','rotate(-90)')
             .text(function (d) {
-              if (d.commodity !== 'TOTAL') {
-                // top commodities chart: return commodity
-                return localData.commodityName(d.commodity);
-              } else {
-                // top partner chart: return partner
+              if (filters.partner == 'all') { // top partner chart: select partner
                 return localData.countryByUnNum.get(d.partner).name;
+              } else { // top commodities chart: select commodity
+                return localData.commodityName(d.commodity);
               }
             });
 

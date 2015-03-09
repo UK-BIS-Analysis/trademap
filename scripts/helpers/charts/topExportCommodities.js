@@ -85,7 +85,7 @@ define(['../data', '../barchart'], function(data, barchart) {
             var newData = localData.getData(dataFilter, numEntries);
             $chart.children('.chartTitle').html(title);
             $chart.slideDown(400, function () {
-              barchart.draw(svg, newData);
+              barchart.draw(svg, newData, dataFilter);
             });
           });
         }

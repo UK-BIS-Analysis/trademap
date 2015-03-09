@@ -183,7 +183,7 @@ define(['../data', '../controls'], function(data, controls) {
                 .html(function(d) { return d.year+': '+localData.numFormat(d.value)+' '+['imports', 'exports'][d.flow-1]; });
 
           // Update scale domains with newData values and the line generation function
-          xScale.domain(yearExtent);
+          xScale.domain([yearExtent[0], yearExtent[1]+1]);
           yScale.domain([0,d3.max(newData, function (d) { return d.value; })]);
           line.x(function(d) { return xScale(d.year); })
             .y(function(d) { return yScale(d.value); });

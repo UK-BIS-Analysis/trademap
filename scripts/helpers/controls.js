@@ -96,6 +96,8 @@ define(['./data'], function(data) {
       if ($('#flowButtons .btn-primary').attr('data-value') !== '') { filters.flow = $('#flowButtons .btn-primary').attr('data-value'); }
       if (controls.$selectYear.val() !== '') { filters.year = controls.$selectYear.val(); }
 
+      if (DEBUG) { console.log('New filters selected: %o',filters); }
+
       // Activate/deactivate controls appropriately
       controls.fadeControls(filters);
       // Trigger refresh on each chart passing along the new filters
@@ -132,12 +134,20 @@ define(['./data'], function(data) {
 
 
     updateYears: function (yearList) {
-      var current = controls.$selectYear.val();
-      controls.$selectYear.html('');
-      yearList.sort(function (a, b) { return b-a; }).forEach(function (d) {
-        controls.$selectYear.append('<option value="'+d+'" selected>'+d+'</option>');
-      });
-      controls.$selectYear.val(+current);
+      if (yearList.length > 0) {
+        var current = +controls.$selectYear.val();
+        controls.$selectYear.html('');
+        yearList
+          .sort(function (a, b) { return b-a; })
+          .forEach(function (d) {
+            controls.$selectYear.append('<option value="'+d+'">'+d+'</option>');
+          });
+        if(yearList.indexOf(current)>=0) {
+          controls.$selectYear.val(+current);
+        } else {
+          controls.$selectYear.val(d3.max(yearList)).trigger("change");
+        }
+      }
     },
 
 
@@ -151,11 +161,11 @@ define(['./data'], function(data) {
           .on('change', controls.onFilterChange);
         $("#selectCommodity").select2('disable');
         $("#selectPartner").select2('disable');
-        //$("#selectYear").select2('disable');
+        $("#selectYear").select2('disable');
       } else {
         $("#selectCommodity").select2('enable');
         $("#selectPartner").select2('enable');
-        //$("#selectYear").select2('enable');
+        $("#selectYear").select2('enable');
       }
     }
 

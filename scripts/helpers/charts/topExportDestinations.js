@@ -70,7 +70,7 @@ define(['../data', '../barchart'], function(data, barchart) {
           // CASE 4: reporter = selected    commodity = selected    partner = null
           // This is already covered by the data in CASE 2 so we don't specify the commodity in the api query to avoid duplicate data and requests
           if(filters.reporter && filters.commodity && !filters.partner) {
-            title = 'Top export destinations of '+localData.commodityCodes.get(filters.commodity).text+' for '+localData.reporterAreas.get(filters.reporter).text+'in '+filters.year;
+            title = 'Top export destinations of '+localData.commodityName(filters.commodity)+' for '+localData.reporterAreas.get(filters.reporter).text+' in '+filters.year;
             dataFilter.commodity = filters.commodity;
           }
 
@@ -87,7 +87,7 @@ define(['../data', '../barchart'], function(data, barchart) {
             var newData = localData.getData(dataFilter, numEntries);
             $chart.children('.chartTitle').html(title);
             $chart.slideDown(400, function () {
-              barchart.draw(svg, newData);
+              barchart.draw(svg, newData, dataFilter);
             });
           });
         }
