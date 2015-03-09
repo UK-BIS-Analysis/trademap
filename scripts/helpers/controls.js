@@ -75,7 +75,7 @@ define(['./data'], function(data) {
 
       // ADD CLEARFILTERS BUTTON BEHAVIOR
       this.$clearFilters.on('click', function (event) {
-        $('.select2control')
+        $('#selectReporter, #selectPartner, #selectCommodity')
           .off('change', controls.onFilterChange)
           .val(null)
           .trigger("change")
@@ -144,18 +144,18 @@ define(['./data'], function(data) {
 
     fadeControls : function(filters) {
       if(!filters.reporter) {
-        $('.select2control')
+        $('#selectReporter, #selectPartner, #selectCommodity')
           .off('change', controls.onFilterChange)
           .val(null)
           .trigger("change")
           .on('change', controls.onFilterChange);
         $("#selectCommodity").select2('disable');
         $("#selectPartner").select2('disable');
-        $("#selectYear").select2('disable');
+        //$("#selectYear").select2('disable');
       } else {
         $("#selectCommodity").select2('enable');
         $("#selectPartner").select2('enable');
-        $("#selectYear").select2('enable');
+        //$("#selectYear").select2('enable');
       }
     }
 

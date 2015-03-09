@@ -316,7 +316,8 @@ define(function(require) {
         var requestUrl = data.baseQueryUrl;
         if (typeof filters.reporter !== 'undefined')    { requestUrl += '&r=' +filters.reporter; } else { requestUrl += '&r=0'; }
         if (typeof filters.partner !== 'undefined')     { requestUrl += '&p=' +filters.partner;  } else { requestUrl += '&p=all'; }
-        if (typeof filters.year !== 'undefined')        { requestUrl += '&ps='+filters.year;     } else { requestUrl += '&ps=now'; }
+        if (typeof filters.year !== 'undefined' && filters.year !== null)
+                                                        { requestUrl += '&ps='+filters.year;     } else { requestUrl += '&ps=now'; }
         if (typeof filters.commodity !== 'undefined')   { requestUrl += '&cc='+filters.commodity;} else { requestUrl += '&cc=AG2'; }
         return requestUrl;
       },
