@@ -71,17 +71,14 @@ define(['./data', './controls'], function(data, controls) {
         },
 
         draw: function (svg, newData) {
-          // Sort data descending
-          newData.sort(function(a, b) { return a.value - b.value; });
-
           // Setup scales & axises
           var xScale = d3.scale.linear()
                 .range([0, innerWidth])
                 .domain([0, newData.length])
                 .clamp(true),
               yScale = d3.scale.linear()
-                .range([innerHeight, 0])
-                .domain(d3.extent(newData, function (d) { return d.value; })),
+                .range([innerHeight,0])
+                .domain([0, d3.max(newData, function (d) { return d.value; })]),
               xAxis = d3.svg.axis()
                 .scale(xScale)
                 .orient('bottom')
@@ -94,7 +91,8 @@ define(['./data', './controls'], function(data, controls) {
                 .ticks(6)
                 .tickSize(6, 0)
                 .tickFormat(localData.numFormat),
-              barWidth = innerWidth / newData.length;
+              barPadding = 6,
+              barWidth = (innerWidth / newData.length) - barPadding;
 
           // Update axises & grids
           svg.select('.x.axis') // change the x axis
@@ -107,52 +105,46 @@ define(['./data', './controls'], function(data, controls) {
             .html('')
             .call(yAxis.tickSize(-innerWidth, 0, 0).tickFormat(''));
 
-          // Enter-update-exit bars
-          var bars = svg.select('.bars').selectAll('.bar')
-            .data(newData);
-          bars.enter()
-            .append('g')
-            .attr('class', 'bar')
-            .append('rect')
-            .attr('width', function (d,i) { return 10; })
-            .attr('height', function (d,i) { return 10; })
-            .style("stroke-width", '0')
-            .on('mouseover', function (d) {
-              d3.select(this)
-                .interrupt()
-                .transition()
-                .style('opacity','0.6');
-              tip.show(d);
-            })
-            .on('mouseout', function (d) {
-              d3.select(this)
-                .interrupt()
-                .transition()
-                .style('opacity','0.8');
-              tip.hide(d);
-            })
-            .on('click', function (d) {
-              console.log(d);
-              if (d.commodity !== 'TOTAL') {
-                // top commodities chart: select commodity
-                controls.changeFilters({ commodity: d.commodity });
-              } else {
-                // top partner chart: select partner
-                controls.changeFilters({ partner: d.partner });
-              }
-            });
-          // Update bars
-          bars.select('rect')
-            .transition()
-            .attr('x', function (d,i) { return xScale(i)+3; })
-            .attr('y', function (d,i) { return innerHeight-yScale(+d.value); })
-            .attr('width', function (d,i) { return barWidth-6; })
-            .attr('height', function (d,i) { return yScale(+d.value); });
-          // Update text
-          bars.selectAll('text').remove();
-          bars.append('text')
-            .attr('x', function (d,i) { return -innerHeight+3; })
-            .attr('y', function (d,i) { return xScale(i)+3+(barWidth/2); })
+          // Enter groups and bars
+          var groups = svg.select('.bars').selectAll('g.item')
+                .data(newData);
+          groups.enter()
+                .append('g')
+                .append('rect')
+                .attr('width', '0')
+                .attr('height', '0');
+          groups.attr('class', 'item')
+                .attr('transform', function (d,i) {
+                  return 'translate('+xScale(i)+',0)';
+                });
+          groups.selectAll('g.item text').remove();
+          var rects = groups.selectAll('rect')
+                .on('mouseenter', function (d) {
+                  d3.select(this).interrupt().transition().style('opacity','0.6');
+                  tip.show(d);
+                })
+                .on('mouseout', function (d) {
+                  d3.select(this).interrupt().transition().style('opacity','0.8');
+                  tip.hide(d);
+                })
+                .on('click', function (d) {
+                  if (d.commodity !== 'TOTAL') { // top commodities chart: select commodity
+                    controls.changeFilters({ commodity: d.commodity });
+                  } else { // top partner chart: select partner
+                    controls.changeFilters({ partner: d.partner });
+                  }
+                }),
+              texts = groups.append('text');
+
+          // Update groups and bars
+          rects.transition()
+            .attr('x', barPadding)
+            .attr('y',      function (d,i) { return yScale(+d.value); })
+            .attr('height', function (d,i) { return innerHeight-yScale(+d.value); })
+            .attr('width',  function (d,i) { return barWidth; });
+          texts
+            .attr('x', function (d,i) { return barPadding-innerHeight; })
+            .attr('y', function (d,i) { return barPadding+(barPadding/2)+(barWidth/2); })
             .attr('class', 'label')
             .attr('transform','rotate(-90)')
             .text(function (d) {
@@ -165,11 +157,11 @@ define(['./data', './controls'], function(data, controls) {
               }
             });
 
-          // Remove un-needed bars
-          bars.exit().remove();
+          // Exit groups
+          groups.exit().remove();
 
           // Add tooltip functions
-          bars.call(tip);
+          groups.call(tip);
 
         }
 

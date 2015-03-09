@@ -231,19 +231,20 @@ text.label {
 #topExportCommodities {
   height: 27em;
 }
-#topExportDestinations .bar rect,
-#topExportCommodities .bar rect {
+#topExportDestinations .item rect,
+#topExportCommodities .item rect {
   fill: rgb(0, 109, 44);
   opacity: 0.8;
 }
-#topImportSources .bar rect,
-#topImportCommodities .bar rect {
+#topImportSources .item rect,
+#topImportCommodities .item rect {
+  stroke-width: 0;
   fill: rgb(166, 54, 3);
   opacity: 0.8;
 }
-#topExportDestinations .bar,
-#topExportCommodities .bar,
-#topImportSources .bar,
-#topImportCommodities .bar {
+#topExportDestinations .item,
+#topExportCommodities .item,
+#topImportSources .item,
+#topImportCommodities .item {
   cursor: pointer;
 }
