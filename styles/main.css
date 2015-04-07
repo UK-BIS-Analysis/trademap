@@ -1,6 +1,22 @@
 /*
- * GENERAL STYLES
+ * Color palette:
+ * BIS blue: #054D82;
+ *
+ *
  */
+
+
+
+/*
+ * GENERAL, NAVBAR & STRUCTURE STYLES
+ */
+html, body, #main {
+  font-family: Helvetica,Arial,Verdana,Geneva,sans-serif;
+  height: 100%;
+}
+.fill-screen {
+  min-height: 100%;
+}
 #loadingDiv {
   background: url('../scripts/libs/svg-loaders/svg-loaders/oval.svg') no-repeat scroll 50% 50% #F9F9F9;
   position: fixed;
@@ -16,97 +32,83 @@
 }
 nav.navbar {
   margin-bottom: 3px;
+  border-bottom-color: #054D82;
 }
+.navbar-right {
+  margin-right: 15px;
+}
+.navbar-brand {
+  padding: 5px 15px;
+}
+.navbar-brand img {
+  display: inline-block;
+}
+div.pageTitle {
+  display: inline-block;
+  margin: 0 0 0 3em;
+}
+div.pageTitle p {
+  padding: 3px 0 0 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+div.alert, div#choropleth {
+  /* Add padding to compensate for navbar */
+  padding-top: 60px;
+}
+div.charts {
+  margin-top: 3em;
+  padding-top: 3em;
+  border-top: 1px solid #054D82;
+}
+
 
 
 /*
  * STYLES FOR CONTROLS
  */
+#controls {
+  padding: 0 15px;
+}
 .select2control {
   width: 100%;
 }
-.selectCommodity,
-.selectPartner {
+.selectCommodity, .selectPartner, .selectYear {
   margin-bottom: 0.5em;
 }
-#clearFilters {
-  float: right;
-}
 .selectYearWrapper {
-  margin-top: 5px;
-  width: 50%;
+  float: left;
+  width: 60%;
+}
+.clearBtnWrapper {
+  float: left;
+  width: 40%;
+  padding: 0 15px 0 5px;
+}
+#clearFilters {
+  font-size: 14px;
 }
 
-/*
- * STYLES FOR TOOLTIP
- */
-.d3-tip {
-  line-height: 1;
-  font-size: 11px;
-  max-width: 15em;
-  font-weight: bold;
-  padding: 12px;
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  border-radius: 2px;
-  pointer-events: none;
-}
-.d3-tip:after {
-  box-sizing: border-box;
-  display: inline;
-  font-size: 10px;
-  width: 100%;
-  line-height: 1;
-  color: rgba(0, 0, 0, 0.8);
-  position: absolute;
-  pointer-events: none;
-}
-.d3-tip.n:after {
-  content: "\25BC";
-  margin: -1px 0 0 0;
-  top: 100%;
-  left: 0;
-  text-align: center;
-}
-.d3-tip.e:after {
-  content: "\25C0";
-  margin: -4px 0 0 0;
-  top: 50%;
-  left: -8px;
-}
-.d3-tip.s:after {
-  content: "\25B2";
-  margin: 0 0 1px 0;
-  top: -8px;
-  left: 0;
-  text-align: center;
-}
-.d3-tip.w:after {
-  content: "\25B6";
-  margin: -4px 0 0 -1px;
-  top: 50%;
-  left: 100%;
-}
 
 /*
  * STYLES FOR THE CHOROPLETH
  */
 #choropleth {
-  margin-top: -2em;
-  height: 35em;
+  min-height: 100%;
 }
 #flowButtons {
   position: absolute;
-  top: 30em;
-  height: 3em;
-  width: 31%;
+  top: 90px;
+  height: 2.5em;
+  width: 12em;
 }
 #choroplethInfo {
   position: absolute;
-  top: 23em;
+  bottom: 15px;
   width: 31%;
-  height: 15em;
-  background: rgba(47, 112, 169, 0.60);
+  height: 19em;
+  background: rgba(5, 77, 130, 0.85);
+  color: #fff;
   border-radius: 3px;
   padding: 5px;
   font-size: 11px;
@@ -135,11 +137,6 @@ nav.navbar {
   font-weight: bold;
   font-size: 1.5em;
   line-height: 1.1em;
-}
-#choropleth .stroke {
-  fill: none;
-  stroke: #000;
-  stroke-width: 2px;
 }
 #choropleth .fill {
   fill: #fff;
@@ -248,4 +245,56 @@ text.label {
 #topImportSources .item,
 #topImportCommodities .item {
   cursor: pointer;
+}
+
+
+/*
+ * STYLES FOR TOOLTIP
+ */
+.d3-tip {
+  line-height: 1;
+  font-size: 11px;
+  max-width: 15em;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+  pointer-events: none;
+}
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  position: absolute;
+  pointer-events: none;
+}
+.d3-tip.n:after {
+  content: "\25BC";
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+  text-align: center;
+}
+.d3-tip.e:after {
+  content: "\25C0";
+  margin: -4px 0 0 0;
+  top: 50%;
+  left: -8px;
+}
+.d3-tip.s:after {
+  content: "\25B2";
+  margin: 0 0 1px 0;
+  top: -8px;
+  left: 0;
+  text-align: center;
+}
+.d3-tip.w:after {
+  content: "\25B6";
+  margin: -4px 0 0 -1px;
+  top: 50%;
+  left: 100%;
 }

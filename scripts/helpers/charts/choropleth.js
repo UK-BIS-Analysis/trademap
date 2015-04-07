@@ -19,7 +19,7 @@ define(['../data', '../controls'], function(data, controls) {
       currentFilters = {},
 
       // SVG main properties
-      svg = d3.select("#choropleth").append("svg"),
+      svg = d3.select("#choropleth").append("svg").classed('choropleth', true),
       // Color schemes from http://colorbrewer2.org/
       // The number of colors will drive the scales below (e.g. if you put six colors there will be six shades in the scales)
       balanceColors = ['rgb(222, 98, 98)','rgb(116,196,118)'],// red/green
@@ -47,8 +47,10 @@ define(['../data', '../controls'], function(data, controls) {
                 .translate([(width / 2)+70, (height / 2)+40])
                 .precision(+'.1'),
               path = d3.geo.path()
-                .projection(projection),
-              graticule = d3.geo.graticule();
+                .projection(projection);
+
+          // Uncomment below and on line ~69 to have graticule
+          // var graticule = d3.geo.graticule();
 
           svg.attr("width", width)
             .attr("height", height);
@@ -57,17 +59,21 @@ define(['../data', '../controls'], function(data, controls) {
           svg.append("defs").append("path")
             .datum({type: "Sphere"})
             .attr("id", "sphere")
-            .attr("d", path);
+            .attr("d", path)
+            .attr('stroke', '#054D82')
+            .attr('stroke-width', '1.5px')
+            .attr('fill', 'none');
           svg.append("use")
             .attr("class", "stroke")
             .attr("xlink:href", "#sphere");
           svg.append("use")
             .attr("class", "fill")
             .attr("xlink:href", "#sphere");
-          svg.append("path")
-            .datum(graticule)
-            .attr("class", "graticule")
-            .attr("d", path);
+          // Uncomment to have graticule
+          // svg.append("path")
+          //   .datum(graticule)
+          //   .attr("class", "graticule")
+          //   .attr("d", path);
 
           // Load the topojson data
           d3.json("data/world-50m.json", function(error, world) {
@@ -238,19 +244,21 @@ define(['../data', '../controls'], function(data, controls) {
           // Redraw legend
           var legend = svg.append('g')
             .attr('class', 'legend')
-            .attr('transform', 'translate(5,40)');
+            .attr('transform', 'translate(5,80)');
           // Add legend title
           legend.append('text')
             .attr('class', 'title')
             .attr('x', 0)
             .attr('y', 0)
             .style('font-weight','bold')
-            .text(flowName);
+            .text(flowName+' Legend');
           // Add no-data box & label
           legend.append('rect')
             .attr('class', 'noData')
             .attr('x', 0)
             .attr('y', 12)
+            .attr('rx', 3)
+            .attr('ry', 3)
             .attr('width', 18)
             .attr('height', 18)
             .style('fill', '#818181');
@@ -269,6 +277,8 @@ define(['../data', '../controls'], function(data, controls) {
             .append('rect')
             .attr('x', 0)
             .attr('y', function (d, i) { return i * 20; })
+            .attr('rx', 3)
+            .attr('ry', 3)
             .attr('width', 18)
             .attr('height', 18)
             .style('fill', function(d, i) { return currentColors[i]; });
