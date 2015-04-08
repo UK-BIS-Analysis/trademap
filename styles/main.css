@@ -73,7 +73,8 @@ div.charts {
 .select2control {
   width: 100%;
 }
-.selectCommodity, .selectPartner, .selectYear {
+#selectReporter, #selectCommodity, #selectPartner, #selectYear,
+.selectReporter, .selectCommodity, .selectPartner, .selectYear{
   margin-bottom: 0.5em;
 }
 .selectYearWrapper {
@@ -94,7 +95,7 @@ div.charts {
  * STYLES FOR THE CHOROPLETH
  */
 #choropleth {
-  min-height: 100%;
+  height: 100%;
 }
 #flowButtons {
   position: absolute;

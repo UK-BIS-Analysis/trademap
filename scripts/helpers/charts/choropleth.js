@@ -19,7 +19,13 @@ define(['../data', '../controls'], function(data, controls) {
       currentFilters = {},
 
       // SVG main properties
-      svg = d3.select("#choropleth").append("svg").classed('choropleth', true),
+      height = 1080,
+      width  = 1920,
+      svg = d3.select("#choropleth")
+        .append("svg")
+        .classed('choropleth', true)
+        .attr('viewBox', '0 0 '+width+' '+height)
+        .attr('preserveAspectRatio', 'xMidYMid meet'),
       // Color schemes from http://colorbrewer2.org/
       // The number of colors will drive the scales below (e.g. if you put six colors there will be six shades in the scales)
       balanceColors = ['rgb(222, 98, 98)','rgb(116,196,118)'],// red/green
@@ -40,20 +46,23 @@ define(['../data', '../controls'], function(data, controls) {
           $chart.on('refreshFilters', this.refresh);
 
           // Some variables:
-          var height = $chart.height(),
-              width  = $chart.width(),
-              projection = d3.geo.kavrayskiy7()
-                .scale(210)
-                .translate([(width / 2)+70, (height / 2)+40])
+          var projection = d3.geo.kavrayskiy7()
+                .scale(330)
+                .translate([(width / 2)+50, (height / 2)])
                 .precision(+'.1'),
               path = d3.geo.path()
-                .projection(projection);
+                .projection(projection),
+              resizeSvg = function () {
+                svg.attr("width",  $chart.width())
+                   .attr("height", $chart.height());
+              };
 
           // Uncomment below and on line ~69 to have graticule
           // var graticule = d3.geo.graticule();
 
-          svg.attr("width", width)
-            .attr("height", height);
+          // Sized the SVG and bind the resize function to the window resize event to make the map responsive
+          resizeSvg();
+          d3.select(window).on('resize', resizeSvg);
 
           // Define sphere boundary and graticule
           svg.append("defs").append("path")
