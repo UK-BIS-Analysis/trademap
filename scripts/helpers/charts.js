@@ -13,14 +13,14 @@ define(['./charts/choropleth', './charts/yearChart', './charts/topExportCommodit
   'use strict';
 
   var charts = {
-    setup: function () {
+    setup: function (callback) {
       // Setup charts
-      choropleth.setup();
       yearChart.setup();
       topExportCommodities.setup();
       topExportDestinations.setup();
       topImportCommodities.setup();
       topImportSources.setup();
+      choropleth.setup(callback);
     }
 
   };

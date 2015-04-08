@@ -82,6 +82,36 @@ define(['./data'], function(data) {
           .on('change', controls.onFilterChange);
         controls.onFilterChange();
       });
+
+      // ADD CHEVRON BUTTON BEHAVIOURS
+      $("#goToCharts a, #goToMap a").tooltip();
+      $("#goToCharts a, #goToMap a").on('click', function(e) {
+        e.preventDefault();
+        var hash = this.hash;
+        $('html, body').animate({
+          scrollTop: $(hash).offset().top
+        }, 300, function(){
+          // do something when done like adding hash to location
+          // window.location.hash = hash;
+        });
+      });
+
+      // ADD CONTEXTUAL MENU BEHAVIOURS
+      $('#closeContextMenu').on('click', function (e) { $("#contextMenu").hide() });
+      $('#contextMenu .setReporter').on('click', function (e) {
+        if (!$(e.target.parentNode).hasClass('disabled')) {
+          controls.changeFilters({reporter: $(e.target).attr('data-uncode')})
+        }
+        $("#contextMenu").hide()
+      });
+      $('#contextMenu .setPartner').on('click', function (e) {
+        if (!$(e.target.parentNode).hasClass('disabled')) {
+          controls.changeFilters({partner: $(e.target).attr('data-uncode')})
+        }
+        $("#contextMenu").hide()
+      });
+
+
     },
 
 
@@ -100,6 +130,10 @@ define(['./data'], function(data) {
 
       // Activate/deactivate controls appropriately
       controls.fadeControls(filters);
+
+      // Show/hide elements on page according to filters
+      controls.showElements(filters);
+
       // Trigger refresh on each chart passing along the new filters
       $('.chart').trigger('refreshFilters', filters);
     },
@@ -166,6 +200,20 @@ define(['./data'], function(data) {
         $("#selectCommodity").select2('enable');
         $("#selectPartner").select2('enable');
         $("#selectYear").select2('enable');
+      }
+    },
+
+    showElements : function(filters) {
+      if(!filters.reporter) {
+        // Empty viz: hide switch, chevrons and graphs and charts container
+        $('#goToCharts, #goToMap, #flowButtons').hide();
+        $('#charts').slideUp();
+        $('#contextMenu .setPartner').addClass('disabled');
+      } else {
+        // Show switch, chevrons and graphs
+        $('#goToCharts, #goToMap, #flowButtons').show();
+        $('#charts').slideDown();
+        $('#contextMenu .setPartner').removeClass('disabled');
       }
     }
 

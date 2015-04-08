@@ -41,7 +41,7 @@ define(['../data', '../controls'], function(data, controls) {
 
 
 
-        setup: function () {
+        setup: function (callback) {
           // Bind the refresh function to the refreshFilters event
           $chart.on('refreshFilters', this.refresh);
 
@@ -57,7 +57,7 @@ define(['../data', '../controls'], function(data, controls) {
                    .attr("height", $chart.height());
               };
 
-          // Uncomment below and on line ~69 to have graticule
+          // Uncomment below and on line ~81 to have graticule
           // var graticule = d3.geo.graticule();
 
           // Sized the SVG and bind the resize function to the window resize event to make the map responsive
@@ -96,27 +96,35 @@ define(['../data', '../controls'], function(data, controls) {
               .selectAll(".country")
               .data(countries)
               .enter()
-                .append("path")
-                .attr("class", "country")
-                .attr("d", path)
-                .attr('id', function(d) { return 'iso'+d.id; })
-                .on('mouseover', function (d,i) {
-                  // Update infobox
-                  chart._clearInfo();
-                  try {
-                    chart._displayInfo({ partner: localData.countryByISONum.get(d.id).unCode });
-                  } catch (err) {
-                    console.log('No country in database by '+d.id+' isoCode.')
-                  }
-                  // Bring country path node to the front (to display border highlighting better)
-                  svg.selectAll('.country').sort(function(a,b) { return (a.id === d.id) - (b.id === d.id); });
+              .append("path")
+              .attr("class", "country")
+              .attr("d", path)
+              .attr('id', function(d) { return 'iso'+d.id; })
+              .on('mouseover', function (d,i) {
+                // Update infobox
+                chart._clearInfo();
+                try {
+                  chart._displayInfo({ partner: localData.countryByISONum.get(d.id).unCode });
+                } catch (err) {
+                  console.log('No country in database by '+d.id+' isoCode.')
+                }
+                // Bring country path node to the front (to display border highlighting better)
+                svg.selectAll('.country').sort(function(a,b) { return (a.id === d.id) - (b.id === d.id); });
+              })
+              .on('mouseout', function (d,i) {
+                chart._displayInfo({});
+              })
+              .on('click', function (d,i) {
+                $('#contextMenu .country').html(localData.countryByISONum.get(d.id).name);
+                $('#contextMenu .setReporter a, #contextMenu .setPartner a').attr('data-uncode', localData.countryByISONum.get(d.id).unCode);
+                $('#contextMenu').css({
+                  display: "block",
+                  left: d3.event.pageX,
+                  top: d3.event.pageY
                 });
-
-            // Add behaviour to country: on click we set the reporter filter
-            svg.selectAll('.country').on('click', function (d,i) {
-                var unCode = localData.countryByISONum.get(d.id).unCode;
-                controls.changeFilters({reporter: unCode});
               });
+
+            callback();
 
           }); // Close d3.json callback
         },
@@ -310,37 +318,40 @@ define(['../data', '../controls'], function(data, controls) {
         },
 
         _displayInfo: function (info) {
-          var $inf = $('#choroplethInfo'),
+          var $infoBox = $('#choroplethInfo'),
               partner = '',
               reporter = '',
               text = '';
           if (info.partner) {
             partner = localData.countryByUnNum.get(info.partner).name;
-            $inf.children('.countryName').html(partner);
+            $infoBox.children('.countryName').html(partner);
           }
           if (info.partner && info.reporter) {
             reporter = localData.countryByUnNum.get(info.reporter).name;
-            $inf.children('.countryName').html(reporter+' - '+partner);
-            if (info.commodity)    { $inf.children('.commodity').html(localData.commodityName(info.commodity)); }
+            $infoBox.children('.countryName').html(reporter+' - '+partner);
+            if (info.commodity)    { $infoBox.children('.commodity').html(localData.commodityName(info.commodity)); }
             if (info.importVal) {
               text = '<dl class="dl-horizontal"><dt>Imports from '+partner+':</dt><dd>'+localData.numFormat(info.importVal);
               if (info.importPc) { text = text + ' ('+info.importPc.toPrecision(2)+'% of '+reporter+' imports)'; }
               text = text+'</dd></dl>';
-              $inf.children('.imports').html(text);
+              $infoBox.children('.imports').html(text);
             }
             if (info.exportVal) {
               text = '<dl class="dl-horizontal"><dt>Exports to '+partner+':</dt><dd>'+localData.numFormat(info.exportVal);
               if (info.exportPc) { text = text + ' ('+info.exportPc.toPrecision(2)+'% of '+reporter+' exports)'; }
               text = text + '</dd></dl>';
-              $inf.children('.exports').html(text);
+              $infoBox.children('.exports').html(text);
             }
-            if (info.balanceVal)   { $inf.children('.balance').html('<dl class="dl-horizontal"><dt>Trade balance:</dt><dd>'+localData.numFormat(info.balanceVal)+'</dd></dl>'); }
-            if (info.bilateralVal) { $inf.children('.bilateralTrade').html('<dl class="dl-horizontal"><dt>Bilateral trade:</dt><dd>'+localData.numFormat(info.bilateralVal)+'</dd></dl>'); }
+            if (info.balanceVal)   { $infoBox.children('.balance').html('<dl class="dl-horizontal"><dt>Trade balance:</dt><dd>'+localData.numFormat(info.balanceVal)+'</dd></dl>'); }
+            if (info.bilateralVal) { $infoBox.children('.bilateralTrade').html('<dl class="dl-horizontal"><dt>Bilateral trade:</dt><dd>'+localData.numFormat(info.bilateralVal)+'</dd></dl>'); }
             if (info.importRank && info.exportRank) {
               text = partner+' is the '+localData.numOrdinal(info.exportRank)+' export destination and the '+localData.numOrdinal(info.importRank)+' import source for '+reporter;
               if (info.commodity !== 'TOTAL') { text = text + ' in ' + localData.commodityName(info.commodity); }
-              $inf.children('.ranking').html(text);
+              $infoBox.children('.ranking').html(text);
             }
+          }
+          if (!info.reporter && !info.partner) {
+            $infoBox.children('.value').html('');
           }
         },
 

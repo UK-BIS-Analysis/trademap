@@ -56,9 +56,9 @@ div.alert, div#choropleth {
   /* Add padding to compensate for navbar */
   padding-top: 60px;
 }
-div.charts {
-  margin-top: 3em;
-  padding-top: 3em;
+div#charts {
+  margin-top: 80px;
+  padding-top: 100px;
   border-top: 1px solid #054D82;
 }
 
@@ -89,6 +89,23 @@ div.charts {
 #clearFilters {
   font-size: 14px;
 }
+#goToCharts {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  width: 100%;
+  text-align: right;
+  font-size: 26px;
+  color: #054D82;
+}
+#goToMap {
+  position: relative;
+  top: 0;
+  right: 0;
+  text-align: right;
+  font-size: 26px;
+  color: #054D82;
+}
 
 
 /*
@@ -96,6 +113,18 @@ div.charts {
  */
 #choropleth {
   height: 100%;
+}
+#contextMenu {
+  position: absolute;
+  display:none;
+}
+#contextMenu .dropdown-header {
+  color: #054D82;
+  font-size: 16px;
+  font-weight: bold;
+}
+#closeContextMenu {
+  margin: 2px 0 0 2px;
 }
 #flowButtons {
   position: absolute;
@@ -195,12 +224,10 @@ g.legend {
   fill: rgba(141, 141, 141, 0.75);
 }
 .chartTitle {
-  position: absolute;
-  background-color: rgba(255, 255, 255, 0.80);
   color: #2D6BA1;
   font-weight: bold;
-  font-size: 13px;
-  line-height: 1.1em;
+  font-size: 24px;
+  line-height: 1.5em;
 }
 text.label {
   font-size: 11px;

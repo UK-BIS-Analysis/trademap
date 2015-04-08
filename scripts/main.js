@@ -34,12 +34,15 @@ require(['helpers/data', 'helpers/controls', 'helpers/charts'], function(data, c
           return;
         }
 
-        // Otherwise continue
         // Setup the controls
         controls.setup();
 
         // Setup charts
-        charts.setup();
+        charts.setup(function () {
+          // Then initialize filters to reporter=UK
+          controls.changeFilters({ reporter:  826 });
+        });
+
 
       }); // Close data.setup()
     }     // Close Modernizr conditional

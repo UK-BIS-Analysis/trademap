@@ -142,12 +142,20 @@
           <div class="value ranking"></div>
         </div>
 
+        <!-- Downward chevron to go to charts -->
+        <div id="goToCharts">
+          <a href="#charts" data-toggle="tooltip" data-placement="left" title="See more charts"><span class="glyphicon glyphicon-chevron-down"></span></a>
+        </div>
       </div>
 
 
 
       <!-- CHARTS -->
-      <div class="charts fill-screen">
+      <div id="charts" class="fill-screen">
+        <!-- Upward chevron to go to charts -->
+        <div id="goToMap">
+          <a href="#choropleth" data-toggle="tooltip" data-placement="left" title="Back to map"><span class="glyphicon glyphicon-chevron-up"></span></a>
+        </div>
 
         <!-- Yearly flows chart and selector -->
         <div class="row clearfix">
@@ -198,7 +206,7 @@
     </div>
 
 
-    <!-- CODE FOR MODALS BELOW HERE -->
+    <!-- CODE FOR MODALS -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -216,7 +224,19 @@
       </div>
     </div>
 
+    <!-- LOADING DIV TO DISPLAY DURING AJAX REQUESTS -->
     <div id="loadingDiv"></div>
+
+    <!-- CONTEXT MENU -->
+    <div id="contextMenu">
+      <a id="closeContextMenu" href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-remove"></a>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
+        <li class="dropdown-header"><span class="country"></span></li>
+        <li class="divider"></li>
+        <li class="setReporter"><a tabindex="-1" href>Set as reporter</a></li>
+        <li class="setPartner disabled"><a tabindex="-1" href>Set as partner</a></li>
+      </ul>
+    </div>
 
     <!-- Load the viz application script at the end -->
     <script data-main="scripts/main" src="scripts/libs/requirejs/require.js"></script>
