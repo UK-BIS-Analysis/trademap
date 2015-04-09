@@ -252,14 +252,16 @@ define(['../data', '../controls'], function(data, controls) {
 
 
         _drawLegend: function (scale, flow) {
-          var currentColors = colors[flow],
+          var $mapLegend = $('#mapLegend'),
+              legendSvg = d3.select('#mapLegend svg'),
+              currentColors = colors[flow],
               flowName = ['Balance', 'Imports', 'Exports'][flow];
           // Remove legend if present
-          svg.select('g.legend').remove();
+          legendSvg.select('g.legend').remove();
           // Redraw legend
-          var legend = svg.append('g')
+          var legend = legendSvg.append('g')
             .attr('class', 'legend')
-            .attr('transform', 'translate(5,80)');
+            .attr('transform', 'translate(0,20)');
           // Add legend title
           legend.append('text')
             .attr('class', 'title')
