@@ -14,7 +14,7 @@ define(function(require) {
 
   // Using require above we are making data a singleton which is created only once.
   // Each module requiring data will be using the same object.
-  var singleton = function () {
+  var dataSingleton = function () {
     var data = {
 
       /*
@@ -111,7 +111,6 @@ define(function(require) {
           data.partnerAreasSelect   = partnerAreas[0].results;
           data.commodityCodesSelect = commodityCodes[0].results;
           data.worldJson = worldJson[0];
-          console.log(worldJson);
 
           // Parse isoCodes csv
           var codes = d3.csv.parse(isoCodes[0]);
@@ -138,6 +137,10 @@ define(function(require) {
         this.xFilterByCommodity = this.xFilter.dimension(function(d){ return d.commodity;  });
         this.xFilterByFlow      = this.xFilter.dimension(function(d){ return +d.flow;      });
         this.xFilterByAmount    = this.xFilter.dimension(function(d){ return +d.value;     });
+        // Kick off UK queries right away to optimize load time
+        data.query({ commodity: 'AG2',   partner: 0,     reporter: 826, year: 2013, flow: 1 }, function (err, ready) { })
+        data.query({ commodity: 'TOTAL', partner: 'all', reporter: 826, year: 2013, flow: 2 }, function (err, ready) { })
+        data.query({ commodity: 'TOTAL', partner: 0,     reporter: 826, year: 'all' }, function (err, ready) { })
       },
 
 
@@ -366,9 +369,6 @@ define(function(require) {
         if(DEBUG) {
           console.groupCollapsed('Added %d new records. Retrieved %d records. Discarded %d duplicates. New xFilter size: %d', insertData.length, newData.length, newData.length-insertData.length, this.xFilter.size());
           console.log('filters: %o', filters);
-          console.log('newData: %o', newData);
-          console.log('insertData: %o', insertData);
-          console.log('xFdata: %o', xFdata);
           console.groupEnd();
         }
       }
@@ -377,5 +377,5 @@ define(function(require) {
     return data;
   };
 
-  return singleton();
+  return dataSingleton();
 });
