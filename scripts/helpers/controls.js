@@ -90,21 +90,26 @@ define(['./data'], function(data) {
         var hash = this.hash;
         $('html, body').animate({
           scrollTop: $(hash).offset().top
-        }, 300, function(){
+        }, 1000, function(){
           // do something when done like adding hash to location
           // window.location.hash = hash;
         });
       });
 
       // ADD CONTEXTUAL MENU BEHAVIOURS
-      $('#closeContextMenu').on('click', function (e) { $("#contextMenu").hide() });
+      $('#closeContextMenu').on('click', function (e) {
+        e.preventDefault();
+        $("#contextMenu").hide()
+      });
       $('#contextMenu .setReporter').on('click', function (e) {
+        e.preventDefault();
         if (!$(e.target.parentNode).hasClass('disabled')) {
           controls.changeFilters({reporter: $(e.target).attr('data-uncode')})
         }
         $("#contextMenu").hide()
       });
       $('#contextMenu .setPartner').on('click', function (e) {
+        e.preventDefault();
         if (!$(e.target.parentNode).hasClass('disabled')) {
           controls.changeFilters({partner: $(e.target).attr('data-uncode')})
         }

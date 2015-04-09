@@ -115,6 +115,7 @@ define(['../data', '../controls'], function(data, controls) {
                 chart._displayInfo({});
               })
               .on('click', function (d,i) {
+                d3.event.preventDefault();
                 $('#contextMenu .country').html(localData.countryByISONum.get(d.id).name);
                 $('#contextMenu .setReporter a, #contextMenu .setPartner a').attr('data-uncode', localData.countryByISONum.get(d.id).unCode);
                 $('#contextMenu').css({
