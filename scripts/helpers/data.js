@@ -103,12 +103,15 @@ define(function(require) {
           $.ajax('data/reporterAreas.min.json'),
           $.ajax('data/partnerAreas.min.json'),
           $.ajax('data/classificationHS_AG2.min.json'),
-          $.ajax('data/isoCodes.csv')
-        ).then(function success (reporterAreas, partnerAreas, commodityCodes, isoCodes) {
+          $.ajax('data/isoCodes.csv'),
+          $.ajax('data/world-50m.json')
+        ).then(function success (reporterAreas, partnerAreas, commodityCodes, isoCodes, worldJson) {
           // Add results to the data object for use in the app.
           data.reporterAreasSelect  = reporterAreas[0].results;
           data.partnerAreasSelect   = partnerAreas[0].results;
           data.commodityCodesSelect = commodityCodes[0].results;
+          data.worldJson = worldJson[0];
+          console.log(worldJson);
 
           // Parse isoCodes csv
           var codes = d3.csv.parse(isoCodes[0]);

@@ -84,50 +84,47 @@ define(['../data', '../controls'], function(data, controls) {
           //   .attr("class", "graticule")
           //   .attr("d", path);
 
-          // Load the topojson data
-          d3.json("data/world-50m.json", function(error, world) {
-            // Genereate an array of countries with geometry and IDs (IDs are according to ISO_3166-1_numeric numbering)
-            var countries = topojson.feature(world, world.objects.countries).features;
+          // Genereate an array of countries with geometry and IDs (IDs are according to ISO_3166-1_numeric numbering)
+          var countries = topojson.feature(data.worldJson, data.worldJson.objects.countries).features;
 
-            // We place all countries inside a g.countries
-            svg.append('g')
-              .attr("class", "countries")
-              // Bind country data to path.country
-              .selectAll(".country")
-              .data(countries)
-              .enter()
-              .append("path")
-              .attr("class", "country")
-              .attr("d", path)
-              .attr('id', function(d) { return 'iso'+d.id; })
-              .on('mouseover', function (d,i) {
-                // Update infobox
-                chart._clearInfo();
-                try {
-                  chart._displayInfo({ partner: localData.countryByISONum.get(d.id).unCode });
-                } catch (err) {
-                  console.log('No country in database by '+d.id+' isoCode.')
-                }
-                // Bring country path node to the front (to display border highlighting better)
-                svg.selectAll('.country').sort(function(a,b) { return (a.id === d.id) - (b.id === d.id); });
-              })
-              .on('mouseout', function (d,i) {
-                chart._displayInfo({});
-              })
-              .on('click', function (d,i) {
-                d3.event.preventDefault();
-                $('#contextMenu .country').html(localData.countryByISONum.get(d.id).name);
-                $('#contextMenu .setReporter a, #contextMenu .setPartner a').attr('data-uncode', localData.countryByISONum.get(d.id).unCode);
-                $('#contextMenu').css({
-                  display: "block",
-                  left: d3.event.pageX,
-                  top: d3.event.pageY
-                });
+          // We place all countries inside a g.countries
+          svg.append('g')
+            .attr("class", "countries")
+            // Bind country data to path.country
+            .selectAll(".country")
+            .data(countries)
+            .enter()
+            .append("path")
+            .attr("class", "country")
+            .attr("d", path)
+            .attr('id', function(d) { return 'iso'+d.id; })
+            .on('mouseover', function (d,i) {
+              // Update infobox
+              chart._clearInfo();
+              try {
+                chart._displayInfo({ partner: localData.countryByISONum.get(d.id).unCode });
+              } catch (err) {
+                console.log('No country in database by '+d.id+' isoCode.')
+              }
+              // Bring country path node to the front (to display border highlighting better)
+              svg.selectAll('.country').sort(function(a,b) { return (a.id === d.id) - (b.id === d.id); });
+            })
+            .on('mouseout', function (d,i) {
+              chart._displayInfo({});
+            })
+            .on('click', function (d,i) {
+              d3.event.preventDefault();
+              $('#contextMenu .country').html(localData.countryByISONum.get(d.id).name);
+              $('#contextMenu .setReporter a, #contextMenu .setPartner a').attr('data-uncode', localData.countryByISONum.get(d.id).unCode);
+              $('#contextMenu').css({
+                display: "block",
+                left: d3.event.pageX,
+                top: d3.event.pageY
               });
+            });
 
-            callback();
+          callback();
 
-          }); // Close d3.json callback
         },
 
 
