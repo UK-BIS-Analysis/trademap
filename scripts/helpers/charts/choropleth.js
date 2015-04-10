@@ -136,7 +136,7 @@ define(['../data', '../controls'], function(data, controls) {
           // CASE 1: reporter = null    -->   Blank choropleth, no countries selected and no fills and no title
           if(!filters.reporter) {
             svg.selectAll('.country').style('fill', '#fff');
-            $('#choroplethTitle').html('');
+            $('#choroplethTitle div.chartTitle').html('');
             return;
           }
 
@@ -155,7 +155,7 @@ define(['../data', '../controls'], function(data, controls) {
               if (err || !ready) { return; }
               // Redraw map and set title
               chart._redrawMap(dataFilter);
-              $('#choroplethTitle p').html('Value of ' + localData.flowByCode.get(filters.flow).text.toLowerCase() + ' between ' + localData.countryByUnNum.get(filters.reporter).name + ' and the World in  ' + filters.year + '.');
+              $('#choroplethTitle div.chartTitle').html('Value of ' + localData.flowByCode.get(filters.flow).text.toLowerCase() + ' between ' + localData.countryByUnNum.get(filters.reporter).name + ' and the World in  ' + filters.year + '.');
             });
             return;
           }
@@ -175,7 +175,7 @@ define(['../data', '../controls'], function(data, controls) {
               if (err || !ready) { return; }
               // Redraw map and set title
               chart._redrawMap(dataFilter);
-              $('#choroplethTitle p').html('Value of ' + localData.flowByCode.get(filters.flow).text.toLowerCase() + ' between ' + localData.countryByUnNum.get(filters.reporter).name + ' and the World for ' + localData.commodityName(filters.commodity) + ' in ' + filters.year+'.');
+              $('#choroplethTitle div.chartTitle').html('Value of ' + localData.flowByCode.get(filters.flow).text.toLowerCase() + ' between ' + localData.countryByUnNum.get(filters.reporter).name + ' and the World for ' + localData.commodityName(filters.commodity) + ' in ' + filters.year+'.');
             });
             return;
           }

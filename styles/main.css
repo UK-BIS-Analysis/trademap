@@ -43,14 +43,16 @@ nav.navbar {
 .navbar-brand img {
   display: inline-block;
 }
+a.navbar-brand {
+  float: left;
+}
 div.pageTitle {
-  display: inline-block;
-  margin: 0 0 0 3em;
+  float: left;
+  margin: 13px 0 0 15px;
+  font-size: 19px;
 }
 div.pageTitle p {
-  padding: 3px 0 0 0;
-  font-size: 18px;
-  font-weight: bold;
+  margin: 0;
 }
 div.alert, div#choropleth {
   /* Add padding to compensate for navbar */
@@ -161,22 +163,15 @@ div#charts {
   font-weight: bold;
 }
 #choroplethTitle {
-  display:table;
-  height: 3.5em;
-  margin-top: -3.5em;
-  width: 67%;
   position: absolute;
-  right: 0;
+  top: 90px;
+  padding-left: 13em;
+  height: 3.5em;
+  width: 100%;
   z-index: 1000;
 }
-#choroplethTitle p {
-  display:table-cell;
-  vertical-align: bottom;
+#choroplethTitle div.chartTitle {
   background-color: rgba(255, 255, 255, 0.80);
-  color: #2D6BA1;
-  font-weight: bold;
-  font-size: 1.5em;
-  line-height: 1.1em;
 }
 #choropleth .fill {
   fill: #fff;
@@ -234,8 +229,7 @@ g.legend {
   fill: rgba(141, 141, 141, 0.75);
 }
 .chartTitle {
-  color: #2D6BA1;
-  font-weight: bold;
+  color: #054D82;
   font-size: 24px;
   line-height: 1.5em;
 }
