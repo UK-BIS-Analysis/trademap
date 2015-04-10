@@ -25,6 +25,7 @@ module.exports = function(grunt) {
         }
       }
     },
+
     cssmin: {
       options: {
         root: './',
@@ -37,9 +38,38 @@ module.exports = function(grunt) {
 
     usemin: {
       html: 'index.html'
+    },
+
+    requirejs: {
+      compile: {
+        options: {
+          baseUrl: "scripts",
+          name: "../node_modules/almond/almond",
+          include: ['main'],
+          insertRequire: ['main'],
+          out: 'scripts/main.min.js',
+          optimize: "uglify2"
+        }
+      }
+    },
+
+    'regex-replace': {
+      dist: {
+        src: ['index.html'],
+        actions: [
+          {
+            name: 'main',
+            search: '<script data-main=".*" src="scripts/libs/requirejs/require.js"></script>',
+            replace: function(match){
+              var regex = /scripts\/.*main/;
+              var result = regex.exec(match);
+              return '<script src="' + result[0] + '.min.js"></script>';
+            },
+            flags: 'g'
+          }
+        ]
+      }
     }
-
-
 
 
   });
@@ -51,6 +81,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-filerev');
+  grunt.loadNpmTasks('grunt-contrib-requirejs');
+  grunt.loadNpmTasks('grunt-regex-replace');
 
   // Default task(s).
   grunt.registerTask('default', [
@@ -59,7 +91,9 @@ module.exports = function(grunt) {
     'concat:generated',
     'cssmin:generated',
     'uglify:generated',
-    'usemin'
+    'usemin',
+    'requirejs:compile',
+    'regex-replace:dist'
   ]);
 
 };
