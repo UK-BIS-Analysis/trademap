@@ -39,8 +39,7 @@ require(['helpers/data', 'helpers/controls', 'helpers/charts'], function(data, c
 
         // Setup charts
         charts.setup(function () {
-          // Then initialize filters to reporter=UK
-          controls.changeFilters({ reporter:  826 });
+          controls.initializeFilters();
         });
 
 

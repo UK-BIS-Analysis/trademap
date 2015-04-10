@@ -1,7 +1,7 @@
 /*jslint browser: true*/
 /*jslint white: true */
 /*jslint vars: true */
-/*global $, Modernizr, d3, dc, crossfilter, document, console, alert, define, DEBUG */
+/*global $, Modernizr, d3, dc, crossfilter, document, console, alert, define, DEBUG, queryObject */
 
 
 /*
@@ -141,8 +141,10 @@ define(['./data'], function(data) {
 
       // Trigger refresh on each chart passing along the new filters
       $('.chart').trigger('refreshFilters', filters);
-    },
 
+      // Update URL
+      controls.updateURL(filters);
+    },
 
 
 
@@ -172,6 +174,36 @@ define(['./data'], function(data) {
 
 
 
+
+    initializeFilters: function () {
+      var URLfilters = this.decodeURL();
+      if (URLfilters && URLfilters.reporter) {
+        // Set the filters from the URL
+        this.changeFilters(URLfilters);
+      } else {
+        // Then initialize filters to reporter=UK
+        controls.changeFilters({ reporter:  826 });
+      }
+    },
+
+
+
+
+    decodeURL: function () {
+      return queryObject.get(['reporter', 'partner', 'flow', 'commodity', 'year']);
+    },
+
+
+
+
+    updateURL: function (filters) {
+      queryObject.useHistory = true;
+      queryObject.set(filters);
+    },
+
+
+
+
     updateYears: function (yearList) {
       if (yearList.length > 0) {
         var current = +controls.$selectYear.val();
@@ -191,6 +223,7 @@ define(['./data'], function(data) {
 
 
 
+
     fadeControls : function(filters) {
       if(!filters.reporter) {
         $('#selectReporter, #selectPartner, #selectCommodity')
@@ -207,6 +240,9 @@ define(['./data'], function(data) {
         $("#selectYear").select2('enable');
       }
     },
+
+
+
 
     showElements : function(filters) {
       if(!filters.reporter) {

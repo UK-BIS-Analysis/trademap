@@ -27,7 +27,8 @@
     "topojson": "~1.6.18",
     "d3-tip": "~0.6.6",
     "d3-geo-projection": "~0.2.13",
-    "aight": "~2.0"
+    "aight": "~2.0",
+    "query-object": "~2.0.2"
   },
   "resolutions": {
     "d3": "3.x"
