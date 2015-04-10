@@ -11,9 +11,23 @@
 
 
     <!-- The following JS and CSS files are automatically compiled and minified by Grunt's usemin task -->
-    <script src="scripts/libs.min.js"></script>
+    <!-- build:js scripts/libs.min.js -->
+    <script type="text/javascript" src="scripts/libs/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="scripts/libs/bootstrap/dist/js/bootstrap.js"></script>
+    <script type="text/javascript" src="scripts/libs/select2/select2.js"></script>
+    <script type="text/javascript" src="scripts/libs/d3/d3.js"></script>
+    <script type="text/javascript" src="scripts/libs/topojson/topojson.js"></script>
+    <script type="text/javascript" src="scripts/libs/d3-geo-projection/d3.geo.projection.js"></script>
+    <script type="text/javascript" src="scripts/libs/crossfilter/crossfilter.js"></script>
+    <script type="text/javascript" src="scripts/libs/d3-tip/index.js"></script>
+    <!-- endbuild -->
 
-    <link rel="stylesheet" href="styles/libs.min.css">
+    <!-- build:css styles/libs.min.css -->
+    <link rel="stylesheet" type="text/css" href="scripts/libs/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="scripts/libs/bootstrap/dist/css/bootstrap-theme.css"/>
+    <link rel="stylesheet" type="text/css" href="scripts/libs/select2/select2.css"/>
+    <link rel="stylesheet" type="text/css" href="scripts/libs/select2/select2-bootstrap.css"/>
+    <!-- endbuild -->
 
     <!-- Specific Trademap CSS file -->
     <link rel="stylesheet" type="text/css" href="styles/main.css"/>

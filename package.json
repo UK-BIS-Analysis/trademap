@@ -1,0 +1,23 @@
+{
+  "name": "TradeMap",
+  "version": "1.0.0",
+  "description": "BIS International Trade visualization based on UN COMTRADE data",
+  "main": "Gruntfile.js",
+  "repository": {
+    "type": "git",
+    "url": "git@bitbucket.org:fmerletti/dbis_trademap.git"
+  },
+  "author": "Francesco Merletti (me@fm.to.it)",
+  "license": "Copyright",
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-copy": "^0.8.0",
+    "grunt-contrib-cssmin": "^0.12.2",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-nodeunit": "~0.4.1",
+    "grunt-contrib-uglify": "^0.9.1",
+    "grunt-filerev": "^2.2.0",
+    "grunt-usemin": "^3.0.0"
+  }
+}
