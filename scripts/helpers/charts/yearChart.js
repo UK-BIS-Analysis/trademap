@@ -52,7 +52,7 @@ define(['../data', '../controls'], function(data, controls) {
           // Bind the refresh function to the refreshFilters event
           $chart.on('refreshFilters', this.refresh);
 
-          // Setup SVG and add axises, grids and groups
+          // Setup SVG and add axises and groups
           svg.attr('width', width)
             .attr('height', height);
           svg.append('g')
@@ -63,12 +63,6 @@ define(['../data', '../controls'], function(data, controls) {
             .attr('class', 'y axis')
             .attr('transform', 'translate('+margin.left+',' + margin.top + ')')
             .call(yAxis);
-          svg.append('g')
-            .attr('class', 'xGrid')
-            .attr('transform', 'translate('+margin.left+',' + (margin.top+innerHeight) + ')');
-          svg.append('g')
-            .attr('class', 'yGrid')
-            .attr('transform', 'translate('+margin.left+',' + margin.top + ')');
           svg.append('g')
             .attr('class', 'plots')
             .attr('transform', 'translate('+margin.left+',' + margin.top + ')');
@@ -158,7 +152,7 @@ define(['../data', '../controls'], function(data, controls) {
             if (err || !ready) { return; }
             // Get the data, update title, display panel and update chart
             var newData = localData.getData(dataFilter);
-            $chart.children('.chartTitle').html(title);
+            $('.yearChart.chartTitle').html(title);
             $chart.slideDown(400, function () {
               chart._draw(newData);
             });
@@ -180,7 +174,7 @@ define(['../data', '../controls'], function(data, controls) {
               tip = d3.tip()
                 .attr('class', 'd3-tip')
                 .offset([-10, 0])
-                .html(function(d) { return d.year+': '+localData.numFormat(d.value)+' '+['imports', 'exports'][d.flow-1]; });
+                .html(function(d) { return d.year+': '+localData.numFormatFull(d.value)+' '+['imports', 'exports'][d.flow-1]; });
 
           // Update scale domains with newData values and the line generation function
           xScale.domain([yearExtent[0], yearExtent[1]+1]);
@@ -198,36 +192,34 @@ define(['../data', '../controls'], function(data, controls) {
           // Update yearSelect dropdown with new year range
           controls.updateYears(yearRange);
 
-          // Update axis and grids
+          // Update axis
           svg.select('.x.axis') // change the x axis
             .transition()
             .call(xAxis);
           svg.select('.y.axis') // change the y axis
             .transition()
             .call(yAxis);
-          svg.select('.xGrid')
-            .html('')
-            .call(xAxis.tickSize(-innerHeight, 0, 0).tickFormat(''));
-          svg.select('.yGrid')
-            .html('')
-            .call(yAxis.tickSize(-innerWidth, 0, 0).tickFormat(''));
 
-          // Add rect to highlight year
-          var hl = svg.selectAll('rect.highlight')
+          // Add line to highlight year
+          var hl = svg.selectAll('line.highlight')
                      .data([1]),
               selectedYear = $('#selectYear').val();
           hl.enter()
-            .append('rect')
+            .append('line')
             .attr('class', 'highlight')
-            .attr('x', '0')
-            .attr('y', margin.top)
-            .attr('width', '0')
-            .attr('height', innerHeight);
+            .attr('x1', '0')
+            .attr('y1', margin.top)
+            .attr('x2', '0')
+            .attr('y2', margin.top+innerHeight)
+            .attr('stroke', '#054D82')
+            .attr('stroke-dasharray', '5, 5')
+            .attr('stroke-width', '1');
           hl.transition()
-            .attr('width', function (d) {
-              return xScale(+selectedYear+1)-xScale(+selectedYear);
-            })
-            .attr('x', function (d) { return xScale(+selectedYear)+margin.left; });
+            .attr('x1', function (d) { return xScale(+selectedYear)+margin.left; })
+            .attr('x2', function (d) { return xScale(+selectedYear)+margin.left; });
+          // TODO Highlight dots for year
+          // TODO Highlight xAxis label
+
 
           // Draw groups and then in each group lines and dots
           var plotGraph = svg.select('.plots'),

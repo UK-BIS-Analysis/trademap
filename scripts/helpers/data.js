@@ -62,6 +62,10 @@ define(function(require) {
         if (num >= 1000000)    { return f(Math.round(num/1000000))+' m'; }
         return f(num);
       },
+      numFormatFull: function (num) {
+        var f = d3.format('$,');
+        return f(num);
+      },
       numOrdinal: function (num) {
         if(isNaN(num) || num%1) { return num; }
         if(num < 20 && num > 10) { return num+'th'; }

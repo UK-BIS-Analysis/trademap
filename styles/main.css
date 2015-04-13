@@ -34,6 +34,52 @@ nav.navbar {
   margin-bottom: 3px;
   border-bottom-color: #054D82;
 }
+/*
+ * The folowing media query makes the menu collapse on screen sizes less than 1020px
+ * See http://stackoverflow.com/a/20249415 */
+@media (max-width: 1170px) {
+    .navbar-header {
+        float: none;
+    }
+    .navbar-toggle {
+        display: block;
+    }
+    .navbar-collapse {
+        border-top: 1px solid transparent;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    .navbar-collapse.collapse {
+        display: none!important;
+    }
+    .navbar-nav {
+        float: none!important;
+        margin: 7.5px -15px;
+    }
+    .navbar-nav>li {
+        float: none;
+    }
+    .navbar-nav>li>a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .navbar-text {
+        float: none;
+        margin: 15px 0;
+    }
+    /* since 3.1.0 */
+    .navbar-collapse.collapse.in {
+        display: block!important;
+    }
+    .collapsing {
+        overflow: hidden!important;
+    }
+}
+ul.navbar-nav li,
+p.navbar-text {
+  color: #000 !important;
+  font-size: 1.1em;
+  margin-left: 15px;
+}
 .navbar-right {
   margin-right: 15px;
 }
@@ -46,21 +92,11 @@ nav.navbar {
 a.navbar-brand {
   float: left;
 }
-div.pageTitle {
-  float: left;
-  margin: 13px 0 0 15px;
-  font-size: 19px;
-}
-div.pageTitle p {
-  margin: 0;
-}
-div.alert, div#choropleth {
+div.alert {
   /* Add padding to compensate for navbar */
   padding-top: 60px;
 }
 div#charts {
-  margin-top: 80px;
-  padding-top: 100px;
   border-top: 1px solid #054D82;
 }
 
@@ -75,18 +111,27 @@ div#charts {
 .select2control {
   width: 100%;
 }
-#selectReporter, #selectCommodity, #selectPartner, #selectYear,
-.selectReporter, .selectCommodity, .selectPartner, .selectYear{
+#s2id_selectReporter .select2-chosen::before {
+  font-size: 0.9em;
+  font-weight: bold;
+  content: "Reporter: ";
+}
+#s2id_selectPartner .select2-chosen::before {
+  font-size: 0.9em;
+  font-weight: bold;
+  content: "Partner: ";
+}
+#s2id_selectCommodity .select2-chosen::before {
+  font-size: 0.9em;
+  font-weight: bold;
+  content: "Commodity: ";
+}
+#s2id_selectReporter, #s2id_selectCommodity, #s2id_selectPartner, #s2id_selectYear,
+.selectReporter, .selectCommodity, .selectPartner, .selectYear {
   margin-bottom: 0.5em;
 }
-.selectYearWrapper {
-  float: left;
-  width: 60%;
-}
-.clearBtnWrapper {
-  float: left;
-  width: 40%;
-  padding: 0 15px 0 5px;
+.clearBtnWrapper .btn {
+  width: 100%;
 }
 #clearFilters {
   font-size: 14px;
@@ -103,10 +148,32 @@ div#charts {
 #goToMap {
   position: relative;
   top: 0;
-  right: 0;
+  right: 18px;
   text-align: right;
   font-size: 26px;
   color: #054D82;
+}
+/*
+ * The following media query changes the gutter size between cols to be a bit slimmer
+ * See http://stackoverflow.com/a/19179407
+ * And also set the upper padding for the fullscreen pages
+ * */
+@media (max-width: 768px) {
+  #main, #charts { padding-top: 183px }
+  #charts { margin-top: 183px }
+}
+@media (min-width: 768px) {
+  div[class^="col"]{padding-left:5px; padding-right:5px;}
+  #main, #charts { padding-top: 115px }
+  #charts { margin-top: 115px }
+}
+@media (min-width: 992px) {
+  div[class^="col"]{padding-left:5px; padding-right:5px;}
+  #main, #charts { padding-top: 90px }
+  #charts { margin-top: 90px }
+}
+@media (min-width: 1200px) {
+  div[class^="col"]{padding-left:5px; padding-right:5px;}
 }
 
 
@@ -115,28 +182,29 @@ div#charts {
  */
 #choropleth {
   height: 100%;
+  position: relative;
+  top: 0;
 }
-#contextMenu {
+#choroplethTitle {
   position: absolute;
-  display:none;
+  top: 0px;
+  padding-left: 13em;
+  height: 3.5em;
+  width: 100%;
+  z-index: 1000;
 }
-#contextMenu .dropdown-header {
-  color: #054D82;
-  font-size: 16px;
-  font-weight: bold;
-}
-#closeContextMenu {
-  margin: 2px 0 0 2px;
+#choroplethTitle div.chartTitle {
+  background-color: #fff;
 }
 #flowButtons {
   position: absolute;
-  top: 90px;
+  top: 0px;
   height: 35px;
   width: 12em;
 }
 #mapLegend {
   position: absolute;
-  top:  120px;
+  top:  30px;
   min-height: 3em;
   width: 12em;
 }
@@ -161,17 +229,6 @@ div#charts {
 #choroplethInfo .countryName,
 #choroplethInfo .commodity {
   font-weight: bold;
-}
-#choroplethTitle {
-  position: absolute;
-  top: 90px;
-  padding-left: 13em;
-  height: 3.5em;
-  width: 100%;
-  z-index: 1000;
-}
-#choroplethTitle div.chartTitle {
-  background-color: rgba(255, 255, 255, 0.80);
 }
 #choropleth .fill {
   fill: #fff;
@@ -204,6 +261,18 @@ div#charts {
 #choropleth path.country:hover {
   stroke: rgb(44, 105, 158);
   stroke-width: 2px !important;
+}
+#contextMenu {
+  position: absolute;
+  display:none;
+}
+#contextMenu .dropdown-header {
+  color: #054D82;
+  font-size: 16px;
+  font-weight: bold;
+}
+#closeContextMenu {
+  margin: 2px 0 0 2px;
 }
 
 /*
