@@ -15,12 +15,15 @@ define(['./data'], function(data) {
   var controls = {
 
     // Place some common jQuery objects so that we don't need to look for them each time.
-    $selectReporter:  $("#selectReporter"),
-    $selectPartner:   $("#selectPartner"),
-    $selectCommodity: $("#selectCommodity"),
-    $selectYear:      $("#selectYear"),
+    $selectReporter:  $('#selectReporter'),
+    $selectPartner:   $('#selectPartner'),
+    $selectCommodity: $('#selectCommodity'),
+    $selectYear:      $('#selectYear'),
+    $selects:         $('#selectReporter, #selectPartner, #selectCommodity, #selectYear'),
     $flowButtons:     $('#flowButtons'),
     $clearFilters:    $("#clearFilters"),
+
+    filters: {},
 
     setup: function () {
 
@@ -124,26 +127,38 @@ define(['./data'], function(data) {
 
     onFilterChange: function (event) {
       // Get new values
-      var filters = {};
-      if (controls.$selectReporter.val() !== '') { filters.reporter = controls.$selectReporter.val(); }
-      if (controls.$selectPartner.val() !== '') { filters.partner = controls.$selectPartner.val(); }
-      if (controls.$selectCommodity.val() !== '') { filters.commodity = controls.$selectCommodity.val(); }
-      if ($('#flowButtons .btn-primary').attr('data-value') !== '') { filters.flow = $('#flowButtons .btn-primary').attr('data-value'); }
-      if (controls.$selectYear.val() !== '') { filters.year = controls.$selectYear.val(); }
+      var newfilters = {};
+      if (controls.$selectReporter.val() !== '')  { newfilters.reporter = controls.$selectReporter.val(); }
+      if (controls.$selectPartner.val() !== '')   { newfilters.partner = controls.$selectPartner.val(); }
+      if (controls.$selectCommodity.val() !== '') { newfilters.commodity = controls.$selectCommodity.val(); }
+      if (controls.$selectYear.val() !== '')      { newfilters.year = controls.$selectYear.val(); }
+      if ($('#flowButtons .btn-primary').attr('data-value') !== '')
+                                                  { newfilters.flow = $('#flowButtons .btn-primary').attr('data-value'); }
 
-      if (DEBUG) { console.log('New filters selected: %o',filters); }
+      // If there's no change from previous filters then do nothing
+      if (controls.filters.reporter  == newfilters.reporter  &&
+          controls.filters.partner   == newfilters.partner   &&
+          controls.filters.commodity == newfilters.commodity &&
+          controls.filters.year      == newfilters.year) {
+        return;
+      }
+
+      if (DEBUG) { console.log('New filters selected: %o',newfilters); }
 
       // Activate/deactivate controls appropriately
-      controls.fadeControls(filters);
+      controls.fadeControls(newfilters);
 
       // Show/hide elements on page according to filters
-      controls.showElements(filters);
+      controls.showElements(newfilters);
 
       // Trigger refresh on each chart passing along the new filters
-      $('.chart').trigger('refreshFilters', filters);
+      $('.chart').trigger('refreshFilters', newfilters);
 
       // Update URL
-      controls.updateURL(filters);
+      controls.updateURL(newfilters);
+
+      // And finally store the filters
+      controls.filters = newfilters;
     },
 
 
@@ -157,17 +172,20 @@ define(['./data'], function(data) {
 
       // Update the other fields
       if (filters.reporter && filters.reporter !== controls.$selectReporter.val()) {
-        controls.$selectReporter.val(filters.reporter).trigger("change");
+        controls.$selectReporter.val(filters.reporter);
       }
       if (filters.commodity && filters.commodity !== controls.$selectCommodity.val()) {
-        controls.$selectCommodity.val(filters.commodity).trigger("change");
+        controls.$selectCommodity.val(filters.commodity);
       }
       if (filters.partner && filters.partner !== controls.$selectPartner.val()) {
-        controls.$selectPartner.val(filters.partner).trigger("change");
+        controls.$selectPartner.val(filters.partner);
       }
       if (filters.year && filters.year !== controls.$selectYear.val()) {
-        controls.$selectYear.val(filters.year).trigger("change");
+        controls.$selectYear.val(filters.year);
       }
+
+      // And trigger a single change event
+      controls.$selects.trigger("change")
 
 
     },

@@ -141,10 +141,8 @@ define(function(require) {
         this.xFilterByCommodity = this.xFilter.dimension(function(d){ return d.commodity;  });
         this.xFilterByFlow      = this.xFilter.dimension(function(d){ return +d.flow;      });
         this.xFilterByAmount    = this.xFilter.dimension(function(d){ return +d.value;     });
-        // Kick off UK queries right away to optimize load time
-        data.query({ commodity: 'AG2',   partner: 0,     reporter: 826, year: 2013, flow: 1 }, function (err, ready) { })
-        data.query({ commodity: 'TOTAL', partner: 'all', reporter: 826, year: 2013, flow: 2 }, function (err, ready) { })
-        data.query({ commodity: 'TOTAL', partner: 0,     reporter: 826, year: 'all' }, function (err, ready) { })
+
+        // TODO Kick off queries right away to optimize load time?
       },
 
 
