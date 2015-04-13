@@ -22,7 +22,7 @@ define(['../data', '../barchart'], function(data, barchart) {
         .append('svg')
         .attr('height', height)
         .attr('width', width),
-      numEntries = 20,
+      numEntries = 10,
 
       chart = {
 
@@ -57,12 +57,12 @@ define(['../data', '../barchart'], function(data, barchart) {
 
           // CASE 2: reporter = selected    commodity = null        partner = null
           if(filters.reporter && !filters.commodity && !filters.partner) {
-            title = 'Top import commodities in '+filters.year+' for '+localData.reporterAreas.get(filters.reporter).text+' from rest of the world.';
+            title = 'Top commodities imported by '+localData.reporterAreas.get(filters.reporter).text+' in '+filters.year;
           }
 
           // CASE 3: reporter = selected    commodity = null        partner = selected
           if(filters.reporter && !filters.commodity && filters.partner) {
-            title = 'Top import commodities in '+filters.year+' for '+localData.reporterAreas.get(filters.reporter).text+' from '+localData.partnerAreas.get(filters.partner).text+'.';
+            title = 'Top commodities imported by '+localData.reporterAreas.get(filters.reporter).text+' in '+filters.year+' from '+localData.partnerAreas.get(filters.partner).text+'.';
             dataFilter.partner = +filters.partner;
           }
 
@@ -83,7 +83,7 @@ define(['../data', '../barchart'], function(data, barchart) {
             if (err || !ready) { return; }
             // Get the data, update title, display panel and update chart
             var newData = localData.getData(dataFilter, numEntries);
-            $chart.children('.chartTitle').html(title);
+            $('.topImportCommodities.chartTitle').html(title);
             $chart.slideDown(400, function () {
               barchart.draw(svg, newData, dataFilter);
             });

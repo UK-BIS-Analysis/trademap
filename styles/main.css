@@ -194,6 +194,7 @@ div#charts {
   z-index: 1000;
 }
 #choroplethTitle div.chartTitle {
+  margin-top: 0;
   background-color: #fff;
 }
 #flowButtons {
@@ -301,6 +302,10 @@ g.legend {
   color: #054D82;
   font-size: 24px;
   line-height: 1.5em;
+  margin-top: 2em;
+}
+.yearChart.chartTitle {
+  margin-top: 0;
 }
 text.label {
   font-size: 11px;

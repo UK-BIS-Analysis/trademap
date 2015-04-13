@@ -113,7 +113,7 @@ define(['../data', '../controls'], function(data, controls) {
 
           // CASE 2: reporter = selected    commodity = null        partner = null
           if(filters.reporter && !filters.commodity && !filters.partner) {
-            title = 'Total imports and Exports of '+localData.countryByUnNum.get(filters.reporter).name;
+            title = 'Total imports and exports of '+localData.countryByUnNum.get(filters.reporter).name;
             queryFilter.partner =  0;
             queryFilter.commodity = 'TOTAL';
             dataFilter = queryFilter;

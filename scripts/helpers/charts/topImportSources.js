@@ -22,7 +22,7 @@ define(['../data', '../barchart'], function(data, barchart) {
         .append('svg')
         .attr('height', height)
         .attr('width', width),
-      numEntries = 20,
+      numEntries = 10,
 
       chart = {
 
@@ -86,7 +86,7 @@ define(['../data', '../barchart'], function(data, barchart) {
             if (err || !ready) { return; }
             // Get the data, update title, display panel and update chart
             var newData = localData.getData(dataFilter, numEntries);
-            $chart.children('.chartTitle').html(title);
+            $('.topImportSources.chartTitle').html(title);
             $chart.slideDown(400, function () {
               barchart.draw(svg, newData, dataFilter);
             });
