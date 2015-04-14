@@ -170,9 +170,9 @@ define(function(require) {
         }
 
         // If the API was called less than a second ago, or if the query is in the queue then we need to
-        // postpone the call by (a little more than) a second.
+        // postpone the call
         var timeAgo = time.getTime() - data.timestamp;
-        if (timeAgo < 1000 || data.queryQueue.indexOf(requestUrl) > -1) {
+        if (timeAgo < 1100 || data.queryQueue.indexOf(requestUrl) > -1) {
           window.setTimeout(function () { data.query(filters, callback); }, timeAgo+100);
           callback(null, false);
           return;
@@ -181,6 +181,7 @@ define(function(require) {
         // Make call
         $.ajax({
           url: requestUrl,
+          timeout: 15000,
           crossDomain: true,
           // NOTE: context setting is imporant as it binds the callback to the data object we are creating.
           // Otherwise we cannot access any of the properties in the callback.
@@ -200,7 +201,13 @@ define(function(require) {
             callback(null, true);
           },
           error: function error (xhr, status, err) {
-            callback(err, null);
+            // If error is 409 then try to requeue the request
+            if(xhr.status == 409) {
+              if (DEBUG) { console.log('API 409 Error: Requeueing the request.') };
+              data.query(requestUrl, callback);
+            } else {
+              callback(err, null);
+            }
           }
         });
       },
