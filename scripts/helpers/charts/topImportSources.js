@@ -29,6 +29,10 @@ define(['../data', '../barchart'], function(data, barchart) {
         setup: function () {
           // Bind the refresh function to the refreshFilters event
           $chart.on('refreshFilters', this.refresh);
+          // Bind the resize function to the window resize event
+          $(window).on('resize', function () {
+            barchart.resizeSvg(svg, $chart.width());
+          });
           // Setup the svg
           barchart.setup(svg);
           // Hide on load
