@@ -15,6 +15,7 @@ define(['../data', '../barchart'], function(data, barchart) {
 
   var localData = data,
       $chart = $('#topExportCommodities'),
+      $chartTitle = $chart.siblings('.chartTitle'),
 
       height = $chart.height(),
       width  = $chart.width(),
@@ -66,28 +67,31 @@ define(['../data', '../barchart'], function(data, barchart) {
 
           // CASE 3: reporter = selected    commodity = null        partner = selected
           if(filters.reporter && !filters.commodity && filters.partner) {
-            title = 'Top commodities exported in '+filters.year+' by '+localData.reporterAreas.get(filters.reporter).text+' to '+localData.partnerAreas.get(filters.partner).text+'.';
+            title = 'Top commodities exported by '+localData.reporterAreas.get(filters.reporter).text+' to '+localData.partnerAreas.get(filters.partner).text+' in '+filters.year+'.';
             dataFilter.partner = +filters.partner;
           }
 
           // CASE 4: reporter = selected    commodity = selected    partner = null
           if(filters.reporter && filters.commodity && !filters.partner) {
+            $chartTitle.html('');
             $chart.slideUp();
             return;
           }
 
           // CASE 5: reporter = selected    commodity = selected    partner = selected
           if(filters.reporter && filters.commodity && filters.partner) {
+            $chartTitle.html('');
             $chart.slideUp();
             return;
           }
 
+          $chartTitle.html(title);
           data.query(queryFilter, function queryCallback (err, ready) {
             if (err) { console.log(err); }
             if (err || !ready) { return; }
             // Get the data, update title, display panel and update chart
             var newData = localData.getData(dataFilter, numEntries);
-            $('.topExportCommodities.chartTitle').html(title);
+            $chartTitle.html(title);
             $chart.slideDown(400, function () {
               barchart.draw(svg, newData, dataFilter);
             });

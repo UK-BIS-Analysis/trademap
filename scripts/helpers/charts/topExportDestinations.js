@@ -15,6 +15,7 @@ define(['../data', '../barchart'], function(data, barchart) {
 
   var localData = data,
       $chart = $('#topExportDestinations'),
+      $chartTitle = $chart.siblings('.chartTitle'),
 
       height = $chart.height(),
       width  = $chart.width(),
@@ -67,6 +68,7 @@ define(['../data', '../barchart'], function(data, barchart) {
 
           // CASE 3: reporter = selected    commodity = null        partner = selected
           if(filters.reporter && !filters.commodity && filters.partner) {
+            $chartTitle.html('');
             $chart.slideUp();
             return;
           }
@@ -80,6 +82,7 @@ define(['../data', '../barchart'], function(data, barchart) {
 
           // CASE 5: reporter = selected    commodity = selected    partner = selected
           if(filters.reporter && filters.commodity && filters.partner) {
+            $chartTitle.html('');
             $chart.slideUp();
             return;
           }
@@ -89,7 +92,7 @@ define(['../data', '../barchart'], function(data, barchart) {
             if (err || !ready) { return; }
             // Get the data, update title, display panel and update chart
             var newData = localData.getData(dataFilter, numEntries);
-            $('.topExportDestinations.chartTitle').html(title);
+            $chartTitle.html(title);
             $chart.slideDown(400, function () {
               barchart.draw(svg, newData, dataFilter);
             });

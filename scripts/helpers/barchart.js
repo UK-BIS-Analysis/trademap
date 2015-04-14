@@ -27,10 +27,6 @@ define(['./data', './controls'], function(data, controls) {
       barPadding = 6,
       barWidth = 0,
 
-      tip = d3.tip()
-              .attr('class', 'd3-tip')
-              .offset([-10, 0]),
-
 
 
       barchart = {
@@ -84,13 +80,19 @@ define(['./data', './controls'], function(data, controls) {
                 .tickSize(6, 0)
                 .tickFormat(localData.numFormat);
           barWidth = (innerWidth / newData.length) - barPadding;
-          tip.html(function(d) {
+          var tip = d3.tip()
+              .attr('class', 'd3-tip')
+              .offset([-10, 0])
+              .html(function(d) {
                 if (filters.partner == 'all') { // top partner chart: select partner
                   return localData.countryByUnNum.get(d.partner).name+' '+['imports', 'exports'][d.flow-1]+': '+localData.numFormat(d.value)+' in '+d.year+'.';
                 } else { // top commodities chart: select commodity
                   return localData.commodityName(d.commodity)+' '+['imports', 'exports'][d.flow-1]+': '+localData.numFormat(d.value)+' in '+d.year+'.';
                 }
-              })
+              });
+
+          // Remove no data text
+          svg.select('text.nodata').remove();
 
           // Update axises
           svg.select('.x.axis') // change the x axis
@@ -158,9 +160,18 @@ define(['./data', './controls'], function(data, controls) {
           // Exit groups
           groups.exit().remove();
 
-          // Add tooltip functions
-          groups.call(tip);
-
+          // Add tooltip functions (if there are any groups)
+          if (groups.size() > 0) {
+            groups.call(tip);
+          } else {
+            // Display a "No data" text
+            svg.append('text')
+              .text('No data available for this chart.')
+              .classed('nodata', true)
+              .classed('label', true)
+              .attr('x', innerWidth/2+margin.left-75)
+              .attr('y', innerHeight/2+margin.top-75);
+          }
         },
 
 
