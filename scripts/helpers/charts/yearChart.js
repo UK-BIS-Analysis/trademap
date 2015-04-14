@@ -18,7 +18,7 @@ define(['../data', '../controls'], function(data, controls) {
 
       // SVG main properties
       svg = d3.select('#yearChart').append('svg'),
-      margin = {top: 25, right: 15, bottom: 30, left: 70},
+      margin = {top: 25, right: 15, bottom: 45, left: 70},
       height = $chart.height(),
       width  = $chart.width(),
       innerHeight = height - margin.top - margin.bottom,
@@ -52,6 +52,9 @@ define(['../data', '../controls'], function(data, controls) {
           // Bind the refresh function to the refreshFilters event
           $chart.on('refreshFilters', this.refresh);
 
+          // Bind the resize function to the window resize event
+          $(window).on('resize', this.resizeSvg);
+
           // Setup SVG and add axises and groups
           svg.attr('width', width)
             .attr('height', height);
@@ -70,20 +73,20 @@ define(['../data', '../controls'], function(data, controls) {
           // Draw legend
           var legendItems = svg.append('g')
             .attr('class', 'legend')
-            .attr('transform', 'translate('+margin.left+',0)')
+            .attr('transform', 'translate('+(innerWidth+margin.left-colors.length*120)+',0)')
             .selectAll('.legendItem')
             .data(colors)
             .enter()
             .append('g')
             .attr('class','legendItem');
           legendItems.append('circle')
-            .attr('cx', function (d, i) { return innerWidth-(i+1)*120; })
+            .attr('cx', function (d, i) { return i*120; })
             .attr('cy', '10')
             .attr('r', '5')
             .style('fill', function (d) { return d; });
           legendItems.append('text')
             .attr('transform', function (d, i) {
-              return 'translate('+(innerWidth+10-(i+1)*120)+',15)';
+              return 'translate('+(i*120+10)+',15)';
             })
             .text(function(d,i) { return ['Imports','Exports'][i]; } );
 
@@ -195,7 +198,9 @@ define(['../data', '../controls'], function(data, controls) {
           // Update axis
           svg.select('.x.axis') // change the x axis
             .transition()
-            .call(xAxis);
+            .call(xAxis)
+            .selectAll('g.x text')
+            .attr("transform", 'rotate(-65) translate(-22,-10)');;
           svg.select('.y.axis') // change the y axis
             .transition()
             .call(yAxis);
@@ -271,8 +276,42 @@ define(['../data', '../controls'], function(data, controls) {
           // Add tooltip
           plotGraph.call(tip);
 
-        }
+        },
 
+
+
+
+        resizeSvg: function () {
+          // Get new size & set new size to svg element
+          width = $('#yearChart').width();
+          svg.attr('width', width);
+          // Update xScale
+          innerWidth = width - margin.left - margin.right;
+          xScale.range([0, innerWidth]);
+          xAxis.scale(xScale);
+          // Redraw x axis
+          svg.select('.x.axis') // change the x axis
+            .transition()
+            .call(xAxis);
+          // Move legend
+          svg.select('g.legend')
+            .attr('transform', 'translate('+(innerWidth+margin.left-colors.length*120)+',0)');
+          // Move dots
+          svg.selectAll('circle.dot')
+            .transition()
+            .attr('cx', function (d) { return xScale(d.year); });
+          // Update line paths
+          line.x(function(d) { return xScale(d.year); })
+          svg.selectAll('path.flow')
+            .transition()
+            .attr('d', function (d) { return line(d.values); });
+          // Move highlight
+          var selectedYear = $('#selectYear').val();
+          svg.selectAll('line.highlight')
+            .transition()
+            .attr('x1', function (d) { return xScale(+selectedYear)+margin.left; })
+            .attr('x2', function (d) { return xScale(+selectedYear)+margin.left; });
+        }
   };
 
   return chart;
