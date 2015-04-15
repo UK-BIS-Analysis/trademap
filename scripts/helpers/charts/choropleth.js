@@ -151,7 +151,7 @@ define(['../data', '../controls'], function(data, controls) {
               flow:       filters.flow
             };
             data.query(dataFilter, function queryCallback (err, ready) {
-              if (err) { console.log(err); }
+              if (err) { controls.showError(err); }
               if (err || !ready) { return; }
               // Redraw map and set title
               chart._redrawMap(dataFilter);
@@ -171,7 +171,7 @@ define(['../data', '../controls'], function(data, controls) {
               flow:       filters.flow
             };
             data.query(dataFilter, function queryCallback (err, ready) {
-              if (err) { console.log(err); }
+              if (err) { controls.showError(err); }
               if (err || !ready) { return; }
               // Redraw map and set title
               chart._redrawMap(dataFilter);

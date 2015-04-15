@@ -10,7 +10,7 @@
  * */
 
 
-define(['../data', '../barchart'], function(data, barchart) {
+define(['../data', '../barchart', '../controls'], function(data, barchart, controls) {
   'use strict';
 
   var localData = data,
@@ -87,7 +87,7 @@ define(['../data', '../barchart'], function(data, barchart) {
 
           $chartTitle.html(title);
           data.query(queryFilter, function queryCallback (err, ready) {
-            if (err) { console.log(err); }
+            if (err) { controls.showError(err); }
             if (err || !ready) { return; }
             // Get the data, update title, display panel and update chart
             var newData = localData.getData(dataFilter, numEntries);

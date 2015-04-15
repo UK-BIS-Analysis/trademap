@@ -251,7 +251,7 @@ define(['./data'], function(data) {
 
 
 
-    fadeControls : function(filters) {
+    fadeControls: function (filters) {
       if(!filters.reporter) {
         $('#selectReporter, #selectPartner, #selectCommodity')
           .off('change', controls.onFilterChange)
@@ -271,7 +271,7 @@ define(['./data'], function(data) {
 
 
 
-    showElements : function(filters) {
+    showElements: function (filters) {
       if(!filters.reporter) {
         // Empty viz: hide switch, chevrons and graphs and charts container
         $('#goToCharts, #goToMap, #flowButtons').hide();
@@ -283,8 +283,15 @@ define(['./data'], function(data) {
         $('#charts').slideDown();
         $('#contextMenu .setPartner').removeClass('disabled');
       }
-    }
+    },
 
+
+
+    showError: function (err) {
+      $('#myModalLabel').html('<span class="glyphicon glyphicon-warning-sign"></span> There was an error in querying the COMNTRADE API.');
+      $('#myModal .modal-body').html('Error details:<br />'+err);
+      $('#myModal').modal({ show: true });
+    }
   };
 
   return controls;

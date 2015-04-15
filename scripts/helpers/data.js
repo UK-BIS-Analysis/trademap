@@ -214,7 +214,7 @@ define(function(require) {
             if (runningItem > -1) { this.queryRunning.splice(runningItem, 1); }
             var queueItem = this.queryQueue.indexOf(requestUrl);
             if (queueItem > -1) { this.queryQueue.splice(queueItem, 1); }
-            // If error is 409 then try to requeue the request
+            // If error is 409 then requeue the request
             if(xhr.status == 409) {
               if (DEBUG) { console.log('API 409 Error: Requeueing the request.') };
               data.query(requestUrl, callback);
