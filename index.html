@@ -22,8 +22,8 @@
 
     <link rel="stylesheet" href="styles/libs.min.css">
 
-    <!-- Specific Trademap CSS file -->
-    <link rel="stylesheet" type="text/css" href="styles/main.css"/>
+    <!-- Specific Trademap CSS files -->
+    <link rel="stylesheet" href="styles/main.min.css">
 
     <!-- The aight js lib provides some support for IE8 -->
     <!--[if lte IE 9]>
@@ -48,7 +48,7 @@
             <span class="icon-bar"></span>
           </button>
           <div class="navbar-brand">
-            <img class="logo" src="/img/image-BISLogo-landscapecolour-png.png">
+            <img class="logo" src="img/image-BISLogo-landscapecolour-png.png">
           </div>
         </div>
 
@@ -67,8 +67,6 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Share<strong class="caret"></strong></a>
               <ul class="dropdown-menu">
-                <li><a href data-toggle="modal" data-target="#myModal"><span class="icon-share-squared"></span> Embed</a></li>
-                <li><a href data-toggle="modal" data-target="#myModal"><span class="icon-code"></span> Share this view</a></li>
                 <li><a href="#" id="facebookShareLink"><span class="icon-facebook-squared"></span> Share on Facebook</a></li>
                 <li><a href="#" id="tweetLink"><span class="icon-twitter-squared"></span> Tweet this</a></li>
               </ul>
@@ -124,25 +122,32 @@
       <div id="choropleth" class="fill-screen chart">
         <!-- Chart title -->
         <div id="choroplethTitle">
+          <div class="dropdown titleDropdown">
+            <button class="btn btn-link dropdown-toggle" type="button" id="yearlyChartDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="yearlyChartDropdownMenu">
+              <li role="presentation"><a role="menuitem" tabindex="-1" data-target="choropleth" href class="downloadSvg"><span class="glyphicon glyphicon-floppy-save"></span> Download as SVG</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" data-target="choropleth" href class="embedSvg"><span class="icon-code"></span> Embed</a></li>
+            </ul>
+          </div>
           <div class="chartTitle"></div>
         </div>
 
         <!-- Flow selection -->
         <div class="btn-group btn-group-justified" id="flowButtons" role="group" aria-label="Import/Balance/Export options">
           <div class="btn-group" role="group">
+            <button type="button" class="btn btn-xs btn-primary" data-value="2">Exports</button>
+          </div>
+          <div class="btn-group" role="group">
             <button type="button" class="btn btn-xs btn-default" data-value="1">Imports</button>
           </div>
           <div class="btn-group" role="group">
             <button type="button" class="btn btn-xs btn-default" data-value="0">Balance</button>
           </div>
-          <div class="btn-group" role="group">
-            <button type="button" class="btn btn-xs btn-primary" data-value="2">Exports</button>
-          </div>
         </div>
 
         <!-- Legend -->
         <div id="mapLegend">
-          <svg></svg>
+          <svg id="mapLegendSvg"></svg>
         </div>
 
         <!-- Blue info box-->
@@ -175,10 +180,16 @@
 
         <!-- Yearly flows chart and selector -->
         <div class="row clearfix">
-          <div class="col-md-12 column">
-            <div class="yearChart chartTitle"></div>
-            <div id="yearChart" class="chart">
+          <div id="yearChart" class="col-md-12 column">
+            <div class="dropdown titleDropdown">
+              <button class="btn btn-link dropdown-toggle" type="button" id="yearlyChartDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="yearlyChartDropdownMenu">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href data-target="yearChart" class="downloadSvg"><span class="glyphicon glyphicon-floppy-save"></span> Download as SVG</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href data-target="yearChart" class="embedSvg"><span class="icon-code"></span> Embed</a></li>
+              </ul>
             </div>
+            <div class="chartTitle"></div>
+            <div class="chart"></div>
           </div>
         </div>
 
@@ -187,13 +198,27 @@
 
         <!-- Top Import/Export Countries -->
         <div class="row clearfix">
-          <div class="col-md-6 col-sm-12 column">
-            <div class="topImportSources chartTitle"></div>
-            <div id="topImportSources" class="chart"></div>
+          <div id="topExportDestinations" class="col-md-6 col-sm-12 column">
+            <div class="dropdown titleDropdown">
+              <button class="btn btn-link dropdown-toggle" type="button" id="yearlyChartDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="yearlyChartDropdownMenu">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href data-target="topExportDestinations" class="downloadSvg"><span class="glyphicon glyphicon-floppy-save"></span> Download as SVG</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href data-target="topExportDestinations" class="embedSvg"><span class="icon-code"></span> Embed</a></li>
+              </ul>
+            </div>
+            <div class="chartTitle"></div>
+            <div class="chart barchart"></div>
           </div>
-          <div class="col-md-6 col-sm-12 column">
-            <div class="topExportDestinations chartTitle"></div>
-            <div id="topExportDestinations" class="chart"></div>
+          <div id="topImportSources" class="col-md-6 col-sm-12 column">
+            <div class="dropdown titleDropdown">
+              <button class="btn btn-link dropdown-toggle" type="button" id="yearlyChartDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="yearlyChartDropdownMenu">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href data-target="topImportSources" class="downloadSvg"><span class="glyphicon glyphicon-floppy-save"></span> Download as SVG</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href data-target="topImportSources" class="embedSvg"><span class="icon-code"></span> Embed</a></li>
+              </ul>
+            </div>
+            <div class="chartTitle"></div>
+            <div class="chart barchart"></div>
           </div>
         </div>
 
@@ -203,13 +228,27 @@
 
         <!-- Top Import/Export Commodities -->
         <div class="row clearfix">
-          <div class="col-md-6 col-sm-12 column">
-            <div class="topImportCommodities chartTitle"></div>
-            <div id="topImportCommodities" class="chart"></div>
+          <div id="topExportCommodities" class="col-md-6 col-sm-12 column">
+            <div class="dropdown titleDropdown">
+              <button class="btn btn-link dropdown-toggle" type="button" id="yearlyChartDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="yearlyChartDropdownMenu">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href data-target="topExportCommodities" class="downloadSvg"><span class="glyphicon glyphicon-floppy-save"></span> Download as SVG</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href data-target="topExportCommodities" class="embedSvg"><span class="icon-code"></span> Embed</a></li>
+              </ul>
+            </div>
+            <div class="chartTitle"></div>
+            <div class="chart barchart"></div>
           </div>
-          <div class="col-md-6 col-sm-12 column">
-            <div class="topExportCommodities chartTitle"></div>
-            <div id="topExportCommodities" class="chart"></div>
+          <div id="topImportCommodities" class="col-md-6 col-sm-12 column">
+            <div class="dropdown titleDropdown">
+              <button class="btn btn-link dropdown-toggle" type="button" id="yearlyChartDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="yearlyChartDropdownMenu">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href data-target="topImportCommodities" class="downloadSvg"><span class="glyphicon glyphicon-floppy-save"></span> Download as SVG</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href data-target="topImportCommodities" class="embedSvg"><span class="icon-code"></span> Embed</a></li>
+              </ul>
+            </div>
+            <div class="chartTitle"></div>
+            <div class="chart barchart"></div>
           </div>
         </div>
 
