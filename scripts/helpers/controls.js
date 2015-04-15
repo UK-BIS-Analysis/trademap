@@ -288,8 +288,8 @@ define(['./data'], function(data) {
 
 
     showError: function (err) {
-      $('#myModalLabel').html('<span class="glyphicon glyphicon-warning-sign"></span> There was an error in querying the COMNTRADE API.');
-      $('#myModal .modal-body').html('Error details:<br />'+err);
+      $('#myModalLabel').html('<span class="glyphicon glyphicon-warning-sign"></span> There was an error in querying the COMTRADE API.');
+      $('#myModal .modal-body').html(err);
       $('#myModal').modal({ show: true });
     }
   };

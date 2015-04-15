@@ -225,7 +225,7 @@ define(function(require) {
               data.query(requestUrl, callback);
               callback(null, false);
             } else {
-              callback(err, null);
+              callback(status+' '+err, null);
             }
           },
           complete: function () {
