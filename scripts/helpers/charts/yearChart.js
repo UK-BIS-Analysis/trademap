@@ -14,10 +14,16 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
   'use strict';
 
   var localData = data,
-      $chart = $('#yearChart'),
+      $container = $('#yearChart'),
+      $chart = $container.children('.chart'),
+      $chartTitle = $container.children('.chartTitle'),
 
       // SVG main properties
-      svg = d3.select('#yearChart').append('svg'),
+      svg = d3.select('#yearChart .chart')
+        .append('svg')
+        .attr("xmlns", "http://www.w3.org/2000/svg")
+        .attr("version", 1.1)
+        .classed('svgChart', true),
       margin = {top: 25, right: 15, bottom: 45, left: 70},
       height = $chart.height(),
       width  = $chart.width(),
@@ -92,7 +98,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
 
 
           // Hide on load
-          $chart.slideUp(0);
+          $container.slideUp(0);
         },
 
 
@@ -102,7 +108,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
 
           // CASE 1: reporter = null
           if(!filters.reporter) {
-            $chart.slideUp();
+            $container.slideUp();
             return;
           }
 
@@ -155,8 +161,8 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
             if (err || !ready) { return; }
             // Get the data, update title, display panel and update chart
             var newData = localData.getData(dataFilter);
-            $('.yearChart.chartTitle').html(title);
-            $chart.slideDown(400, function () {
+            $chartTitle.html(title);
+            $container.slideDown(400, function () {
               chart._draw(newData);
             });
           });
@@ -283,7 +289,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
 
         resizeSvg: function () {
           // Get new size & set new size to svg element
-          width = $('#yearChart').width();
+          width = $chart.width();
           svg.attr('width', width);
           // Update xScale
           innerWidth = width - margin.left - margin.right;

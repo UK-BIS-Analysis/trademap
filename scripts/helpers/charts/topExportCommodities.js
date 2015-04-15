@@ -14,13 +14,17 @@ define(['../data', '../barchart', '../gui', '../controls'], function(data, barch
   'use strict';
 
   var localData = data,
-      $chart = $('#topExportCommodities'),
-      $chartTitle = $chart.siblings('.chartTitle'),
+      $container = $('#topExportCommodities'),
+      $chart = $container.children('.chart'),
+      $chartTitle = $container.children('.chartTitle'),
 
       height = $chart.height(),
       width  = $chart.width(),
-      svg = d3.select('#topExportCommodities')
+      svg = d3.select('#topExportCommodities .chart')
         .append('svg')
+        .attr("xmlns", "http://www.w3.org/2000/svg")
+        .attr("version", 1.1)
+        .classed('svgChart', true)
         .attr('height', height)
         .attr('width', width),
       numEntries = 10,
@@ -37,13 +41,13 @@ define(['../data', '../barchart', '../gui', '../controls'], function(data, barch
           // Setup the svg
           barchart.setup(svg);
           // Hide on load
-          $chart.slideUp(0);
+          $container.slideUp(0);
         },
 
         refresh: function (event, filters) {
           // CASE 1: reporter = null
           if(!filters.reporter) {
-            $chart.slideUp();
+            $container.slideUp();
             return;
           }
 
@@ -74,14 +78,14 @@ define(['../data', '../barchart', '../gui', '../controls'], function(data, barch
           // CASE 4: reporter = selected    commodity = selected    partner = null
           if(filters.reporter && filters.commodity && !filters.partner) {
             $chartTitle.html('');
-            $chart.slideUp();
+            $container.slideUp();
             return;
           }
 
           // CASE 5: reporter = selected    commodity = selected    partner = selected
           if(filters.reporter && filters.commodity && filters.partner) {
             $chartTitle.html('');
-            $chart.slideUp();
+            $container.slideUp();
             return;
           }
 
@@ -92,7 +96,7 @@ define(['../data', '../barchart', '../gui', '../controls'], function(data, barch
             // Get the data, update title, display panel and update chart
             var newData = localData.getData(dataFilter, numEntries);
             $chartTitle.html(title);
-            $chart.slideDown(400, function () {
+            $container.slideDown(400, function () {
               barchart.draw(svg, newData, dataFilter);
             });
           });

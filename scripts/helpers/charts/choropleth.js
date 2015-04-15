@@ -14,6 +14,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
   'use strict';
   var localData = data,
       $chart = $('#choropleth'),
+      $chartTitle = $('#choroplethTitle .chartTitle'),
 
       // A holder for current filters
       currentFilters = {},
@@ -24,6 +25,8 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
       svg = d3.select("#choropleth")
         .append("svg")
         .classed('choropleth', true)
+        .attr("version", 1.1)
+        .attr("xmlns", "http://www.w3.org/2000/svg")
         .attr('id', 'choroplethSvg')
         .attr('viewBox', '0 0 '+width+' '+height)
         .attr('preserveAspectRatio', 'xMidYMid meet'),
@@ -137,7 +140,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
           // CASE 1: reporter = null    -->   Blank choropleth, no countries selected and no fills and no title
           if(!filters.reporter) {
             svg.selectAll('.country').style('fill', '#fff');
-            $('#choroplethTitle div.chartTitle').html('');
+            $chartTitle.html('');
             return;
           }
 
@@ -156,7 +159,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
               if (err || !ready) { return; }
               // Redraw map and set title
               chart._redrawMap(dataFilter);
-              $('#choroplethTitle div.chartTitle').html('Value of ' + localData.flowByCode.get(filters.flow).text.toLowerCase() + ' between ' + localData.countryByUnNum.get(filters.reporter).name + ' and the World in  ' + filters.year + '.');
+              $chartTitle.html('Value of ' + localData.flowByCode.get(filters.flow).text.toLowerCase() + ' between ' + localData.countryByUnNum.get(filters.reporter).name + ' and the World in  ' + filters.year + '.');
             });
             return;
           }
@@ -176,7 +179,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
               if (err || !ready) { return; }
               // Redraw map and set title
               chart._redrawMap(dataFilter);
-              $('#choroplethTitle div.chartTitle').html('Value of ' + localData.flowByCode.get(filters.flow).text.toLowerCase() + ' between ' + localData.countryByUnNum.get(filters.reporter).name + ' and the World for ' + localData.commodityName(filters.commodity) + ' in ' + filters.year+'.');
+              $chartTitle.html('Value of ' + localData.flowByCode.get(filters.flow).text.toLowerCase() + ' between ' + localData.countryByUnNum.get(filters.reporter).name + ' and the World for ' + localData.commodityName(filters.commodity) + ' in ' + filters.year+'.');
             });
             return;
           }
