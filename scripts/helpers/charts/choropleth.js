@@ -25,6 +25,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
       svg = d3.select("#choropleth")
         .append("svg")
         .classed('choropleth', true)
+        .classed('svgChart', true)
         .attr("version", 1.1)
         .attr("xmlns", "http://www.w3.org/2000/svg")
         .attr('id', 'choroplethSvg')

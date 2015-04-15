@@ -1,7 +1,7 @@
 /*jslint browser: true*/
 /*jslint white: true */
 /*jslint vars: true */
-/*global $, Modernizr, d3, dc, crossfilter, document, console, alert, define, DEBUG, queryObject */
+/*global $, Modernizr, d3, dc, crossfilter, document, console, alert, define, DEBUG, queryObject, btoa */
 
 
 /*
@@ -45,65 +45,33 @@ define([], function() {
       });
 
       // ADD DOWNLOAD GRAPHS FUNCTIONS
-      // Only add download behaviours if this is not an IE brwoser since it will not be supported
-      var $downloadChartBtn = $('#downloadChartBtn').hide();
-      if (navigator.userAgent.indexOf('MSIE') == -1 && navigator.appVersion.indexOf('Trident/') < 0) {
-        var $svgs = $('svg.choropleth, svg.chart')
-              .on('mouseover', function (e) {
-                var $this = $(this);
-                $downloadChartBtn
-                  .css({
-                    position: 'absolute',
-                    top: $this.offset().top,
-                    left: $this.offset().left + $this.width()-30
-                  })
-                  .show();
-              })
-              .on('mouseout', function (e) {
-                $downloadChartBtn.hide();
-              });
-	  }
+      // If this is an IE brwoser then hide the download option since it will not be supported
+      if (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > -1) {
+        $('a.downloadSvg').hide();
+      }
+      $('a.downloadSvg').on('click', function (e) {
+        var svgId = $(this).attr('data-target'),
+            cssPath = '#'+svgId+' .svgChart',
+            $svg = $(cssPath),
+            svg = d3.select(cssPath),
+            svgText = svg.node().parentNode.innerHTML,
+            $this = $(this)
+              .attr('download',svgId+'.svg')
+              .attr('title',svgId+'.svg')
+              .attr('href','data:image/svg+xml;base64,'+ btoa(svgText));
+        // Set cleanup
+        setTimeout(function ($this) {
+          $this
+            .attr('download','')
+            .attr('title','')
+            .attr('href','');
+        }, 1000)
+      });
 
-
-    },
-
-
-
-
-    _getCssForSVG: function (svg) {
-      // Get the svg id
-      // Find main.css or main.min.css in document.styleSheets
-      // Find all cssRules where d.selectorText contains 'svg.[id]'
-      // Get the cssText of each of the rules and compile into a single string
-    },
-
-
-
-
-    _injectCSSintoSVG: function (css, svg) {
-      // Inject a <defs> tag with the CSS text into the SVG like follows
-      //  <defs>
-      //    <style type="text/css"><![CDATA[
-      //      .socIcon g {
-      //        fill:red;
-      //      }
-      //    ]]></style>
-      //  </defs>
-    },
-
-
-
-    _downloadSVG: function (svg) {
-      // Get SVG id and text
-      var svgId = svg.attr('id'),
-          svgText = svg.node().parentNode.innerHTML;
-      // Fill in data attributes on this link
-      $(this)
-        .attr('download',svgId+'.svg')
-        .attr('title',svgId+'.svg')
-        .attr('href','data:image/svg+xml;base64,'+ btoa(graph));
-      // Trigger the click now
-      $(this).get(0).click();
+      // ADD EMBED GRAPH BUTTON BEHAVIOURS
+      $('a.embedSvg').on('click', function (e) {
+        e.preventDefault();
+      })
     },
 
 

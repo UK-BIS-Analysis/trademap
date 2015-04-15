@@ -20,8 +20,32 @@ define(['./charts/choropleth', './charts/yearChart', './charts/topExportCommodit
       topExportDestinations.setup();
       topImportCommodities.setup();
       topImportSources.setup();
-      choropleth.setup(callback);
-    }
+      choropleth.setup(function () {
+        // TODO Inject CSS into SVGs
+        callback();
+      });
+    },
+
+    _getCssForSVG: function (svg) {
+      // Get the svg id
+      // Find main.css or main.min.css in document.styleSheets
+      // Find all cssRules where d.selectorText contains 'svg.[id]'
+      // Get the cssText of each of the rules and compile into a single string
+    },
+
+
+
+
+    _injectCSSintoSVG: function (css, svg) {
+      // Inject a <defs> tag with the CSS text into the SVG like follows
+      //  <defs>
+      //    <style type="text/css"><![CDATA[
+      //      .socIcon g {
+      //        fill:red;
+      //      }
+      //    ]]></style>
+      //  </defs>
+    },
 
   };
 
