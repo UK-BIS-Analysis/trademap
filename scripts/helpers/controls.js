@@ -121,7 +121,8 @@ define(['./data'], function(data) {
       if (controls.filters.reporter  == newfilters.reporter  &&
           controls.filters.partner   == newfilters.partner   &&
           controls.filters.commodity == newfilters.commodity &&
-          controls.filters.year      == newfilters.year) {
+          controls.filters.year      == newfilters.year      &&
+          controls.filters.flow      == newfilters.flow ) {
         return;
       }
 
@@ -269,10 +270,3 @@ define(['./data'], function(data) {
 
   return controls;
 });
-
-
-
-
-
-
-
