@@ -10,7 +10,7 @@
  * */
 
 
-define(['../data', '../controls'], function(data, controls) {
+define(['../data', '../gui', '../controls'], function(data, gui, controls) {
   'use strict';
   var localData = data,
       $chart = $('#choropleth'),
@@ -24,6 +24,7 @@ define(['../data', '../controls'], function(data, controls) {
       svg = d3.select("#choropleth")
         .append("svg")
         .classed('choropleth', true)
+        .attr('id', 'choroplethSvg')
         .attr('viewBox', '0 0 '+width+' '+height)
         .attr('preserveAspectRatio', 'xMidYMid meet'),
       // Color schemes from http://colorbrewer2.org/
@@ -151,7 +152,7 @@ define(['../data', '../controls'], function(data, controls) {
               flow:       filters.flow
             };
             data.query(dataFilter, function queryCallback (err, ready) {
-              if (err) { controls.showError(err); }
+              if (err) { gui.showError(err); }
               if (err || !ready) { return; }
               // Redraw map and set title
               chart._redrawMap(dataFilter);
@@ -171,7 +172,7 @@ define(['../data', '../controls'], function(data, controls) {
               flow:       filters.flow
             };
             data.query(dataFilter, function queryCallback (err, ready) {
-              if (err) { controls.showError(err); }
+              if (err) { gui.showError(err); }
               if (err || !ready) { return; }
               // Redraw map and set title
               chart._redrawMap(dataFilter);

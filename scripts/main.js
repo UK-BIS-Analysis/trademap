@@ -9,7 +9,7 @@
  * */
 
 
-require(['helpers/data', 'helpers/controls', 'helpers/charts'], function(data, controls, charts) {
+require(['helpers/data', 'helpers/gui', 'helpers/controls', 'helpers/charts'], function(data, gui, controls, charts) {
   'use strict';
 
   // FIX: We declare a global boolean DEBUG variable which we'll use to switch on or off console.log messages
@@ -33,6 +33,9 @@ require(['helpers/data', 'helpers/controls', 'helpers/charts'], function(data, c
           $('#userAlert .message').html('Error: Failed to load required files for startup.');
           return;
         }
+
+        // Setup the gui
+        gui.setup();
 
         // Setup the controls
         controls.setup();

@@ -10,7 +10,7 @@
  * */
 
 
-define(['../data', '../controls'], function(data, controls) {
+define(['../data', '../gui', '../controls'], function(data, gui, controls) {
   'use strict';
 
   var localData = data,
@@ -151,7 +151,7 @@ define(['../data', '../controls'], function(data, controls) {
 
           // Run the query, display the panel and redraw the chart
           data.query(queryFilter, function queryCallback (err, ready) {
-            if (err) { console.log(err); }
+            if (err) { gui.showError(err); }
             if (err || !ready) { return; }
             // Get the data, update title, display panel and update chart
             var newData = localData.getData(dataFilter);
