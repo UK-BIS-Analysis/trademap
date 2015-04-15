@@ -117,6 +117,11 @@ define(function(require) {
           data.commodityCodesSelect = commodityCodes[0].results;
           data.worldJson = worldJson[0];
 
+          // Remove unwanted values
+          data.reporterAreasSelect  = data.reporterAreasSelect.filter( function (d) { return d.id != 'all'; });
+          data.partnerAreasSelect   = data.partnerAreasSelect.filter(  function (d) { return (d.id != 'all' && d.id != '0'); });
+          data.commodityCodesSelect = data.commodityCodesSelect.filter(function (d) { return (d.id != 'ALL' && d.id != 'TOTAL' && d.id != 'AG2'); });
+
           // Parse isoCodes csv
           var codes = d3.csv.parse(isoCodes[0]);
 
