@@ -85,8 +85,6 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Share<strong class="caret"></strong></a>
               <ul class="dropdown-menu">
-                <li><a href data-toggle="modal" data-target="#myModal"><span class="icon-share-squared"></span> Embed</a></li>
-                <li><a href data-toggle="modal" data-target="#myModal"><span class="icon-code"></span> Share this view</a></li>
                 <li><a href="#" id="facebookShareLink"><span class="icon-facebook-squared"></span> Share on Facebook</a></li>
                 <li><a href="#" id="tweetLink"><span class="icon-twitter-squared"></span> Tweet this</a></li>
               </ul>
@@ -145,7 +143,8 @@
           <div class="dropdown titleDropdown">
             <button class="btn btn-link dropdown-toggle" type="button" id="yearlyChartDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
             <ul class="dropdown-menu" role="menu" aria-labelledby="yearlyChartDropdownMenu">
-              <li role="presentation"><a role="menuitem" tabindex="-1" href class="downloadSvg"><span class="glyphicon glyphicon-floppy-save"></span> Download as SVG</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" data-target="choropleth" href class="downloadSvg"><span class="glyphicon glyphicon-floppy-save"></span> Download as SVG</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" data-target="choropleth" href class="embedSvg"><span class="icon-code"></span> Embed</a></li>
             </ul>
           </div>
           <div class="chartTitle"></div>
@@ -203,7 +202,8 @@
             <div class="dropdown titleDropdown">
               <button class="btn btn-link dropdown-toggle" type="button" id="yearlyChartDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
               <ul class="dropdown-menu" role="menu" aria-labelledby="yearlyChartDropdownMenu">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href class="downloadSvg"><span class="glyphicon glyphicon-floppy-save"></span> Download as SVG</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href data-target="yearChart" class="downloadSvg"><span class="glyphicon glyphicon-floppy-save"></span> Download as SVG</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href data-target="yearChart" class="embedSvg"><span class="icon-code"></span> Embed</a></li>
               </ul>
             </div>
             <div class="chartTitle"></div>
@@ -220,7 +220,8 @@
             <div class="dropdown titleDropdown">
               <button class="btn btn-link dropdown-toggle" type="button" id="yearlyChartDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
               <ul class="dropdown-menu" role="menu" aria-labelledby="yearlyChartDropdownMenu">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href class="downloadSvg"><span class="glyphicon glyphicon-floppy-save"></span> Download as SVG</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href data-target="topExportDestinations" class="downloadSvg"><span class="glyphicon glyphicon-floppy-save"></span> Download as SVG</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href data-target="topExportDestinations" class="embedSvg"><span class="icon-code"></span> Embed</a></li>
               </ul>
             </div>
             <div class="chartTitle"></div>
@@ -230,7 +231,8 @@
             <div class="dropdown titleDropdown">
               <button class="btn btn-link dropdown-toggle" type="button" id="yearlyChartDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
               <ul class="dropdown-menu" role="menu" aria-labelledby="yearlyChartDropdownMenu">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href class="downloadSvg"><span class="glyphicon glyphicon-floppy-save"></span> Download as SVG</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href data-target="topImportSources" class="downloadSvg"><span class="glyphicon glyphicon-floppy-save"></span> Download as SVG</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href data-target="topImportSources" class="embedSvg"><span class="icon-code"></span> Embed</a></li>
               </ul>
             </div>
             <div class="chartTitle"></div>
@@ -248,7 +250,8 @@
             <div class="dropdown titleDropdown">
               <button class="btn btn-link dropdown-toggle" type="button" id="yearlyChartDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
               <ul class="dropdown-menu" role="menu" aria-labelledby="yearlyChartDropdownMenu">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href class="downloadSvg"><span class="glyphicon glyphicon-floppy-save"></span> Download as SVG</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href data-target="topExportCommodities" class="downloadSvg"><span class="glyphicon glyphicon-floppy-save"></span> Download as SVG</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href data-target="topExportCommodities" class="embedSvg"><span class="icon-code"></span> Embed</a></li>
               </ul>
             </div>
             <div class="chartTitle"></div>
@@ -258,7 +261,8 @@
             <div class="dropdown titleDropdown">
               <button class="btn btn-link dropdown-toggle" type="button" id="yearlyChartDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
               <ul class="dropdown-menu" role="menu" aria-labelledby="yearlyChartDropdownMenu">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href class="downloadSvg"><span class="glyphicon glyphicon-floppy-save"></span> Download as SVG</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href data-target="topImportCommodities" class="downloadSvg"><span class="glyphicon glyphicon-floppy-save"></span> Download as SVG</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href data-target="topImportCommodities" class="embedSvg"><span class="icon-code"></span> Embed</a></li>
               </ul>
             </div>
             <div class="chartTitle"></div>
