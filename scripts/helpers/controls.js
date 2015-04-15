@@ -27,11 +27,6 @@ define(['./data'], function(data) {
 
     setup: function () {
 
-      // SETUP LOADER OVERLAY
-      var $loading = $('#loadingDiv').hide();
-      $(document).ajaxStart(function () { $loading.show(); })
-                 .ajaxStop(function () { $loading.hide(); });
-
       // SETUP SELECT2 DROPDOWN SELECTORS
       // Setup the reporters dropdown
       this.$selectReporter

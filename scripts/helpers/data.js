@@ -27,6 +27,7 @@ define(function(require) {
       // queryHistory, queryQueue and timestamp are used to throttle and debounce queries
       queryHistory: [],
       queryQueue: [],
+      queryRunning: [],
       timestamp: 0,
 
       // Reporter, partner and classification arrays for select2 widgets and lookup objects
@@ -172,8 +173,11 @@ define(function(require) {
         // If the API was called less than a second ago, or if the query is in the queue then we need to
         // postpone the call
         var timeAgo = time.getTime() - data.timestamp;
-        if (timeAgo < 1100 || data.queryQueue.indexOf(requestUrl) > -1) {
+        if (timeAgo < 1100 || data.queryRunning.indexOf(requestUrl) > -1) {
           window.setTimeout(function () { data.query(filters, callback); }, timeAgo+100);
+          if (this.queryQueue.indexOf(requestUrl) < 0) {
+            this.queryQueue.push(requestUrl);
+          }
           callback(null, false);
           return;
         }
@@ -187,13 +191,17 @@ define(function(require) {
           // Otherwise we cannot access any of the properties in the callback.
           context: this,
           beforeSend: function (xhr, settings) {
-            // Set the timestamp so that other queries will queue and add the current query to the queue.
+            // Set the timestamp so that other queries will queue and add the current query to the list of running queries.
             this.timestamp = time.getTime();
-            this.queryQueue.push(requestUrl);
+            this.queryRunning.push(requestUrl);
+            $('#loadingDiv').fadeIn();
           },
           success: function success (data, status, xhr) {
-            // Add query to history and remove it from queryQueue if it was there
+            // Add query to history
             this.queryHistory.push(requestUrl);
+            //Remove it from queryQueue and queryRunning if it was there
+            var runningItem = this.queryRunning.indexOf(requestUrl);
+            if (runningItem > -1) { this.queryRunning.splice(runningItem, 1); }
             var queueItem = this.queryQueue.indexOf(requestUrl);
             if (queueItem > -1) { this.queryQueue.splice(queueItem, 1); }
             // Add data to crossfilter and callback
@@ -201,12 +209,23 @@ define(function(require) {
             callback(null, true);
           },
           error: function error (xhr, status, err) {
+            //Remove it from queryQueue and queryRunning if it was there
+            var runningItem = this.queryRunning.indexOf(requestUrl);
+            if (runningItem > -1) { this.queryRunning.splice(runningItem, 1); }
+            var queueItem = this.queryQueue.indexOf(requestUrl);
+            if (queueItem > -1) { this.queryQueue.splice(queueItem, 1); }
             // If error is 409 then try to requeue the request
             if(xhr.status == 409) {
               if (DEBUG) { console.log('API 409 Error: Requeueing the request.') };
               data.query(requestUrl, callback);
+              callback(null, false);
             } else {
               callback(err, null);
+            }
+          },
+          complete: function () {
+            if (this.queryQueue.length == 0 && this.queryRunning.length == 0) {
+              $('#loadingDiv').fadeOut();
             }
           }
         });
