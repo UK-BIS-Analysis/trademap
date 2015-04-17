@@ -24,7 +24,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
         .attr("xmlns", "http://www.w3.org/2000/svg")
         .attr("version", 1.1)
         .classed('svgChart', true),
-      margin = {top: 25, right: 15, bottom: 45, left: 70},
+      margin = {top: 25, right: 15, bottom: 75, left: 70},
       height = $chart.height(),
       width  = $chart.width(),
       innerHeight = height - margin.top - margin.bottom,

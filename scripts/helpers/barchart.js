@@ -24,7 +24,7 @@ define(['./data', './controls'], function(data, controls) {
                  .tickSize(0, 0)
                  .tickFormat(''),
       yAxis  = d3.svg.axis(),
-      barPadding = 6,
+      barPadding = 6 + 10,
       barWidth = 0,
 
 
@@ -79,7 +79,7 @@ define(['./data', './controls'], function(data, controls) {
                 .ticks(6)
                 .tickSize(6, 0)
                 .tickFormat(localData.numFormat);
-          barWidth = (innerWidth / newData.length) - barPadding;
+          barWidth = ((innerWidth / newData.length) - barPadding)/2;
           var tip = d3.tip()
               .attr('class', 'd3-tip')
               .offset([-10, 0])
@@ -146,7 +146,7 @@ define(['./data', './controls'], function(data, controls) {
             .attr('width',  function (d,i) { return barWidth; });
           labels
             .attr('x', function (d,i) { return barPadding-innerHeight; })
-            .attr('y', function (d,i) { return barPadding+(barPadding/2)+(barWidth/2); })
+            .attr('y', function (d,i) { return barPadding-(barPadding/2); })
             .attr('class', 'label')
             .attr('transform','rotate(-90)')
             .text(function (d) {

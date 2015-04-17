@@ -1,8 +1,8 @@
 /*
  * Color palette:
  * BIS blue: #054D82;
- *
  */
+
 
 
 
@@ -100,6 +100,7 @@ div#charts {
 
 
 
+
 /*
  * STYLES FOR CONTROLS
  */
@@ -175,6 +176,42 @@ div#charts {
 }
 
 
+
+
+/*
+ * STYLES FOR THE INFOBOX
+ */
+#infoBox {
+  position: absolute;
+  width: 31%;
+  height: 20.5em;
+  font-size: 0.9em;
+  overflow: hidden;
+}
+#infoBox .panel-heading,
+#infoBox .panel-body {
+  padding: 3px 10px;
+}
+#infoBox .dl-horizontal {
+  margin-bottom: 3px;
+}
+
+#infoBox #defaultPanel {
+  position: absolute;
+  top: 0;
+  height: 20.5em;
+  margin: 0 3px 0 0;
+}
+#infoBox #hoverPanel {
+  position: absolute;
+  top: 0;
+  height: 20.5em;
+  margin: 0 0 0 3px;
+}
+
+
+
+
 /*
  * STYLES FOR THE CHOROPLETH
  */
@@ -222,10 +259,6 @@ div#choroplethInfo {
   bottom: 15px;
   width: 31%;
   height: 19em;
-  background: rgba(5, 77, 130, 0.85);
-  color: #fff;
-  border-radius: 3px;
-  padding: 5px;
   font-size: 11px;
 }
 div#choroplethInfo dl.dl-horizontal {
@@ -276,8 +309,10 @@ svg#choroplethSvg path.country:hover {
 }
 
 
+
+
 /*
- * COMMON STYLES FOR LINE AND BAR CHARTS
+ * STYLES FOR LINE AND BAR CHARTS
  */
 .chartTitle {
   display: inline;
@@ -295,6 +330,16 @@ svg#choroplethSvg path.country:hover {
 #yearChart .chartTitle {
   margin-top: 0;
 }
+/* Specific charts */
+#yearChart .chart {
+  height: 19em;
+}
+.barchart {
+  height: 27em;
+}
+
+
+
 
 /* SVG specific styles */
 svg .axis path, svg .axis line {
@@ -315,31 +360,12 @@ svg text.label {
   font-size: 11px;
   font-weight: bold;
 }
-
-
-/*
- * STYLES FOR THE YEAR CHART
- */
-#yearChart .chart {
-  height: 16em;
-}
-
-/* SVG specific styles */
 #yearChart .chart svg .dot {
   cursor: pointer;
 }
 #yearChart .chart svg .highlight {
   fill: rgba(47, 112, 169, 0.50);
 }
-
-/*
- * STYLES FOR THE BAR CHARTS
- */
-.barchart {
-  height: 27em;
-}
-
-/* SVG specific styles */
 #topExportDestinations .chart svg .item rect,
 #topExportCommodities .chart svg .item rect {
   fill: rgb(0, 109, 44);

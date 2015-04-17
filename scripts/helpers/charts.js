@@ -9,13 +9,15 @@
  * */
 
 
-define(['./charts/choropleth', './charts/yearChart', './charts/topExportCommodities', './charts/topExportDestinations', './charts/topImportCommodities', './charts/topImportSources'], function(choropleth, yearChart, topExportCommodities, topExportDestinations, topImportCommodities, topImportSources) {
+define(['./charts/choropleth', './charts/yearChart', './charts/infoBox', './charts/topExportCommodities', './charts/topExportDestinations', './charts/topImportCommodities', './charts/topImportSources'],
+  function(choropleth, yearChart, infoBox, topExportCommodities, topExportDestinations, topImportCommodities, topImportSources) {
   'use strict';
 
   var charts = {
     setup: function (callback) {
       // Setup charts
       yearChart.setup();
+      infoBox.setup();
       topExportCommodities.setup();
       topExportDestinations.setup();
       topImportCommodities.setup();

@@ -55,9 +55,9 @@
     <div class="container-fluid" id="main">
 
       <!-- NAVBAR -->
-
       <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 
+        <!-- LOGO AND COLLAPSED MENU -->
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="sr-only">Toggle navigation</span>
@@ -70,6 +70,7 @@
           </div>
         </div>
 
+        <!-- NAVBAR MENUS ON THE RIGHT -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
             <li><p class="navbar-text">International Trade in Goods by Country and Commodity</p></li>
@@ -127,7 +128,7 @@
 
 
 
-      <!-- Alert user when a browser not supporting SVG is being useed -->
+      <!-- ALERT for user when a browser not supporting SVG is being useed -->
       <div class="alert alert-danger hidden" role="alert" id="userAlert">
         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
         <span class="message"></span>
@@ -141,8 +142,8 @@
         <!-- Chart title -->
         <div id="choroplethTitle">
           <div class="dropdown titleDropdown">
-            <button class="btn btn-link dropdown-toggle" type="button" id="yearlyChartDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="yearlyChartDropdownMenu">
+            <button class="btn btn-link dropdown-toggle" type="button" id="choroplethDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="choroplethDropdownMenu">
               <li role="presentation"><a role="menuitem" tabindex="-1" data-target="choropleth" href class="downloadSvg"><span class="glyphicon glyphicon-floppy-save"></span> Download as SVG</a></li>
               <li role="presentation"><a role="menuitem" tabindex="-1" data-target="choropleth" href class="embedSvg"><span class="icon-code"></span> Embed</a></li>
             </ul>
@@ -168,17 +169,6 @@
           <svg id="mapLegendSvg"></svg>
         </div>
 
-        <!-- Blue info box-->
-        <div id="choroplethInfo">
-          <div class="value countryName"></div>
-          <div class="value commodity"></div>
-          <div class="value imports"></div>
-          <div class="value exports"></div>
-          <div class="value balance"></div>
-          <div class="value bilateralTrade"></div>
-          <div class="value ranking"></div>
-        </div>
-
         <!-- Downward chevron to go to charts -->
         <div id="goToCharts">
           <a href="#charts" data-toggle="tooltip" data-placement="left" title="See more charts"><span class="glyphicon glyphicon-chevron-down"></span></a>
@@ -187,6 +177,48 @@
         <!-- SVG will be appended here -->
       </div>
 
+
+      <!-- INFO BOX -->
+      <div id="infoBox">
+
+        <div id="defaultPanel" class="panel panel-primary">
+          <!-- Default panel contents -->
+          <div class="panel-heading">Key Facts</div>
+          <div class="panel-body">
+            <div class="subtitle">United Kingdom (reporter) trade in all goods with Australia (Partner) in 2013</div>
+            <dl class="dl-horizontal">
+              <dt>Exports:</dt>
+              <dd class="value exports">$10 bn</dd>
+              <dt>Imports:</dt>
+              <dd class="value imports">$10 bn</dd>
+              <dt>Trade balance:</dt>
+              <dd class="value imports">$10 bn</dd>
+              <dt>Bilateral trade:</dt>
+              <dd class="value imports">$10 bn</dd>
+            </dl>
+            <div class="ranking">Australia is the 22nd export destination for the United Kingdom (1.2% of United Kingdom exports) and the 33rd import source for the United Kigdom (0.54% of United Kigdom imports).</div>
+          </div>
+        </div>
+
+        <div id="hoverPanel" class="panel panel-info">
+          <!-- Hover panel contents -->
+          <div class="panel-heading">Key Facts</div>
+          <div class="panel-body">
+            <div class="subtitle">United Kingdom (reporter) trade in all goods with France (Partner) in 2013</div>
+            <dl class="dl-horizontal">
+              <dt>Exports:</dt>
+              <dd class="value exports">$10 bn</dd>
+              <dt>Imports:</dt>
+              <dd class="value imports">$10 bn</dd>
+              <dt>Trade balance:</dt>
+              <dd class="value imports">$10 bn</dd>
+              <dt>Bilateral trade:</dt>
+              <dd class="value imports">$10 bn</dd>
+            </dl>
+            <div class="ranking">France is the 22nd export destination for the United Kingdom (1.2% of United Kingdom exports) and the 33rd import source for the United Kigdom (0.54% of United Kigdom imports).</div>
+          </div>
+        </div>
+      </div>
 
 
       <!-- CHARTS -->
@@ -198,7 +230,8 @@
 
         <!-- Yearly flows chart and selector -->
         <div class="row clearfix">
-          <div id="yearChart" class="col-md-12 column">
+          <div class="col-md-4 column" id="infoBoxPlaceholder"></div>
+          <div id="yearChart" class="col-md-8 column">
             <div class="dropdown titleDropdown">
               <button class="btn btn-link dropdown-toggle" type="button" id="yearlyChartDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
               <ul class="dropdown-menu" role="menu" aria-labelledby="yearlyChartDropdownMenu">
@@ -218,8 +251,8 @@
         <div class="row clearfix">
           <div id="topExportDestinations" class="col-md-6 col-sm-12 column">
             <div class="dropdown titleDropdown">
-              <button class="btn btn-link dropdown-toggle" type="button" id="yearlyChartDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
-              <ul class="dropdown-menu" role="menu" aria-labelledby="yearlyChartDropdownMenu">
+              <button class="btn btn-link dropdown-toggle" type="button" id="topExportDestinationsDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="topExportDestinationsDropdownMenu">
                 <li role="presentation"><a role="menuitem" tabindex="-1" href data-target="topExportDestinations" class="downloadSvg"><span class="glyphicon glyphicon-floppy-save"></span> Download as SVG</a></li>
                 <li role="presentation"><a role="menuitem" tabindex="-1" href data-target="topExportDestinations" class="embedSvg"><span class="icon-code"></span> Embed</a></li>
               </ul>
@@ -229,8 +262,8 @@
           </div>
           <div id="topImportSources" class="col-md-6 col-sm-12 column">
             <div class="dropdown titleDropdown">
-              <button class="btn btn-link dropdown-toggle" type="button" id="yearlyChartDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
-              <ul class="dropdown-menu" role="menu" aria-labelledby="yearlyChartDropdownMenu">
+              <button class="btn btn-link dropdown-toggle" type="button" id="topImportSourcesDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="topImportSourcesDropdownMenu">
                 <li role="presentation"><a role="menuitem" tabindex="-1" href data-target="topImportSources" class="downloadSvg"><span class="glyphicon glyphicon-floppy-save"></span> Download as SVG</a></li>
                 <li role="presentation"><a role="menuitem" tabindex="-1" href data-target="topImportSources" class="embedSvg"><span class="icon-code"></span> Embed</a></li>
               </ul>
@@ -248,8 +281,8 @@
         <div class="row clearfix">
           <div id="topExportCommodities" class="col-md-6 col-sm-12 column">
             <div class="dropdown titleDropdown">
-              <button class="btn btn-link dropdown-toggle" type="button" id="yearlyChartDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
-              <ul class="dropdown-menu" role="menu" aria-labelledby="yearlyChartDropdownMenu">
+              <button class="btn btn-link dropdown-toggle" type="button" id="topExportCommoditiesDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="topExportCommoditiesDropdownMenu">
                 <li role="presentation"><a role="menuitem" tabindex="-1" href data-target="topExportCommodities" class="downloadSvg"><span class="glyphicon glyphicon-floppy-save"></span> Download as SVG</a></li>
                 <li role="presentation"><a role="menuitem" tabindex="-1" href data-target="topExportCommodities" class="embedSvg"><span class="icon-code"></span> Embed</a></li>
               </ul>
@@ -259,8 +292,8 @@
           </div>
           <div id="topImportCommodities" class="col-md-6 col-sm-12 column">
             <div class="dropdown titleDropdown">
-              <button class="btn btn-link dropdown-toggle" type="button" id="yearlyChartDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
-              <ul class="dropdown-menu" role="menu" aria-labelledby="yearlyChartDropdownMenu">
+              <button class="btn btn-link dropdown-toggle" type="button" id="topImportCommoditiesDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="topImportCommoditiesDropdownMenu">
                 <li role="presentation"><a role="menuitem" tabindex="-1" href data-target="topImportCommodities" class="downloadSvg"><span class="glyphicon glyphicon-floppy-save"></span> Download as SVG</a></li>
                 <li role="presentation"><a role="menuitem" tabindex="-1" href data-target="topImportCommodities" class="embedSvg"><span class="icon-code"></span> Embed</a></li>
               </ul>
