@@ -62,9 +62,6 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
                    .attr("height", $chart.height());
               };
 
-          // Uncomment below and on line ~81 to have graticule
-          // var graticule = d3.geo.graticule();
-
           // Sized the SVG and bind the resize function to the window resize event to make the map responsive
           resizeSvg();
           d3.select(window).on('resize', resizeSvg);
@@ -83,11 +80,6 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
           svg.append("use")
             .attr("class", "fill")
             .attr("xlink:href", "#sphere");
-          // Uncomment to have graticule
-          // svg.append("path")
-          //   .datum(graticule)
-          //   .attr("class", "graticule")
-          //   .attr("d", path);
 
           // Genereate an array of countries with geometry and IDs (IDs are according to ISO_3166-1_numeric numbering)
           var countries = topojson.feature(data.worldJson, data.worldJson.objects.countries).features;
@@ -103,7 +95,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
             .attr("class", "country")
             .attr("d", path)
             .attr('id', function(d) { return 'iso'+d.id; })
-            .on('mouseover', function (d,i) {
+            .on('mouseenter', function (d,i) {
               // Update infobox
               chart._displayInfo({ partner: localData.countryByISONum.get(d.id).unCode });
 //              chart._clearInfo();
@@ -115,13 +107,17 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
               // Bring country path node to the front (to display border highlighting better)
               svg.selectAll('.country').sort(function(a,b) { return (a.id === d.id) - (b.id === d.id); });
             })
-            .on('mouseout', function (d,i) {
+            .on('mouseleave', function (d,i) {
               chart._clearInfo();
             })
             .on('click', function (d,i) {
               d3.event.preventDefault();
               chart._displayInfo({ partner: localData.countryByISONum.get(d.id).unCode });
               $('#contextMenu .country').html(localData.countryByISONum.get(d.id).name);
+              $('#closeContextMenu').on('click', function (e) {
+                e.preventDefault();
+                chart._clearInfo();
+              });
               $('#contextMenu .setReporter a, #contextMenu .setPartner a').attr('data-uncode', localData.countryByISONum.get(d.id).unCode);
               $('#contextMenu').css({
                 display: "block",
@@ -327,8 +323,8 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
 
 
 
-        _displayInfo: function (info) {
-          infoBox.displayHover();
+        _displayInfo: function (partner) {
+          infoBox.displayHover(partner);
 //          var $infoBox = $('#choroplethInfo'),
 //              partner = '',
 //              reporter = '',

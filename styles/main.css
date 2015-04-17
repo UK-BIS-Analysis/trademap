@@ -188,6 +188,10 @@ div#charts {
   font-size: 0.9em;
   overflow: hidden;
 }
+#infoBoxPlaceholder,
+#infoBox .panel {
+  height: 20.5em;
+}
 #infoBox .panel-heading,
 #infoBox .panel-body {
   padding: 3px 10px;
@@ -195,18 +199,14 @@ div#charts {
 #infoBox .dl-horizontal {
   margin-bottom: 3px;
 }
-
-#infoBox #defaultPanel {
-  position: absolute;
-  top: 0;
-  height: 20.5em;
-  margin: 0 3px 0 0;
+#infoBox .dl-horizontal dt {
+  width: 50%;
+  padding-right: 3px;
 }
-#infoBox #hoverPanel {
-  position: absolute;
-  top: 0;
-  height: 20.5em;
-  margin: 0 0 0 3px;
+#infoBox .dl-horizontal dd {
+  width: 50%;
+  margin-left: 50%;
+  padding-right: 3px;
 }
 
 

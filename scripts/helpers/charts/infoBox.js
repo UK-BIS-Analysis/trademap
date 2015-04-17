@@ -18,27 +18,43 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
       $defaultPanel = $('#defaultPanel'),
       $hoverPanel   = $('#hoverPanel'),
 
+      bottomMargin = 10,
+      getPositionFromTop = function () {
+        return Math.min(
+          $('#infoBoxPlaceholder').offset().top,
+          $(window).height()-$infoBox.height() - bottomMargin + $(window).scrollTop()
+        )+'px';
+      },
+      getWidth = function () {
+        if ($infoBox.offset().top >= $('#infoBoxPlaceholder').offset().top) {
+          return ($('#infoBoxPlaceholder').width()-20)+'px';
+        } else {
+          return '31%';
+        }
+      },
+      repositionBox = function () {
+        $infoBox
+          .css({ top: getPositionFromTop() })
+          .animate({ width: getWidth() },100);
+      },
+
       chart = {
 
         setup: function () {
-          var bottomMargin = 10,
-              getPositionFromTop = function () {
-                return Math.min(
-                  $('#infoBoxPlaceholder').offset().top,
-                  $(window).height()-$infoBox.height() - bottomMargin + $(window).scrollTop()
-                );
-              }
-
           // Position the infoBox on load
-          $infoBox.css({ top: getPositionFromTop() +'px' });
+          $infoBox.css({
+            top: getPositionFromTop(),
+            width: getWidth(),
+          });
 
           // Bind to the scroll event and move the box
-          $(window).scroll(function () { $infoBox.css({ "top": getPositionFromTop()+'px' }); });
+          $(window).scroll(repositionBox);
 
           // Initialize the position of the hoverPanel
-          $hoverPanel.css('left', $defaultPanel.width());
+          $hoverPanel.slideUp();
 
           // Bind to window.resize for responsive behaviour
+          $(window).on('resize', repositionBox);
 
           // Bind the refresh function to the refreshFilters event
           // $chart.on('refreshFilters', this.refresh);
@@ -97,20 +113,22 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
 
 
 
+        populateBox: function () {
 
-        displayHover: function (something) {
-          var width = $infoBox.width();
-          $defaultPanel.stop().animate({left: -width, width: width-5}, 500);
-          $hoverPanel.stop().animate({left: 0, width: width-5}, 500);
+        },
+
+
+        displayHover: function () {
+          $defaultPanel.stop().slideUp();
+          $hoverPanel.stop().slideDown();
         },
 
 
 
 
         displayDefault: function () {
-          var width = $infoBox.width()+5;
-          $defaultPanel.stop().animate({ left: 0, width: width-5 }, 500);
-          $hoverPanel.stop().animate({ left: width, width: width-5 }, 500);
+          $hoverPanel.stop().slideUp();
+          $defaultPanel.stop().slideDown();
         }
 
 
