@@ -78,7 +78,7 @@ define([], function() {
 
     showError: function (err) {
       $('#myModalLabel').html('<span class="glyphicon glyphicon-warning-sign"></span> There was an error in querying the COMTRADE API.');
-      $('#myModal .modal-body').html(err);
+      $('#myModal .modal-body').html('Charts may not display correctly, please try reloading the page or trying again later.<br /><small>Error details: '+err+'</small>');
       $('#myModal').modal({ show: true });
     }
   };
