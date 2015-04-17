@@ -148,7 +148,7 @@ define(function(require) {
         this.xFilterByFlow      = this.xFilter.dimension(function(d){ return +d.flow;      });
         this.xFilterByAmount    = this.xFilter.dimension(function(d){ return +d.value;     });
 
-        // TODO Kick off queries right away to optimize load time?
+        // FUTURE Kick off queries right away to optimize load time?
       },
 
 

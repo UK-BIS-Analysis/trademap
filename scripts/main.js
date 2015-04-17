@@ -12,7 +12,7 @@
 require(['helpers/data', 'helpers/gui', 'helpers/controls', 'helpers/charts'], function(data, gui, controls, charts) {
   'use strict';
 
-  // FIX: We declare a global boolean DEBUG variable which we'll use to switch on or off console.log messages
+  // NOTE: We declare a global boolean DEBUG variable which we'll use to switch on or off console.log messages
   window.DEBUG = true;
 
   // This jQuery callback makes sure that all code is run after the document and scripts have all loaded properly
@@ -33,6 +33,8 @@ require(['helpers/data', 'helpers/gui', 'helpers/controls', 'helpers/charts'], f
           $('#userAlert .message').html('Error: Failed to load required files for startup.');
           return;
         }
+
+        // TODO check if we have an embed parameter like "embed=yearChart"
 
         // Setup the gui
         gui.setup();
