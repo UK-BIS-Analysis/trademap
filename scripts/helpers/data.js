@@ -117,11 +117,6 @@ define(function(require) {
           data.commodityCodesSelect = commodityCodes[0].results;
           data.worldJson = worldJson[0];
 
-          // Remove unwanted values
-          data.reporterAreasSelect  = data.reporterAreasSelect.filter( function (d) { return d.id != 'all'; });
-          data.partnerAreasSelect   = data.partnerAreasSelect.filter(  function (d) { return (d.id != 'all' && d.id != '0'); });
-          data.commodityCodesSelect = data.commodityCodesSelect.filter(function (d) { return (d.id != 'ALL' && d.id != 'TOTAL' && d.id != 'AG2'); });
-
           // Parse isoCodes csv
           var codes = d3.csv.parse(isoCodes[0]);
 
@@ -132,6 +127,11 @@ define(function(require) {
           data.flowByCode      = d3.map([{ id: '1', text: 'imports'}, { id: '2', text: 'exports'}, { id: '0', text: 'balance'}], function (d) { return d.id; });
           data.partnerAreas    = d3.map(partnerAreas[0].results,   function (d) { return d.id; });
           data.commodityCodes  = d3.map(commodityCodes[0].results, function (d) { return d.id; });
+
+          // Remove unwanted values
+          data.reporterAreasSelect  = data.reporterAreasSelect.filter( function (d) { return d.id != 'all'; });
+          data.partnerAreasSelect   = data.partnerAreasSelect.filter(  function (d) { return (d.id != 'all' && d.id != '0'); });
+          data.commodityCodesSelect = data.commodityCodesSelect.filter(function (d) { return (d.id != 'ALL' && d.id != 'TOTAL' && d.id != 'AG2'); });
 
           // Call the callback
           callback();
@@ -190,7 +190,7 @@ define(function(require) {
         // Make call
         $.ajax({
           url: requestUrl,
-          timeout: 15000,
+          timeout: 45000,
           crossDomain: true,
           // NOTE: context setting is imporant as it binds the callback to the data object we are creating.
           // Otherwise we cannot access any of the properties in the callback.

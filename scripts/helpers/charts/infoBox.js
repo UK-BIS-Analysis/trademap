@@ -18,6 +18,8 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
       $defaultPanel = $('#defaultPanel'),
       $hoverPanel   = $('#hoverPanel'),
 
+
+
       bottomMargin = 10,
       getPositionFromTop = function () {
         return Math.min(
@@ -38,7 +40,9 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
           .animate({ width: getWidth() },100);
       },
 
-      chart = {
+
+
+      box = {
 
         setup: function () {
           // Position the infoBox on load
@@ -57,7 +61,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
           $(window).on('resize', repositionBox);
 
           // Bind the refresh function to the refreshFilters event
-          // $chart.on('refreshFilters', this.refresh);
+          $infoBox.on('refreshFilters', this.refresh);
 
         },
 
@@ -65,10 +69,13 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
 
 
         refresh: function (event, filters) {
+
           // CASE 1: reporter = null
           if(!filters.reporter) {
             $infoBox.slideUp();
             return;
+          } else {
+            $infoBox.slideDown();
           }
 
           // We build a queryFilter and a dataFilter object to make API queries more generic than data queries
@@ -78,44 +85,69 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
                 year:   filters.year,
                 commodity:   'AG2'
               },
-              dataFilter = queryFilter,
-              title = '';
+              dataFilter = {
+                reporter: +filters.reporter,
+                partner:  0,
+                year:   filters.year,
+                commodity:   'TOTAL'
+              },
+              subtitle = '';
 
           // CASE 2: reporter = selected    commodity = null        partner = null
           if(filters.reporter && !filters.commodity && !filters.partner) {
-            title = 'Top commodities exported by '+localData.reporterAreas.get(filters.reporter).text + ' in '+filters.year;
+            queryFilter.commodity = 'TOTAL';
+            queryFilter.year  = 'all';
           }
 
           // CASE 3: reporter = selected    commodity = null        partner = selected
           if(filters.reporter && !filters.commodity && filters.partner) {
-            title = 'Top commodities exported by '+localData.reporterAreas.get(filters.reporter).text+' to '+localData.partnerAreas.get(filters.partner).text+' in '+filters.year+'.';
+            queryFilter.partner = +filters.partner;
             dataFilter.partner = +filters.partner;
           }
 
           // CASE 4: reporter = selected    commodity = selected    partner = null
           if(filters.reporter && filters.commodity && !filters.partner) {
-            $chartTitle.html('');
+            queryFilter.partner = 'all';
+            queryFilter.commodity = filters.commodity;
+            dataFilter.commodity = +filters.commodity;
           }
 
           // CASE 5: reporter = selected    commodity = selected    partner = selected
           if(filters.reporter && filters.commodity && filters.partner) {
-            $chartTitle.html('');
+            queryFilter.partner = 'all';
+            queryFilter.commodity = filters.commodity;
+            dataFilter.partner = +filters.partner;
+            dataFilter.commodity = +filters.commodity;
           }
 
-          $chartTitle.html(title);
+          // Run query if necessary
           data.query(queryFilter, function queryCallback (err, ready) {
             if (err) { gui.showError(err); }
             if (err || !ready) { return; }
-            // Get the data, update title, display panel and update chart
+
+            // Get the data, update title and update texts
             var newData = localData.getData(dataFilter);
+
+            console.log('Data for infoBox: %o', newData)
+
+            subtitle  = '<strong>' + localData.reporterAreas.get(filters.reporter).text + '</strong> (reporter) trade in goods with ';
+            if (!filters.partner) { filters.partner = 0; }
+            subtitle += '<strong>' + localData.partnerAreas.get(filters.partner).text + '</strong> (partner) in ' + filters.year + '.<br />';
+            if (filters.commodity) { subtitle += localData.commodityName(filters.commodity); }
+            $defaultPanel.find('.subtitle').html(subtitle);
+
+            // TODO update text
           });
         },
+
 
 
 
         populateBox: function () {
 
         },
+
+
 
 
         displayHover: function () {
@@ -135,5 +167,5 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
 
 
       };
-  return chart;
+  return box;
 });

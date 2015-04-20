@@ -50,7 +50,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
           // Bind the refresh function to the refreshFilters event
           $chart.on('refreshFilters', this.refresh);
 
-          // Some variables:
+          // Some utility functions:
           var projection = d3.geo.kavrayskiy7()
                 .scale(330)
                 .translate([(width / 2)+50, (height / 2)])
@@ -66,7 +66,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
           resizeSvg();
           d3.select(window).on('resize', resizeSvg);
 
-          // Define sphere boundary and graticule
+          // Define sphere boundary
           svg.append("defs").append("path")
             .datum({type: "Sphere"})
             .attr("id", "sphere")
@@ -97,13 +97,11 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
             .attr('id', function(d) { return 'iso'+d.id; })
             .on('mouseenter', function (d,i) {
               // Update infobox
-              chart._displayInfo({ partner: localData.countryByISONum.get(d.id).unCode });
-//              chart._clearInfo();
-//              try {
-//                chart._displayInfo({ partner: localData.countryByISONum.get(d.id).unCode });
-//              } catch (err) {
-//                if (DEBUG) { console.log('No country in database by '+d.id+' isoCode.'); }
-//              }
+              try {
+                chart._displayInfo({ partner: localData.countryByISONum.get(d.id).unCode });
+              } catch (err) {
+                if (DEBUG) { console.log('No country in database by '+d.id+' isoCode.'); }
+              }
               // Bring country path node to the front (to display border highlighting better)
               svg.selectAll('.country').sort(function(a,b) { return (a.id === d.id) - (b.id === d.id); });
             })
@@ -112,7 +110,12 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
             })
             .on('click', function (d,i) {
               d3.event.preventDefault();
-              chart._displayInfo({ partner: localData.countryByISONum.get(d.id).unCode });
+              // Update infobox
+              try {
+                chart._displayInfo({ partner: localData.countryByISONum.get(d.id).unCode });
+              } catch (err) {
+                if (DEBUG) { console.log('No country in database by '+d.id+' isoCode.'); }
+              }
               $('#contextMenu .country').html(localData.countryByISONum.get(d.id).name);
               $('#closeContextMenu').on('click', function (e) {
                 e.preventDefault();
@@ -217,16 +220,17 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
           // Color the paths on the choropleth
           svg.selectAll('.country')
             .classed('highlighted',false)
-//            .on('mouseover', function (d,i) {
-//              chart._clearInfo();
-//              try {
-//                var partner = localData.countryByISONum.get(d.id).unCode,
-//                    datum = newDataByPartner.get(partner);
-//                if (datum) { chart._displayInfo(datum); }
-//                // Bring country path node to the front (to display border highlighting better)
-//                svg.selectAll('.country').sort(function(a,b) { return (a.id === d.id) - (b.id === d.id);});
-//              } catch (err) {}
-//            })
+            .on('mouseenter', function (d,i) {
+              try {
+                var partner = localData.countryByISONum.get(d.id).unCode,
+                    datum = newDataByPartner.get(partner);
+                if (datum) { chart._displayInfo(datum); }
+                // Bring country path node to the front (to display border highlighting better)
+                svg.selectAll('.country').sort(function(a,b) { return (a.id === d.id) - (b.id === d.id);});
+              } catch (err) {
+                if (DEBUG) { console.log('No country in database by '+d.id+' isoCode.'); }
+              }
+            })
             .transition()
             .duration(1000)
             .style('fill', function (d,i) {
