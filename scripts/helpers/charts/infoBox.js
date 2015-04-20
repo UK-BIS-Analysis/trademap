@@ -83,7 +83,8 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
                 reporter: +filters.reporter,
                 partner:  0,
                 year:   filters.year,
-                commodity:   'AG2'
+                commodity:   'AG2',
+                initiator: 'infoBox'
               },
               dataFilter = {
                 reporter: +filters.reporter,
@@ -102,20 +103,21 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
           // CASE 3: reporter = selected    commodity = null        partner = selected
           if(filters.reporter && !filters.commodity && filters.partner) {
             queryFilter.partner = +filters.partner;
+            queryFilter.year = 'all';
             dataFilter.partner = +filters.partner;
           }
 
           // CASE 4: reporter = selected    commodity = selected    partner = null
           if(filters.reporter && filters.commodity && !filters.partner) {
             queryFilter.partner = 'all';
-            queryFilter.commodity = filters.commodity;
+            queryFilter.commodity = 'AG2';
             dataFilter.commodity = +filters.commodity;
           }
 
           // CASE 5: reporter = selected    commodity = selected    partner = selected
           if(filters.reporter && filters.commodity && filters.partner) {
             queryFilter.partner = 'all';
-            queryFilter.commodity = filters.commodity;
+            queryFilter.commodity = 'AG2';
             dataFilter.partner = +filters.partner;
             dataFilter.commodity = +filters.commodity;
           }

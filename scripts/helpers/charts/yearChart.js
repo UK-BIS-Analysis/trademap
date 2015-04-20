@@ -115,9 +115,13 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
           // We build a queryFilter and a dataFilter object to make API queries more generic than data queries (see case 2 and 5 below)
           var queryFilter = {
                 reporter: +filters.reporter,
+                year:   'all',
+                initiator: 'yearChart'
+              },
+              dataFilter = {
+                reporter: +filters.reporter,
                 year:   'all'
               },
-              dataFilter = queryFilter,
               title = '';
 
           // CASE 2: reporter = selected    commodity = null        partner = null

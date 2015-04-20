@@ -10,7 +10,7 @@
 
 
 define(function(require) {
-  'use strict';
+  //'use strict';
 
   // Using require above we are making data a singleton which is created only once.
   // Each module requiring data will be using the same object.
@@ -190,7 +190,7 @@ define(function(require) {
         // Make call
         $.ajax({
           url: requestUrl,
-          timeout: 45000,
+          timeout: 60000,
           crossDomain: true,
           // NOTE: context setting is imporant as it binds the callback to the data object we are creating.
           // Otherwise we cannot access any of the properties in the callback.
@@ -378,19 +378,21 @@ define(function(require) {
         var xFdata = this.getData(filters);
 
         // Filter out duplicate records in newData that are already in xFilter before adding newData
+        var duplicates = [];
         var insertData = newData.filter(function (nd) {
           // Iterate over xFdata and check for duplicates
           var dup = false;
           xFdata.forEach(function (xd) {
             if (
-              nd.reporter  === xd.reporter  &&
-              nd.partner   === xd.partner   &&
-              nd.commodity === xd.commodity &&
-              nd.flow      === xd.flow      &&
-              nd.year      === xd.year      &&
-              nd.value     === xd.value
+              nd.reporter  == xd.reporter  &&
+              nd.partner   == xd.partner   &&
+              nd.commodity == xd.commodity &&
+              nd.flow      == xd.flow      &&
+              nd.year      == xd.year      &&
+              nd.value     == xd.value
             ) {
               dup = true;
+              duplicates.push(nd);
             }
           });
           return !dup;
@@ -400,8 +402,10 @@ define(function(require) {
         this.xFilter.add(insertData);
 
         if(DEBUG) {
-          console.groupCollapsed('Added %d new records. Retrieved %d records. Discarded %d duplicates. New xFilter size: %d', insertData.length, newData.length, newData.length-insertData.length, this.xFilter.size());
+          console.groupCollapsed('%s query: r=%s p=%s c=%s y=%s', filters.initiator, filters.reporter, filters.partner, filters.commodity, filters.year);
           console.log('filters: %o', filters);
+          console.log('Added %d new records. Retrieved %d records. Checked %d possible matches and discarded %d duplicates. New xFilter size: %d', insertData.length, newData.length, xFdata.length, duplicates.length, this.xFilter.size());
+          console.log('duplicates discarded: %o', duplicates);
           console.groupEnd();
         }
       }

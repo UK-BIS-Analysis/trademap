@@ -137,7 +137,19 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
 
 
         refresh: function (event, filters) {
-          var dataFilter = {};
+          var queryFilter = {
+                reporter:   +filters.reporter,
+                partner:    'all',
+                year:       +filters.year,
+                initiator: 'choropleth'
+              },
+              dataFilter = {
+                reporter:   +filters.reporter,
+                partner:    'all',
+                year:       +filters.year,
+                flow:       +filters.flow
+              },
+              chartTitle = '';
 
           // CASE 1: reporter = null    -->   Blank choropleth, no countries selected and no fills and no title
           if(!filters.reporter) {
@@ -149,42 +161,26 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
           // CASE 2: reporter = selected    commodity = null
           if(filters.reporter && !filters.commodity) {
             // Set query and data retrieval filters (forcing partners to all, commodity to total and ignoring flow)
-            dataFilter = {
-              reporter:   +filters.reporter,
-              partner:    'all',
-              commodity:  'TOTAL',
-              year:       +filters.year,
-              flow:       filters.flow
-            };
-            data.query(dataFilter, function queryCallback (err, ready) {
-              if (err) { gui.showError(err); }
-              if (err || !ready) { return; }
-              // Redraw map and set title
-              chart._redrawMap(dataFilter);
-              $chartTitle.html('Value of ' + localData.flowByCode.get(filters.flow).text.toLowerCase() + ' between ' + localData.countryByUnNum.get(filters.reporter).name + ' and the World in  ' + filters.year + '.');
-            });
-            return;
+            queryFilter.commodity = 'TOTAL';
+            dataFilter.commodity =  'TOTAL';
+            chartTitle = 'Value of ' + localData.flowByCode.get(filters.flow).text.toLowerCase() + ' between ' + localData.countryByUnNum.get(filters.reporter).name + ' and the World in  ' + filters.year + '.';
           }
 
           // CASE 3: reporter = selected    commodity = selected
           if(filters.reporter && filters.commodity) {
             // Set query and data retrieval filters (forcing partners to all and commodity to total)
-            dataFilter = {
-              reporter:   +filters.reporter,
-              partner:    'all',
-              commodity:  filters.commodity,
-              year:       +filters.year,
-              flow:       filters.flow
-            };
-            data.query(dataFilter, function queryCallback (err, ready) {
+            queryFilter.commodity = 'AG2';
+            dataFilter.commodity = filters.commodity;
+            chartTitle = 'Value of ' + localData.flowByCode.get(filters.flow).text.toLowerCase() + ' between ' + localData.countryByUnNum.get(filters.reporter).name + ' and the World for ' + localData.commodityName(filters.commodity) + ' in ' + filters.year+'.';
+          }
+
+          data.query(queryFilter, function queryCallback (err, ready) {
               if (err) { gui.showError(err); }
               if (err || !ready) { return; }
               // Redraw map and set title
               chart._redrawMap(dataFilter);
-              $chartTitle.html('Value of ' + localData.flowByCode.get(filters.flow).text.toLowerCase() + ' between ' + localData.countryByUnNum.get(filters.reporter).name + ' and the World for ' + localData.commodityName(filters.commodity) + ' in ' + filters.year+'.');
+              $chartTitle.html(chartTitle);
             });
-            return;
-          }
         },
 
 

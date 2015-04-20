@@ -56,9 +56,15 @@ define(['../data', '../barchart', '../gui', '../controls'], function(data, barch
                 reporter: +filters.reporter,
                 partner:  'all',
                 year:   filters.year,
+                commodity:   'AG2',
+                initiator: 'topExportDestinations'
+              },
+              dataFilter = {
+                reporter: +filters.reporter,
+                partner:  'all',
+                year:   filters.year,
                 commodity:   'AG2'
               },
-              dataFilter = queryFilter,
               title = '';
 
           // Define flow

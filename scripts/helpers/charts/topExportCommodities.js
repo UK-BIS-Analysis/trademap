@@ -54,11 +54,17 @@ define(['../data', '../barchart', '../gui', '../controls'], function(data, barch
           // We build a queryFilter and a dataFilter object to make API queries more generic than data queries
           var queryFilter = {
                 reporter: +filters.reporter,
+                partner:  'all',
+                year:   filters.year,
+                commodity:   'AG2',
+                initiator: 'topExportCommodities'
+              },
+              dataFilter = {
+                reporter: +filters.reporter,
                 partner:  0,
                 year:   filters.year,
                 commodity:   'AG2'
               },
-              dataFilter = queryFilter,
               title = '';
 
           // Define flow

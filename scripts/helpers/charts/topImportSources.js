@@ -56,9 +56,15 @@ define(['../data', '../barchart', '../gui', '../controls'], function(data, barch
                 reporter: +filters.reporter,
                 partner:  'all',
                 year:   filters.year,
+                commodity:   'AG2',
+                initiator: 'topImportSources'
+              },
+              dataFilter = {
+                reporter: +filters.reporter,
+                partner:  'all',
+                year:   filters.year,
                 commodity:   'AG2'
               },
-              dataFilter = queryFilter,
               title = '';
 
           // Define flow
@@ -92,7 +98,7 @@ define(['../data', '../barchart', '../gui', '../controls'], function(data, barch
           }
 
           // Run API query
-          data.query(dataFilter, function queryCallback (err, ready) {
+          data.query(queryFilter, function queryCallback (err, ready) {
             if (err) { gui.showError(err); }
             if (err || !ready) { return; }
             // Get the data, update title, display panel and update chart
