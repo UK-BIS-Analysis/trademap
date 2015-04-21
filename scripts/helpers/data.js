@@ -321,7 +321,7 @@ define(function(require) {
           }
         });
         worldDetails.bilateralVal = worldDetails.importVal + worldDetails.exportVal;
-        worldDetails.bilateralVal = worldDetails.exportVal - worldDetails.importVal;
+        worldDetails.balanceVal = worldDetails.exportVal - worldDetails.importVal;
 
         // Split the data into an imports map and exports array
         impExpData.forEach(function (d) {
