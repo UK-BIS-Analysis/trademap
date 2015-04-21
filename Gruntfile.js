@@ -28,11 +28,10 @@ module.exports = function(grunt) {
 
     cssmin: {
       options: {
-        root: './',
         keepSpecialComments: 0,
         rebase: true,
-        relativeTo: './',
-        target: './'
+        relativeTo: './index.html',
+        target: 'styles/libs.min.css'
       }
     },
 
