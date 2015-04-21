@@ -136,7 +136,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
           if(filters.reporter && !filters.commodity && filters.partner) {
             title = 'Imports and Exports between '+localData.countryByUnNum.get(filters.reporter).name + ' and ' + localData.countryByUnNum.get(filters.partner).name;
             queryFilter.partner = +filters.partner;
-            queryFilter.commodity = 'AG2';
+            queryFilter.commodity = encodeURIComponent('AG2,TOTAL');
             dataFilter.partner = +filters.partner;
             dataFilter.commodity = 'TOTAL';
           }
@@ -146,7 +146,8 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
             title = 'Imports and Exports of '+localData.commodityName(filters.commodity)+' to/from '+localData.countryByUnNum.get(filters.reporter).name;
             queryFilter.partner = 0;
             queryFilter.commodity = filters.commodity;
-            dataFilter = queryFilter;
+            dataFilter.partner = 0;
+            dataFilter.commodity = filters.commodity;
           }
 
           // CASE 5: reporter = selected    commodity = selected    partner = selected
@@ -154,7 +155,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
           if(filters.reporter && filters.commodity && filters.partner) {
             title = 'Imports and Exports of '+localData.commodityName(filters.commodity)+' between '+localData.countryByUnNum.get(filters.reporter).name + ' and ' + localData.countryByUnNum.get(filters.partner).name;
             queryFilter.partner = +filters.partner;
-            queryFilter.commodity = 'AG2';
+            queryFilter.commodity = 'AG2,TOTAL';
             dataFilter.partner = +filters.partner;
             dataFilter.commodity = filters.commodity;
           }

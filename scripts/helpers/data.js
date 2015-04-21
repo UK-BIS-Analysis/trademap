@@ -2,7 +2,7 @@
 /*jslint white: true */
 /*jslint vars: true */
 /*jslint nomen: true*/
-/*global $, Modernizr, d3, dc, crossfilter, document, console, alert, define, DEBUG, Date */
+/*global $, Modernizr, d3, dc, crossfilter, document, console, alert, define, DEBUG, Date, Math */
 
 /*
  * THIS FILE MANAGES API QUERIES AND CROSSFILTER SETUP
@@ -10,7 +10,7 @@
 
 
 define(function(require) {
-  //'use strict';
+  'use strict';
 
   // Using require above we are making data a singleton which is created only once.
   // Each module requiring data will be using the same object.
@@ -58,10 +58,16 @@ define(function(require) {
         return text.slice(text.indexOf(' - ')+3);
       },
       numFormat: function (num) {
+        if (typeof num !== 'number' || isNaN(num)) {
+          return 'No data';
+        }
         var f = d3.format('$,');
-        if (num >= 1000000000) { return f(Math.round(num/1000000000))+' bn'; }
-        if (num >= 1000000)    { return f(Math.round(num/1000000))+' m'; }
-        return f(num);
+        // If over one billion, display in billions
+        if (Math.abs(num) >= 1000000000) {
+          return f((Math.round(num/100000000))/10)+' bn';
+        }
+        // Else display in millions
+        return f((Math.round(num/100000))/10)+' m';
       },
       numFormatFull: function (num) {
         var f = d3.format('$,');
@@ -129,9 +135,9 @@ define(function(require) {
           data.commodityCodes  = d3.map(commodityCodes[0].results, function (d) { return d.id; });
 
           // Remove unwanted values
-          data.reporterAreasSelect  = data.reporterAreasSelect.filter( function (d) { return d.id != 'all'; });
-          data.partnerAreasSelect   = data.partnerAreasSelect.filter(  function (d) { return (d.id != 'all' && d.id != '0'); });
-          data.commodityCodesSelect = data.commodityCodesSelect.filter(function (d) { return (d.id != 'ALL' && d.id != 'TOTAL' && d.id != 'AG2'); });
+          data.reporterAreasSelect  = data.reporterAreasSelect.filter( function (d) { return d.id !== 'all'; });
+          data.partnerAreasSelect   = data.partnerAreasSelect.filter(  function (d) { return (d.id !== 'all' && d.id !== '0'); });
+          data.commodityCodesSelect = data.commodityCodesSelect.filter(function (d) { return (d.id !== 'ALL' && d.id !== 'TOTAL' && d.id !== 'AG2'); });
 
           // Call the callback
           callback();
@@ -220,8 +226,8 @@ define(function(require) {
             var queueItem = this.queryQueue.indexOf(requestUrl);
             if (queueItem > -1) { this.queryQueue.splice(queueItem, 1); }
             // If error is 409 then requeue the request
-            if(xhr.status == 409) {
-              if (DEBUG) { console.log('API 409 Error: Requeueing the request.') };
+            if(xhr.status === 409) {
+              if (DEBUG) { console.log('API 409 Error: Requeueing the request.'); }
               data.query(requestUrl, callback);
               callback(null, false);
             } else {
@@ -229,7 +235,7 @@ define(function(require) {
             }
           },
           complete: function () {
-            if (this.queryQueue.length == 0 && this.queryRunning.length == 0) {
+            if (this.queryQueue.length === 0 && this.queryRunning.length === 0) {
               $('#loadingDiv').fadeOut();
             }
           }
@@ -288,16 +294,35 @@ define(function(require) {
             imports = d3.map(),
             exports = [],
             totImports = 0,
-            totExports = 0;
+            totExports = 0,
+            worldDetails = {};
         // Filter out values of partner = world while setting totImports and totExports
+        // We save these values to re-add later manually after we calculate rankings
         impExpData = impExpData.filter(function (v) {
           if (+v.partner !== 0) { return true; }
           else {
-            if (v.flow === 1) { totImports = v.value; }
-            if (v.flow === 2) { totExports = v.value; }
+            if (v.flow === 1) {
+              totImports = v.value;
+              worldDetails.reporter = v.reporter;
+              worldDetails.partner = v.partner;
+              worldDetails.commodity = v.commodity;
+              worldDetails.year = v.year;
+              worldDetails.importVal = v.value;
+            }
+            if (v.flow === 2) {
+              totExports = v.value;
+              worldDetails.reporter = v.reporter;
+              worldDetails.partner = v.partner;
+              worldDetails.commodity = v.commodity;
+              worldDetails.year = v.year;
+              worldDetails.exportVal = v.value;
+            }
             return false;
           }
         });
+        worldDetails.bilateralVal = worldDetails.importVal + worldDetails.exportVal;
+        worldDetails.bilateralVal = worldDetails.exportVal - worldDetails.importVal;
+
         // Split the data into an imports map and exports array
         impExpData.forEach(function (d) {
           if (+d.flow === 1) { imports.set(d.partner, d); }
@@ -339,6 +364,9 @@ define(function(require) {
         combinedData.forEach(function (v, i) {
           combinedData[i].exportRank = i+1;
         });
+
+        // Add world value back
+        combinedData.push(worldDetails);
 
         return combinedData;
       },
@@ -384,12 +412,12 @@ define(function(require) {
           var dup = false;
           xFdata.forEach(function (xd) {
             if (
-              nd.reporter  == xd.reporter  &&
-              nd.partner   == xd.partner   &&
-              nd.commodity == xd.commodity &&
-              nd.flow      == xd.flow      &&
-              nd.year      == xd.year      &&
-              nd.value     == xd.value
+              nd.reporter  === xd.reporter  &&
+              nd.partner   === xd.partner   &&
+              nd.commodity === xd.commodity &&
+              nd.flow      === xd.flow      &&
+              nd.year      === xd.year      &&
+              nd.value     === xd.value
             ) {
               dup = true;
               duplicates.push(nd);

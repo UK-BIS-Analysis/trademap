@@ -95,31 +95,13 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
             .attr("class", "country")
             .attr("d", path)
             .attr('id', function(d) { return 'iso'+d.id; })
-            .on('mouseenter', function (d,i) {
-              // Update infobox
-              try {
-                chart._displayInfo({ partner: localData.countryByISONum.get(d.id).unCode });
-              } catch (err) {
-                if (DEBUG) { console.log('No country in database by '+d.id+' isoCode.'); }
-              }
-              // Bring country path node to the front (to display border highlighting better)
-              svg.selectAll('.country').sort(function(a,b) { return (a.id === d.id) - (b.id === d.id); });
-            })
-            .on('mouseleave', function (d,i) {
-              chart._clearInfo();
-            })
             .on('click', function (d,i) {
+              // Show context menu
               d3.event.preventDefault();
-              // Update infobox
-              try {
-                chart._displayInfo({ partner: localData.countryByISONum.get(d.id).unCode });
-              } catch (err) {
-                if (DEBUG) { console.log('No country in database by '+d.id+' isoCode.'); }
-              }
               $('#contextMenu .country').html(localData.countryByISONum.get(d.id).name);
               $('#closeContextMenu').on('click', function (e) {
                 e.preventDefault();
-                chart._clearInfo();
+                infoBox.hideHover();
               });
               $('#contextMenu .setReporter a, #contextMenu .setPartner a').attr('data-uncode', localData.countryByISONum.get(d.id).unCode);
               $('#contextMenu').css({
@@ -195,6 +177,9 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
           // Create a lookup object to access by partner
           var newDataByPartner = d3.map(newData, function (d) { return d.partner; });
 
+          // Filter out records that relate to partner: 0 (world) which would distort the scale
+          newData = newData.filter(function (d) { return d.partner !== 0; });
+
           // Based on user selected flow predefine value accessor
           var flow = '';
           if (+filters.flow === 1) { flow = 'importVal'; }
@@ -216,16 +201,22 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
           // Color the paths on the choropleth
           svg.selectAll('.country')
             .classed('highlighted',false)
+            // Assign behaviours to hover over country
             .on('mouseenter', function (d,i) {
               try {
                 var partner = localData.countryByISONum.get(d.id).unCode,
-                    datum = newDataByPartner.get(partner);
-                if (datum) { chart._displayInfo(datum); }
+                    partnerDetails = newDataByPartner.get(partner);
+                if (partnerDetails) { infoBox.displayHover(partnerDetails); }
                 // Bring country path node to the front (to display border highlighting better)
                 svg.selectAll('.country').sort(function(a,b) { return (a.id === d.id) - (b.id === d.id);});
               } catch (err) {
-                if (DEBUG) { console.log('No country in database by '+d.id+' isoCode.'); }
+                if (DEBUG) {
+                  console.log('No country in database by '+d.id+' isoCode.');
+                }
               }
+            })
+            .on('mouseleave', function (d,i) {
+              infoBox.hideHover();
             })
             .transition()
             .duration(1000)
@@ -242,9 +233,6 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
 
           // (Re)draw legend
           chart._drawLegend(colorScale, filters.flow);
-
-          // Clear info
-          $('#choroplethInfo .value').html('');
 
           // Highlight reporter on map
           svg.select('#iso'+localData.countryByUnNum.get(filters.reporter).isoNumerical).classed('highlighted',true);
@@ -318,54 +306,11 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
               }
             });
 
-        },
-
-
-
-
-        _displayInfo: function (partner) {
-          infoBox.displayHover(partner);
-//          var $infoBox = $('#choroplethInfo'),
-//              partner = '',
-//              reporter = '',
-//              text = '';
-//          if (info.partner) {
-//            partner = localData.countryByUnNum.get(info.partner).name;
-//            $infoBox.children('.countryName').html(partner);
-//          }
-//          if (info.partner && info.reporter) {
-//            reporter = localData.countryByUnNum.get(info.reporter).name;
-//            $infoBox.children('.countryName').html(reporter+' - '+partner);
-//            if (info.commodity)    { $infoBox.children('.commodity').html(localData.commodityName(info.commodity)); }
-//            if (info.importVal) {
-//              text = '<dl class="dl-horizontal"><dt>Imports from '+partner+':</dt><dd>'+localData.numFormat(info.importVal);
-//              if (info.importPc) { text = text + ' ('+info.importPc.toPrecision(2)+'% of '+reporter+' imports)'; }
-//              text = text+'</dd></dl>';
-//              $infoBox.children('.imports').html(text);
-//            }
-//            if (info.exportVal) {
-//              text = '<dl class="dl-horizontal"><dt>Exports to '+partner+':</dt><dd>'+localData.numFormat(info.exportVal);
-//              if (info.exportPc) { text = text + ' ('+info.exportPc.toPrecision(2)+'% of '+reporter+' exports)'; }
-//              text = text + '</dd></dl>';
-//              $infoBox.children('.exports').html(text);
-//            }
-//            if (info.balanceVal)   { $infoBox.children('.balance').html('<dl class="dl-horizontal"><dt>Trade balance:</dt><dd>'+localData.numFormat(info.balanceVal)+'</dd></dl>'); }
-//            if (info.bilateralVal) { $infoBox.children('.bilateralTrade').html('<dl class="dl-horizontal"><dt>Bilateral trade:</dt><dd>'+localData.numFormat(info.bilateralVal)+'</dd></dl>'); }
-//            if (info.importRank && info.exportRank) {
-//              text = partner+' is the '+localData.numOrdinal(info.exportRank)+' export destination and the '+localData.numOrdinal(info.importRank)+' import source for '+reporter;
-//              if (info.commodity !== 'TOTAL') { text = text + ' in ' + localData.commodityName(info.commodity); }
-//              $infoBox.children('.ranking').html(text);
-//            }
-//          }
-//          if (!info.reporter && !info.partner) {
-//            $infoBox.children('.value').html('');
-//          }
-        },
-
-        _clearInfo: function () {
-          infoBox.displayDefault();
-          //$('#choroplethInfo .value').html('');
         }
+
+
+
+
   };
 
   return chart;

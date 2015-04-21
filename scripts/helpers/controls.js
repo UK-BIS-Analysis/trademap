@@ -107,15 +107,23 @@ define(['./data'], function(data) {
 
 
 
+    getFilters: function () {
+      var newFilters = {};
+      if (controls.$selectReporter.val() !== '')  { newFilters.reporter = controls.$selectReporter.val(); }
+      if (controls.$selectPartner.val() !== '')   { newFilters.partner = controls.$selectPartner.val(); }
+      if (controls.$selectCommodity.val() !== '') { newFilters.commodity = controls.$selectCommodity.val(); }
+      if (controls.$selectYear.val() !== '')      { newFilters.year = controls.$selectYear.val(); }
+      if ($('#flowButtons .btn-primary').attr('data-value') !== '')
+                                                  { newFilters.flow = $('#flowButtons .btn-primary').attr('data-value'); }
+      return newFilters;
+    },
+
+
+
+
     onFilterChange: function (event) {
       // Get new values
-      var newfilters = {};
-      if (controls.$selectReporter.val() !== '')  { newfilters.reporter = controls.$selectReporter.val(); }
-      if (controls.$selectPartner.val() !== '')   { newfilters.partner = controls.$selectPartner.val(); }
-      if (controls.$selectCommodity.val() !== '') { newfilters.commodity = controls.$selectCommodity.val(); }
-      if (controls.$selectYear.val() !== '')      { newfilters.year = controls.$selectYear.val(); }
-      if ($('#flowButtons .btn-primary').attr('data-value') !== '')
-                                                  { newfilters.flow = $('#flowButtons .btn-primary').attr('data-value'); }
+      var newfilters = controls.getFilters();
 
       // If there's no change from previous filters then do nothing
       if (controls.filters.reporter  == newfilters.reporter  &&
@@ -126,7 +134,7 @@ define(['./data'], function(data) {
         return;
       }
 
-      if (DEBUG) { console.log('New filters selected: %s', JSON.stringify(newfilters)); }
+      if (DEBUG) { console.log('New filters: %s', JSON.stringify(newfilters)); }
 
       // Activate/deactivate controls appropriately
       controls.fadeControls(newfilters);
@@ -261,11 +269,16 @@ define(['./data'], function(data) {
 
 
 
+
     showError: function (err) {
       $('#myModalLabel').html('<span class="glyphicon glyphicon-warning-sign"></span> There was an error in querying the COMTRADE API.');
       $('#myModal .modal-body').html(err);
       $('#myModal').modal({ show: true });
     }
+
+
+
+
   };
 
   return controls;
