@@ -67,6 +67,17 @@ module.exports = function(grunt) {
             flags: 'g'
           }
         ]
+      },
+      debug: {
+        src: ['scripts/main.min.js'],
+        actions: [
+          {
+            name: 'main',
+            search: 'window.DEBUG=!0',
+            replace: 'window.DEBUG=0',
+            flags: 'g'
+          }
+        ]
       }
     }
 
@@ -92,6 +103,7 @@ module.exports = function(grunt) {
     'uglify:generated',
     'usemin',
     'requirejs:compile',
+    'regex-replace:debug',
     'regex-replace:dist'
   ]);
 
