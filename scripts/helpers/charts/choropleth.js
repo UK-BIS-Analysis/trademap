@@ -206,13 +206,18 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
               try {
                 var partner = localData.countryByISONum.get(d.id).unCode,
                     partnerDetails = newDataByPartner.get(partner);
-                if (partnerDetails) { infoBox.displayHover(partnerDetails); }
+                if (partnerDetails) {
+                  infoBox.displayHover(partnerDetails);
+                } else {
+                  // DisplayHover with no data
+                  infoBox.displayHover(false);
+                }
                 // Bring country path node to the front (to display border highlighting better)
                 svg.selectAll('.country').sort(function(a,b) { return (a.id === d.id) - (b.id === d.id);});
               } catch (err) {
-                if (DEBUG) {
-                  console.log('No country in database by '+d.id+' isoCode.');
-                }
+                // DisplayHover with no data
+                infoBox.displayHover(false);
+                if (DEBUG) { console.log('No country in database by '+d.id+' isoCode.'); }
               }
             })
             .on('mouseleave', function (d,i) {

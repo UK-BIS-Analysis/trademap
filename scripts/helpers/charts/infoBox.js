@@ -193,7 +193,14 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
          * by the populateDefault function above
          */
         displayHover: function (partnerDetails) {
-          box.populateBox($hoverPanel, partnerDetails);
+          if (partnerDetails) {
+            $hoverPanel.find('dt').show();
+            box.populateBox($hoverPanel, partnerDetails);
+          } else {
+            $hoverPanel.find('.subtitle').html('<p class="text-center"><strong>No data available.</strong></p>');
+            $hoverPanel.find('.value, .ranking').html('');
+            $hoverPanel.find('dt').hide();
+          }
           // Animate display of hover panel
           $defaultPanel.stop().slideUp();
           $hoverPanel.stop().slideDown();
