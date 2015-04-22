@@ -107,24 +107,25 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
 
           // CASE 3: reporter = selected    commodity = null        partner = selected
           if(filters.reporter && !filters.commodity && filters.partner) {
-            queryFilter.commodity = encodeURIComponent('AG2,TOTAL');
-            queryFilter.partner = +filters.partner;
-            queryFilter.year = 'all';
-          }
-
-          // CASE 4: reporter = selected    commodity = selected    partner = null
-          if(filters.reporter && filters.commodity && !filters.partner) {
             queryFilter.partner = 'all';
-            queryFilter.commodity = 'AG2';
-            dataFilter.commodity = +filters.commodity;
+            queryFilter.commodity = 'TOTAL';
+            queryFilter.year = filters.year;
           }
 
-          // CASE 5: reporter = selected    commodity = selected    partner = selected
+          // CASE 4: reporter = selected    commodity = selected    partner = selected
           if(filters.reporter && filters.commodity && filters.partner) {
             queryFilter.partner = 'all';
-            queryFilter.commodity = 'AG2';
+            queryFilter.commodity = filters.commodity;
             dataFilter.commodity = +filters.commodity;
           }
+
+          // CASE 5: reporter = selected    commodity = selected    partner = null
+          if(filters.reporter && filters.commodity && !filters.partner) {
+            queryFilter.partner = 'all';
+            queryFilter.commodity = filters.commodity;
+            dataFilter.commodity = +filters.commodity;
+          }
+
 
           // Run query if necessary
           data.query(queryFilter, function queryCallback (err, ready) {

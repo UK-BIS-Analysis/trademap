@@ -299,8 +299,8 @@ svg#choroplethSvg path.country {
   stroke-width: .5px;
 }
 svg#choroplethSvg path.country.highlighted {
-  fill: #fff !important;
-  stroke: rgb(44, 105, 158);
+  fill: #054D82 !important;
+  stroke: #054D82;
   stroke-width: 2px !important;
 }
 svg#choroplethSvg path.country:hover {
@@ -336,6 +336,7 @@ svg#choroplethSvg path.country:hover {
 }
 .barchart {
   height: 27em;
+  margin-bottom: 3em;
 }
 
 

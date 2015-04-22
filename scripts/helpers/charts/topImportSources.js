@@ -72,6 +72,7 @@ define(['../data', '../rowchart', '../gui', '../controls'], function(data, rowch
 
           // CASE 2: reporter = selected    commodity = null        partner = null
           if(filters.reporter && !filters.commodity && !filters.partner) {
+            queryFilter.commodity = 'TOTAL';
             dataFilter.commodity = 'TOTAL';
             title = 'Top import sources for '+localData.reporterAreas.get(filters.reporter).text+' in '+filters.year;
           }
@@ -83,18 +84,19 @@ define(['../data', '../rowchart', '../gui', '../controls'], function(data, rowch
             return;
           }
 
-          // CASE 4: reporter = selected    commodity = selected    partner = null
-          // This is already covered by the data in CASE 2 so we don't specify the commodity in the query to avoid duplicate data
-          if(filters.reporter && filters.commodity && !filters.partner) {
-            dataFilter.commodity = filters.commodity;
-            title = 'Top import sources of '+localData.commodityName(filters.commodity)+' for '+localData.reporterAreas.get(filters.reporter).text+' in '+filters.year;
-          }
-
-          // CASE 5: reporter = selected    commodity = selected    partner = selected
+          // CASE 4: reporter = selected    commodity = selected    partner = selected
           if(filters.reporter && filters.commodity && filters.partner) {
             $chartTitle.html('');
             $container.slideUp();
             return;
+          }
+
+          // CASE 5: reporter = selected    commodity = selected    partner = null
+          // This is already covered by the data in CASE 2 so we don't specify the commodity in the query to avoid duplicate data
+          if(filters.reporter && filters.commodity && !filters.partner) {
+            queryFilter.commodity = filters.commodity;
+            dataFilter.commodity = filters.commodity;
+            title = 'Top import sources of '+localData.commodityName(filters.commodity)+' for '+localData.reporterAreas.get(filters.reporter).text+' in '+filters.year;
           }
 
           // Run API query

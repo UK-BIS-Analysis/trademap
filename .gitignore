@@ -6,3 +6,4 @@
 .brackets.json
 node_modules
 /.tmp/
+/trademap.zip

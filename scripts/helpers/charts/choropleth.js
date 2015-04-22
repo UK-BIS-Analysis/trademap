@@ -140,7 +140,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
             return;
           }
 
-          // CASE 2: reporter = selected    commodity = null
+          // CASE 2&3: reporter = selected    commodity = null
           if(filters.reporter && !filters.commodity) {
             // Set query and data retrieval filters (forcing partners to all, commodity to total and ignoring flow)
             queryFilter.commodity = 'TOTAL';
@@ -148,10 +148,10 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
             chartTitle = 'Value of ' + localData.flowByCode.get(filters.flow).text.toLowerCase() + ' between ' + localData.countryByUnNum.get(filters.reporter).name + ' and the World in  ' + filters.year + '.';
           }
 
-          // CASE 3: reporter = selected    commodity = selected
+          // CASE 4&5: reporter = selected    commodity = selected
           if(filters.reporter && filters.commodity) {
             // Set query and data retrieval filters (forcing partners to all and commodity to total)
-            queryFilter.commodity = 'AG2';
+            queryFilter.commodity = filters.commodity;
             dataFilter.commodity = filters.commodity;
             chartTitle = 'Value of ' + localData.flowByCode.get(filters.flow).text.toLowerCase() + ' between ' + localData.countryByUnNum.get(filters.reporter).name + ' and the World for ' + localData.commodityName(filters.commodity) + ' in ' + filters.year+'.';
           }
