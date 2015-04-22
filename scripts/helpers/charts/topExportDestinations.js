@@ -72,7 +72,7 @@ define(['../data', '../rowchart', '../gui', '../controls'], function(data, rowch
 
           // CASE 2: reporter = selected    commodity = null        partner = null
           if(filters.reporter && !filters.commodity && !filters.partner) {
-            title = 'Top export destinations for '+localData.reporterAreas.get(filters.reporter).text+' in '+filters.year;
+            title = 'Top export destinations of goods from '+localData.reporterAreas.get(filters.reporter).text+' in '+filters.year;
             queryFilter.commodity = 'TOTAL';
             dataFilter.commodity = 'TOTAL';
           }
@@ -94,7 +94,7 @@ define(['../data', '../rowchart', '../gui', '../controls'], function(data, rowch
           // CASE 5: reporter = selected    commodity = selected    partner = null
           // This is already covered by the data in CASE 2 so we don't specify the commodity in the api query to avoid duplicate data and requests
           if(filters.reporter && filters.commodity && !filters.partner) {
-            title = 'Top export destinations of '+localData.commodityName(filters.commodity)+' for '+localData.reporterAreas.get(filters.reporter).text+' in '+filters.year;
+            title = 'Top export destinations of '+localData.commodityName(filters.commodity)+' from '+localData.reporterAreas.get(filters.reporter).text+' in '+filters.year;
             queryFilter.commodity = filters.commodity;
             dataFilter.commodity = filters.commodity;
           }
