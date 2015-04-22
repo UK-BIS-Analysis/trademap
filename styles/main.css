@@ -28,6 +28,11 @@ html, body, #main {
   height: 100%;
   opacity: 0.75;
   z-index: 1031;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  color: #054D82;
+  padding-top: 30%;
 }
 nav.navbar {
   margin-bottom: 3px;

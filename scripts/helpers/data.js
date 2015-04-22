@@ -205,6 +205,10 @@ define(function(require) {
             // Set the timestamp so that other queries will queue and add the current query to the list of running queries.
             this.timestamp = time.getTime();
             this.queryRunning.push(requestUrl);
+            $('#loadingDiv #cancelRequest').on('click', function (e) {
+              xhr.abort();
+              $('#loadingDiv').fadeOut();
+            })
             $('#loadingDiv').fadeIn();
           },
           success: function success (data, status, xhr) {
@@ -237,6 +241,7 @@ define(function(require) {
           complete: function () {
             if (this.queryQueue.length === 0 && this.queryRunning.length === 0) {
               $('#loadingDiv').fadeOut();
+              $('#loadingDiv #cancelRequest').off('click');
             }
           }
         });
