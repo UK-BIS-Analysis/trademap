@@ -10,7 +10,7 @@
  * */
 
 
-define(['../data', '../barchart', '../gui', '../controls'], function(data, barchart, gui, controls) {
+define(['../data', '../rowchart', '../gui', '../controls'], function(data, rowchart, gui, controls) {
   'use strict';
 
   var localData = data,
@@ -36,10 +36,10 @@ define(['../data', '../barchart', '../gui', '../controls'], function(data, barch
           $chart.on('refreshFilters', this.refresh);
           // Bind the resize function to the window resize event
           $(window).on('resize', function () {
-            barchart.resizeSvg(svg, $chart.width());
+            rowchart.resizeSvg(svg, $chart.width());
           });
           // Setup the svg
-          barchart.setup(svg);
+          rowchart.setup(svg);
           // Hide on load
           $container.slideUp(0);
         },
@@ -104,7 +104,7 @@ define(['../data', '../barchart', '../gui', '../controls'], function(data, barch
             var newData = localData.getData(dataFilter, numEntries);
             $chartTitle.html(title);
             $container.slideDown(400, function () {
-              barchart.draw(svg, newData, dataFilter);
+              rowchart.draw(svg, newData, dataFilter);
             });
           });
         }

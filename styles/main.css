@@ -344,7 +344,7 @@ svg#choroplethSvg path.country:hover {
 /* SVG specific styles */
 svg .axis path, svg .axis line {
   fill: none;
-  stroke: #2D6BA1;
+  stroke: #054D82;
   shape-rendering: crispEdges;
   stroke-width: 1px;
 }
@@ -357,8 +357,14 @@ svg g.legend {
   fill: rgba(141, 141, 141, 0.75);
 }
 svg text.label {
+  font-size: 13px;
+  font-weight: lighter;
+  fill: #6f6f6f;
+}
+svg text.value {
   font-size: 11px;
   font-weight: bold;
+  fill: #1a1a1a;
 }
 #yearChart .chart svg .dot {
   cursor: pointer;
