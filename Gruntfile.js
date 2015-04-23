@@ -79,6 +79,19 @@ module.exports = function(grunt) {
           }
         ]
       }
+    },
+
+    'compress': {
+      main: {
+        options: {
+          archive: 'trademap.zip'
+        },
+        files: [
+          {src: ['data/*'], dest: './', filter: 'isFile'}, // includes files in path
+          {src: ['img/**', 'pages/**', 'styles/**', 'scripts/**'], dest: './'}, // includes files in path and its subdirs
+          {src: ['./*.txt', './*.html', './*.md', './*.php'], dest: './', filter: 'isFile'}
+        ]
+      }
     }
 
 
@@ -93,6 +106,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-filerev');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-regex-replace');
+  grunt.loadNpmTasks('grunt-contrib-compress');
 
   // Default task(s).
   grunt.registerTask('default', [
@@ -104,7 +118,8 @@ module.exports = function(grunt) {
     'usemin',
     'requirejs:compile',
     'regex-replace:debug',
-    'regex-replace:dist'
+    'regex-replace:dist',
+    'compress'
   ]);
 
 };
