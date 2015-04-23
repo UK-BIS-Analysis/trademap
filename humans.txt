@@ -1,0 +1,20 @@
+/* TEAM */
+Developer: Francesco Merletti
+Contact: me [at] fm.to.it                            
+Site: http://fm.to.it
+Twitter: mjs2020
+Location: London, UK
+
+                         
+
+							
+/* THANKS */
+
+							
+
+                            
+/* SITE */
+Last update: 2015/05/08
+Standards: HTML5, CSS3, SVG
+Components: Modernizr, jQuery, D3, Requirejs, Bootstrap                            
+Software: Brackets, Grunt, Bower
