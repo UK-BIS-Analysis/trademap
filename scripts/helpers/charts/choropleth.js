@@ -32,10 +32,11 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
         .attr('viewBox', '0 0 '+width+' '+height)
         .attr('preserveAspectRatio', 'xMidYMid meet'),
       // Color schemes from http://colorbrewer2.org/
+      // http://colorbrewer2.org/?type=sequential&scheme=YlGn&n=5
       // The number of colors will drive the scales below (e.g. if you put six colors there will be six shades in the scales)
-      balanceColors = ['rgb(222, 98, 98)','rgb(116,196,118)'],// red/green
-      importColors  = ['rgb(254,237,222)','rgb(253,190,133)','rgb(253,141,60)','rgb(230,85,13)','rgb(166,54,3)'],  // oranges
-      exportColors  = ['rgb(237,248,233)','rgb(186,228,179)','rgb(116,196,118)','rgb(49,163,84)','rgb(0,109,44)'], // greens
+      balanceColors = ['rgb(191, 25, 0)','rgb(120,198,121)'],// import/export - red/green
+      importColors  = ['rgb(240,249,232)','rgb(186,228,188)','rgb(123,204,196)','rgb(67,162,202)','rgb(8,104,172)'],  // blues
+      exportColors  = ['rgb(255,255,204)','rgb(194,230,153)','rgb(120,198,121)','rgb(49,163,84)','rgb(0,104,55)'], // greens
       colors = [balanceColors, importColors, exportColors],
 
 
@@ -145,7 +146,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
             // Set query and data retrieval filters (forcing partners to all, commodity to total and ignoring flow)
             queryFilter.commodity = 'TOTAL';
             dataFilter.commodity =  'TOTAL';
-            chartTitle = 'Value of ' + localData.flowByCode.get(filters.flow).text.toLowerCase() + ' ' + ['', 'to', 'from'][filters.flow] + ' ' + localData.countryByUnNum.get(filters.reporter).name + ['', ' from', ' to'][filters.flow] + ' the World for all goods in  ' + filters.year + '.';
+            chartTitle = 'Value of ' + localData.flowByCode.get(filters.flow).text.toLowerCase() + ' ' + ['between', 'to', 'from'][filters.flow] + ' ' + localData.countryByUnNum.get(filters.reporter).name + [' and', ' from', ' to'][filters.flow] + ' the World for all goods in  ' + filters.year + '.';
           }
 
           // CASE 4&5: reporter = selected    commodity = selected
@@ -174,28 +175,42 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
           var newData = localData.getData({ reporter: filters.reporter, commodity: filters.commodity, year: filters.year });
           newData = localData.combineData(newData);
 
-          // Create a lookup object to access by partner
-          var newDataByPartner = d3.map(newData, function (d) { return d.partner; });
+          // Create a lookup object to access by partner and also store count
+          var newDataByPartner = d3.map(newData, function (d) { return d.partner; }),
+              count = newData.length;
 
           // Filter out records that relate to partner: 0 (world) which would distort the scale
           newData = newData.filter(function (d) { return d.partner !== 0; });
 
           // Based on user selected flow predefine value accessor
-          var flow = '';
-          if (+filters.flow === 1) { flow = 'importVal'; }
-          else if (+filters.flow === 2) { flow = 'exportVal'; }
-          else { flow = 'balanceVal'; }
+          var flowRank, flowVal;
+          if (+filters.flow === 1) { flowRank = 'importRank'; flowVal = 'importVal'; }
+          if (+filters.flow === 2) { flowRank = 'exportRank'; flowVal = 'exportVal'; }
+          if (+filters.flow === 0) { flowRank = 'balanceVal'; flowVal = 'balanceVal';}
 
-          // Create the colorScale depending on the flow: use a threshold scale for balance
-          var colorScale;
+
+
+          // Create the colorScale depending on the flow
+          var colorScale = d3.scale.threshold(),
+              domain, range;
           if (+filters.flow === 0) {
-            colorScale = d3.scale.threshold()
-              .domain([0])
-              .range([0,1]);
+            // If flow is balance we create a threshold scale which has only two cases positive (above 0 threshold) and negative (below 0 threshold)
+            colorScale.domain([0]).range([0,1]);
           } else {
-            colorScale = d3.scale.quantize()
-              .domain(d3.extent(newData, function (d) { return +d[flow]; }))
-              .range(d3.range(colors[+filters.flow].length));
+            // For import and export e have slightly different scales depending on how many countries we have data for
+            if (count > 25) { // Quartiles plus top 3
+              domain = [4, count/4, count/2, count*3/4];
+              range = [4,3,2,1,0];
+            }
+            if (count <= 25 && count > 4) { // Simple quartiles
+              domain = [count/4, count/2, count*3/4];
+              range = [3,2,1,0];
+            }
+            if (count <= 4) { // No scale, all countries in a single bucket
+              domain = [count];
+              range = [0];
+            }
+            colorScale = d3.scale.threshold().domain(domain).range(range);
           }
 
           // Color the paths on the choropleth
@@ -223,21 +238,34 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
             .on('mouseleave', function (d,i) {
               infoBox.hideHover();
             })
+            // Apply coloring
             .transition()
             .duration(1000)
             .style('fill', function (d,i) {
               try {
                 var unCode = localData.countryByISONum.get(d.id).unCode,
                     countryData  = newDataByPartner.get(unCode),
-                    bucket = colorScale(countryData[flow]);
+                    bucket = colorScale(countryData[flowRank]);
                 return colors[filters.flow][bucket];
               } catch (exception) {
                 return '#818181';
               }
             });
 
-          // (Re)draw legend
-          chart._drawLegend(colorScale, filters.flow);
+          // Prepare data for the legend and (Re)draw it
+          var legendData = d3.nest()
+                .key(function (d) {
+                  return colorScale(d[flowRank]);
+                })
+                .rollup(function(values) {
+                  return {
+                    min: d3.min(values, function (v) { return v[flowVal] }),
+                    max: d3.max(values, function (v) { return v[flowVal] }),
+                    count: values.length
+                  }
+                })
+                .entries(newData);
+          chart._drawLegend(legendData, filters.flow);
 
           // Highlight reporter on map
           svg.select('#iso'+localData.countryByUnNum.get(filters.reporter).isoNumerical).classed('highlighted',true);
@@ -247,67 +275,105 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
 
 
 
-        _drawLegend: function (scale, flow) {
-          var $mapLegend = $('#mapLegend'),
-              legendSvg = d3.select('#mapLegend svg'),
-              currentColors = colors[flow],
-              flowName = ['Balance', 'Imports', 'Exports'][flow];
-          // Remove legend if present
+        _drawLegend: function (legendData, flow) {
+          var legendSvg = d3.select('#mapLegend svg'),
+              rectHeight = 30,
+              padding = 5,
+              // Cut the colors array to the length of out legend
+              currentColors = colors[flow].slice(0, legendData.length),
+              flowName = ['Balance', 'Imports', 'Exports'][flow],
+              totalPartners = legendData.reduce(function (prev, curr, i, arr) {
+                return prev+curr.values.count;
+              }, 0);
+
+          legendSvg.attr('height', (legendData.length+1)*(rectHeight+padding)+25);
+
+          // Remove legend & title if present
           legendSvg.select('g.legend').remove();
+          legendSvg.select('text.title').remove();
+
+          // Make title
+          legendSvg.append('text')
+            .attr('class', 'title')
+            .attr('x', 0)
+            .attr('y', 18)
+            .style('font-weight','bold')
+            .text(flowName+' Legend');
+
           // Redraw legend
           var legend = legendSvg.append('g')
             .attr('class', 'legend')
-            .attr('transform', 'translate(0,20)');
-          // Add legend title
-          legend.append('text')
-            .attr('class', 'title')
-            .attr('x', 0)
-            .attr('y', 0)
-            .style('font-weight','bold')
-            .text(flowName+' Legend');
+            .attr('transform', 'translate(0,25)');
           // Add no-data box & label
           legend.append('rect')
             .attr('class', 'noData')
-            .attr('x', 0)
-            .attr('y', 12)
-            .attr('rx', 3)
-            .attr('ry', 3)
-            .attr('width', 18)
-            .attr('height', 18)
+            .attr('x', 0).attr('y', 0)
+            .attr('rx', 1).attr('ry', 1)
+            .attr('width', 8).attr('height', 15)
             .style('fill', '#818181');
           legend.append('text')
             .attr('class', 'noData')
-            .attr('x', 22)
-            .attr('y', 25)
+            .attr('x', 12).attr('y', 13)
             .text('No data available');
           // Add scale boxes
           legend = legend.append('g')
             .attr('class', 'scale')
-            .attr('transform', 'translate(0,33)');
+            .attr('transform', 'translate(0,18)');
           legend.selectAll('rect')
             .data(d3.range(currentColors.length))
             .enter()
             .append('rect')
             .attr('x', 0)
-            .attr('y', function (d, i) { return i * 20; })
-            .attr('rx', 3)
-            .attr('ry', 3)
-            .attr('width', 18)
-            .attr('height', 18)
+            .attr('y', function (d, i) { return i * 33; })
+            .attr('rx', 1)
+            .attr('ry', 1)
+            .attr('width', 8)
+            .attr('height', 30)
             .style('fill', function(d, i) { return currentColors[i]; });
           // Add text
-          legend.selectAll('text')
+          var texts = legend.selectAll('text')
             .data(d3.range(currentColors.length))
             .enter()
             .append('text')
-            .attr('x', 22)
-            .attr('y', function (d, i) { return i * 20 +15; })
+            .attr('y', function (d, i) { return i * 33 + 14; })
+          texts.append('tspan')
+            .attr('class', 'line1')
+            .attr('x', 12)
             .text(function (d,i) {
               if (+flow === 0) {
-                return ['Negative', 'Positive'][i];
+                return ['Negative', 'Positive'][i] + ' (' + legendData[i].values.count + ' partners)';
               } else {
-                var domainExtent = scale.invertExtent(i);
-                return localData.numFormat(domainExtent[0]) + ' - ' + localData.numFormat(domainExtent[1]);
+                switch (i) {
+                  case 0:
+                    if (totalPartners < 4) {
+                      return 'Not enough data to map';
+                    } else {
+                      return 'Up to 25th percentile';
+                    }
+                    break;
+                  case 1:
+                    return '25th to 50th percentile';
+                    break;
+                  case 2:
+                    return '50th to 75th percentile';
+                    break;
+                  case 3:
+                    return 'Above 75th percentile';
+                    break;
+                  case 4:
+                    return 'Top 3 - above XXth percentile';
+                    break;
+                }
+                return '';
+              }
+            });
+          texts.append('tspan')
+            .attr('class', 'line1')
+            .attr('x', 12)
+            .attr('dy', 15)
+            .text(function (d,i) {
+              if (+flow > 0) {
+                return localData.numFormat(legendData[i].values.min) + ' - ' + localData.numFormat(legendData[i].values.max) + ' (' + legendData[i].values.count + ' partners)';
               }
             });
 

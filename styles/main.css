@@ -252,12 +252,8 @@ div#flowButtons {
 div#mapLegend {
   position: absolute;
   top:  60px;
-  min-height: 3em;
-  width: 12em;
 }
-svg#mapLegendSvg {
-  width: 100%;
-  height: 100%;
+svg#mapLegendSvg text {
 }
 div#choroplethInfo {
   position: absolute;
@@ -359,8 +355,8 @@ svg g.tick text {
   fill: rgba(141, 141, 141, 0.75);
 }
 svg g.legend {
-  font-size: 13px;
-  fill: rgba(141, 141, 141, 0.75);
+  font-size: 12px;
+  fill: rgba(25, 25, 25, 0.75);
 }
 svg text.label {
   font-size: 13px;

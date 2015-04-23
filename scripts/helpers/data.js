@@ -196,7 +196,7 @@ define(function(require) {
         // Make call
         $.ajax({
           url: requestUrl,
-          timeout: 180000,
+          timeout: 75000,
           crossDomain: true,
           // NOTE: context setting is imporant as it binds the callback to the data object we are creating.
           // Otherwise we cannot access any of the properties in the callback.
