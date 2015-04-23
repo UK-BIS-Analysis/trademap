@@ -126,7 +126,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
 
           // CASE 2: reporter = selected    commodity = null        partner = null
           if(filters.reporter && !filters.commodity && !filters.partner) {
-            title = 'Imports and exports of '+localData.countryByUnNum.get(filters.reporter).name;
+            title = 'Imports and exports of '+localData.reporterAreas.get(filters.reporter).text;
             queryFilter.partner =  0;
             queryFilter.commodity = 'TOTAL';
             dataFilter = queryFilter;
@@ -134,7 +134,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
 
           // CASE 3: reporter = selected    commodity = null        partner = selected
           if(filters.reporter && !filters.commodity && filters.partner) {
-            title = 'Imports and exports between '+localData.countryByUnNum.get(filters.reporter).name + ' and ' + localData.countryByUnNum.get(filters.partner).name;
+            title = 'Imports and exports between '+localData.reporterAreas.get(filters.reporter).text + ' and ' + localData.partnerAreas.get(filters.partner).text;
             queryFilter.partner = filters.partner;
             queryFilter.commodity = 'TOTAL';
             dataFilter.partner = +filters.partner;
@@ -144,7 +144,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
           // CASE 4: reporter = selected    commodity = selected    partner = selected
           // NOTE This is already covered by the data in CASE 3 so we don't specify the commodity in the query to avoid duplicate data
           if(filters.reporter && filters.commodity && filters.partner) {
-            title = 'Imports and exports of '+localData.commodityName(filters.commodity)+' between '+localData.countryByUnNum.get(filters.reporter).name + ' and ' + localData.countryByUnNum.get(filters.partner).name;
+            title = 'Imports and exports of '+localData.commodityName(filters.commodity)+' between '+localData.reporterAreas.get(filters.reporter).text + ' and ' + localData.partnerAreas.get(filters.partner).text;
             queryFilter.partner = +filters.partner;
             queryFilter.commodity = filters.commodity;
             dataFilter.partner = +filters.partner;
@@ -153,7 +153,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
 
           // CASE 5: reporter = selected    commodity = selected    partner = null
           if(filters.reporter && filters.commodity && !filters.partner) {
-            title = 'Imports and exports of '+localData.commodityName(filters.commodity)+' to/from '+localData.countryByUnNum.get(filters.reporter).name;
+            title = 'Imports and exports of '+localData.commodityName(filters.commodity)+' to/from '+localData.reporterAreas.get(filters.reporter).text;
             queryFilter.partner = 0;
             queryFilter.commodity = filters.commodity;
             dataFilter.partner = 0;

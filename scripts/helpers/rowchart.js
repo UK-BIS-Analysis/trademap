@@ -124,7 +124,7 @@ define(['./data', './controls'], function(data, controls) {
             .attr('y', yScale(1)-barHeight-8)
             .text(function (d) {
               if (filters.partner === 'all') { // top partner chart: select partner
-                return localData.countryByUnNum.get(d.partner).name;
+                return localData.partnerAreas.get(d.partner) ? localData.partnerAreas.get(d.partner).text : 'Unknown partner';
               } else { // top commodities chart: select commodity
                 return localData.commodityName(d.commodity);
               }
