@@ -85,21 +85,21 @@ define(['./data'], function(data) {
       // ADD CONTEXTUAL MENU BEHAVIOURS
       $('#closeContextMenu').on('click', function (e) {
         e.preventDefault();
-        $("#contextMenu").hide()
+        $("#contextMenu").hide();
       });
       $('#contextMenu .setReporter').on('click', function (e) {
         e.preventDefault();
         if (!$(e.target.parentNode).hasClass('disabled')) {
-          controls.changeFilters({reporter: $(e.target).attr('data-uncode')})
+          controls.changeFilters({reporter: $(e.target).attr('data-uncode')});
         }
-        $("#contextMenu").hide()
+        $("#contextMenu").hide();
       });
       $('#contextMenu .setPartner').on('click', function (e) {
         e.preventDefault();
         if (!$(e.target.parentNode).hasClass('disabled')) {
-          controls.changeFilters({partner: $(e.target).attr('data-uncode')})
+          controls.changeFilters({partner: $(e.target).attr('data-uncode')});
         }
-        $("#contextMenu").hide()
+        $("#contextMenu").hide();
       });
 
     },
@@ -126,11 +126,11 @@ define(['./data'], function(data) {
       var newfilters = controls.getFilters();
 
       // If there's no change from previous filters then do nothing
-      if (controls.filters.reporter  == newfilters.reporter  &&
-          controls.filters.partner   == newfilters.partner   &&
-          controls.filters.commodity == newfilters.commodity &&
-          controls.filters.year      == newfilters.year      &&
-          controls.filters.flow      == newfilters.flow ) {
+      if (controls.filters.reporter  === newfilters.reporter  &&
+          controls.filters.partner   === newfilters.partner   &&
+          controls.filters.commodity === newfilters.commodity &&
+          controls.filters.year      === newfilters.year      &&
+          controls.filters.flow      === newfilters.flow ) {
         return;
       }
 
@@ -176,7 +176,7 @@ define(['./data'], function(data) {
       }
 
       // And trigger a single change event
-      controls.$selects.trigger("change")
+      controls.$selects.trigger("change");
 
 
     },

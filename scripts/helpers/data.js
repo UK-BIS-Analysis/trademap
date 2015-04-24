@@ -147,7 +147,7 @@ define(function(require) {
               if (DEBUG) { console.warn('There was a problem looking up ' + lookupVal + ' in ' + mapName + '.' + propertyName + ': ' + err); }
               return 'unknown';
             }
-          }
+          };
 
           // Remove unwanted values
           data.reporterAreasSelect  = data.reporterAreasSelect.filter( function (d) { return d.id !== 'all'; });
@@ -223,7 +223,7 @@ define(function(require) {
             $('#loadingDiv #cancelRequest').on('click', function (e) {
               xhr.abort();
               $('#loadingDiv').fadeOut();
-            })
+            });
             $('#loadingDiv').fadeIn();
           },
           success: function success (data, status, xhr) {

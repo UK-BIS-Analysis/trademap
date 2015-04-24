@@ -99,8 +99,8 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
             .on('click', function (d,i) {
               // Show context menu
               d3.event.preventDefault();
-              $('#contextMenu .country').html(localData.lookup(d.id, 'countryByISONum', 'name');
-              $('#contextMenu .setReporter a, #contextMenu .setPartner a').attr('data-uncode', localData.lookup(d.id, 'countryByISONum', 'unCode');
+              $('#contextMenu .country').html(localData.lookup(d.id, 'countryByISONum', 'name'));
+              $('#contextMenu .setReporter a, #contextMenu .setPartner a').attr('data-uncode', localData.lookup(d.id, 'countryByISONum', 'unCode'));
               $('#closeContextMenu').on('click', function (e) {
                 e.preventDefault();
                 infoBox.hideHover();
@@ -260,16 +260,16 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
                 })
                 .rollup(function(values) {
                   return {
-                    min: d3.min(values, function (v) { return v[flowVal] }),
-                    max: d3.max(values, function (v) { return v[flowVal] }),
+                    min: d3.min(values, function (v) { return v[flowVal]; }),
+                    max: d3.max(values, function (v) { return v[flowVal]; }),
                     count: values.length
-                  }
+                  };
                 })
                 .entries(newData);
           chart._drawLegend(legendData, filters.flow);
 
           // Highlight reporter on map
-          svg.select('#iso'+localData.lookup(filters.reporter, 'countryByUnNum', 'isoNumerical').classed('highlighted',true);
+          svg.select('#iso'+localData.lookup(filters.reporter, 'countryByUnNum', 'isoNumerical')).classed('highlighted',true);
         },
 
 
@@ -335,7 +335,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
             .data(d3.range(currentColors.length))
             .enter()
             .append('text')
-            .attr('y', function (d, i) { return i * 33 + 14; })
+            .attr('y', function (d, i) { return i * 33 + 14; });
           texts.append('tspan')
             .attr('class', 'line1')
             .attr('x', 12)
@@ -343,28 +343,29 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
               if (+flow === 0) {
                 return ['Negative', 'Positive'][i] + ' (' + legendData[i].values.count + ' partners)';
               } else {
+                var returnTxt = '';
                 switch (i) {
                   case 0:
                     if (totalPartners < 4) {
-                      return 'Not enough data to map';
+                      returnTxt = 'Not enough data to map';
                     } else {
-                      return 'Up to 25th percentile';
+                      returnTxt = 'Up to 25th percentile';
                     }
                     break;
                   case 1:
-                    return '25th to 50th percentile';
+                    returnTxt = '25th to 50th percentile';
                     break;
                   case 2:
-                    return '50th to 75th percentile';
+                    returnTxt = '50th to 75th percentile';
                     break;
                   case 3:
-                    return 'Above 75th percentile';
+                    returnTxt = 'Above 75th percentile';
                     break;
                   case 4:
-                    return 'Top 3 - above XXth percentile';
+                    returnTxt = 'Top 3 - above XXth percentile';
                     break;
                 }
-                return '';
+                return returnTxt;
               }
             });
           texts.append('tspan')

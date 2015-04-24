@@ -1,6 +1,7 @@
 /*jslint browser: true*/
 /*jslint white: true */
 /*jslint vars: true */
+/*jslint nomen: true*/
 /*global $, Modernizr, d3, dc, crossfilter, document, console, alert, define, DEBUG */
 
 
@@ -49,7 +50,7 @@ define(['./charts/choropleth', './charts/yearChart', './charts/infoBox', './char
       //      }
       //    ]]></style>
       //  </defs>
-    },
+    }
 
   };
 

@@ -211,7 +211,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
             .transition()
             .call(xAxis)
             .selectAll('g.x text')
-            .attr("transform", 'rotate(-65) translate(-22,-10)');;
+            .attr("transform", 'rotate(-65) translate(-22,-10)');
           svg.select('.y.axis') // change the y axis
             .transition()
             .call(yAxis);
@@ -312,7 +312,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
             .transition()
             .attr('cx', function (d) { return xScale(d.year); });
           // Update line paths
-          line.x(function(d) { return xScale(d.year); })
+          line.x(function(d) { return xScale(d.year); });
           svg.selectAll('path.flow')
             .transition()
             .attr('d', function (d) { return line(d.values); });

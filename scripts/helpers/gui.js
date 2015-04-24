@@ -65,13 +65,13 @@ define([], function() {
             .attr('download','')
             .attr('title','')
             .attr('href','');
-        }, 1000)
+        }, 1000);
       });
 
       // ADD EMBED GRAPH BUTTON BEHAVIOURS
       $('a.embedSvg').on('click', function (e) {
         e.preventDefault();
-      })
+      });
     },
 
 
@@ -81,27 +81,6 @@ define([], function() {
       $('#myModalLabel').html('<span class="glyphicon glyphicon-warning-sign"></span> There was an error in querying the COMTRADE API.');
       $('#myModal .modal-body').html('Charts may not display correctly, please try reloading the page or trying again later.<br /><small>Error details: '+err+'</small>');
       $('#myModal').modal({ show: true });
-    },
-
-
-
-
-    // Very useful utility from:
-    // http://davidwalsh.name/javascript-debounce-function
-    // Not currently used
-    debounce: function (func, wait, immediate) {
-      var timeout;
-      return function() {
-        var context = this, args = arguments;
-        var later = function() {
-            timeout = null;
-            if (!immediate) func.apply(context, args);
-        };
-        var callNow = immediate && !timeout;
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-        if (callNow) func.apply(context, args);
-      };
     }
 
 
