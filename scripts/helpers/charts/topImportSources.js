@@ -107,7 +107,7 @@ define(['../data', '../rowchart', '../gui', '../controls'], function(data, rowch
             var newData = localData.getData(dataFilter, numEntries);
             $chartTitle.html(title);
             $container.slideDown(400, function () {
-              rowchart.draw(svg, newData, dataFilter);
+              rowchart.draw(svg, newData, dataFilter, chart.colors[0][0]);
             });
           });
         }

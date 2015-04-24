@@ -31,16 +31,6 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
         .attr('id', 'choroplethSvg')
         .attr('viewBox', '0 0 '+width+' '+height)
         .attr('preserveAspectRatio', 'xMidYMid meet'),
-      // Color schemes from http://colorbrewer2.org/
-      // http://colorbrewer2.org/?type=sequential&scheme=YlGn&n=5
-      // The number of colors will drive the scales below (e.g. if you put six colors there will be six shades in the scales)
-      balanceColors = ['rgb(191, 25, 0)','rgb(120,198,121)'],// import/export - red/green
-      importColors  = ['rgb(240,249,232)','rgb(186,228,188)','rgb(123,204,196)','rgb(67,162,202)','rgb(8,104,172)'],  // blues
-      exportColors  = ['rgb(255,255,204)','rgb(194,230,153)','rgb(120,198,121)','rgb(49,163,84)','rgb(0,104,55)'], // greens
-      colors = [balanceColors, importColors, exportColors],
-
-
-
 
       chart = {
 
@@ -247,7 +237,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
                 var unCode = localData.countryByISONum.get(d.id).unCode,
                     countryData  = newDataByPartner.get(unCode),
                     bucket = colorScale(countryData[flowRank]);
-                return colors[filters.flow][bucket];
+                return chart.colors[filters.flow][bucket];
               } catch (exception) {
                 return '#818181';
               }
@@ -280,7 +270,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
               rectHeight = 30,
               padding = 5,
               // Cut the colors array to the length of out legend
-              currentColors = colors[flow].slice(0, legendData.length),
+              currentColors = chart.colors[flow].slice(0, legendData.length),
               flowName = ['Balance', 'Imports', 'Exports'][flow],
               totalPartners = legendData.reduce(function (prev, curr, i, arr) {
                 return prev+curr.values.count;

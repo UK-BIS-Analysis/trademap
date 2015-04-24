@@ -65,7 +65,7 @@ define(['./data', './controls'], function(data, controls) {
 
 
 
-        draw: function (svg, newData, filters) {
+        draw: function (svg, newData, filters, color) {
           // Setup scales & axises
           xScale.domain([0, d3.max(newData, function (d) { return d.value; })])
                 .nice();
@@ -117,15 +117,16 @@ define(['./data', './controls'], function(data, controls) {
           bars.transition()
             .attr('x', 0)
             .attr('y', yScale(1)-barHeight-5)
+            .style('fill', color)
             .attr('height', barHeight)
             .attr('width', function (d,i) { return xScale(+d.value); });
           labels
             .attr('x', '3')
             .attr('y', yScale(1)-barHeight-8)
             .text(function (d) {
-              if (filters.partner === 'all') { // top partner chart: select partner
+              if (filters.partner === 'all') {  // top partner chart: select partner
                 return localData.lookup(d.partner, 'partnerAreas', 'text');
-              } else { // top commodities chart: select commodity
+              } else {                          // top commodities chart: select commodity
                 return localData.commodityName(d.commodity);
               }
             });

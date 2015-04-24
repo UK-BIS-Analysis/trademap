@@ -1,4 +1,5 @@
 /*
+ * HTML ONLY STYLES
  * Color palette:
  * BIS blue: #054D82;
  */
@@ -9,7 +10,9 @@
 /*
  * GENERAL, NAVBAR & LAYOUT STYLES
  */
-html, body, #main {
+html,
+body,
+#main {
   font-family: Helvetica,Arial,Verdana,Geneva,sans-serif;
   height: 100%;
 }
@@ -99,7 +102,7 @@ div.alert {
   /* Add padding to compensate for navbar */
   padding-top: 60px;
 }
-div#charts {
+#charts {
   border-top: 1px solid #054D82;
 }
 
@@ -130,8 +133,14 @@ div#charts {
   font-weight: bold;
   content: "Commodity: ";
 }
-#s2id_selectReporter, #s2id_selectCommodity, #s2id_selectPartner, #s2id_selectYear,
-.selectReporter, .selectCommodity, .selectPartner, .selectYear {
+#s2id_selectReporter,
+#s2id_selectCommodity,
+#s2id_selectPartner,
+#s2id_selectYear,
+.selectReporter,
+.selectCommodity,
+.selectPartner,
+.selectYear {
   margin-bottom: 0.5em;
 }
 .clearBtnWrapper .btn {
@@ -163,21 +172,45 @@ div#charts {
  * And also set the upper padding for the fullscreen pages
  * */
 @media (max-width: 768px) {
-  #main, #charts { padding-top: 183px }
-  #charts { margin-top: 183px }
+  #main,
+  #charts {
+    padding-top: 183px;
+  }
+  #charts {
+    margin-top: 183px;
+  }
 }
 @media (min-width: 768px) {
-  div[class^="col"]{padding-left:5px; padding-right:5px;}
-  #main, #charts { padding-top: 115px }
-  #charts { margin-top: 115px }
+  div[class^="col"] {
+    padding-left:5px;
+    padding-right:5px;
+  }
+  #main,
+  #charts {
+    padding-top: 115px;
+  }
+  #charts {
+    margin-top: 115px;
+  }
 }
 @media (min-width: 992px) {
-  div[class^="col"]{padding-left:5px; padding-right:5px;}
-  #main, #charts { padding-top: 90px }
-  #charts { margin-top: 90px }
+  div[class^="col"] {
+    padding-left:5px;
+    padding-right:5px;
+  }
+  #main,
+  #charts {
+    padding-top: 90px;
+  }
+  #charts {
+    margin-top: 90px;
+  }
 }
 @media (min-width: 1200px) {
-  div[class^="col"]{padding-left:5px; padding-right:5px;}
+  div[class^="col"] {
+    padding-left:5px;
+    padding-right:5px;
+  }
 }
 
 
@@ -220,53 +253,51 @@ div#charts {
 /*
  * STYLES FOR THE CHOROPLETH
  */
-div#choropleth {
+#choropleth {
   height: 100%;
   position: relative;
   top: 0;
 }
-div#choroplethTitle {
+#choroplethTitle {
   position: absolute;
   top: 0px;
   width: 100%;
   z-index: 100;
   text-align: center;
 }
-div#choroplethTitle div.titleDropdown {
+#choroplethTitle div.titleDropdown {
   float: none;
   display: inline;
 }
-div#choroplethTitle div.titleDropdown button {
+#choroplethTitle div.titleDropdown button {
   margin-top: -10px;
 }
-div#choroplethTitle div.chartTitle {
+#choroplethTitle div.chartTitle {
   margin-top: 0;
   background-color: #fff;
 }
-div#flowButtons {
+#flowButtons {
   position: absolute;
   top: 30px;
   height: 35px;
   width: 12em;
 }
-div#mapLegend {
+#mapLegend {
   position: absolute;
   top:  60px;
 }
-svg#mapLegendSvg text {
-}
-div#choroplethInfo {
+#choroplethInfo {
   position: absolute;
   bottom: 15px;
   width: 31%;
   height: 19em;
   font-size: 11px;
 }
-div#choroplethInfo dl.dl-horizontal {
+#choroplethInfo dl.dl-horizontal {
   margin-bottom: 0;
 }
-div#choroplethInfo .countryName,
-div#choroplethInfo .commodity {
+#choroplethInfo .countryName,
+#choroplethInfo .commodity {
   font-weight: bold;
 }
 #contextMenu {
@@ -281,33 +312,6 @@ div#choroplethInfo .commodity {
 #closeContextMenu {
   margin: 2px 0 0 2px;
 }
-/* SVG specific styles */
-svg#choroplethSvg .fill {
-  fill: #fff;
-}
-svg#choroplethSvg .land {
-  fill: #222;
-}
-svg#choroplethSvg .boundary {
-  fill: none;
-  stroke: #fff;
-  stroke-width: .5px;
-}
-svg#choroplethSvg path.country {
-  cursor: pointer;
-  stroke: #000;
-  fill: #fff;
-  stroke-width: .5px;
-}
-svg#choroplethSvg path.country.highlighted {
-  fill: #054D82 !important;
-  stroke: #054D82;
-  stroke-width: 2px !important;
-}
-svg#choroplethSvg path.country:hover {
-  stroke: rgb(44, 105, 158);
-  stroke-width: 2px !important;
-}
 
 
 
@@ -316,78 +320,42 @@ svg#choroplethSvg path.country:hover {
  * STYLES FOR LINE AND BAR CHARTS
  */
 .chartTitle {
-  display: inline;
+  display: block;
   color: #054D82;
   font-size: 24px;
   line-height: 1em;
-  margin-top: 2em;
+  float: left;
+  width: 95%;
+  height: 2em;
 }
 .titleDropdown {
   float: left;
+  width: 5%;
 }
 .titleDropdown button {
   margin-top: -1px;
-}
-#yearChart .chartTitle {
-  margin-top: 0;
-}
-/* Specific charts */
-#yearChart .chart {
-  height: 19em;
 }
 .barchart {
   height: 27em;
   margin-bottom: 3em;
 }
+#yearChart .chartTitle {
+  margin-top: 0;
+}
+#yearChart .chart {
+  height: 19em;
+}
+#topExportCommodities,
+#topImportCommodities,
+#topExportDestinations,
+#topImportSources {
+  padding-top: 6em;
+}
 
 
 
 
-/* SVG specific styles */
-svg .axis path, svg .axis line {
-  fill: none;
-  stroke: #054D82;
-  shape-rendering: crispEdges;
-  stroke-width: 1px;
-}
-svg g.tick text {
-  font-size: 12px;
-  fill: rgba(141, 141, 141, 0.75);
-}
-svg g.legend {
-  font-size: 12px;
-  fill: rgba(25, 25, 25, 0.75);
-}
-svg text.label {
-  font-size: 13px;
-  font-weight: lighter;
-  fill: #6f6f6f;
-}
-svg text.value {
-  font-size: 11px;
-  font-weight: bold;
-  fill: #1a1a1a;
-}
-#yearChart .chart svg .dot {
-  cursor: pointer;
-}
-#yearChart .chart svg .highlight {
-  fill: rgba(47, 112, 169, 0.50);
-}
-#topExportDestinations .chart svg .item rect,
-#topExportCommodities .chart svg .item rect {
-  fill: rgb(0, 109, 44);
-  opacity: 0.8;
-}
-#topImportSources .chart svg .item rect,
-#topImportCommodities .chart svg .item rect {
-  stroke-width: 0;
-  fill: rgb(166, 54, 3);
-  opacity: 0.8;
-}
-.barchart svg .item {
-  cursor: pointer;
-}
+
 
 
 /*

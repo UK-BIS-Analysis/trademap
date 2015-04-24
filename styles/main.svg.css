@@ -1,0 +1,77 @@
+/*
+ * SVG ONLY STYLES
+ *
+ * Color palette:
+ * BIS blue: #054D82;
+ */
+
+
+
+
+/* Choropleth */
+.fill {
+  fill: #fff;
+}
+.land {
+  fill: #222;
+}
+.boundary {
+  fill: none;
+  stroke: #fff;
+  stroke-width: .5px;
+}
+.country {
+  cursor: pointer;
+  stroke: #000;
+  fill: #fff;
+  stroke-width: .5px;
+}
+.country.highlighted {
+  fill: #054D82 !important;
+  stroke: #054D82;
+  stroke-width: 2px !important;
+}
+.country:hover {
+  stroke: rgb(44, 105, 158);
+  stroke-width: 2px !important;
+}
+
+
+
+
+/* General styles */
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #054D82;
+  shape-rendering: crispEdges;
+  stroke-width: 1px;
+}
+g.tick text {
+  font-size: 12px;
+  fill: rgba(141, 141, 141, 0.75);
+}
+g.legend {
+  font-size: 12px;
+  fill: rgba(25, 25, 25, 0.75);
+}
+text.label {
+  font-size: 13px;
+  font-weight: lighter;
+  fill: #6f6f6f;
+}
+text.value {
+  font-size: 11px;
+  font-weight: bold;
+  fill: #1a1a1a;
+}
+
+
+
+/* Yearchart */
+.dot {
+  cursor: pointer;
+}
+.yearHighlight {
+  fill: rgba(47, 112, 169, 0.50);
+}

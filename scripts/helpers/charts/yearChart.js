@@ -44,7 +44,6 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
         .tickFormat(localData.numFormat),
       line   = d3.svg.line()
         .interpolate('linear'),
-      colors = ['rgb(166,54,3)', 'rgb(0,109,44)'], // imports, exports
 
 
 
@@ -79,9 +78,9 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
           // Draw legend
           var legendItems = svg.append('g')
             .attr('class', 'legend')
-            .attr('transform', 'translate('+(innerWidth+margin.left-colors.length*120)+',0)')
+            .attr('transform', 'translate('+(innerWidth+margin.left-chart.colors[0].length*120)+',0)')
             .selectAll('.legendItem')
-            .data(colors)
+            .data(chart.colors[0])
             .enter()
             .append('g')
             .attr('class','legendItem');
@@ -217,12 +216,12 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
             .call(yAxis);
 
           // Add line to highlight year
-          var hl = svg.selectAll('line.highlight')
+          var hl = svg.selectAll('line.yearHighlight')
                      .data([1]),
               selectedYear = $('#selectYear').val();
           hl.enter()
             .append('line')
-            .attr('class', 'highlight')
+            .attr('class', 'yearHighlight')
             .attr('x1', '0')
             .attr('y1', margin.top)
             .attr('x2', '0')
@@ -245,7 +244,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
           lines.enter()
             .append('path')
             .attr('class', 'flow')
-            .style("stroke", function(d) { return colors[d.key-1]; })
+            .style("stroke", function(d) { return chart.colors[0][d.key-1]; })
             .style("fill", 'none')
             .style("stroke-width", '1.5px');
           // Transition to new path layout
@@ -264,7 +263,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
             .append('circle')
             .attr('class', 'dot')
             .attr('r', '3')
-            .style("fill", function(d) { return colors[d.flow-1]; })
+            .style("fill", function(d) { return chart.colors[0][d.flow-1]; })
             .style("stroke-width", '0')
             .on('mouseover', function (d) {
               tip.show(d);
@@ -306,7 +305,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
             .call(xAxis);
           // Move legend
           svg.select('g.legend')
-            .attr('transform', 'translate('+(innerWidth+margin.left-colors.length*120)+',0)');
+            .attr('transform', 'translate('+(innerWidth+margin.left-chart.colors[0].length*120)+',0)');
           // Move dots
           svg.selectAll('circle.dot')
             .transition()
