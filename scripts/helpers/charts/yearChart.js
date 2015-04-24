@@ -126,7 +126,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
 
           // CASE 2: reporter = selected    commodity = null        partner = null
           if(filters.reporter && !filters.commodity && !filters.partner) {
-            title = 'Imports and exports of '+localData.reporterAreas.get(filters.reporter).text;
+            title = 'Imports and exports of '+localData.lookup(filters.reporter, 'reporterAreas', 'text');
             queryFilter.partner =  0;
             queryFilter.commodity = 'TOTAL';
             dataFilter = queryFilter;
@@ -134,7 +134,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
 
           // CASE 3: reporter = selected    commodity = null        partner = selected
           if(filters.reporter && !filters.commodity && filters.partner) {
-            title = 'Imports and exports between '+localData.reporterAreas.get(filters.reporter).text + ' and ' + localData.partnerAreas.get(filters.partner).text;
+            title = 'Imports and exports between '+localData.lookup(filters.reporter, 'reporterAreas', 'text') + ' and ' + localData.lookup(filters.partner, 'partnerAreas', 'text');
             queryFilter.partner = filters.partner;
             queryFilter.commodity = 'TOTAL';
             dataFilter.partner = +filters.partner;
@@ -144,7 +144,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
           // CASE 4: reporter = selected    commodity = selected    partner = selected
           // NOTE This is already covered by the data in CASE 3 so we don't specify the commodity in the query to avoid duplicate data
           if(filters.reporter && filters.commodity && filters.partner) {
-            title = 'Imports and exports of '+localData.commodityName(filters.commodity)+' between '+localData.reporterAreas.get(filters.reporter).text + ' and ' + localData.partnerAreas.get(filters.partner).text;
+            title = 'Imports and exports of ' + localData.commodityName(filters.commodity) + ' between ' + localData.lookup(filters.reporter, 'reporterAreas', 'text') + ' and ' + localData.lookup(filters.partner, 'partnerAreas', 'text');
             queryFilter.partner = +filters.partner;
             queryFilter.commodity = filters.commodity;
             dataFilter.partner = +filters.partner;

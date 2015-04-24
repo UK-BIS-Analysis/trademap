@@ -99,12 +99,12 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
             .on('click', function (d,i) {
               // Show context menu
               d3.event.preventDefault();
-              $('#contextMenu .country').html(localData.countryByISONum.get(d.id).name);
+              $('#contextMenu .country').html(localData.lookup(d.id, 'countryByISONum', 'name');
+              $('#contextMenu .setReporter a, #contextMenu .setPartner a').attr('data-uncode', localData.lookup(d.id, 'countryByISONum', 'unCode');
               $('#closeContextMenu').on('click', function (e) {
                 e.preventDefault();
                 infoBox.hideHover();
               });
-              $('#contextMenu .setReporter a, #contextMenu .setPartner a').attr('data-uncode', localData.countryByISONum.get(d.id).unCode);
               $('#contextMenu').css({
                 display: "block",
                 left: d3.event.pageX,
@@ -146,7 +146,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
             // Set query and data retrieval filters (forcing partners to all, commodity to total and ignoring flow)
             queryFilter.commodity = 'TOTAL';
             dataFilter.commodity =  'TOTAL';
-            chartTitle = 'Value of ' + localData.flowByCode.get(filters.flow).text.toLowerCase() + ' ' + ['between', 'to', 'from'][filters.flow] + ' ' + localData.countryByUnNum.get(filters.reporter).name + [' and', ' from', ' to'][filters.flow] + ' the World for all goods in  ' + filters.year + '.';
+            chartTitle = 'Value of ' + localData.lookup(filters.flow, 'flowByCode', 'text').toLowerCase() + ' ' + ['between', 'to', 'from'][filters.flow] + ' ' + localData.lookup(filters.reporter, 'countryByUnNum', 'name') + [' and', ' from', ' to'][filters.flow] + ' the World for all goods in  ' + filters.year + '.';
           }
 
           // CASE 4&5: reporter = selected    commodity = selected
@@ -154,7 +154,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
             // Set query and data retrieval filters (forcing partners to all and commodity to total)
             queryFilter.commodity = filters.commodity;
             dataFilter.commodity = filters.commodity;
-            chartTitle = 'Value of ' + localData.flowByCode.get(filters.flow).text.toLowerCase() + ' between ' + localData.countryByUnNum.get(filters.reporter).name + ' and the World for ' + localData.commodityName(filters.commodity) + ' in ' + filters.year+'.';
+            chartTitle = 'Value of ' + localData.lookup(filters.flow, 'flowByCode', 'text').toLowerCase() + ' between ' + localData.lookup(filters.reporter, 'countryByUnNum', 'name') + ' and the World for ' + localData.commodityName(filters.commodity) + ' in ' + filters.year+'.';
           }
 
           data.query(queryFilter, function queryCallback (err, ready) {
@@ -242,6 +242,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
             .transition()
             .duration(1000)
             .style('fill', function (d,i) {
+              // FIX: we should check the correspondence table because there might be cases where we have data but show grey because we cannot match country by ISO
               try {
                 var unCode = localData.countryByISONum.get(d.id).unCode,
                     countryData  = newDataByPartner.get(unCode),
@@ -268,8 +269,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
           chart._drawLegend(legendData, filters.flow);
 
           // Highlight reporter on map
-          svg.select('#iso'+localData.countryByUnNum.get(filters.reporter).isoNumerical).classed('highlighted',true);
-
+          svg.select('#iso'+localData.lookup(filters.reporter, 'countryByUnNum', 'isoNumerical').classed('highlighted',true);
         },
 
 

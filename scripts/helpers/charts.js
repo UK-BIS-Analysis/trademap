@@ -29,6 +29,7 @@ define(['./charts/choropleth', './charts/yearChart', './charts/infoBox', './char
     },
 
     _getCssForSVG: function (svg) {
+      // TODO
       // Get the svg id
       // Find main.css or main.min.css in document.styleSheets
       // Find all cssRules where d.selectorText contains 'svg.[id]'
@@ -39,6 +40,7 @@ define(['./charts/choropleth', './charts/yearChart', './charts/infoBox', './char
 
 
     _injectCSSintoSVG: function (css, svg) {
+      // TODO
       // Inject a <defs> tag with the CSS text into the SVG like follows
       //  <defs>
       //    <style type="text/css"><![CDATA[

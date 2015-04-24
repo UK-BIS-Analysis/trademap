@@ -72,12 +72,12 @@ define(['../data', '../rowchart', '../gui', '../controls'], function(data, rowch
 
           // CASE 2: reporter = selected    commodity = null        partner = null
           if(filters.reporter && !filters.commodity && !filters.partner) {
-            title = 'Top commodities exported from '+localData.reporterAreas.get(filters.reporter).text + ' in '+filters.year;
+            title = 'Top commodities exported from '+localData.lookup(filters.reporter, 'reporterAreas', 'text') + ' in ' + filters.year;
           }
 
           // CASE 3: reporter = selected    commodity = null        partner = selected
           if(filters.reporter && !filters.commodity && filters.partner) {
-            title = 'Top commodities exported from '+localData.reporterAreas.get(filters.reporter).text+' to '+localData.partnerAreas.get(filters.partner).text+' in '+filters.year+'.';
+            title = 'Top commodities exported from '+localData.lookup(filters.reporter, 'reporterAreas', 'text') + ' to '+localData.lookup(filters.partner, 'partnerAreas', 'text') + ' in '+filters.year+'.';
             queryFilter.partner = +filters.partner;
             dataFilter.partner = +filters.partner;
           }

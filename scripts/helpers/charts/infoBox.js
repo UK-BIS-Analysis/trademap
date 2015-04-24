@@ -150,8 +150,8 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
           $panel.find('.value').html('');
           $panel.find('.ranking').html('');
 
-          var reporterName = localData.reporterAreas.get(details.reporter).text,
-              partnerName = localData.partnerAreas.get(details.partner).text,
+          var reporterName = localData.lookup(details.reporter, 'reporterAreas', 'text'),
+              partnerName = localData.lookup(details.partner, 'partnerAreas', 'text'),
               subtitle = '<strong>' +
                          reporterName +
                          '</strong> (reporter) trade in goods with <strong>' +

@@ -54,8 +54,13 @@ define(function(require) {
 
       // Formatting functions
       commodityName: function (commodity) {
-        var text = this.commodityCodes.get(commodity).text;
-        return text.slice(text.indexOf(' - ')+3);
+        try {
+          var text = this.commodityCodes.get(commodity).text;
+          return text.slice(text.indexOf(' - ')+3);
+        } catch (err) {
+          if (DEBUG) { console.warn('There was a problem getting a commodity name: ' + err); }
+          return 'unknown';
+        }
       },
       numFormat: function (num) {
         if (typeof num !== 'number' || isNaN(num)) {
@@ -133,6 +138,16 @@ define(function(require) {
           data.flowByCode      = d3.map([{ id: '1', text: 'imports'}, { id: '2', text: 'exports'}, { id: '0', text: 'balance'}], function (d) { return d.id; });
           data.partnerAreas    = d3.map(partnerAreas[0].results,   function (d) { return d.id; });
           data.commodityCodes  = d3.map(commodityCodes[0].results, function (d) { return d.id; });
+
+          // Create a lookup function which does error handling so we don't have to do it elsewhere in the app
+          data.lookup = function (lookupVal, mapName, propertyName) {
+            try {
+              return data[mapName].get(lookupVal)[propertyName];
+            } catch (err) {
+              if (DEBUG) { console.warn('There was a problem looking up ' + lookupVal + ' in ' + mapName + '.' + propertyName + ': ' + err); }
+              return 'unknown';
+            }
+          }
 
           // Remove unwanted values
           data.reporterAreasSelect  = data.reporterAreasSelect.filter( function (d) { return d.id !== 'all'; });
