@@ -206,7 +206,7 @@ define(['./data'], function(data) {
 
 
     updateURL: function (filters) {
-      queryObject.useHistory = true;
+      if(Modernizr.history) { queryObject.useHistory = true; }
       queryObject.set(filters);
     },
 
