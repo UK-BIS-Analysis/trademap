@@ -199,15 +199,35 @@ define(['./data'], function(data) {
 
 
     decodeURL: function () {
-      return queryObject.get(['reporter', 'partner', 'flow', 'commodity', 'year']);
+      var History = window.History;
+	  try {
+		var filters = {};
+		History.getState().hash.split('?',2)[1].split('&').forEach(function (param) {
+			param = param.replace(/%20|\+/g, ' ').split('=');
+			filters[decodeURIComponent(param[0])] = (param[1] ? decodeURIComponent(param[1]) : undefined);
+		});
+		return filters;
+	  } catch (err) {
+		return {};
+	  }
     },
 
 
 
 
     updateURL: function (filters) {
-      if(Modernizr.history) { queryObject.useHistory = true; }
-      queryObject.set(filters);
+      var History = window.History;
+      var query = '?',
+          prop = '';
+      for (prop in filters) {
+        query += encodeURIComponent(prop);
+        if (filters[prop]) {
+          query += '=' + encodeURIComponent(filters[prop]);
+        }
+        query += '&';
+      }
+      query = query.slice(0, -1);
+      History.pushState(null,null,query)
     },
 
 

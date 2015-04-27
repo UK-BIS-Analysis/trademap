@@ -24,7 +24,6 @@
     <!-- Modernizr should not be compiled/minified with other scripts -->
     <script type="text/javascript" src="scripts/libs/modernizr.custom.50426.js"></script>
 
-
     <!-- The following JS and CSS files are automatically compiled and minified by Grunt's usemin task -->
     <!-- build:js scripts/libs.min.js -->
     <script type="text/javascript" src="scripts/libs/jquery/dist/jquery.js"></script>
@@ -35,7 +34,7 @@
     <script type="text/javascript" src="scripts/libs/d3-geo-projection/d3.geo.projection.js"></script>
     <script type="text/javascript" src="scripts/libs/crossfilter/crossfilter.js"></script>
     <script type="text/javascript" src="scripts/libs/d3-tip/index.js"></script>
-    <script type="text/javascript" src="scripts/libs/query-object/query-object.js"></script>
+    <script type="text/javascript" src="scripts/libs/history.js/scripts/bundled/html4+html5/jquery.history.js"></script>
     <!-- endbuild -->
 
     <!-- build:css styles/libs.min.css -->
@@ -52,9 +51,11 @@
     <link rel="stylesheet" type="text/css" href="styles/fonts/bis-custom.css"/>
     <!-- endbuild -->
 
+    <!-- Script to support CORS in older versions of IE -->
     <!-- The aight js lib provides some support for IE8 -->
     <!--[if lte IE 9]>
     <script type+"text/javascript" src="scripts/libs/aight/aight.min.js"></script>
+    <script type="text/javascript" src="scripts/libs/jQuery.XDomainRequest/jquery.xdomainrequest.min.js"></script>
     <![endif]-->
 
   </head>
