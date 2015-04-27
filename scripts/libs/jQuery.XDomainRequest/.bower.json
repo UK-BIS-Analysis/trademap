@@ -1,0 +1,24 @@
+{
+  "name": "jQuery-ajaxTransport-XDomainRequest",
+  "version": "1.0.4",
+  "main": "jquery.xdomainrequest.min.js",
+  "description": "Implements automatic Cross Origin Resource Sharing support using the XDomainRequest object for IE8 and IE9 when using the ajax function in jQuery 1.5+.",
+  "license": "MIT",
+  "ignore": [
+    "LICENSE.txt",
+    "README.md"
+  ],
+  "dependencies": {
+    "jquery": ">=1.5"
+  },
+  "homepage": "https://github.com/MoonScript/jQuery-ajaxTransport-XDomainRequest",
+  "_release": "1.0.4",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.0.4",
+    "commit": "47de50fd4c1376642e8386ee1154b35694b60afe"
+  },
+  "_source": "git://github.com/MoonScript/jQuery-ajaxTransport-XDomainRequest.git",
+  "_target": "~1.0.4",
+  "_originalSource": "jQuery.XDomainRequest"
+}
