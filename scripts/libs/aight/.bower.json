@@ -1,7 +1,7 @@
 {
   "name": "aight",
   "main": "./aight.js",
-  "version": "2.0.5",
+  "version": "2.1.1",
   "homepage": "https://github.com/shawnbot/aight",
   "authors": [
     "Shawn Allen <shawn.allen@hush.com>"
@@ -28,14 +28,13 @@
     "test",
     "tests"
   ],
-  "_release": "2.0.5",
+  "_release": "2.1.1",
   "_resolution": {
     "type": "version",
-    "tag": "v2.0.5",
-    "commit": "349e47dc3e150c9324a0862e68c1664aefa8fe91"
+    "tag": "v2.1.1",
+    "commit": "61b90c4bb0e38a52e94f87471c5d2c3526a7963b"
   },
   "_source": "git://github.com/shawnbot/aight.git",
-  "_target": "~2.0",
-  "_originalSource": "aight",
-  "_direct": true
+  "_target": "2.1.1",
+  "_originalSource": "aight"
 }

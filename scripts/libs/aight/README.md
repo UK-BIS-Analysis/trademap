@@ -35,6 +35,8 @@ and other libraries that rely on them. It includes:
   need to bring your own
   [html5shiv-printshiv.js](https://github.com/aFarkas/html5shiv/#html5shiv-printshivjs).
 
+* An [IE8-friendly build](#d3-ie8) of [D3](http://d3js.org).
+
 ## Installation
 You have some options:
 
@@ -87,7 +89,7 @@ comment](http://www.quirksmode.org/css/condcom.html) inside the `<head>`:
 
 ```html
 <!--[if lte IE 9]>
-<script type="text/javascript" src="aight.min.js"></script>
+<script src="aight.min.js"></script>
 <![endif]-->
 ```
 
@@ -110,6 +112,26 @@ Bringing it all together, you end up with:
 
 For your convenience, this snippet is included with aight in `template.html`.
 
+## D3 for IE8 <a name="d3-ie8"></a>
+IE8 barfs on [some parts](https://github.com/mbostock/d3/pull/2209) of
+[D3](http://d3js.org)'s JavaScript. The included `d3.ie8.js` and minified
+`d3.ie8.min.js` are IE8-friendly builds of [d3.v3.js](http://d3js.org/d3.v3.js)
+with shams for some CSS properties, namely `opacity`. You'll need to tweak your
+HTML to use these, e.g.:
+
+```html
+<!--[if lte IE 9]><script src="aight.js"></script><![endif]-->
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<!--[if IE 8]><script src="d3.ie8.js"></script><![endif]-->
+```
+
+Since conditional comments are inaccessible to other browsers, we
+have to download the "modern" d3.js (which will throw errors in IE8)
+*and* the shimmed one (which won't). It's an imperfect solution,
+obviously. You *may* serve `d3.ie8.js` to modern browsers, but there
+will probably be performance implications depending on how you use
+D3.
+
 ## What about SVG? <a name="svg"></a>
 Shimming SVG support is tricky business. If you need to support IE8, my
 suggestion is either to [degrade gracefully](https://www.google.com/search?q=graceful%20degradation)
@@ -125,3 +147,36 @@ using HTML elements or to try one of the following:
 
 IE9 has [great SVG support](http://blogs.msdn.com/b/ie/archive/2010/03/18/svg-in-ie9-roadmap.aspx),
 though.
+
+## aight: the command line tool
+As of version 2.0.5, aight comes with a handy command-line script that rewrites
+JavaScript (specifically, the stuff that shims and shams can't reach) to be
+IE8-friendly. Just install aight via [npm](https://www.npmjs.com/package/aight):
+
+```sh
+npm install -g aight
+# leave off the -g to install locally
+```
+
+Then run `aight` and give it a JavaScript filename (or source via stdin), and
+it will print JavaScript to stdout:
+
+```sh
+aight modern.js > ie8-friendly.js
+cat modern.js | aight > ie8-friendly.js
+```
+
+You can see how it works by piping in a simple `for..in` loop:
+
+```sh
+echo "var obj = {}; for (var key in obj) console.log(key, obj[key]);" | aight
+```
+
+which outputs (with whitespace, for clarity):
+
+```js
+var obj = {};
+for (var key in obj) if (obj.hasOwnProperty(key)) {
+  console.log(key, obj[key]);
+}
+```
