@@ -27,8 +27,8 @@
   stroke-width: .5px;
 }
 .country.highlighted {
-  fill: rgb(191, 25, 0) !important;
-  stroke: rgb(191, 25, 0);
+  fill: rgb(216, 255, 0) !important;
+  stroke: rgb(214, 198, 0);
   stroke-width: 2px !important;
 }
 .country:hover {
