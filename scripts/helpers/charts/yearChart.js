@@ -177,6 +177,18 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
 
 
         _draw: function (newData) {
+
+          if (newData.length === 0) {
+            // If no data is available, don't draw the chart.
+            svg.append('text')
+              .text('No data available for this chart.')
+              .classed('nodata', true)
+              .classed('label', true)
+              .attr('x', innerWidth/2+margin.left-75)
+              .attr('y', innerHeight/2+margin.top-75);
+            return;
+          }
+
           // Prepare data
           var nestedData = d3.nest()
                 .key(function(d) { return d.flow; })
