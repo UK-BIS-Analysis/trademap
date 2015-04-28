@@ -145,15 +145,16 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
 
         populateBox: function ($panel, details) {
 
-          if (!details) {
-            $panel.find('.subtitle').html('No data available.');
-            return;
-          }
-
           // Clear data previously in box
           $panel.find('.subtitle').html('');
           $panel.find('.value').html('');
           $panel.find('.ranking').html('');
+
+          // If no details then display no data and stop.
+          if (!details) {
+            $panel.find('.subtitle').html('No data available.');
+            return;
+          }
 
           var reporterName = localData.lookup(details.reporter, 'reporterAreas', 'text'),
               partnerName = localData.lookup(details.partner, 'partnerAreas', 'text'),
