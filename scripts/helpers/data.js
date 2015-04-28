@@ -136,11 +136,19 @@ define(function(require) {
 
           // Create d3 maps (these are basically used as lookup tables thoughout the app)
           data.countryByUnNum  = d3.map(codes,                     function (d) { return d.unCode; });
-          data.countryByISONum = d3.map(codes,                     function (d) { return d.isoNumerical; });
           data.reporterAreas   = d3.map(reporterAreas[0].results,  function (d) { return d.id; });
           data.flowByCode      = d3.map([{ id: '1', text: 'imports'}, { id: '2', text: 'exports'}, { id: '0', text: 'balance'}], function (d) { return d.id; });
           data.partnerAreas    = d3.map(partnerAreas[0].results,   function (d) { return d.id; });
           data.commodityCodes  = d3.map(commodityCodes[0].results, function (d) { return d.id; });
+
+          // countryByISONum will return a single result (the last match in isoCodes.csv)
+          data.countryByISONum = d3.map(codes,                     function (d) { return d.isoNumerical; });
+          // areasByISONum will return an array of matching areas in the UN system
+          data.areasByISONum = function (isoNum) {
+            return codes.filter(function (el) {
+              return +el.isoNumerical === +isoNum;
+            });
+          }
 
           // Create a lookup function which does error handling so we don't have to do it elsewhere in the app
           data.lookup = function (lookupVal, mapName, propertyName) {
