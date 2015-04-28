@@ -24,33 +24,40 @@ require(['helpers/data', 'helpers/gui', 'helpers/controls', 'helpers/charts'], f
     if (!Modernizr.svg) {
       $('#userAlert').removeClass('hidden');
       $('#userAlert .message').html('Error: it looks like your browser does not support SVG which is required for this visualization. Please consider updating to a more recent browser.');
-    } else {
+      return;
+    }
 
-      // Setup data by calling the initial JSON files
-      data.setup(function (err) {
-        // If the setup fails display an error and stop.
-        if (err) {
-          if (DEBUG) { console.log(err); }
-          $('#userAlert').removeClass('hidden');
-          $('#userAlert .message').html('Error: Failed to load required files for startup.');
-          return;
-        }
+    // Use Modernizr to check for CORS support and if not present display an error and don't even start loading CSV and setting up charts
+    if (!Modernizr.cors) {
+      $('#userAlert').removeClass('hidden');
+      $('#userAlert .message').html('Error: Your browser does not support querying APIs which is necessary for this application to work. (Missing <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a>).');
+      return;
+    }
 
-        // TODO check if we have an embed parameter like "embed=yearChart"
+    // Setup data by calling the initial JSON files
+    data.setup(function (err) {
+      // If the setup fails display an error and stop.
+      if (err) {
+        if (DEBUG) { console.log(err); }
+        $('#userAlert').removeClass('hidden');
+        $('#userAlert .message').html('Error: Failed to load required files for startup.');
+        return;
+      }
 
-        // Setup the gui
-        gui.setup();
+      // TODO check if we have an embed parameter like "embed=yearChart"
 
-        // Setup the controls
-        controls.setup();
+      // Setup the gui
+      gui.setup();
 
-        // Setup charts
-        charts.setup(function () {
-          controls.initializeFilters();
-        });
+      // Setup the controls
+      controls.setup();
+
+      // Setup charts
+      charts.setup(function () {
+        controls.initializeFilters();
+      });
 
 
-      }); // Close data.setup()
-    }     // Close Modernizr conditional
+    }); // Close data.setup()
   });     // Close $(document).ready
 });       // Close require
