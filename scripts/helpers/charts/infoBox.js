@@ -145,6 +145,11 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
 
         populateBox: function ($panel, details) {
 
+          if (!details) {
+            $panel.find('.subtitle').html('No data available.');
+            return;
+          }
+
           // Clear data previously in box
           $panel.find('.subtitle').html('');
           $panel.find('.value').html('');
