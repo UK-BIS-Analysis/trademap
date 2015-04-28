@@ -81,6 +81,18 @@ module.exports = function(grunt) {
       }
     },
 
+    htmlmin: {
+      dist: {
+        options: {                                 // Target options
+          removeComments: true,
+          collapseWhitespace: true
+        },
+        files: {
+          'index.html': 'index.html',     // 'destination': 'source'
+        }
+      }
+    },
+
     'compress': {
       main: {
         options: {
@@ -107,6 +119,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-regex-replace');
   grunt.loadNpmTasks('grunt-contrib-compress');
+  grunt.loadNpmTasks('grunt-contrib-htmlmin');
 
   // Default task(s).
   grunt.registerTask('default', [
@@ -119,6 +132,7 @@ module.exports = function(grunt) {
     'requirejs:compile',
     'regex-replace:debug',
     'regex-replace:dist',
+    'htmlmin:dist',
     'compress'
   ]);
 
