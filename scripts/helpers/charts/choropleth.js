@@ -233,13 +233,20 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
             .transition()
             .duration(1000)
             .style('fill', function (d,i) {
-              // FIX: we should check the correspondence table because there might be cases where we have data but show grey because we cannot match country by ISO
+              var unCodes = localData.areasByISONum(d.id),
+                  countryData = [],
+                  bucket = 0;
               try {
-                var unCode = localData.countryByISONum.get(d.id).unCode,
-                    countryData  = newDataByPartner.get(unCode),
-                    bucket = colorScale(countryData[flowRank]);
+                unCodes.forEach(function (el) {
+                  var datum = newDataByPartner.get(el.unCode);
+                  if (datum) countryData.push(newDataByPartner.get(el.unCode));
+                });
+                if (countryData.length === 0) { throw 'No data points for ' + localData.lookup(d.id, 'countryByUnNum', 'name'); }
+                if (countryData.length > 1)   { throw 'Multiple data points for ' + localData.lookup(d.id, 'countryByUnNum', 'name'); }
+                bucket = colorScale(countryData[0][flowRank]);
                 return chart.colors[filters.flow][bucket];
               } catch (exception) {
+                if (DEBUG) { console.log(exception); }
                 return '#818181';
               }
             });
