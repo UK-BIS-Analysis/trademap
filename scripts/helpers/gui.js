@@ -72,6 +72,12 @@ define([], function() {
       $('a.embedSvg').on('click', function (e) {
         e.preventDefault();
       });
+
+
+      // BEHAVIOUR TO CLEAN MODAL CONTENTS ON HIDE
+      $('body').on('hidden.bs.modal', '.modal', function () {
+        $(this).removeData('bs.modal');
+      });
     },
 
 
