@@ -283,7 +283,7 @@ div.alert {
   position: absolute;
   top: 30px;
   height: 35px;
-  width: 12em;
+  width: 14em;
   z-index: 10;
 }
 #mapLegend {
