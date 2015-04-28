@@ -55,14 +55,14 @@ define(['../data', '../rowchart', '../gui', '../controls'], function(data, rowch
           var queryFilter = {
                 reporter: +filters.reporter,
                 partner:  0,
-                year:   filters.year,
+                year:   +filters.year,
                 commodity:   'AG2',
                 initiator: 'topImportCommodities'
               },
               dataFilter = {
                 reporter: +filters.reporter,
                 partner:  0,
-                year:   filters.year,
+                year:   +filters.year,
                 commodity:   'AG2'
               },
               title = '';

@@ -230,6 +230,8 @@ define(function(require) {
             $('#loadingDiv').fadeIn();
           },
           success: function success (data, status, xhr) {
+            // Add data to crossfilter
+            this._addData(data, filters);
             // Add query to history
             this.queryHistory.push(requestUrl);
             //Remove it from queryQueue and queryRunning if it was there
@@ -237,8 +239,7 @@ define(function(require) {
             if (runningItem > -1) { this.queryRunning.splice(runningItem, 1); }
             var queueItem = this.queryQueue.indexOf(requestUrl);
             if (queueItem > -1) { this.queryQueue.splice(queueItem, 1); }
-            // Add data to crossfilter and callback
-            this._addData(data, filters);
+            // Callback
             callback(null, true);
           },
           error: function error (xhr, status, err) {
@@ -288,8 +289,11 @@ define(function(require) {
 
         // Add filters by each dimension
         if (typeof filters.reporter !== 'undefined')                                 { this.xFilterByReporter.filter(+filters.reporter); }
+        // NOTE: when partner=all we return all but the world
+        //       when partner=num we  return that
+        //       when partner=undefined we return all including world
         if (typeof filters.partner !== 'undefined' && filters.partner === 'all')     { this.xFilterByPartner.filter(function (d) { return (+d !== 0); }); }
-        else if (typeof filters.partner !== 'undefined')                             { this.xFilterByPartner.filter(+filters.partner); }
+        if (typeof filters.partner !== 'undefined' && filters.partner !== 'all')     { this.xFilterByPartner.filter(+filters.partner); }
         if (typeof filters.year !== 'undefined' && filters.year !== 'all')           { this.xFilterByYear.filter(+filters.year); }
         if (typeof filters.commodity !== 'undefined' && filters.commodity !== 'AG2') { this.xFilterByCommodity.filter(filters.commodity); }
         if (typeof filters.commodity !== 'undefined' && filters.commodity === 'AG2') { this.xFilterByCommodity.filter(function (d) { return d !== 'TOTAL'; } ); }
@@ -425,8 +429,10 @@ define(function(require) {
           };
         });
 
-        // Run the filters on xFilter and extract the data we already may have
-        var xFdata = this.getData(filters);
+        // Run the filters on xFilter and extract the data we already may have (unset the partner filter to include world)
+        var dataFilter = $.extend({},filters);
+        if (dataFilter.partner == 'all') { delete dataFilter.partner; }
+        var xFdata = this.getData(dataFilter);
 
         // Filter out duplicate records in newData that are already in xFilter before adding newData
         var duplicates = [];
