@@ -119,7 +119,7 @@ define(['./data', './controls'], function(data, controls) {
             .attr('y', barchart.yScale(1)-barchart.barHeight-5)
             .style('fill', color)
             .attr('height', barchart.barHeight)
-            .attr('width', function (d,i) { return barchart.xScale(+d.value); });
+            .attr('width', function (d,i) { return d3.max([0, barchart.xScale(+d.value)]); });
           labels
             .attr('x', '3')
             .attr('y', barchart.yScale(1)-barchart.barHeight-8)
