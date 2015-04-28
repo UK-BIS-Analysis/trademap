@@ -127,6 +127,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
           // CASE 1: reporter = null    -->   Blank choropleth, no countries selected and no fills and no title
           if(!filters.reporter) {
             svg.selectAll('.country').style('fill', '#fff');
+            svg.selectAll('.highlighted').classed('highlighted', false);
             $chartTitle.html('');
             return;
           }
