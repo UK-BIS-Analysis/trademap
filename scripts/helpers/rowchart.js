@@ -49,6 +49,9 @@ define(['./data', './controls'], function(data, controls) {
           barchart.yAxis.scale(barchart.yScale)
             .orient('left');
           svg.append('g')
+            .attr('class', 'bars')
+            .attr('transform', 'translate('+barchart.margin.left+',' + barchart.margin.top + ')');
+          svg.append('g')
             .attr('class', 'x axis')
             .attr('transform', 'translate('+barchart.margin.left+',' + (barchart.innerHeight+barchart.margin.top) + ')')
             .call(barchart.xAxis);
@@ -56,9 +59,6 @@ define(['./data', './controls'], function(data, controls) {
             .attr('class', 'y axis')
             .attr('transform', 'translate('+barchart.margin.left+',' + barchart.margin.top + ')')
             .call(barchart.yAxis);
-          svg.append('g')
-            .attr('class', 'bars')
-            .attr('transform', 'translate('+barchart.margin.left+',' + barchart.margin.top + ')');
 
         },
 
@@ -68,13 +68,13 @@ define(['./data', './controls'], function(data, controls) {
         draw: function (svg, newData, filters, color) {
           // Setup scales & axises
           barchart.xScale.domain([0, d3.max(newData, function (d) { return d.value; })])
-                .nice();
-          barchart.yScale.domain([0, newData.length])
-                .clamp(true)
-                .nice();
+            .nice();
+          barchart.yScale.domain([0, d3.max([10, newData.length])])
+            .clamp(true)
+            .nice();
           barchart.xAxis.scale(barchart.xScale)
-               .tickSize(6, 0)
-               .tickFormat(localData.numFormat);
+            .tickSize(6, 0)
+            .tickFormat(localData.numFormat);
           barchart.yAxis.scale(barchart.yScale).ticks(0);
           barchart.barHeight = (barchart.yScale(1)-20);
 
@@ -140,8 +140,8 @@ define(['./data', './controls'], function(data, controls) {
           // Exit groups
           groups.exit().remove();
 
+          // Display a "No data" text
           if (groups.size() === 0) {
-            // Display a "No data" text
             svg.append('text')
               .text('No data available for this chart.')
               .classed('nodata', true)
@@ -149,6 +149,7 @@ define(['./data', './controls'], function(data, controls) {
               .attr('x', barchart.innerWidth/2+barchart.margin.left-75)
               .attr('y', barchart.innerHeight/2+barchart.margin.top-75);
           }
+
         },
 
 
