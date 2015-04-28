@@ -116,14 +116,14 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
           if(filters.reporter && filters.commodity && filters.partner) {
             queryFilter.partner = 'all';
             queryFilter.commodity = filters.commodity;
-            dataFilter.commodity = +filters.commodity;
+            dataFilter.commodity = filters.commodity;
           }
 
           // CASE 5: reporter = selected    commodity = selected    partner = null
           if(filters.reporter && filters.commodity && !filters.partner) {
             queryFilter.partner = 'all';
             queryFilter.commodity = filters.commodity;
-            dataFilter.commodity = +filters.commodity;
+            dataFilter.commodity = filters.commodity;
           }
 
 
