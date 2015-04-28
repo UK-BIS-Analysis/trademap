@@ -13,7 +13,9 @@ require(['helpers/data', 'helpers/gui', 'helpers/controls', 'helpers/charts'], f
   'use strict';
 
   // NOTE: We declare a global boolean DEBUG variable which we'll use to switch on or off console.log messages
-  window.DEBUG = true;
+  if (typeof DEBUG === 'undefined') {
+    window.DEBUG = true;
+  }
 
   // This jQuery callback makes sure that all code is run after the document and scripts have all loaded properly
   $(document).ready(function () {

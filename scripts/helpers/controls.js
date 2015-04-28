@@ -172,6 +172,8 @@ define(['./data'], function(data) {
         controls.$selectPartner.val(filters.partner);
       }
       if (filters.year && filters.year !== controls.$selectYear.val()) {
+        // Add the current and the requested years temporarily to the list
+        controls.updateYears([+controls.$selectYear.val(), filters.year]);
         controls.$selectYear.val(filters.year);
       }
 
@@ -191,7 +193,7 @@ define(['./data'], function(data) {
         this.changeFilters(URLfilters);
       } else {
         // Then initialize filters to reporter=UK
-        controls.changeFilters({ reporter:  826 });
+        controls.changeFilters({ reporter:  826, year: 2014 });
       }
     },
 
@@ -201,11 +203,13 @@ define(['./data'], function(data) {
     decodeURL: function () {
       var History = window.History;
 	  try {
-		var filters = {};
-		History.getState().hash.split('?',2)[1].split('&').forEach(function (param) {
+        var filters = {},
+            state = History.getState();
+        state.hash.split('?',2)[1].split('&').forEach(function (param) {
 			param = param.replace(/%20|\+/g, ' ').split('=');
 			filters[decodeURIComponent(param[0])] = (param[1] ? decodeURIComponent(param[1]) : undefined);
 		});
+        if (filters.year) { filters.year = +filters.year }
 		return filters;
 	  } catch (err) {
 		return {};
@@ -216,8 +220,8 @@ define(['./data'], function(data) {
 
 
     updateURL: function (filters) {
-      var History = window.History;
-      var query = '?',
+      var History = window.History,
+          query = '?',
           prop = '';
       for (prop in filters) {
         query += encodeURIComponent(prop);
@@ -227,7 +231,7 @@ define(['./data'], function(data) {
         query += '&';
       }
       query = query.slice(0, -1);
-      History.pushState(null,null,query)
+      History.replaceState(null,'International Trade in Goods by Country and Commodity',query)
     },
 
 

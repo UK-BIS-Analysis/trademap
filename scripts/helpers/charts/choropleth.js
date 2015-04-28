@@ -162,7 +162,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
         _redrawMap: function (filters) {
 
           // Get the relevant data for both flows and then combine the data
-          var newData = localData.getData({ reporter: filters.reporter, commodity: filters.commodity, year: filters.year });
+          var newData = localData.getData({ reporter: filters.reporter, commodity: filters.commodity, year: +filters.year });
           newData = localData.combineData(newData);
 
           // Create a lookup object to access by partner and also store count

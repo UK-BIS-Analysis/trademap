@@ -82,13 +82,13 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
           var queryFilter = {
                 reporter: +filters.reporter,
                 partner:  0,
-                year:   filters.year,
+                year:   +filters.year,
                 commodity:   'AG2',
                 initiator: 'infoBox'
               },
               dataFilter = {
                 reporter: +filters.reporter,
-                year:   filters.year,
+                year:   +filters.year,
                 commodity:   'TOTAL'
               };
 
@@ -109,7 +109,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
           if(filters.reporter && !filters.commodity && filters.partner) {
             queryFilter.partner = 'all';
             queryFilter.commodity = 'TOTAL';
-            queryFilter.year = filters.year;
+            queryFilter.year = +filters.year;
           }
 
           // CASE 4: reporter = selected    commodity = selected    partner = selected

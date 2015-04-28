@@ -123,7 +123,7 @@ define(function(require) {
           $.ajax('data/partnerAreas.min.json', ajaxSettings),
           $.ajax('data/classificationHS_AG2.min.json', ajaxSettings),
           $.ajax('data/isoCodes.csv'),
-          $.ajax('data/world-50m.json', ajaxSettings)
+          $.ajax('data/world-110m.json', ajaxSettings)
         ).then(function success (reporterAreas, partnerAreas, commodityCodes, isoCodes, worldJson) {
           // Add results to the data object for use in the app.
           data.reporterAreasSelect  = reporterAreas[0].results;
