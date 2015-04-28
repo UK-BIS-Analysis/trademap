@@ -15,50 +15,50 @@ define(['./data', './controls'], function(data, controls) {
   'use strict';
 
   var localData = data,
-      margin = {top: 25, right: 45, bottom: 40, left: 12},
-      innerHeight = 0,
-      innerWidth = 0,
-      xScale = d3.scale.linear(),
-      yScale = d3.scale.linear(),
-      xAxis  = d3.svg.axis()
-                 .tickSize(0, 0)
-                 .tickFormat(''),
-      yAxis  = d3.svg.axis(),
-      barHeight = 0,
 
 
 
       barchart = {
 
+        margin: {top: 25, right: 60, bottom: 40, left: 12},
+        innerHeight: 0,
+        innerWidth: 0,
+        xScale: d3.scale.linear(),
+        yScale: d3.scale.linear(),
+        xAxis: d3.svg.axis()
+                 .tickSize(0, 0)
+                 .tickFormat(''),
+        yAxis: d3.svg.axis(),
+        barHeight: 0,
 
 
 
         setup: function (svg) {
 
           // Set internal graph dimensions
-          innerHeight = svg.attr('height') - margin.top - margin.bottom;
-          innerWidth = svg.attr('width') - margin.left - margin.right;
+          barchart.innerHeight = svg.attr('height') - barchart.margin.top - barchart.margin.bottom;
+          barchart.innerWidth = svg.attr('width') - barchart.margin.left - barchart.margin.right;
 
           // Setup initial scales and draw axises
-          xScale.range([0, innerWidth]);
-          yScale.range([0, innerHeight])
+          barchart.xScale.range([0, barchart.innerWidth]);
+          barchart.yScale.range([0, barchart.innerHeight])
             .clamp(true);
-          xAxis.scale(xScale)
+          barchart.xAxis.scale(barchart.xScale)
             .orient('bottom')
             .tickFormat(localData.numFormat);
-          yAxis.scale(yScale)
+          barchart.yAxis.scale(barchart.yScale)
             .orient('left');
           svg.append('g')
             .attr('class', 'x axis')
-            .attr('transform', 'translate('+margin.left+',' + (innerHeight+margin.top) + ')')
-            .call(xAxis);
+            .attr('transform', 'translate('+barchart.margin.left+',' + (barchart.innerHeight+barchart.margin.top) + ')')
+            .call(barchart.xAxis);
           svg.append('g')
             .attr('class', 'y axis')
-            .attr('transform', 'translate('+margin.left+',' + margin.top + ')')
-            .call(yAxis);
+            .attr('transform', 'translate('+barchart.margin.left+',' + barchart.margin.top + ')')
+            .call(barchart.yAxis);
           svg.append('g')
             .attr('class', 'bars')
-            .attr('transform', 'translate('+margin.left+',' + margin.top + ')');
+            .attr('transform', 'translate('+barchart.margin.left+',' + barchart.margin.top + ')');
 
         },
 
@@ -67,16 +67,16 @@ define(['./data', './controls'], function(data, controls) {
 
         draw: function (svg, newData, filters, color) {
           // Setup scales & axises
-          xScale.domain([0, d3.max(newData, function (d) { return d.value; })])
+          barchart.xScale.domain([0, d3.max(newData, function (d) { return d.value; })])
                 .nice();
-          yScale.domain([0, newData.length])
+          barchart.yScale.domain([0, newData.length])
                 .clamp(true)
                 .nice();
-          xAxis.scale(xScale)
+          barchart.xAxis.scale(barchart.xScale)
                .tickSize(6, 0)
                .tickFormat(localData.numFormat);
-          yAxis.scale(yScale).ticks(0);
-          barHeight = (yScale(1)-20);
+          barchart.yAxis.scale(barchart.yScale).ticks(0);
+          barchart.barHeight = (barchart.yScale(1)-20);
 
           // Remove no data text
           svg.select('text.nodata').remove();
@@ -84,10 +84,10 @@ define(['./data', './controls'], function(data, controls) {
           // Update axises
           svg.select('.x.axis')
             .transition()
-            .call(xAxis);
+            .call(barchart.xAxis);
           svg.select('.y.axis')
             .transition()
-            .call(yAxis);
+            .call(barchart.yAxis);
 
           // Enter groups and bars
           var groups = svg.select('.bars').selectAll('g.item')
@@ -99,7 +99,7 @@ define(['./data', './controls'], function(data, controls) {
                 .attr('height', '0');
           groups.classed('item',true)
                 .attr('transform', function (d,i) {
-                  return 'translate(0,'+yScale(i)+')';
+                  return 'translate(0,'+barchart.yScale(i)+')';
                 });
           groups.selectAll('g.item text').remove();
           var bars = groups.select('rect')
@@ -116,13 +116,13 @@ define(['./data', './controls'], function(data, controls) {
           // Update groups and bars
           bars.transition()
             .attr('x', 0)
-            .attr('y', yScale(1)-barHeight-5)
+            .attr('y', barchart.yScale(1)-barchart.barHeight-5)
             .style('fill', color)
-            .attr('height', barHeight)
-            .attr('width', function (d,i) { return xScale(+d.value); });
+            .attr('height', barchart.barHeight)
+            .attr('width', function (d,i) { return barchart.xScale(+d.value); });
           labels
             .attr('x', '3')
-            .attr('y', yScale(1)-barHeight-8)
+            .attr('y', barchart.yScale(1)-barchart.barHeight-8)
             .text(function (d) {
               if (filters.partner === 'all') {  // top partner chart: select partner
                 return localData.lookup(d.partner, 'partnerAreas', 'text');
@@ -131,8 +131,8 @@ define(['./data', './controls'], function(data, controls) {
               }
             });
           values
-            .attr('x', function (d,i) { return xScale(+d.value)+3; })
-            .attr('y', yScale(1)-7)
+            .attr('x', function (d,i) { return barchart.xScale(+d.value)+3; })
+            .attr('y', barchart.yScale(1)-7)
             .text(function (d) {
               return localData.numFormat(d.value);
             });
@@ -146,8 +146,8 @@ define(['./data', './controls'], function(data, controls) {
               .text('No data available for this chart.')
               .classed('nodata', true)
               .classed('label', true)
-              .attr('x', innerWidth/2+margin.left-75)
-              .attr('y', innerHeight/2+margin.top-75);
+              .attr('x', barchart.innerWidth/2+barchart.margin.left-75)
+              .attr('y', barchart.innerHeight/2+barchart.margin.top-75);
           }
         },
 
@@ -155,19 +155,19 @@ define(['./data', './controls'], function(data, controls) {
 
         resizeSvg: function (svg, newWidth) {
           svg.attr('width', newWidth);
-          innerWidth = svg.attr('width') - margin.left - margin.right;
+          barchart.innerWidth = svg.attr('width') - barchart.margin.left - barchart.margin.right;
           // Update xScale and xAxis
-          xScale.range([0, innerWidth]);
-          xAxis.scale(xScale);
+          barchart.xScale.range([0, barchart.innerWidth]);
+          barchart.xAxis.scale(barchart.xScale);
           svg.select('.x.axis') // change the x axis
             .transition()
-            .call(xAxis);
+            .call(barchart.xAxis);
           // Update bars & text
           var groups = svg.selectAll('g.item');
           groups.selectAll('rect')
-            .attr('width', function (d,i) { return xScale(+d.value); });
+            .attr('width', function (d,i) { return barchart.xScale(+d.value); });
           groups.selectAll('text.value')
-            .attr('x', function (d,i) { return xScale(+d.value)+3; });
+            .attr('x', function (d,i) { return barchart.xScale(+d.value)+3; });
         }
       };
 
