@@ -137,7 +137,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
             // Set query and data retrieval filters (forcing partners to all, commodity to total and ignoring flow)
             queryFilter.commodity = 'TOTAL';
             dataFilter.commodity =  'TOTAL';
-            title = localData.lookup(filters.reporter, 'countryByUnNum', 'name') + [' trade in goods balance ', ' imports of goods ', ' exports of goods '][filters.flow] + ' in ' + filters.year + '.';
+            title = localData.lookup(filters.reporter, 'countryByUnNum', 'name') + [' trade in goods balance ', ' imports of goods ', ' exports of goods '][filters.flow] + ' in ' + filters.year;
           }
 
           // CASE 4&5: reporter = selected    commodity = selected
@@ -145,7 +145,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
             // Set query and data retrieval filters (forcing partners to all and commodity to total)
             queryFilter.commodity = filters.commodity;
             dataFilter.commodity = filters.commodity;
-            title = localData.lookup(filters.reporter, 'countryByUnNum', 'name') + [' trade in ' + localData.commodityName(filters.commodity) + ' balance ', ' imports of ' + localData.commodityName(filters.commodity) + ' ', ' exports of ' + localData.commodityName(filters.commodity) + ' '][filters.flow] + ' in ' + filters.year + '.';
+            title = localData.lookup(filters.reporter, 'countryByUnNum', 'name') + [' trade in ' + localData.commodityName(filters.commodity) + ' balance ', ' imports of ' + localData.commodityName(filters.commodity) + ' ', ' exports of ' + localData.commodityName(filters.commodity) + ' '][filters.flow] + ' in ' + filters.year;
           }
 
           data.query(queryFilter, function queryCallback (err, ready) {

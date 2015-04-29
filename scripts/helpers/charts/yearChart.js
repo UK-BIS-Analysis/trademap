@@ -167,7 +167,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
             var newData = localData.getData(dataFilter);
             // Get the start year of the data and append "since" part to title.
             var startYear = d3.min(newData, function (d) { return d.year });
-            title += ' since ' + startYear + '.';
+            title += ' since ' + startYear;
             $chartTitle.html(title);
             $container.slideDown(400, function () {
               chart._draw(newData);

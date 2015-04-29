@@ -74,7 +74,7 @@ define(['../data', '../rowchart', '../gui', '../controls'], function(data, rowch
           if(filters.reporter && !filters.commodity && !filters.partner) {
             queryFilter.commodity = 'TOTAL';
             dataFilter.commodity = 'TOTAL';
-            title = localData.lookup(filters.reporter, 'reporterAreas', 'text') + ' - Top-10 import markets for goods in ' + filters.year + '.';
+            title = localData.lookup(filters.reporter, 'reporterAreas', 'text') + ' - Top-10 import markets for goods in ' + filters.year;
           }
 
           // CASE 3: reporter = selected    commodity = null        partner = selected
@@ -96,7 +96,7 @@ define(['../data', '../rowchart', '../gui', '../controls'], function(data, rowch
           if(filters.reporter && filters.commodity && !filters.partner) {
             queryFilter.commodity = filters.commodity;
             dataFilter.commodity = filters.commodity;
-            title = localData.lookup(filters.reporter, 'reporterAreas', 'text') + ' - Top-10 import markets for ' + localData.commodityName(filters.commodity) + ' in ' + filters.year + '.';
+            title = localData.lookup(filters.reporter, 'reporterAreas', 'text') + ' - Top-10 import markets for ' + localData.commodityName(filters.commodity) + ' in ' + filters.year;
           }
 
           // Run API query

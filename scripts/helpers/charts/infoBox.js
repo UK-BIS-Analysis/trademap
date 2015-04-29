@@ -162,7 +162,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
                          reporterName +
                          '</strong> trade in goods with <strong>' +
                          partnerName +
-                         '</strong> in <strong>' + details.year + '</strong>.<br />';
+                         '</strong> in <strong>' + details.year + '</strong><br />';
           if (details.commodity && details.commodity !== 'TOTAL') {
             subtitle += '<strong>' + localData.commodityName(details.commodity) + '</strong>';
           }
@@ -176,9 +176,9 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
 
           // Show ranking only if partner is selected
           if (details.partner && details.partner !== 0) {
-            var ranking = partnerName + ' was the ' + localData.numOrdinal(details.exportRank) + ' export market for ' +
+            var ranking = partnerName + ' was the ' + localData.numOrdinal(details.exportRank) + ' largest export market for ' +
                           reporterName + ' (' + details.exportPc.toFixed(1) + '% of ' + reporterName + ' exports) and the ' +
-                          localData.numOrdinal(details.importRank) + ' import market for ' + reporterName +
+                          localData.numOrdinal(details.importRank) + ' largest import market for ' + reporterName +
                           ' (' + details.importPc.toFixed(1) + '% of ' + reporterName + ' imports)';
             if (details.commodity && details.commodity !== 'TOTAL') {
               ranking += ' for '+ localData.commodityName(details.commodity);
