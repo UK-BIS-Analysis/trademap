@@ -122,7 +122,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
                 year:       +filters.year,
                 flow:       +filters.flow
               },
-              chartTitle = '';
+              title = '';
 
           // CASE 1: reporter = null    -->   Blank choropleth, no countries selected and no fills and no title
           if(!filters.reporter) {
@@ -137,7 +137,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
             // Set query and data retrieval filters (forcing partners to all, commodity to total and ignoring flow)
             queryFilter.commodity = 'TOTAL';
             dataFilter.commodity =  'TOTAL';
-            chartTitle = 'Value of ' + localData.lookup(filters.flow, 'flowByCode', 'text').toLowerCase() + ' ' + ['between', 'to', 'from'][filters.flow] + ' ' + localData.lookup(filters.reporter, 'countryByUnNum', 'name') + [' and', ' from', ' to'][filters.flow] + ' the World for all goods in  ' + filters.year + '.';
+            title = localData.lookup(filters.reporter, 'countryByUnNum', 'name') + [' trade in goods balance ', ' imports of goods ', ' exports of goods '][filters.flow] + ' in ' + filters.year + '.';
           }
 
           // CASE 4&5: reporter = selected    commodity = selected
@@ -145,7 +145,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
             // Set query and data retrieval filters (forcing partners to all and commodity to total)
             queryFilter.commodity = filters.commodity;
             dataFilter.commodity = filters.commodity;
-            chartTitle = 'Value of ' + localData.lookup(filters.flow, 'flowByCode', 'text').toLowerCase() + ' between ' + localData.lookup(filters.reporter, 'countryByUnNum', 'name') + ' and the World for ' + localData.commodityName(filters.commodity) + ' in ' + filters.year+'.';
+            title = localData.lookup(filters.reporter, 'countryByUnNum', 'name') + [' trade in ' + localData.commodityName(filters.commodity) + ' balance ', ' imports of ' + localData.commodityName(filters.commodity) + ' ', ' exports of ' + localData.commodityName(filters.commodity) + ' '][filters.flow] + ' in ' + filters.year + '.';
           }
 
           data.query(queryFilter, function queryCallback (err, ready) {
@@ -153,7 +153,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
               if (err || !ready) { return; }
               // Redraw map and set title
               chart._redrawMap(dataFilter);
-              $chartTitle.html(chartTitle);
+              $chartTitle.html(title);
             });
         },
 
@@ -339,7 +339,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
             .attr('x', 12)
             .text(function (d,i) {
               if (+flow === 0) {
-                return ['Negative', 'Positive'][i] + ' (' + legendData[i].values.count + ' partners)';
+                return ['Deficit', 'Surplus'][i] + ' (' + legendData[i].values.count + ' partners)';
               } else {
                 var returnTxt = '';
                 switch (i) {
