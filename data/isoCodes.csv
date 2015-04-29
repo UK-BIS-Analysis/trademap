@@ -207,8 +207,9 @@ unCode,name,iso2letter,iso3letter,isoNumerical,Notes
 710,South Africa,ZA,ZAF,710,
 716,Zimbabwe,ZW,ZWE,716,
 724,Spain,ES,ESP,724,
-736,Sudan,SD,SDN,729,Excludes South Sudan
+729,Sudan,SD,SDN,729,Excludes South Sudan
 728,South Sudan,SS,SSD,728,
+736,Fmr Sudan,NULL,NULL,NULL,No display on map
 732,Western Sahara,EH,ESH,732,
 740,Suriname,SR,SUR,740,
 748,Swaziland,SZ,SWZ,748,
