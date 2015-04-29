@@ -41,9 +41,14 @@ nav.navbar {
   margin-bottom: 3px;
   border-bottom-color: #054D82;
 }
-/* The folowing media query makes the menu collapse on screen sizes less than 1020px
+#footer {
+  margin-top: 90px;
+  padding-top: 90px;
+  border-top: 1px solid #054D82;
+}
+/* The folowing media query makes the menu collapse on screen sizes less than 768px
  * See http://stackoverflow.com/a/20249415 */
-@media (max-width: 1170px) {
+@media (max-width: 768px) {
     .navbar-header {
         float: none;
     }
@@ -90,13 +95,7 @@ p.navbar-text {
   margin-right: 15px;
 }
 .navbar-brand {
-  padding: 5px 15px;
-}
-.navbar-brand img {
-  display: inline-block;
-}
-a.navbar-brand {
-  float: left;
+  color: #000 !important;
 }
 div.alert {
   /* Add padding to compensate for navbar */
