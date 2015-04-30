@@ -202,7 +202,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
               tip = d3.tip()
                 .attr('class', 'd3-tip')
                 .offset([-10, 0])
-                .html(function(d) { return d.year+': '+localData.numFormatFull(d.value)+' '+['imports', 'exports'][d.flow-1]; });
+                .html(function(d) { return d.year+': '+localData.numFormat(d.value)+' '+['imports', 'exports'][d.flow-1]; });
 
           // Update scale domains with newData values and the line generation function
           xScale.domain([yearExtent[0], yearExtent[1]+1]);
