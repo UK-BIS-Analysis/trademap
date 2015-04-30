@@ -338,6 +338,15 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
             .attr('class', 'line1')
             .attr('x', 12)
             .text(function (d,i) {
+              if (+flow > 0) {
+                return localData.numFormat(legendData[i].values.min) + ' - ' + localData.numFormat(legendData[i].values.max) + ' (' + legendData[i].values.count + ' partners)';
+              }
+            });
+          texts.append('tspan')
+            .attr('class', 'line1')
+            .attr('x', 12)
+            .attr('dy', 15)
+            .text(function (d,i) {
               if (+flow === 0) {
                 return ['Deficit', 'Surplus'][i] + ' (' + legendData[i].values.count + ' partners)';
               } else {
@@ -364,15 +373,6 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
                     break;
                 }
                 return returnTxt;
-              }
-            });
-          texts.append('tspan')
-            .attr('class', 'line1')
-            .attr('x', 12)
-            .attr('dy', 15)
-            .text(function (d,i) {
-              if (+flow > 0) {
-                return localData.numFormat(legendData[i].values.min) + ' - ' + localData.numFormat(legendData[i].values.max) + ' (' + legendData[i].values.count + ' partners)';
               }
             });
 
