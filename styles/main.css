@@ -367,7 +367,6 @@ p.navbar-text {
 .titleDropdown {
   float: left;
   width: 5%;
-  display: none !important;
 }
 .titleDropdown button {
   margin-top: -1px;
