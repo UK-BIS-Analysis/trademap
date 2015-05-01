@@ -75,3 +75,8 @@ text.value {
 .yearHighlight {
   fill: rgba(47, 112, 169, 0.50);
 }
+
+/* Rowcharts */
+g.item rect {
+  cursor: pointer;
+}
