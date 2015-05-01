@@ -86,6 +86,7 @@ define(['./data', './controls'], function(data, controls) {
             .transition()
             .call(barchart.xAxis)
             .selectAll('g.x text')
+            .filter(function (d,i) { return i>10})
             .attr("transform", 'rotate(-65) translate(-30,-10)');
           svg.select('.y.axis')
             .transition()
