@@ -71,26 +71,26 @@ define(['../data', '../rowchart', '../gui', '../controls'], function(data, rowch
           dataFilter.flow = 1;
 
           // CASE 2: reporter = selected    commodity = null        partner = null
-          if(filters.reporter && !filters.commodity && !filters.partner) {
+          if(filters.reporter && (!filters.commodity || filters.commodity === 'TOTAL') && !filters.partner) {
             title = localData.lookup(filters.reporter, 'reporterAreas', 'text') + ' - Top-10 imports of goods from the world in ' + filters.year;
           }
 
           // CASE 3: reporter = selected    commodity = null        partner = selected
-          if(filters.reporter && !filters.commodity && filters.partner) {
+          if(filters.reporter && (!filters.commodity || filters.commodity === 'TOTAL') && filters.partner) {
             title = localData.lookup(filters.reporter, 'reporterAreas', 'text') + ' - Top-10 imports of goods from ' + localData.lookup(filters.partner, 'partnerAreas', 'text') + ' in ' + filters.year;
             queryFilter.partner = +filters.partner;
             dataFilter.partner = +filters.partner;
           }
 
           // CASE 4: reporter = selected    commodity = selected    partner = selected
-          if(filters.reporter && filters.commodity && filters.partner) {
+          if(filters.reporter && filters.commodity && filters.commodity !== 'TOTAL' && filters.partner) {
             $chartTitle.html('');
             $container.slideUp();
             return;
           }
 
           // CASE 5: reporter = selected    commodity = selected    partner = null
-          if(filters.reporter && filters.commodity && !filters.partner) {
+          if(filters.reporter && filters.commodity && filters.commodity !== 'TOTAL' && !filters.partner) {
             $chartTitle.html('');
             $container.slideUp();
             return;

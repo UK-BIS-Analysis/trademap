@@ -70,22 +70,22 @@ define(['../data', '../rowchart', '../gui', '../controls'], function(data, rowch
           // Define flow
           dataFilter.flow = 1;
 
-          // CASE 2: reporter = selected    commodity = null        partner = null
-          if(filters.reporter && !filters.commodity && !filters.partner) {
+          // CASE 2: reporter = selected    commodity = null        partner = null or 0
+          if(filters.reporter && !filters.commodity && (!filters.partner || +filters.partner === 0)) {
             queryFilter.commodity = 'TOTAL';
             dataFilter.commodity = 'TOTAL';
             title = localData.lookup(filters.reporter, 'reporterAreas', 'text') + ' - Top-10 import markets for goods in ' + filters.year;
           }
 
           // CASE 3: reporter = selected    commodity = null        partner = selected
-          if(filters.reporter && !filters.commodity && filters.partner) {
+          if(filters.reporter && !filters.commodity && filters.partner && +filters.partner !== 0) {
             $chartTitle.html('');
             $container.slideUp();
             return;
           }
 
           // CASE 4: reporter = selected    commodity = selected    partner = selected
-          if(filters.reporter && filters.commodity && filters.partner) {
+          if(filters.reporter && filters.commodity && filters.partner && +filters.partner !== 0) {
             $chartTitle.html('');
             $container.slideUp();
             return;
@@ -93,7 +93,7 @@ define(['../data', '../rowchart', '../gui', '../controls'], function(data, rowch
 
           // CASE 5: reporter = selected    commodity = selected    partner = null
           // This is already covered by the data in CASE 2 so we don't specify the commodity in the query to avoid duplicate data
-          if(filters.reporter && filters.commodity && !filters.partner) {
+          if(filters.reporter && filters.commodity && (!filters.partner || +filters.partner === 0)) {
             queryFilter.commodity = filters.commodity;
             dataFilter.commodity = filters.commodity;
             title = localData.lookup(filters.reporter, 'reporterAreas', 'text') + ' - Top-10 import markets for ' + localData.commodityName(filters.commodity) + ' in ' + filters.year;

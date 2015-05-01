@@ -179,8 +179,8 @@ define(function(require) {
 
           // Remove unwanted values
           data.reporterAreasSelect  = data.reporterAreasSelect.filter( function (d) { return d.id !== 'all'; });
-          data.partnerAreasSelect   = data.partnerAreasSelect.filter(  function (d) { return (d.id !== 'all' && d.id !== '0'); });
-          data.commodityCodesSelect = data.commodityCodesSelect.filter(function (d) { return (d.id !== 'ALL' && d.id !== 'TOTAL' && d.id !== 'AG2'); });
+          data.partnerAreasSelect   = data.partnerAreasSelect.filter(  function (d) { return (d.id !== 'all'); });
+          data.commodityCodesSelect = data.commodityCodesSelect.filter(function (d) { return (d.id !== 'ALL' && d.id !== 'AG2'); });
 
           // Call the callback
           callback();
