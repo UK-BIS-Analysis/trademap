@@ -13,14 +13,14 @@
 define(['../data', '../gui', '../controls'], function(data, gui, controls) {
   'use strict';
 
-  var localData = data,
+  var localData     = data,
       $infoBox      = $('#infoBox'),
       $defaultPanel = $('#defaultPanel'),
       $hoverPanel   = $('#hoverPanel'),
 
 
 
-      bottomMargin = 10,
+      bottomMargin  = 10,
       getPositionFromTop = function () {
         return Math.min(
           $('#infoBoxPlaceholder').offset().top,
@@ -36,8 +36,10 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
       },
       repositionBox = function () {
         $infoBox
-          .css({ top: getPositionFromTop() })
-          .animate({ width: getWidth() },100);
+          .css({
+            top: getPositionFromTop(),
+            width: getWidth()
+          });
       },
 
 
