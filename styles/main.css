@@ -175,7 +175,7 @@ div.alert {
   position: absolute;
   bottom: 15px;
   right: 15px;
-  width: 100%;
+  width: 100px;
   text-align: right;
   font-size: 26px;
   color: #054D82;
@@ -243,13 +243,13 @@ div.alert {
  */
 #infoBox {
   position: absolute;
-  height: 20.5em;
+  height: 18em;
   font-size: 0.9em;
   overflow: hidden;
 }
 #infoBoxPlaceholder,
 #infoBox .panel {
-  height: 20.5em;
+  height: 18em;
 }
 #infoBox .panel-heading,
 #infoBox .panel-body {
@@ -267,7 +267,9 @@ div.alert {
   margin-left: 50%;
   padding-right: 3px;
 }
-
+#infoBox .ranking {
+  font-size: 0.95em;
+}
 
 
 
@@ -321,7 +323,7 @@ div.alert {
 }
 #mapLegend {
   position: absolute;
-  top:  70px;
+  top:  63px;
   background: rgba(255, 255, 255, 0.5);
 }
 #choroplethInfo {
