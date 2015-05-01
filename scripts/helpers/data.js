@@ -62,14 +62,19 @@ define(function(require) {
           return 'unknown';
         }
       },
-      numFormat: function (num) {
+      numFormat: function (num, item, prec) {
+        if (prec) {
+          prec = '.'+prec;
+        } else {
+          prec = '';
+        }
+        var f = d3.format('$,'+prec+'f');
         if (num === 0) {
           return '0';
         }
         if (typeof num !== 'number' || isNaN(num)) {
           return 'No data';
         }
-        var f = d3.format('$,.1f');
         // If over one billion, display in billions
         if (Math.abs(num) >= 1000000000) {
           return f((Math.round(num/100000000))/10)+' bn';
@@ -82,8 +87,9 @@ define(function(require) {
         if (Math.abs(num) >= 1000) {
           return f((Math.round(num/100))/10)+' th';
         }
+        f = d3.format('$,f');
         // Else display without unit
-        return f(num)+'';
+        return f(num);
       },
       numFormatFull: function (num) {
         var f = d3.format('$,');

@@ -169,10 +169,10 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
           $panel.find('.subtitle').html(subtitle);
 
           // Populate panel
-          $panel.find('.value.exports').html(localData.numFormat(details.exportVal));
-          $panel.find('.value.imports').html(localData.numFormat(details.importVal));
-          $panel.find('.value.balance').html(localData.numFormat(details.balanceVal));
-          $panel.find('.value.bilateral').html(localData.numFormat(details.bilateralVal));
+          $panel.find('.value.exports').html(localData.numFormat(details.exportVal, null, 1));
+          $panel.find('.value.imports').html(localData.numFormat(details.importVal, null, 1));
+          $panel.find('.value.balance').html(localData.numFormat(details.balanceVal, null, 1));
+          $panel.find('.value.bilateral').html(localData.numFormat(details.bilateralVal, null, 1));
 
           // Show ranking only if partner is selected
           if (details.partner && details.partner !== 0) {

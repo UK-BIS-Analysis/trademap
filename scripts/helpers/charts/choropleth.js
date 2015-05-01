@@ -339,7 +339,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
             .attr('x', 12)
             .text(function (d,i) {
               if (+flow > 0) {
-                return localData.numFormat(legendData[i].values.min) + ' - ' + localData.numFormat(legendData[i].values.max) + ' (' + legendData[i].values.count + ' partners)';
+                return localData.numFormat(legendData[i].values.min, null, 1) + ' - ' + localData.numFormat(legendData[i].values.max, null, 1) + ' (' + legendData[i].values.count + ' partners)';
               }
             });
           texts.append('tspan')

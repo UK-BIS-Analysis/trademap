@@ -134,7 +134,7 @@ define(['./data', './controls'], function(data, controls) {
             .attr('x', function (d,i) { return barchart.xScale(+d.value)+3; })
             .attr('y', barchart.yScale(1)-7)
             .text(function (d) {
-              return localData.numFormat(d.value);
+              return localData.numFormat(d.value, null, 1);
             });
 
           // Exit groups
