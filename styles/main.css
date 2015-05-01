@@ -50,10 +50,14 @@ nav.navbar {
  * See http://stackoverflow.com/a/20249415 */
 @media (max-width: 768px) {
     .navbar-header {
-        float: none;
+      float: none;
     }
     .navbar-toggle {
-        display: block;
+      float: none;
+      position: absolute;
+      right: 0;
+      display: block;
+      background: #fff;
     }
     .navbar-collapse {
         border-top: 1px solid transparent;
@@ -97,10 +101,24 @@ p.navbar-text {
 .navbar-brand {
   color: #000 !important;
   padding: 5px 15px;
+  max-width: 500px;
+  margin-right: 50px;
+  padding-right: 0;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+.navbar-brand small {
+  font-size: 13.5px;
+  white-space: nowrap;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 .navbar-brand p {
   padding: 0;
   margin: 0;
+  white-space: nowrap;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 div.alert {
   /* Add padding to compensate for navbar */
@@ -225,7 +243,6 @@ div.alert {
  */
 #infoBox {
   position: absolute;
-  width: 31%;
   height: 20.5em;
   font-size: 0.9em;
   overflow: hidden;
@@ -269,6 +286,7 @@ div.alert {
   z-index: 100;
   text-align: center;
   z-index: 0;
+  padding-top: 3px;
 }
 #choroplethTitle div.titleDropdown {
   float: none;
@@ -290,9 +308,21 @@ div.alert {
   width: 14em;
   z-index: 10;
 }
+@media (max-width: 768px) {
+  #choroplethTitle div.chartTitle {
+    font-size: 18px;
+  }
+  #flowButtons {
+    top: 40px;
+  }
+  #flowButtons .btn-sm {
+    padding: 1px 5px;
+  }
+}
 #mapLegend {
   position: absolute;
   top:  70px;
+  background: rgba(255, 255, 255, 0.5);
 }
 #choroplethInfo {
   position: absolute;

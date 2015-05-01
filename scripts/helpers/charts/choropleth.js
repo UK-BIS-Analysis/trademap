@@ -284,7 +284,9 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
                 return prev+curr.values.count;
               }, 0);
 
-          legendSvg.attr('height', (legendData.length+1)*(rectHeight+padding)+25);
+          legendSvg
+            .attr('height', (legendData.length+1)*(rectHeight+padding)+25)
+            .attr('width', 225);
 
           // Remove legend & title if present
           legendSvg.select('g.legend').remove();

@@ -332,7 +332,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
             .attr('d', function (d) { return line(d.values); });
           // Move highlight
           var selectedYear = $('#selectYear').val();
-          svg.selectAll('line.highlight')
+          svg.selectAll('line.yearHighlight')
             .transition()
             .attr('x1', function (d) { return xScale(+selectedYear)+margin.left; })
             .attr('x2', function (d) { return xScale(+selectedYear)+margin.left; });

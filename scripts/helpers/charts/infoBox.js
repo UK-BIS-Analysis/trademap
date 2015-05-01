@@ -22,17 +22,17 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
 
       bottomMargin  = 10,
       getPositionFromTop = function () {
-        return Math.min(
-          $('#infoBoxPlaceholder').offset().top,
-          $(window).height()-$infoBox.height() - bottomMargin + $(window).scrollTop()
-        )+'px';
+        if ($(document).width() > 992) {
+         return Math.min(
+            $('#infoBoxPlaceholder').offset().top,
+            $(window).height()-$infoBox.height() - bottomMargin + $(window).scrollTop()
+          )+'px';
+        } else {
+          return $('#infoBoxPlaceholder').offset().top;
+        }
       },
       getWidth = function () {
-        if ($infoBox.offset().top >= $('#infoBoxPlaceholder').offset().top) {
-          return ($('#infoBoxPlaceholder').width()-20)+'px';
-        } else {
-          return '31%';
-        }
+        return ($('#infoBoxPlaceholder').width()-20)+'px';
       },
       repositionBox = function () {
         $infoBox
