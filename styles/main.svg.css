@@ -28,11 +28,11 @@
 }
 .country.highlighted {
   fill: rgb(216, 255, 0) !important;
-  stroke: rgb(214, 198, 0);
+  stroke: #b10026;
   stroke-width: 2px !important;
 }
 .country:hover {
-  stroke: rgb(44, 105, 158);
+  stroke: #b10026;
   stroke-width: 2px !important;
 }
 
