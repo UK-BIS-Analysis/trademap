@@ -198,12 +198,12 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
          * This is different from the default panel generated on filter change
          * by the populateDefault function above
          */
-        displayHover: function (partnerDetails) {
+        displayHover: function (partnerDetails, countryUnNum) {
           if (partnerDetails) {
             $hoverPanel.find('dt').show();
             box.populateBox($hoverPanel, partnerDetails);
           } else {
-            $hoverPanel.find('.subtitle').html('<p class="text-center"><strong>No data available.</strong></p>');
+            $hoverPanel.find('.subtitle').html('<p class="text-center"><strong>No data available for ' + localData.lookup(countryUnNum, 'countryByUnNum', 'name') + '.</strong></p>');
             $hoverPanel.find('.value, .ranking').html('');
             $hoverPanel.find('dt').hide();
           }

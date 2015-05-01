@@ -215,8 +215,8 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
                 if (partnerDetails) {
                   infoBox.displayHover(partnerDetails);
                 } else {
-                  // DisplayHover with no data
-                  infoBox.displayHover(false);
+                  // DisplayHover with no data but include country name
+                  infoBox.displayHover(false, partner);
                 }
                 // Bring country path node to the front (to display border highlighting better)
                 svg.selectAll('.country').sort(function(a,b) { return (a.id === d.id) - (b.id === d.id);});
