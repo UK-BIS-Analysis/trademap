@@ -20,7 +20,7 @@ define(['./data', './controls'], function(data, controls) {
 
       barchart = {
 
-        margin: {top: 25, right: 60, bottom: 40, left: 12},
+        margin: {top: 25, right: 60, bottom: 75, left: 35},
         innerHeight: 0,
         innerWidth: 0,
         xScale: d3.scale.linear(),
@@ -84,7 +84,9 @@ define(['./data', './controls'], function(data, controls) {
           // Update axises
           svg.select('.x.axis')
             .transition()
-            .call(barchart.xAxis);
+            .call(barchart.xAxis)
+            .selectAll('g.x text')
+            .attr("transform", 'rotate(-65) translate(-30,-10)');
           svg.select('.y.axis')
             .transition()
             .call(barchart.yAxis);
