@@ -182,14 +182,18 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
         _draw: function (newData) {
 
           if (newData.length === 0) {
-            // If no data is available, don't draw the chart.
+            // If no data is available display a "No data available" message.
             svg.append('text')
               .text('No data available for this chart.')
               .classed('nodata', true)
               .classed('label', true)
               .attr('x', innerWidth/2+margin.left-75)
               .attr('y', innerHeight/2+margin.top-75);
+            // And remove lines and dots
+            svg.selectAll('.flow').remove();
             return;
+          } else {
+            svg.selectAll('.nodata').remove();
           }
 
           // Prepare data
