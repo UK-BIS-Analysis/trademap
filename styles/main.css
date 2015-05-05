@@ -120,10 +120,6 @@ p.navbar-text {
   overflow-x: hidden;
   overflow-y: hidden;
 }
-div.alert {
-  /* Add padding to compensate for navbar */
-  padding-top: 60px;
-}
 #charts {
   border-top: 1px solid #054D82;
 }
