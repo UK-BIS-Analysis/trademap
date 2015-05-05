@@ -21,8 +21,6 @@ define(function(require) {
        * PROPERTIES
        * Some basic properties that we store and persist throughout the application
        */
-      // Base query url
-      baseQueryUrl: 'http://comtrade.un.org/api/get?fmt=csv&max=50000&type=C&freq=A&px=HS&rg=1%2C2',
 
       // queryHistory, queryQueue and timestamp are used to throttle and debounce queries
       queryHistory: [],
@@ -132,6 +130,21 @@ define(function(require) {
        * Query static JSON files and populate variables. This is an asynchronous function that makes AJAX request and therefore uses a callback
        */
       setup : function (callback) {
+        // Decide base query URL and use of CORS based on domain and cors support
+        if (location.host !== 'comtrade.un.org' && !Modernizr.cors) {
+          // Not same domain and no CORS (basically IE9 locked on dev server) then use proxy.php
+          data.baseQueryUrl = 'proxy.php?fmt=csv&max=50000&type=C&freq=A&px=HS&rg=1%2C2';
+          data.useCors = false;
+        }
+        if (location.host !== 'comtrade.un.org' && Modernizr.cors) {
+          data.baseQueryUrl = 'http://comtrade.un.org/api/get?fmt=csv&max=50000&type=C&freq=A&px=HS&rg=1%2C2'
+          data.useCors = true;
+        }
+        if (location.host === 'comtrade.un.org') {
+          data.baseQueryUrl = '/api/get?fmt=csv&max=50000&type=C&freq=A&px=HS&rg=1%2C2'
+          data.useCors = false;
+        }
+
         var ajaxSettings = {
           dataType: 'json'
         }
@@ -240,7 +253,7 @@ define(function(require) {
         $.ajax({
           url: requestUrl,
           timeout: 75000,
-          crossDomain: true,
+          crossDomain: data.useCors,
           // NOTE: context setting is imporant as it binds the callback to the data object we are creating.
           // Otherwise we cannot access any of the properties in the callback.
           context: this,
