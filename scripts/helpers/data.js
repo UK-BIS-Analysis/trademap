@@ -81,7 +81,7 @@ define(function(require) {
         }
         // If over one million, display in millions
         if (Math.abs(num) >= 1000000) {
-          return f((Math.round(num/100000))/10)+' mn';
+          return f((Math.round(num/100000))/10)+' m';
         }
         // If over one thousand, display in thousands
         if (Math.abs(num) >= 1000) {
