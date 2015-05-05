@@ -8,6 +8,10 @@
  * It wraps everything in the requirejs callback function.
  * */
 
+// Add a timestamp to the query to avoid caching
+require.config({
+    urlArgs: "build=" + (new Date()).getTime()
+});
 
 require(['helpers/data', 'helpers/gui', 'helpers/controls', 'helpers/charts'], function(data, gui, controls, charts) {
   'use strict';
@@ -24,14 +28,15 @@ require(['helpers/data', 'helpers/gui', 'helpers/controls', 'helpers/charts'], f
     if (!Modernizr.svg) {
       $('#userAlert').removeClass('hidden');
       $('#userAlert .message').html('Error: it looks like your browser does not support SVG which is required for this visualization. Please consider updating to a more recent browser.');
+      $('#loadingDiv').hide();
       return;
     }
 
-    // Use Modernizr to check for CORS support and if not present display an error and don't even start loading CSV and setting up charts
-    if (!Modernizr.cors) {
+    // Use Modernizr to check for CORS support and need and if not present display an error and don't even start loading CSV and setting up charts
+    if (location.host !== 'comtrade.un.org' && !Modernizr.cors) {
       $('#userAlert').removeClass('hidden');
-      $('#userAlert .message').html('Error: Your browser does not support querying APIs which is necessary for this application to work. (Missing <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a>).');
-      return;
+      $('#userAlert .message').html('Warning: Your browser does not support querying APIs which is necessary for this application to work. This application may not work correctly on your borwser. (Missing <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a>).<br /> Please try using a recent version of Firefox or Chrome.');
+      $('#loadingDiv').hide();
     }
 
     // Setup data by calling the initial JSON files

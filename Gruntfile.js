@@ -62,7 +62,7 @@ module.exports = function(grunt) {
             replace: function(match){
               var regex = /scripts\/.*main/;
               var result = regex.exec(match);
-              return '<script src="' + result[0] + '.min.js"></script>';
+              return '<script src="' + result[0] + '.min.js?build=' + (new Date()).getTime() + '"></script>';
             },
             flags: 'g'
           }
