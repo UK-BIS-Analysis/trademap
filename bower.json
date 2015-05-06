@@ -28,7 +28,8 @@
     "d3-geo-projection": "~0.2.13",
     "aight": "2.1.1",
     "history.js": "~1.8.0",
-    "jQuery.XDomainRequest": "~1.0.4"
+    "jQuery.XDomainRequest": "~1.0.4",
+    "file-saver-saveas-js": "~1.20150304.1"
   },
   "resolutions": {
     "d3": "3.x"
