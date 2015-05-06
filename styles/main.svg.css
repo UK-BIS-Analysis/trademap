@@ -48,16 +48,16 @@ g.tick line {
   fill: none;
   stroke: #054D82;
   stroke-width: 1px;
-  stroke-opacity:1;
-  stroke-dasharray:none;
+  stroke-opacity: 1;
+  stroke-dasharray: none;
   shape-rendering: crispEdges;
 }
 path.domain {
   fill: none;
   stroke: #054D82;
   stroke-width: 1px;
-  stroke-opacity:1;
-  stroke-dasharray:none;
+  stroke-opacity: 1;
+  stroke-dasharray: none;
   shape-rendering: crispEdges;
 }
 g.tick text {

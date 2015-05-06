@@ -54,10 +54,10 @@ define(['./charts/choropleth', './charts/yearChart', './charts/infoBox', './char
     _getCssForSVGs: function () {
       var cssText  = '';
       // Iterate through stylesheets and look for main.svg.css
-      for ( var i in document.styleSheets ) {
+      for ( var i=0; i<document.styleSheets.length; i++) {
         if (document.styleSheets[i].href && document.styleSheets[i].href.indexOf('main.svg.css') >= 0) {
           // Add rules from stylesheet to our cssText
-          for ( var j in document.styleSheets[i].cssRules ) {
+          for ( var j=0; j<document.styleSheets[i].cssRules.length; j++ ) {
             cssText += document.styleSheets[i].cssRules[j].cssText + ' ';
           };
         };

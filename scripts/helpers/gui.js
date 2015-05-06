@@ -46,31 +46,34 @@ define([], function() {
 
       // ADD DOWNLOAD GRAPHS FUNCTIONS
       // If blob constructor is not supported then we hide the download button
-      // Note: IE<10 could be supported using this: https://github.com/koffsyrup/FileSaver.js#examples
+      // Note: IE<10 could be supported in the future using this: https://github.com/koffsyrup/FileSaver.js#examples
       if (!Modernizr.blobconstructor) {
-        $('a.downloadSvg').hide();
+        $('a.downloadChart').hide();
       } else {
-        $('a.downloadSvg').on('click', function (e) {
-          // We are copying the
+        $('a.downloadChart').on('click', function (e) {
+          // We are copying the SVG element into a virtual DOM (documentFragement)
           var svgId = $(this).attr('data-target'),
+              format = $(this).attr('data-format'),
               title = $('#'+svgId+' .chartTitle').text(),
               $svg = $('#'+svgId+' .svgChart'),
+              width = $svg.width(),
               height = $svg.height(),
               range = document.createRange(),
               div = document.createElement('div');
 
-          // Create a documentFragment to manipulate outside of the DOM
+          // We then manipulate the documentFragment outside of the DOM
           range.selectNode($svg[0]);
           var fragment = range.cloneContents();
 
           // If this is the choropleth inject the legend and remove viewBox
           if (svgId == 'choropleth') {
+            width = 1920;
+            height = 1080;
             $(fragment)
               .removeAttr('viewBox')
               .removeAttr('preserveAspectRatio')
-              .attr('width', 1920)
-              .attr('height', 1080);
-            height = 1080;
+              .attr('width', width)
+              .attr('height', height);
             $(fragment)
               .children('svg')
               .append('<g class="legend" transform="translate(25,25) scale(1.5)">' + $('#mapLegendSvg g.legend')[0].innerHTML + '</g>');
@@ -87,11 +90,35 @@ define([], function() {
                       +'<tspan x="10" dy="15" class="creditLink">' + document.location.href + '</tspan>'
                     +'</text>');
 
-
-          // Append the documentFragment and extract the text
+          // We need to push the docuemntFragment into a throwaway (hidden) DOM element to get the innerHTML code
           div.appendChild(fragment.cloneNode(true));
-          var blob = new Blob([div.innerHTML], {type: "image/svg+xml;charset=utf8"});
-          saveAs(blob, svgId+'.svg');
+          var svgText = div.innerHTML;
+
+          if (format == 'svg') {
+            // Finally, for SVG,  we convert the SVG to a blob and save it
+            var blob = new Blob([svgText], {type: "image/svg+xml;charset=utf8"});
+            saveAs(blob, svgId+'.svg');
+            return;
+          }
+
+          if (format == 'png') {
+            // For PNG we draw the SVG code to a virutal canvas element and then save it
+            var canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            var ctx = canvas.getContext("2d");
+
+            canvg(canvas, svgText, {
+              ignoreMouse: true,
+              ignoreAnimation: true,
+              log: true,
+              renderCallback: function () {
+                canvas.toBlob(function (blob) {
+                  saveAs(blob, svgId+'.png');
+                });
+              }
+            });
+          }
         });
       }
 
