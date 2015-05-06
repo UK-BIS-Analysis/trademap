@@ -29,7 +29,8 @@
     "aight": "2.1.1",
     "history.js": "~1.8.0",
     "jQuery.XDomainRequest": "~1.0.4",
-    "file-saver-saveas-js": "~1.20150304.1"
+    "file-saver-saveas-js": "~1.20150304.1",
+    "canvg": "~1.3.0"
   },
   "resolutions": {
     "d3": "3.x"
