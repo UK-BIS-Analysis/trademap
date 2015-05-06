@@ -1,0 +1,19 @@
+{
+  "name": "canvas-toBlob.js",
+  "main": "canvas-toBlob.js",
+  "version": "0.1.3",
+  "homepage": "https://github.com/apitts/canvas-toBlob.js",
+  "authors": [
+    "Eli Grey <me@eligrey.com>"
+  ],
+  "description": "Implements the standard HTML5 canvas.toBlob() and canvas.toBlobHD() methods in browsers that do not natively support it",
+  "keywords": [
+    "blob",
+    "canvas"
+  ],
+  "license": "MIT/X11",
+  "ignore": [
+    "**/.*",
+    "bower_components"
+  ]
+}
