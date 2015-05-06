@@ -53,7 +53,9 @@ define([], function() {
         $('a.downloadSvg').on('click', function (e) {
           // We are copying the
           var svgId = $(this).attr('data-target'),
+              title = $('#'+svgId+' .chartTitle').text(),
               $svg = $('#'+svgId+' .svgChart'),
+              height = $svg.height(),
               range = document.createRange(),
               div = document.createElement('div');
 
@@ -61,7 +63,30 @@ define([], function() {
           range.selectNode($svg[0]);
           var fragment = range.cloneContents();
 
-          // TODO Do someting to the fragment
+          // If this is the choropleth inject the legend and remove viewBox
+          if (svgId == 'choropleth') {
+            $(fragment)
+              .removeAttr('viewBox')
+              .removeAttr('preserveAspectRatio')
+              .attr('width', 1920)
+              .attr('height', 1080);
+            height = 1080;
+            $(fragment)
+              .children('svg')
+              .append('<g class="legend" transform="translate(25,25) scale(1.5)">' + $('#mapLegendSvg g.legend')[0].innerHTML + '</g>');
+          }
+
+          // Add text title, reference and link
+          $(fragment)
+            .children('svg')
+            .attr('height', height+75)
+            .append('<text y="' + height + '">'
+                      +'<tspan x="10" class="creditTitle">' + title + '</tspan>'
+                      +'<tspan x="10" dy="15" class="creditSource">International Trade in Goods based on UN Comtrade data</tspan>'
+                      +'<tspan x="10" dy="15" class="creditSource">Developed by the Department for Business Innovation and Skills (UK)</tspan>'
+                      +'<tspan x="10" dy="15" class="creditLink">' + document.location.href + '</tspan>'
+                    +'</text>');
+
 
           // Append the documentFragment and extract the text
           div.appendChild(fragment.cloneNode(true));

@@ -10,7 +10,6 @@ svg {
   color: rgb(51, 51, 51);
   font-family: Helvetica, Arial, Verdana, Geneva, sans-serif;
   font-size: 14px;
-  line-height: 20px;
 }
 
 /* Choropleth */
@@ -45,12 +44,21 @@ svg {
 
 
 /* General styles */
-.axis path,
-.axis line {
+g.tick line {
   fill: none;
   stroke: #054D82;
-  shape-rendering: crispEdges;
   stroke-width: 1px;
+  stroke-opacity:1;
+  stroke-dasharray:none;
+  shape-rendering: crispEdges;
+}
+path.domain {
+  fill: none;
+  stroke: #054D82;
+  stroke-width: 1px;
+  stroke-opacity:1;
+  stroke-dasharray:none;
+  shape-rendering: crispEdges;
 }
 g.tick text {
   font-size: 12px;
@@ -84,4 +92,19 @@ text.value {
 /* Rowcharts */
 g.item rect {
   cursor: pointer;
+}
+
+
+/* Exports */
+tspan.creditTitle {
+  font-weight: bold;
+  fill: #054D82;
+}
+tspan.creditSource {
+  font-size: 11px;
+  fill: #1a1a1a;
+}
+tspan.creditLink {
+  font-size: 12px;
+  fill: #054D82;
 }
