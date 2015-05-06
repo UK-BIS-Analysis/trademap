@@ -69,7 +69,6 @@ define(['./charts/choropleth', './charts/yearChart', './charts/infoBox', './char
 
 
     _injectCSSintoSVG: function (css, svg) {
-      css = '<![CDATA[' + '\n' + css + '\n' + ']]>';
       svg
         .insert('defs', ':first-child')
         .append('style')

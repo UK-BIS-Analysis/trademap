@@ -5,8 +5,13 @@
  * BIS blue: #054D82;
  */
 
-
-
+/* Generic stlyes (inherited) by the SVG */
+svg {
+  color: rgb(51, 51, 51);
+  font-family: Helvetica, Arial, Verdana, Geneva, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+}
 
 /* Choropleth */
 .fill {

@@ -22,7 +22,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
       // SVG main properties
       height = 1080,
       width  = 1920,
-      svg = d3.select("#choropleth")
+      svg = d3.select("#choropleth .chart")
         .append("svg")
         .classed('choropleth', true)
         .classed('svgChart', true)

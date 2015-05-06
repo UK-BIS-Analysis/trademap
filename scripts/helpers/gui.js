@@ -45,28 +45,30 @@ define([], function() {
       });
 
       // ADD DOWNLOAD GRAPHS FUNCTIONS
-      // If this is an IE brwoser then hide the download option since it will not be supported
-      if (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > -1) {
+      // If blob constructor is not supported then we hide the download button
+      // Note: IE<10 could be supported using this: https://github.com/koffsyrup/FileSaver.js#examples
+      if (!Modernizr.blobconstructor) {
         $('a.downloadSvg').hide();
+      } else {
+        $('a.downloadSvg').on('click', function (e) {
+          // We are copying the
+          var svgId = $(this).attr('data-target'),
+              $svg = $('#'+svgId+' .svgChart'),
+              range = document.createRange(),
+              div = document.createElement('div');
+
+          // Create a documentFragment to manipulate outside of the DOM
+          range.selectNode($svg[0]);
+          var fragment = range.cloneContents();
+
+          // TODO Do someting to the fragment
+
+          // Append the documentFragment and extract the text
+          div.appendChild(fragment.cloneNode(true));
+          var blob = new Blob([div.innerHTML], {type: "image/svg+xml;charset=utf8"});
+          saveAs(blob, svgId+'.svg');
+        });
       }
-      $('a.downloadSvg').on('click', function (e) {
-        var svgId = $(this).attr('data-target'),
-            cssPath = '#'+svgId+' .svgChart',
-            $svg = $(cssPath),
-            svg = d3.select(cssPath),
-            svgText = svg.node().parentNode.innerHTML,
-            $this = $(this)
-              .attr('download',svgId+'.svg')
-              .attr('title',svgId+'.svg')
-              .attr('href','data:image/svg+xml;base64,'+ btoa(svgText));
-        // Set cleanup
-        setTimeout(function ($this) {
-          $this
-            .attr('download','')
-            .attr('title','')
-            .attr('href','');
-        }, 1000);
-      });
 
       // ADD EMBED GRAPH BUTTON BEHAVIOURS
       $('a.embedSvg').on('click', function (e) {

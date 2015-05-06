@@ -35,6 +35,7 @@
     <script type="text/javascript" src="scripts/libs/crossfilter/crossfilter.js"></script>
     <script type="text/javascript" src="scripts/libs/d3-tip/index.js"></script>
     <script type="text/javascript" src="scripts/libs/history.js/scripts/bundled/html4+html5/jquery.history.js"></script>
+    <script type="text/javascript" src="scripts/libs/file-saver-saveas-js/FileSaver.js"></script>
     <!-- endbuild -->
 
     <!-- build:css styles/libs.min.css -->
@@ -196,7 +197,7 @@
         <!-- Chart title -->
         <div id="choroplethTitle">
           <div class="dropdown titleDropdown">
-            <button class="btn btn-link dropdown-toggle" type="button" id="choroplethDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
+            <button class="btn btn-xs dropdown-toggle" type="button" id="choroplethDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
             <ul class="dropdown-menu" role="menu" aria-labelledby="choroplethDropdownMenu">
               <li role="presentation"><a role="menuitem" tabindex="-1" data-target="choropleth" href="javascript:;" class="downloadSvg"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download as SVG</a></li>
               <li role="presentation"><a role="menuitem" tabindex="-1" data-target="choropleth" href="javascript:;" class="embedSvg"><span class="icon-code" aria-hidden="true"></span> Embed</a></li>
@@ -228,7 +229,8 @@
           <a href="#charts" data-toggle="tooltip" data-placement="left" title="See more charts"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a>
         </div>
 
-        <!-- SVG will be appended here -->
+        <!-- SVG appended in here -->
+        <div class="chart"></div>
       </div>
 
 
@@ -287,7 +289,7 @@
           <div id="infoBoxPlaceholder" class="col-xs-12 col-sm-12 col-md-4 column">&nbsp;</div>
           <div id="yearChart" class="col-xs-12 col-sm-12 col-md-8 column">
             <div class="dropdown titleDropdown">
-              <button class="btn btn-link dropdown-toggle" type="button" id="yearlyChartDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
+              <button class="btn btn-xs dropdown-toggle" type="button" id="yearlyChartDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
               <ul class="dropdown-menu" role="menu" aria-labelledby="yearlyChartDropdownMenu">
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="yearChart" class="downloadSvg"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download as SVG</a></li>
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="yearChart" class="embedSvg"><span class="icon-code" aria-hidden="true"></span> Embed</a></li>
@@ -305,7 +307,7 @@
         <div class="row clearfix">
           <div id="topExportDestinations" class="col-md-6 col-sm-12 column">
             <div class="dropdown titleDropdown">
-              <button class="btn btn-link dropdown-toggle" type="button" id="topExportDestinationsDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
+              <button class="btn btn-xs dropdown-toggle" type="button" id="topExportDestinationsDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
               <ul class="dropdown-menu" role="menu" aria-labelledby="topExportDestinationsDropdownMenu">
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="topExportDestinations" class="downloadSvg"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download as SVG</a></li>
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="topExportDestinations" class="embedSvg"><span class="icon-code" aria-hidden="true"></span> Embed</a></li>
@@ -316,7 +318,7 @@
           </div>
           <div id="topImportSources" class="col-md-6 col-sm-12 column">
             <div class="dropdown titleDropdown">
-              <button class="btn btn-link dropdown-toggle" type="button" id="topImportSourcesDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
+              <button class="btn btn-xs dropdown-toggle" type="button" id="topImportSourcesDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
               <ul class="dropdown-menu" role="menu" aria-labelledby="topImportSourcesDropdownMenu">
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="topImportSources" class="downloadSvg"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download as SVG</a></li>
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="topImportSources" class="embedSvg"><span class="icon-code" aria-hidden="true"></span> Embed</a></li>
@@ -335,7 +337,7 @@
         <div class="row clearfix">
           <div id="topExportCommodities" class="col-md-6 col-sm-12 column">
             <div class="dropdown titleDropdown">
-              <button class="btn btn-link dropdown-toggle" type="button" id="topExportCommoditiesDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
+              <button class="btn btn-xs dropdown-toggle" type="button" id="topExportCommoditiesDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
               <ul class="dropdown-menu" role="menu" aria-labelledby="topExportCommoditiesDropdownMenu">
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="topExportCommodities" class="downloadSvg"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download as SVG</a></li>
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="topExportCommodities" class="embedSvg"><span class="icon-code" aria-hidden="true"></span> Embed</a></li>
@@ -346,7 +348,7 @@
           </div>
           <div id="topImportCommodities" class="col-md-6 col-sm-12 column">
             <div class="dropdown titleDropdown">
-              <button class="btn btn-link dropdown-toggle" type="button" id="topImportCommoditiesDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
+              <button class="btn btn-xs dropdown-toggle" type="button" id="topImportCommoditiesDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
               <ul class="dropdown-menu" role="menu" aria-labelledby="topImportCommoditiesDropdownMenu">
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="topImportCommodities" class="downloadSvg"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download as SVG</a></li>
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="topImportCommodities" class="embedSvg"><span class="icon-code" aria-hidden="true"></span> Embed</a></li>
