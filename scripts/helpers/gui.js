@@ -58,6 +58,7 @@ define([], function() {
               $svg = $('#'+svgId+' .svgChart'),
               width = $svg.width(),
               height = $svg.height(),
+              footerPos = height,
               range = document.createRange(),
               div = document.createElement('div');
 
@@ -66,14 +67,19 @@ define([], function() {
           var fragment = range.cloneContents();
 
           // If this is the choropleth inject the legend and remove viewBox
-          if (svgId == 'choropleth') {
-            width = 1920;
-            height = 1080;
-            $(fragment)
-              .removeAttr('viewBox')
-              .removeAttr('preserveAspectRatio')
-              .attr('width', width)
-              .attr('height', height);
+          if (svgId === 'choropleth') {
+            if (format === 'svg') {
+              width = 1920;
+              height = 1080;
+              $(fragment)
+                .removeAttr('viewBox')
+                .removeAttr('preserveAspectRatio')
+                .attr('width', width)
+                .attr('height', height);
+            }
+            if (format === 'png') {
+              footerPos = 1080-75;
+            }
             $(fragment)
               .children('svg')
               .append('<g class="legend" transform="translate(25,25) scale(1.5)">' + $('#mapLegendSvg g.legend')[0].innerHTML + '</g>');
@@ -83,7 +89,7 @@ define([], function() {
           $(fragment)
             .children('svg')
             .attr('height', height+75)
-            .append('<text y="' + height + '">'
+            .append('<text y="' + footerPos + '">'
                       +'<tspan x="10" class="creditTitle">' + title + '</tspan>'
                       +'<tspan x="10" dy="15" class="creditSource">International Trade in Goods based on UN Comtrade data</tspan>'
                       +'<tspan x="10" dy="15" class="creditSource">Developed by the Department for Business Innovation and Skills (UK)</tspan>'
@@ -102,22 +108,23 @@ define([], function() {
           }
 
           if (format == 'png') {
-            // For PNG we draw the SVG code to a virutal canvas element and then save it
-            var canvas = document.createElement('canvas');
-            canvas.width = width;
-            canvas.height = height;
-            var ctx = canvas.getContext("2d");
+            // For PNG we draw the SVG code to an image, render the image to a canvas and then get it as a download.
+            var image = new Image();
+            image.src = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(svgText)));
 
-            canvg(canvas, svgText, {
-              ignoreMouse: true,
-              ignoreAnimation: true,
-              log: true,
-              renderCallback: function () {
-                canvas.toBlob(function (blob) {
-                  saveAs(blob, svgId+'.png');
-                });
-              }
-            });
+            image.onload = function() {
+              var canvas = document.createElement('canvas');
+              canvas.width = width;
+              canvas.height = height+75;
+              var ctx = canvas.getContext('2d');
+              ctx.drawImage(image, 0, 0);
+
+              var a = document.createElement('a');
+              a.download = svgId+'.png';
+              a.href = canvas.toDataURL('image/png');
+              document.body.appendChild(a);
+              a.click();
+            }
           }
         });
       }

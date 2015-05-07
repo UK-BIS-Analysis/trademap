@@ -10,6 +10,8 @@ svg {
   color: rgb(51, 51, 51);
   font-family: Helvetica, Arial, Verdana, Geneva, sans-serif;
   font-size: 14px;
+  stroke-width: 0px;
+  background-color: #fff;
 }
 
 /* Choropleth */
