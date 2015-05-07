@@ -356,8 +356,7 @@ define(function(require) {
        */
       combineData: function (impExpData) {
         var combinedData = [],
-            imports = d3.map(),
-            exports = [],
+            dataMap = d3.map(),
             totImports = 0,
             totExports = 0,
             worldDetails = {};
@@ -388,30 +387,42 @@ define(function(require) {
         worldDetails.bilateralVal = worldDetails.importVal + worldDetails.exportVal;
         worldDetails.balanceVal = worldDetails.exportVal - worldDetails.importVal;
 
-        // Split the data into an imports map and exports array
+
+        // Iterate through mixed data array and create the combined array in a d3 map
         impExpData.forEach(function (d) {
-          if (+d.flow === 1) { imports.set(d.partner, d); }
-          if (+d.flow === 2) { exports.push(d); }
-        });
-        // Iterate over the exports array, search for matching import and construct new object to return
-        exports.forEach(function (Export) {
-          var Import = imports.get(Export.partner);
-          if (Import) {
-            var combined = {};
-            combined.reporter     = Export.reporter;
-            combined.partner      = Export.partner;
-            combined.commodity    = Export.commodity;
-            combined.year         = Export.year;
-            combined.importVal    = Import.value;
-            combined.exportVal    = Export.value;
-            combined.bilateralVal = Import.value + Export.value;
-            combined.balanceVal   = Export.value - Import.value;
-            if (totImports !== 0 && totExports !== 0) {
-              combined.importPc = (combined.importVal / totImports)*100;
-              combined.exportPc = (combined.exportVal / totExports)*100;
-            }
-            combinedData.push(combined);
+
+          // Copy the item, set the accessor and rename the value property to importVal or exportVal
+          var valName = ['importVal', 'exportVal'][+d.flow-1],
+              record = $.extend({}, d);
+          record.importVal = null;
+          record.exportVal = null;
+          record[valName] = record.value;
+          delete record.value;
+
+          // If data for other flow is already present in combinedData add to it otherwise add record
+          if (dataMap.has(record.partner)) {
+            var previousRecord = dataMap.get(record.partner);
+            previousRecord[valName] = record[valName];
+            dataMap.set(previousRecord.partner, previousRecord)
+          } else {
+            dataMap.set(record.partner, record);
           }
+        });
+
+        // Extract collection from map and then calculate bilateral, balance, import and export pc
+        combinedData = dataMap.values();
+        combinedData = combinedData.map(function (d) {
+          if (d.importVal && d.exportVal) {
+            d.bilateralVal = d.exportVal + d.importVal;
+            d.balanceVal = d.exportVal - d.importVal;
+          }
+          if (d.importVal && totImports !== 0) {
+            d.importPc = (d.importVal / totImports) / 100;
+          }
+          if (d.exportVal && totExports !== 0) {
+            d.exportPc = (d.exportVal / totExports) / 100;
+          }
+          return d;
         });
 
         // Sort by importVal & assign importRank
@@ -419,7 +430,7 @@ define(function(require) {
           return +(b.importVal > a.importVal) || +(b.importVal === a.importVal) - 1;
         });
         combinedData.forEach(function (v, i) {
-          combinedData[i].importRank = i+1;
+          if (v.importVal) { combinedData[i].importRank = i+1; }
         });
 
         // Sort by exportVal & assign exportRank
@@ -427,7 +438,7 @@ define(function(require) {
           return +(b.exportVal > a.exportVal) || +(b.exportVal === a.exportVal) - 1;
         });
         combinedData.forEach(function (v, i) {
-          combinedData[i].exportRank = i+1;
+          if (v.exportVal) { combinedData[i].exportRank = i+1; }
         });
 
         // Add world value back

@@ -179,8 +179,8 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
           $panel.find('.value.balance').html(localData.numFormat(details.balanceVal, null, 1));
           $panel.find('.value.bilateral').html(localData.numFormat(details.bilateralVal, null, 1));
 
-          // Show ranking only if partner is selected
-          if (details.partner && details.partner !== 0) {
+          // Show ranking only if partner and rankings are given
+          if (details.partner && details.partner !== 0 && details.importRank && details.exportRank) {
             var ranking = partnerName + ' was the ' + localData.numOrdinal(details.exportRank) + ' largest export market for ' +
                           reporterName + ' (' + details.exportPc.toFixed(1) + '% of ' + reporterName + ' exports) and the ' +
                           localData.numOrdinal(details.importRank) + ' largest import market for ' + reporterName +

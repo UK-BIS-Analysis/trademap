@@ -161,25 +161,25 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
 
 
         _redrawMap: function (filters) {
-
-          // Get the relevant data for both flows and then combine the data
-          var newData = localData.getData({ reporter: filters.reporter, commodity: filters.commodity, year: +filters.year });
-          newData = localData.combineData(newData);
-
-          // Create a lookup object to access by partner and also store count
-          var newDataByPartner = d3.map(newData, function (d) { return d.partner; }),
-              count = newData.length;
-
-          // Filter out records that relate to partner: 0 (world) which would distort the scale
-          newData = newData.filter(function (d) { return d.partner !== 0; });
-
           // Based on user selected flow predefine value accessor
           var flowRank, flowVal;
           if (+filters.flow === 1) { flowRank = 'importRank'; flowVal = 'importVal'; }
           if (+filters.flow === 2) { flowRank = 'exportRank'; flowVal = 'exportVal'; }
           if (+filters.flow === 0) { flowRank = 'balanceVal'; flowVal = 'balanceVal';}
 
+          // Get the relevant data for both flows and then combine the data
+          var newData = localData.getData({ reporter: filters.reporter, commodity: filters.commodity, year: +filters.year });
+          newData = localData.combineData(newData);
 
+          // Filter out records that relate to partner: 0 (world) which would distort the scale
+          // as well as records that don't have data for the current flow
+          newData = newData.filter(function (d) {
+            return d[flowRank] && d[flowVal] && d.partner !== 0;
+          });
+
+          // Create a lookup object to access by partner and also store count
+          var newDataByPartner = d3.map(newData, function (d) { return d.partner; }),
+              count = newData.length;
 
           // Create the colorScale depending on the flow
           var colorScale = d3.scale.threshold(),
@@ -243,6 +243,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
                 });
                 if (countryData.length === 0) { throw 'No data points for ' + localData.lookup(d.id, 'countryByUnNum', 'name'); }
                 if (countryData.length > 1)   { throw 'Multiple data points for ' + localData.lookup(d.id, 'countryByUnNum', 'name'); }
+                if (countryData[0][flowRank] === null) { throw 'Incomplete data for ' + localData.lookup(d.id, 'countryByUnNum', 'name'); }
                 bucket = colorScale(countryData[0][flowRank]);
                 return chart.colors[filters.flow][bucket];
               } catch (exception) {
