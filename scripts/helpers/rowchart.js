@@ -85,9 +85,10 @@ define(['./data', './controls'], function(data, controls) {
           svg.select('.x.axis')
             .transition()
             .call(barchart.xAxis)
-            .selectAll('g.x text')
-            .filter(function (d,i) { return i>10})
-            .attr("transform", 'rotate(-65) translate(-30,-10)');
+            .selectAll('text')
+            //.filter(function (d,i) { return d!="0"; })
+            .attr("transform", 'rotate(-65) translate(-13,-10)')
+            .style("text-anchor", "end");;
           svg.select('.y.axis')
             .transition()
             .call(barchart.yAxis);
@@ -135,7 +136,7 @@ define(['./data', './controls'], function(data, controls) {
             });
           values
             .attr('x', function (d,i) { return barchart.xScale(+d.value)+3; })
-            .attr('y', barchart.yScale(1)-7)
+            .attr('y', barchart.yScale(1)-5)
             .text(function (d) {
               return localData.numFormat(d.value, null, 1);
             });

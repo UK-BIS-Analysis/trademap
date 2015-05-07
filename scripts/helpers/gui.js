@@ -41,7 +41,7 @@ define([], function() {
         e.preventDefault();
         var winTop = (screen.height / 2) - (520 / 2);
         var winLeft = (screen.width / 2) - (350 / 2);
-        window.open('https://twitter.com/share?text=Check%20out%20the%20International%20Trade%20in%20Goods%20by%20Country%20and%20Commodity%20DataViz&url='+window.location.href, 'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width=' + 520 + ',height=' + 350);
+        window.open('https://twitter.com/share?text=Check%20out%20the%20International%20Trade%20in%20Goods%20DataViz&url='+window.location.href, 'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width=' + 520 + ',height=' + 350);
       });
 
       // ADD DOWNLOAD GRAPHS FUNCTIONS

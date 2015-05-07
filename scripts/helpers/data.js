@@ -64,7 +64,7 @@ define(function(require) {
         if (prec) {
           prec = '.'+prec;
         } else {
-          prec = '';
+          prec = '.1';
         }
         var f = d3.format('$,'+prec+'f');
         if (num === 0) {

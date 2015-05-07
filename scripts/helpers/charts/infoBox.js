@@ -138,23 +138,26 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
             var newData = localData.getData(dataFilter),
                 newDataCombined = localData.combineData(newData),
                 newDataByPartner = d3.map(newDataCombined, function (d) { return d.partner; });
-            box.populateBox($defaultPanel, newDataByPartner.get(filters.partner || 0));
+            box.populateBox($defaultPanel, newDataByPartner.get(filters.partner || 0), filters.partner);
           });
         },
 
 
 
 
-        populateBox: function ($panel, details) {
+        populateBox: function ($panel, details, countryUnNum) {
 
           // Clear data previously in box
           $panel.find('.subtitle').html('');
           $panel.find('.value').html('');
           $panel.find('.ranking').html('');
+          $panel.find('dt').show();
 
           // If no details then display no data and stop.
           if (!details) {
-            $panel.find('.subtitle').html('No data available.');
+            $panel.find('.subtitle').html('<p class="text-center"><strong>No data available for ' + localData.lookup(countryUnNum, 'countryByUnNum', 'name') + '.</strong></p>');
+            $panel.find('.value, .ranking').html('');
+            $panel.find('dt').hide();
             return;
           }
 
@@ -201,14 +204,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
          * by the populateDefault function above
          */
         displayHover: function (partnerDetails, countryUnNum) {
-          if (partnerDetails) {
-            $hoverPanel.find('dt').show();
-            box.populateBox($hoverPanel, partnerDetails);
-          } else {
-            $hoverPanel.find('.subtitle').html('<p class="text-center"><strong>No data available for ' + localData.lookup(countryUnNum, 'countryByUnNum', 'name') + '.</strong></p>');
-            $hoverPanel.find('.value, .ranking').html('');
-            $hoverPanel.find('dt').hide();
-          }
+          box.populateBox($hoverPanel, partnerDetails, countryUnNum);
           // Animate display of hover panel
           $defaultPanel.stop().slideUp();
           $hoverPanel.stop().slideDown();
