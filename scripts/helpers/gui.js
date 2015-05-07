@@ -69,17 +69,16 @@ define([], function() {
           // If this is the choropleth inject the legend and remove viewBox
           if (svgId === 'choropleth') {
             if (format === 'svg') {
-              width = 1920;
-              height = 1080;
+              width = 1280;
+              height = 720;
               $(fragment)
+                .children('svg')
                 .removeAttr('viewBox')
                 .removeAttr('preserveAspectRatio')
                 .attr('width', width)
                 .attr('height', height);
             }
-            if (format === 'png') {
-              footerPos = 1080-75;
-            }
+            footerPos = 720-75;
             $(fragment)
               .children('svg')
               .append('<g class="legend" transform="translate(25,25) scale(1.5)">' + $('#mapLegendSvg g.legend')[0].innerHTML + '</g>');
@@ -96,7 +95,7 @@ define([], function() {
                       +'<tspan x="10" dy="15" class="creditLink">' + document.location.href + '</tspan>'
                     +'</text>');
 
-          // We need to push the docuemntFragment into a throwaway (hidden) DOM element to get the innerHTML code
+          // We need to push the documentFragment into a throwaway (hidden) DOM element to get the innerHTML code
           div.appendChild(fragment.cloneNode(true));
           var svgText = div.innerHTML;
 
@@ -110,7 +109,6 @@ define([], function() {
           if (format == 'png') {
             // For PNG we draw the SVG code to an image, render the image to a canvas and then get it as a download.
             var image = new Image();
-            image.src = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(svgText)));
 
             image.onload = function() {
               var canvas = document.createElement('canvas');
@@ -121,10 +119,12 @@ define([], function() {
 
               var a = document.createElement('a');
               a.download = svgId+'.png';
-              a.href = canvas.toDataURL('image/png');
+              var dataUrl = canvas.toDataURL('image/png');
+              a.href = dataUrl;
               document.body.appendChild(a);
               a.click();
             }
+            image.src = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(svgText)));
           }
         });
       }

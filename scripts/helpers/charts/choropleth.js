@@ -20,8 +20,8 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
       currentFilters = {},
 
       // SVG main properties
-      height = 1080,
-      width  = 1920,
+      height = 720,
+      width  = 1280,
       svg = d3.select("#choropleth .chart")
         .append("svg")
         .classed('choropleth', true)
@@ -43,7 +43,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
 
           // Some utility functions:
           var projection = d3.geo.kavrayskiy7()
-                .scale(330)
+                .scale(230)
                 .translate([(width / 2)+50, (height / 2)])
                 .precision(+'.1'),
               path = d3.geo.path()
