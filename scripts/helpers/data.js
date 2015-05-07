@@ -185,7 +185,7 @@ define(function(require) {
             try {
               return data[mapName].get(lookupVal)[propertyName];
             } catch (err) {
-              if (DEBUG) { console.warn('There was a problem looking up ' + lookupVal + ' in ' + mapName + '.' + propertyName + ': ' + err); }
+              //if (DEBUG) { console.warn('There was a problem looking up ' + lookupVal + ' in ' + mapName + '.' + propertyName + ': ' + err); }
               return 'unknown';
             }
           };

@@ -247,7 +247,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
                 bucket = colorScale(countryData[0][flowRank]);
                 return chart.colors[filters.flow][bucket];
               } catch (exception) {
-                if (DEBUG) { console.log(exception); }
+                //if (DEBUG) { console.log(exception); }
                 return '#818181';
               }
             });
