@@ -45,28 +45,89 @@ define([], function() {
       });
 
       // ADD DOWNLOAD GRAPHS FUNCTIONS
-      // If this is an IE brwoser then hide the download option since it will not be supported
-      if (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > -1) {
-        $('a.downloadSvg').hide();
+      // If blob constructor is not supported then we hide the download button
+      // Note: IE<10 could be supported in the future using this: https://github.com/koffsyrup/FileSaver.js#examples
+      if (!Modernizr.blobconstructor) {
+        $('a.downloadChart').hide();
+      } else {
+        $('a.downloadChart').on('click', function (e) {
+          // We are copying the SVG element into a virtual DOM (documentFragement)
+          var svgId = $(this).attr('data-target'),
+              format = $(this).attr('data-format'),
+              title = $('#'+svgId+' .chartTitle').text(),
+              $svg = $('#'+svgId+' .svgChart'),
+              width = $svg.width(),
+              height = $svg.height(),
+              footerPos = height,
+              range = document.createRange(),
+              div = document.createElement('div');
+
+          // We then manipulate the documentFragment outside of the DOM
+          range.selectNode($svg[0]);
+          var fragment = range.cloneContents();
+
+          // If this is the choropleth inject the legend and remove viewBox
+          if (svgId === 'choropleth') {
+            if (format === 'svg') {
+              width = 1280;
+              height = 720;
+              $(fragment)
+                .children('svg')
+                .removeAttr('viewBox')
+                .removeAttr('preserveAspectRatio')
+                .attr('width', width)
+                .attr('height', height);
+            }
+            footerPos = 720-75;
+            $(fragment)
+              .children('svg')
+              .append('<g class="legend" transform="translate(25,25) scale(1.5)">' + $('#mapLegendSvg g.legend')[0].innerHTML + '</g>');
+          }
+
+          // Add text title, reference and link
+          $(fragment)
+            .children('svg')
+            .attr('height', height+75)
+            .append('<text y="' + footerPos + '">'
+                      +'<tspan x="10" class="creditTitle">' + title + '</tspan>'
+                      +'<tspan x="10" dy="15" class="creditSource">International Trade in Goods based on UN Comtrade data</tspan>'
+                      +'<tspan x="10" dy="15" class="creditSource">Developed by the Department for Business Innovation and Skills (UK)</tspan>'
+                      +'<tspan x="10" dy="15" class="creditLink">' + document.location.href + '</tspan>'
+                    +'</text>');
+
+          // We need to push the documentFragment into a throwaway (hidden) DOM element to get the innerHTML code
+          div.appendChild(fragment.cloneNode(true));
+          var svgText = div.innerHTML;
+
+          if (format == 'svg') {
+            // Finally, for SVG,  we convert the SVG to a blob and save it
+            var blob = new Blob([svgText], {type: "image/svg+xml;charset=utf8"});
+            saveAs(blob, svgId+'.svg');
+            return;
+          }
+
+          if (format == 'png') {
+            // For PNG we draw the SVG code to an image, render the image to a canvas and then get it as a download.
+            var image = new Image();
+
+            image.onload = function() {
+              var canvas = document.createElement('canvas');
+              canvas.width = width;
+              canvas.height = height+75;
+              var ctx = canvas.getContext('2d');
+              ctx.drawImage(image, 0, 0);
+
+              var a = document.createElement('a');
+              a.download = svgId+'.png';
+              var dataUrl = canvas.toDataURL('image/png');
+              a.href = dataUrl;
+              document.body.appendChild(a);
+              a.click();
+            }
+            image.src = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(svgText)));
+          }
+        });
       }
-      $('a.downloadSvg').on('click', function (e) {
-        var svgId = $(this).attr('data-target'),
-            cssPath = '#'+svgId+' .svgChart',
-            $svg = $(cssPath),
-            svg = d3.select(cssPath),
-            svgText = svg.node().parentNode.innerHTML,
-            $this = $(this)
-              .attr('download',svgId+'.svg')
-              .attr('title',svgId+'.svg')
-              .attr('href','data:image/svg+xml;base64,'+ btoa(svgText));
-        // Set cleanup
-        setTimeout(function ($this) {
-          $this
-            .attr('download','')
-            .attr('title','')
-            .attr('href','');
-        }, 1000);
-      });
 
       // ADD EMBED GRAPH BUTTON BEHAVIOURS
       $('a.embedSvg').on('click', function (e) {
