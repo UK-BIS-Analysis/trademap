@@ -20,7 +20,7 @@ body,
   min-height: 100%;
 }
 #loadingDiv {
-  background: url('../scripts/libs/svg-loaders/svg-loaders/oval.svg') no-repeat scroll 50% 50% #F9F9F9;
+  background: url('../libs/svg-loaders/svg-loaders/oval.svg') no-repeat scroll 50% 50% #F9F9F9;
   position: fixed;
   top: 0px;
   right: 0px;

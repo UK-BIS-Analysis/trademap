@@ -9,6 +9,10 @@ module.exports = function(grunt) {
       indexFile: {
         src: 'index.dev.html',
         dest: 'index.html'
+      },
+      modernizr: {
+        src: 'libs/modernizr.custom.js',
+        dest: 'assets/modernizr.custom.js'
       }
     },
 
@@ -31,7 +35,7 @@ module.exports = function(grunt) {
         keepSpecialComments: 0,
         rebase: true,
         relativeTo: './index.html',
-        target: 'styles/libs.min.css'
+        target: 'assets/libs.min.css'
       }
     },
 
@@ -46,7 +50,7 @@ module.exports = function(grunt) {
           name: "../node_modules/almond/almond",
           include: ['main'],
           insertRequire: ['main'],
-          out: 'scripts/main.min.js',
+          out: 'assets/main.min.js',
           optimize: "uglify2"
         }
       }
@@ -58,23 +62,30 @@ module.exports = function(grunt) {
         actions: [
           {
             name: 'main',
-            search: '<script data-main=".*" src="scripts/libs/requirejs/require.js"></script>',
-            replace: function(match){
-              var regex = /scripts\/.*main/;
-              var result = regex.exec(match);
-              return '<script src="' + result[0] + '.min.js?build=' + (new Date()).getTime() + '"></script>';
-            },
+            search: '<script data-main="scripts/main" src="libs/requirejs/require.js"></script>',
+            replace:'<script src="assets/main.min.js?build=' + (new Date()).getTime() + '"></script>',
             flags: 'g'
           }
         ]
       },
       debug: {
-        src: ['scripts/main.min.js'],
+        src: ['assets/main.min.js'],
         actions: [
           {
             name: 'main',
             search: 'window.DEBUG=!0',
             replace: 'window.DEBUG=0',
+            flags: 'g'
+          }
+        ]
+      },
+      modernizr: {
+        src: ['index.html'],
+        actions: [
+          {
+            name: 'main',
+            search:  '<script type="text/javascript" src="libs/modernizr.custom.js"></script>',
+            replace: '<script type="text/javascript" src="assets/modernizr.custom.js"></script>',
             flags: 'g'
           }
         ]
@@ -100,7 +111,7 @@ module.exports = function(grunt) {
         },
         files: [
           {src: ['data/*'], dest: './', filter: 'isFile'}, // includes files in path
-          {src: ['img/**', 'pages/**', 'styles/**', 'scripts/**'], dest: './'}, // includes files in path and its subdirs
+          {src: ['img/**', 'pages/**', 'assets/**'], dest: './'}, // includes files in path and its subdirs
           {src: ['./*.txt', './*.html', './*.md', './*.php'], dest: './', filter: 'isFile'}
         ]
       }
@@ -124,6 +135,7 @@ module.exports = function(grunt) {
   // Default task(s).
   grunt.registerTask('default', [
     'copy:indexFile',
+    'copy:modernizr',
     'useminPrepare',
     'concat:generated',
     'cssmin:generated',
@@ -132,6 +144,7 @@ module.exports = function(grunt) {
     'requirejs:compile',
     'regex-replace:debug',
     'regex-replace:dist',
+    'regex-replace:modernizr',
     'htmlmin:dist',
     'compress'
   ]);
