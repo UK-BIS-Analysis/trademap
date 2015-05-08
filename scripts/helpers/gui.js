@@ -16,6 +16,9 @@ define([], function() {
 
     setup: function () {
 
+      // Display footer
+      $('#footer').show();
+
       // ADD CHEVRON BUTTON BEHAVIOURS (As well as go to footer)
       $("#goToCharts a, #goToMap a").tooltip();
       $("#goToCharts a, #goToMap a, #goToFooter").on('click', function(e) {

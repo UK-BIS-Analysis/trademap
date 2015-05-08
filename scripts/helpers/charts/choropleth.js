@@ -106,7 +106,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
               });
             });
 
-          callback();
+          if (callback) { callback(); }
 
         },
 

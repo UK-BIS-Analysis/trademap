@@ -13,6 +13,9 @@ svg {
   stroke-width: 0px;
   background-color: #fff;
 }
+svg#mapLegendSvg {
+  background: none;
+}
 
 /* Choropleth */
 .fill {

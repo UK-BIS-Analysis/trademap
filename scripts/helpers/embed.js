@@ -22,39 +22,28 @@ define(function(require) {
     importColors  : ['rgb(240,249,232)','rgb(186,228,188)','rgb(123,204,196)','rgb(67,162,202)','rgb(8,104,172)'],  // blues
     exportColors  : ['rgb(255,255,204)','rgb(194,230,153)','rgb(120,198,121)','rgb(49,163,84)','rgb(0,104,55)'], // greens
 
-    setup: function (callback) {
+    setup: function (filters) {
 
-      if (DEBUG) { console.log('This is an embed.'); }
+      if (DEBUG) { console.log('This is an embed of '+filters.embed); }
 
-      embed.colors = [charts.balanceColors, charts.importColors, charts.exportColors];
+      // Add a class to body to trigger CSS rules
+      $('body')
+        .addClass('embed')
+        .addClass(filters.embed+'Embedded');
 
-      // Setup the chart we need
-
-      // Apply colors
-//      choropleth.colors = charts.colors;
-//      yearChart.colors = charts.colors;
-//      topExportCommodities.colors = charts.colors;
-//      topExportDestinations.colors = charts.colors;
-//      topImportCommodities.colors = charts.colors;
-//      topImportSources.colors = charts.colors;
-
-
-
-//      yearChart.setup();
-//      infoBox.setup();
-//      topExportCommodities.setup();
-//      topExportDestinations.setup();
-//      topImportCommodities.setup();
-//      topImportSources.setup();
-//      choropleth.setup(function () {
-//        var css = charts._getCssForSVGs();
-//        charts._injectCSSintoSVG(css, d3.selectAll('svg'));
-//        callback();
-//      });
+      require(['./charts/'+filters.embed], function(chart){
+        chart.colors = [embed.balanceColors, embed.importColors, embed.exportColors];
+        chart.setup();
+        chart.refresh(null, filters);
+      });
     },
 
-    _display: function (chartName) {
+    hide: function (chartNames) {
       // Hide all except for the chart we want to show
+      chartNames.forEach(function (chartName) {
+        $('#'+chartName).hide();
+      });
+      $('#loadingDiv').hide();
     }
 
   };

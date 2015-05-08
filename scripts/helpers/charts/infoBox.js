@@ -23,7 +23,6 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
       bottomMargin  = 10,
       getPositionFromTop = function () {
         if ($(document).width() > 992) {
-          console.log($infoBox.height());
           return Math.min(
             $('#infoBoxPlaceholder').offset().top,
             $(window).height()-$infoBox.height() - bottomMargin + $(window).scrollTop()
@@ -53,7 +52,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
           $infoBox
             .show()
             .css({
-              top: getPositionFromTop(),
+              top: $(window).height()-$infoBox.height() - bottomMargin + $(window).scrollTop(),
               width: getWidth()
             });
 

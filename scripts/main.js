@@ -53,6 +53,8 @@ require(['helpers/data', 'helpers/gui', 'helpers/controls', 'helpers/charts', 'h
       var filters = controls.decodeURL(),
           chartNames = ['choropleth', 'yearChart', 'topImportCommodities', 'topExportCommodities', 'topImportSources', 'topExportDestinations'];
       if (filters.embed && chartNames.indexOf(filters.embed)>-1) {
+        chartNames.splice(chartNames.indexOf(filters.embed), 1);
+        embed.hide(chartNames);
         embed.setup(filters);
         return;
       }
