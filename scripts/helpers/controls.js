@@ -27,6 +27,9 @@ define(['./data'], function(data) {
 
     setup: function () {
 
+      // Display the navBar (which is otherwise hidden)
+      $('#navbar').show();
+
       // SETUP SELECT2 DROPDOWN SELECTORS
       // Setup the reporters dropdown
       this.$selectReporter

@@ -13,7 +13,7 @@ require.config({
     urlArgs: "build=" + (new Date()).getTime()
 });
 
-require(['helpers/data', 'helpers/gui', 'helpers/controls', 'helpers/charts'], function(data, gui, controls, charts) {
+require(['helpers/data', 'helpers/gui', 'helpers/controls', 'helpers/charts', 'helpers/embed'], function(data, gui, controls, charts, embed) {
   'use strict';
 
   // NOTE: We declare a global boolean DEBUG variable which we'll use to switch on or off console.log messages
@@ -49,7 +49,13 @@ require(['helpers/data', 'helpers/gui', 'helpers/controls', 'helpers/charts'], f
         return;
       }
 
-      // TODO check if we have an embed parameter like "embed=yearChart"
+      // Check if we have an embed parameter like "embed=yearChart".
+      var filters = controls.decodeURL(),
+          chartNames = ['choropleth', 'yearChart', 'topImportCommodities', 'topExportCommodities', 'topImportSources', 'topExportDestinations'];
+      if (filters.embed && chartNames.indexOf(filters.embed)>-1) {
+        embed.setup(filters);
+        return;
+      }
 
       // Setup the gui
       gui.setup();
@@ -63,6 +69,6 @@ require(['helpers/data', 'helpers/gui', 'helpers/controls', 'helpers/charts'], f
       });
 
 
-    }); // Close data.setup()
+    });   // Close data.setup()
   });     // Close $(document).ready
 });       // Close require

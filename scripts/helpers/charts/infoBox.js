@@ -23,7 +23,8 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
       bottomMargin  = 10,
       getPositionFromTop = function () {
         if ($(document).width() > 992) {
-         return Math.min(
+          console.log($infoBox.height());
+          return Math.min(
             $('#infoBoxPlaceholder').offset().top,
             $(window).height()-$infoBox.height() - bottomMargin + $(window).scrollTop()
           )+'px';
@@ -47,11 +48,14 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
       box = {
 
         setup: function () {
-          // Position the infoBox on load
-          $infoBox.css({
-            top: getPositionFromTop(),
-            width: getWidth()
-          });
+
+          // Display and position the infoBox (which is otherwise hidden)
+          $infoBox
+            .show()
+            .css({
+              top: getPositionFromTop(),
+              width: getWidth()
+            });
 
           // Bind to the scroll event and move the box
           $(window).scroll(repositionBox);

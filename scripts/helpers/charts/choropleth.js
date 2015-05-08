@@ -38,6 +38,10 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
 
 
         setup: function (callback) {
+
+          // Display the choropleth (which is otherwise hidden)
+          $chart.show();
+
           // Bind the refresh function to the refreshFilters event
           $chart.on('refreshFilters', this.refresh);
 
