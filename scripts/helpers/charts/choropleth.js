@@ -373,7 +373,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
                     returnTxt = '50th to 75th percentile';
                     break;
                   case 3:
-                    returnTxt = 'Above 75th percentile';
+                    returnTxt = 'Above 75th percentile excl. top 3';
                     break;
                   case 4:
                     var topPercentile = (3/totalPartners)*100;
