@@ -29,6 +29,12 @@ More details about the sources and the API can be found in the [data/sources/sou
 * indenting is 2 spaces (no tabs)
 
 
+### Accounts
+ 
+ * Google account (for Analytics): username: analysis.bis.trade@gmail.com password: !X-S_?r,2j
+ * SurveyMonkey: username: analysis.bis.trade@gmail.com password: !X-S_?r,2j
+
+
 ### Credits
 
 Coding by [Francesco Merletti](http://fm.to.it)
