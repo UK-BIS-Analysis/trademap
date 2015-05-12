@@ -51,7 +51,7 @@ require(['helpers/data', 'helpers/gui', 'helpers/controls', 'helpers/charts', 'h
 
       // Check if we have an embed parameter like "embed=yearChart".
       var filters = controls.decodeURL(),
-          chartNames = ['choropleth', 'yearChart', 'topImportCommodities', 'topExportCommodities', 'topImportSources', 'topExportDestinations'];
+          chartNames = ['choropleth', 'yearChart', 'topImportCommodities', 'topExportCommodities', 'topImportMarkets', 'topExportMarkets'];
       if (filters.embed && chartNames.indexOf(filters.embed)>-1) {
         chartNames.splice(chartNames.indexOf(filters.embed), 1);
         embed.hide(chartNames);

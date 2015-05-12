@@ -6,7 +6,7 @@
 
 
 /*
- * THIS FILE SETS UP THE topExportDestinations chart
+ * THIS FILE SETS UP THE topExportMarkets chart
  * */
 
 
@@ -14,13 +14,13 @@ define(['../data', '../rowchart', '../gui', '../controls'], function(data, rowch
   'use strict';
 
   var localData = data,
-      $container = $('#topExportDestinations'),
+      $container = $('#topExportMarkets'),
       $chart = $container.children('.chart'),
       $chartTitle = $container.children('.chartTitle'),
 
       height = $chart.height(),
       width  = $chart.width(),
-      svg = d3.select('#topExportDestinations .chart')
+      svg = d3.select('#topExportMarkets .chart')
         .append('svg')
         .attr("xmlns", "http://www.w3.org/2000/svg")
         .attr("version", 1.1)
@@ -57,7 +57,7 @@ define(['../data', '../rowchart', '../gui', '../controls'], function(data, rowch
                 partner:  'all',
                 year:   filters.year,
                 commodity:   'AG2',
-                initiator: 'topExportDestinations'
+                initiator: 'topExportMarkets'
               },
               dataFilter = {
                 reporter: +filters.reporter,

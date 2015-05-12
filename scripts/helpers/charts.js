@@ -10,8 +10,8 @@
  * */
 
 
-define(['./charts/choropleth', './charts/yearChart', './charts/infoBox', './charts/topExportCommodities', './charts/topExportDestinations', './charts/topImportCommodities', './charts/topImportSources'],
-  function(choropleth, yearChart, infoBox, topExportCommodities, topExportDestinations, topImportCommodities, topImportSources) {
+define(['./charts/choropleth', './charts/yearChart', './charts/infoBox', './charts/topExportCommodities', './charts/topExportMarkets', './charts/topImportCommodities', './charts/topImportMarkets'],
+  function(choropleth, yearChart, infoBox, topExportCommodities, topExportMarkets, topImportCommodities, topImportMarkets) {
   'use strict';
 
   var charts = {
@@ -30,17 +30,17 @@ define(['./charts/choropleth', './charts/yearChart', './charts/infoBox', './char
       choropleth.colors = charts.colors;
       yearChart.colors = charts.colors;
       topExportCommodities.colors = charts.colors;
-      topExportDestinations.colors = charts.colors;
+      topExportMarkets.colors = charts.colors;
       topImportCommodities.colors = charts.colors;
-      topImportSources.colors = charts.colors;
+      topImportMarkets.colors = charts.colors;
 
       // Setup charts
       yearChart.setup();
       infoBox.setup();
       topExportCommodities.setup();
-      topExportDestinations.setup();
+      topExportMarkets.setup();
       topImportCommodities.setup();
-      topImportSources.setup();
+      topImportMarkets.setup();
       choropleth.setup(function () {
         var css = charts._getCssForSVGs();
         charts._injectCSSintoSVG(css, d3.selectAll('svg'));

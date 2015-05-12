@@ -380,8 +380,8 @@ p.navbar-text {
 }
 #topExportCommodities,
 #topImportCommodities,
-#topExportDestinations,
-#topImportSources {
+#topExportMarkets,
+#topImportMarkets {
   padding-top: 6em;
 }
 
@@ -485,8 +485,8 @@ p.navbar-text {
 .yearChartEmbedded #yearChart,
 .topImportCommoditiesEmbedded #topImportCommodities,
 .topExportCommoditiesEmbedded #topExportCommodities,
-.topImportSourcesEmbedded #topImportSources,
-.topExportDestinationsEmbedded #topExportDestinations
+.topImportMarketsEmbedded #topImportMarkets,
+.topExportMarketsEmbedded #topExportMarkets
 {
   padding-top: 0;
   width: 100%;
@@ -519,7 +519,7 @@ p.navbar-text {
 }
 .embed.topImportCommoditiesEmbedded #embedCredit,
 .embed.topExportCommoditiesEmbedded #embedCredit,
-.embed.topImportSourcesEmbedded #embedCredit,
-.embed.topExportDestinationsEmbedded #embedCredit {
+.embed.topImportMarketsEmbedded #embedCredit,
+.embed.topExportMarketsEmbedded #embedCredit {
   margin-top: 0.5em;
 }
