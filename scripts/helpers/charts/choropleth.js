@@ -160,7 +160,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
               // Set chart title
               $chartTitle.html(title);
               // Set download link
-              $container.find('.downloadData').on('click', function (e) {
+              $chart.find('.downloadData').on('click', function (e) {
                 e.preventDefault();
                 gui.downloadCsv(title, newData);
               });
