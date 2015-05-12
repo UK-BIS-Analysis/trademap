@@ -157,7 +157,13 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
               if (err || !ready) { return; }
               // Redraw map and set title
               chart._redrawMap(dataFilter);
+              // Set chart title
               $chartTitle.html(title);
+              // Set download link
+              $container.find('.downloadData').on('click', function (e) {
+                e.preventDefault();
+                gui.downloadCsv(title, newData);
+              });
             });
         },
 

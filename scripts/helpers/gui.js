@@ -170,10 +170,25 @@ define([], function() {
       $('#myModalLabel').html('<span class="glyphicon glyphicon-warning-sign"></span> There was an error in querying the COMTRADE API.');
       $('#myModal .modal-body').html('Charts may not display correctly, please try reloading the page or trying again later.<br /><small>Error details: '+err+'</small>');
       $('#myModal').modal({ show: true });
+    },
+
+
+
+    downloadCsv: function (title, newData) {
+      var csvContent = 'data:text/csv;charset=utf-8,'
+                     + '\n'
+                     + 'reporter,partner,flow,commodity,year,value'
+                     + '\n';
+      newData.forEach(function(d, i){
+        csvContent += d.reporter + ',' + d.partner + ',' + d.flow + ',' + d.commodity + ',' + d.year + ',' + d.value + '\n';
+      });
+      var encodedUri = encodeURI(csvContent),
+          link = document.createElement("a");
+      link.setAttribute('href', encodedUri);
+      link.setAttribute('download', title+'.csv');
+      document.body.appendChild(link);
+      link.click();
     }
-
-
-
 
   };
 

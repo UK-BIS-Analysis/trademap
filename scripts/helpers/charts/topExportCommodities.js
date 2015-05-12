@@ -102,7 +102,13 @@ define(['../data', '../rowchart', '../gui', '../controls'], function(data, rowch
             if (err || !ready) { return; }
             // Get the data, update title, display panel and update chart
             var newData = localData.getData(dataFilter, numEntries);
+            // Set chart title
             $chartTitle.html(title);
+            // Set download link
+            $container.find('.downloadData').on('click', function (e) {
+              e.preventDefault();
+              gui.downloadCsv(title, newData);
+            });
             $container.slideDown(400, function () {
               rowchart.draw(svg, newData, dataFilter, chart.colors[0][1]);
             });
