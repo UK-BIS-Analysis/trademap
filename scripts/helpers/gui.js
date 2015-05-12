@@ -21,6 +21,7 @@ define([], function() {
 
       // ADD CHEVRON BUTTON BEHAVIOURS (As well as go to footer)
       $("#goToCharts a, #goToMap a").tooltip();
+      $(".titleDropdown button").tooltip();
       $("#goToCharts a, #goToMap a, #goToFooter").on('click', function(e) {
         e.preventDefault();
         var hash = this.hash;
