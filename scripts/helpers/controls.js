@@ -137,6 +137,13 @@ define(['./data'], function(data) {
         return;
       }
 
+      // If partner was unselected and is now selected then scroll down to the charts.
+      if (!controls.filters.partner && newfilters.partner) {
+        $('html, body').animate({
+          scrollTop: $('#charts').offset().top
+        }, 2000);
+      }
+
       if (DEBUG) { console.log('New filters: %s', JSON.stringify(newfilters)); }
 
       // Activate/deactivate controls appropriately
