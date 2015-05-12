@@ -31,6 +31,10 @@ define(function(require) {
         .addClass('embed')
         .addClass(filters.embed+'Embedded');
 
+      $('#embedCredit').show();
+
+      $('#embedCredit a').attr('href', window.location.href.split('&embed')[0]);
+
       require(['./charts/'+filters.embed], function(chart){
         chart.colors = [embed.balanceColors, embed.importColors, embed.exportColors];
         chart.setup();

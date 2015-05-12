@@ -135,6 +135,24 @@ define([], function() {
       // ADD EMBED GRAPH BUTTON BEHAVIOURS
       $('a.embedSvg').on('click', function (e) {
         e.preventDefault();
+        $('#myModal #myModalLabel').html('Embed this chart');
+        $('#myModal .modal-body').html(
+            '<p>Copy and paste the following code:</p>'
+          + '<pre>'
+          + '&lt;iframe src=&quot;'
+          + window.location.href
+          + '&amp;embed='
+          + $(this).attr('data-target')
+          + '&quot; height=&quot;500&quot; width=&quot;100%&quot;&gt;&lt;/iframe&gt;'
+          + '</pre>'
+          + '<p>Preview:</p>'
+          + '<iframe src="'
+          + window.location.href
+          + '&embed='
+          + $(this).attr('data-target')
+          + '" height="500" width="100%"></iframe>'
+        );
+        $('#myModal').modal('show');
       });
 
 
