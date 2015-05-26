@@ -153,6 +153,15 @@ p.navbar-text {
   font-weight: bold;
   content: "Reporter: ";
 }
+#switchPartners {
+  font-size: 14px;
+}
+#s2id_selectPartner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-left: 38px;
+}
 #s2id_selectPartner .select2-chosen::before {
   font-size: 0.9em;
   font-weight: bold;

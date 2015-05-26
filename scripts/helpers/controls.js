@@ -67,6 +67,17 @@ define(['./data'], function(data) {
         })
         .on('change', controls.onFilterChange);
 
+      // ADD REPORTER<->PARTNER SWITCH BUTTON BEHAVIOUR
+      $('#switchPartners').on('click', function (event) {
+        var currentFilters = controls.getFilters();
+        controls.changeFilters({
+          reporter: currentFilters.partner,
+          partner: currentFilters.reporter,
+          year: currentFilters.year,
+          flow: currentFilters.flow
+        });
+      });
+
 
       // ADD IMPORT/EXPORT/BALANCE BUTTON BEHAVIOURS
       this.$flowButtons.on('click', function (event) {
@@ -277,10 +288,16 @@ define(['./data'], function(data) {
         $("#selectCommodity").select2('disable');
         $("#selectPartner").select2('disable');
         $("#selectYear").select2('disable');
+        $('#switchPartners').prop('disabled', true);
       } else {
         $("#selectCommodity").select2('enable');
         $("#selectPartner").select2('enable');
         $("#selectYear").select2('enable');
+        if (filters.partner && data.lookup(filters.partner, 'reporterAreas', 'id') != 'unknown') {
+          $('#switchPartners').prop('disabled', false);
+        } else {
+          $('#switchPartners').prop('disabled', true);
+        }
       }
     },
 
