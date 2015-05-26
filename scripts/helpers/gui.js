@@ -16,7 +16,16 @@ define([], function() {
 
     setup: function () {
 
-      // Display footer
+      // DISABLE ZOOM FUNCTION ON SCROLL AND ON CTRL+ and CTRL-
+      $(window).bind('mousewheel DOMMouseScroll keydown', function (event) {
+        var code = event.keyCode || event.which;
+        if (event.ctrlKey == true && (['wheel', 'mousewheel', 'DOMMouseScroll'].indexOf(event.type) > -1 || event.type == 'mousewheel' || [107, 189, 187, 173, 61].indexOf(code) > -1)) {
+          event.preventDefault();
+          if (DEBUG) { console.log('Sorry, zooming is disabled on this app.'); }
+        }
+      });
+
+      // DISPLAY FOOTER
       $('#footer').show();
 
       // ADD CHEVRON BUTTON BEHAVIOURS (As well as go to footer)
@@ -47,6 +56,19 @@ define([], function() {
         var winLeft = (screen.width / 2) - (350 / 2);
         window.open('https://twitter.com/share?text=Check%20out%20the%20International%20Trade%20in%20Goods%20DataViz&url='+window.location.href, 'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width=' + 520 + ',height=' + 350);
       });
+
+      // ADD LOADING PROGRESSBAR BEHAVIOUR
+      window.addEventListener('queryQueueUpdate', function (event) {
+        var $progressBar = $('#loadingDiv .progress-bar');
+        if (event.queryCount === 0) {
+          $progressBar.attr('aria-valuenow', 0).attr('aria-valuemax', 0) .css('width', '100%');
+          return;
+        }
+        var valuemax = Math.max(parseInt($progressBar.attr('aria-valuemax'),10),event.queryCount),
+            valuenow = valuemax - event.queryCount,
+            width = ((valuenow/valuemax)*100)+'%';
+        $progressBar.attr('aria-valuenow', valuenow).attr('aria-valuemax', valuemax) .css('width', width);
+      }, false);
 
       // ADD DOWNLOAD GRAPHS FUNCTIONS
       // If blob constructor is not supported then we hide the download button

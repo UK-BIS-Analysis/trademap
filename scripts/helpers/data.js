@@ -147,7 +147,8 @@ define(function(require) {
 
         var ajaxSettings = {
           dataType: 'json'
-        }
+        };
+
         $.when(
           $.ajax('data/reporterAreas.min.json', ajaxSettings),
           $.ajax('data/partnerAreas.min.json', ajaxSettings),
@@ -238,12 +239,13 @@ define(function(require) {
         }
 
         // If the API was called less than a second ago, or if the query is in the queue then we need to
-        // postpone the call
+        // postpone the call and fire the queryQueueUpdate event
         var timeAgo = time.getTime() - data.timestamp;
         if (timeAgo < 1100 || data.queryRunning.indexOf(requestUrl) > -1) {
           window.setTimeout(function () { data.query(filters, callback); }, timeAgo+100);
           if (this.queryQueue.indexOf(requestUrl) < 0) {
             this.queryQueue.push(requestUrl);
+            this._fireQueryQueueUpdateEvent();
           }
           callback(null, false);
           return;
@@ -268,24 +270,13 @@ define(function(require) {
             $('#loadingDiv').fadeIn();
           },
           success: function success (data, status, xhr) {
-            // Add data to crossfilter
+            // Add data to crossfilter and the query to the history
             this._addData(data, filters);
-            // Add query to history
             this.queryHistory.push(requestUrl);
-            //Remove it from queryQueue and queryRunning if it was there
-            var runningItem = this.queryRunning.indexOf(requestUrl);
-            if (runningItem > -1) { this.queryRunning.splice(runningItem, 1); }
-            var queueItem = this.queryQueue.indexOf(requestUrl);
-            if (queueItem > -1) { this.queryQueue.splice(queueItem, 1); }
             // Callback
             callback(null, true);
           },
           error: function error (xhr, status, err) {
-            //Remove it from queryQueue and queryRunning if it was there
-            var runningItem = this.queryRunning.indexOf(requestUrl);
-            if (runningItem > -1) { this.queryRunning.splice(runningItem, 1); }
-            var queueItem = this.queryQueue.indexOf(requestUrl);
-            if (queueItem > -1) { this.queryQueue.splice(queueItem, 1); }
             // If error is 409 then requeue the request
             if(xhr.status === 409) {
               if (DEBUG) { console.log('API 409 Error: Requeueing the request.'); }
@@ -296,6 +287,16 @@ define(function(require) {
             }
           },
           complete: function () {
+            //Remove it from queryQueue and queryRunning if it was there
+            var runningItem = this.queryRunning.indexOf(requestUrl);
+            if (runningItem > -1) { this.queryRunning.splice(runningItem, 1); }
+            var queueItem = this.queryQueue.indexOf(requestUrl);
+            if (queueItem > -1) { this.queryQueue.splice(queueItem, 1); }
+
+            // Fire the queryQueueUpdate event on window
+            this._fireQueryQueueUpdateEvent();
+
+            // If finished then hide the loadingDiv
             if (this.queryQueue.length === 0 && this.queryRunning.length === 0) {
               $('#loadingDiv').fadeOut();
               $('#loadingDiv #cancelRequest').off('click');
@@ -508,12 +509,19 @@ define(function(require) {
         this.xFilter.add(insertData);
 
         if(DEBUG) {
-          console.groupCollapsed('%s query: r=%s p=%s c=%s y=%s', filters.initiator, filters.reporter, filters.partner, filters.commodity, filters.year);
+          console.groupCollapsed('API QUERY SUCCESS from %s: r=%s p=%s c=%s y=%s', filters.initiator, filters.reporter, filters.partner, filters.commodity, filters.year);
           console.log('filters: %o', filters);
           console.log('Added %d new records. Retrieved %d records. Checked %d possible matches and discarded %d duplicates. New xFilter size: %d', insertData.length, newData.length, xFdata.length, duplicates.length, this.xFilter.size());
           console.log('duplicates discarded: %o', duplicates);
           console.groupEnd();
         }
+      },
+
+      _fireQueryQueueUpdateEvent: function () {
+        var event = document.createEvent("Events");
+        event.initEvent('queryQueueUpdate', true, true);
+        event.queryCount = this.queryQueue.length + this.queryRunning.length;
+        window.dispatchEvent(event);
       }
 
     };

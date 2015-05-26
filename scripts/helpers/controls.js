@@ -155,7 +155,7 @@ define(['./data'], function(data) {
         }, 2000);
       }
 
-      if (DEBUG) { console.log('New filters: %s', JSON.stringify(newfilters)); }
+      // if (DEBUG) { console.log('New filters: %s', JSON.stringify(newfilters)); }
 
       // Activate/deactivate controls appropriately
       controls.fadeControls(newfilters);

@@ -13,7 +13,7 @@ require.config({
     urlArgs: "build=" + (new Date()).getTime()
 });
 
-require(['helpers/data', 'helpers/gui', 'helpers/controls', 'helpers/charts', 'helpers/embed'], function(data, gui, controls, charts, embed) {
+require(['helpers/data', 'helpers/gui', 'helpers/controls', 'helpers/charts', 'helpers/embed', 'helpers/intro'], function(data, gui, controls, charts, embed, intro) {
   'use strict';
 
   // NOTE: We declare a global boolean DEBUG variable which we'll use to switch on or off console.log messages
@@ -50,14 +50,23 @@ require(['helpers/data', 'helpers/gui', 'helpers/controls', 'helpers/charts', 'h
       }
 
       // Check if we have an embed parameter like "embed=yearChart".
-      var filters = controls.decodeURL(),
+      var urlParameters = controls.decodeURL(),
           chartNames = ['choropleth', 'yearChart', 'topImportCommodities', 'topExportCommodities', 'topImportMarkets', 'topExportMarkets'];
-      if (filters.embed && chartNames.indexOf(filters.embed)>-1) {
-        chartNames.splice(chartNames.indexOf(filters.embed), 1);
+      if (urlParameters.embed && chartNames.indexOf(urlParameters.embed)>-1) {
+        // If we do, then hide all other charts and call the embed setup and skip the rest
+        chartNames.splice(chartNames.indexOf(urlParameters.embed), 1);
         embed.hide(chartNames);
-        embed.setup(filters);
+        embed.setup(urlParameters);
         return;
       }
+
+      // Check for a cookie with introDone=true to determine whether we shuold run the intro or not
+      // Or force the intro if we have a url parameter intro=true
+      var introCookie = document.cookie.replace(/(?:(?:^|.*;\s*)introDone\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+      if(!introCookie || urlParameters.intro == 'true') {
+        intro.setup();
+      }
+
 
       // Setup the gui
       gui.setup();
