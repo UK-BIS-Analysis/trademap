@@ -60,16 +60,11 @@ require(['helpers/data', 'helpers/gui', 'helpers/controls', 'helpers/charts', 'h
         return;
       }
 
-      // Check for a cookie with introDone=true to determine whether we shuold run the intro or not
-      // Or force the intro if we have a url parameter intro=true
-      var introCookie = document.cookie.replace(/(?:(?:^|.*;\s*)introDone\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-      if(!introCookie || urlParameters.intro == 'true') {
-        intro.setup();
-      }
-
-
       // Setup the gui
       gui.setup();
+
+      // Setup intro (which will internally check if it should be displayed)
+      intro.setup(urlParameters);
 
       // Setup the controls
       controls.setup();

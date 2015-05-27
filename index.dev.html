@@ -97,6 +97,7 @@
                 <li><a href="pages/contacts.html" data-toggle="modal" data-target="#myModal">Key contacts</a></li>
                 <li><a href="pages/furtherinfo.html" data-toggle="modal" data-target="#myModal">Further information</a></li>
                 <li><a href="pages/licence.html" data-toggle="modal" data-target="#myModal">Licence and Copyright</a></li>
+                <li><a href="#" id="startIntro">Show intro</a></li>
                 <li><a href="#footer" id="goToFooter">Credits</a></li>
               </ul>
             </li>
@@ -112,11 +113,11 @@
 
         <!-- CONTROLS -->
         <div class="row clearfix" id="controls">
-          <div class="col-md-3 col-sm-6 col-xs-12 column">
+          <div class="col-md-3 col-sm-6 col-xs-12 column" id="selectReporterContainer">
             <!-- Reporter selection -->
             <span id="selectReporter" class="select2control"></span><br />
           </div>
-          <div class="col-md-3 col-sm-6 col-xs-12 column">
+          <div class="col-md-3 col-sm-6 col-xs-12 column" id="selectPartnerContainer">
             <!-- Partner selection -->
             <span id="selectPartner" class="select2control selectPartner"></span>
             <!-- Switch reporter and partner button -->
@@ -124,7 +125,7 @@
               <span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>
             </button>
           </div>
-          <div class="col-md-4 col-sm-8  col-xs-12 column">
+          <div class="col-md-4 col-sm-8  col-xs-12 column" id="selectCommodityContainer">
             <!-- Commodity selection -->
             <span id="selectCommodity" class="select2control selectCommodity"></span>
           </div>
@@ -199,7 +200,9 @@
 
 
       <!-- Feedback button -->
-      <a id="feedback-tab" href="https://www.surveymonkey.com/s/89TR6MM" target="_blank">Feedback</a>
+      <div id="feedback-tab">
+        <a href="https://www.surveymonkey.com/s/89TR6MM" target="_blank">Feedback</a>
+      </div>
 
 
 

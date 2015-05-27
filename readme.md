@@ -23,7 +23,8 @@ Frontend:
 * [select2](https://select2.github.io/): For the drop-down select controls
 * [history.js](https://github.com/balupton/History.js/): For persistent URL management in HTML5 browsers and HTML4 browsers
 * [file-saver-saveas-js](https://github.com/eligrey/FileSaver.js/): For saving SVG and PNGs
-* And also: [d3-tip](https://github.com/Caged/d3-tip), [svg-loaders](http://samherbert.net/svg-loaders/)
+* [d3-tip](https://github.com/Caged/d3-tip)
+* [intro.js](https://github.com/usablica/intro.js/#attributes)
 * And to deal with older Internet Explorer versions: [aight](https://github.com/shawnbot/aight) and [jQuery.XDomainRequest](https://github.com/MoonScript/jQuery-ajaxTransport-XDomainRequest)
 
 Development tools:
@@ -64,6 +65,7 @@ The ```scripts/helpers``` folder contains modules for different components of th
   It is used to render the embedded chart view and is triggered by having an ```&embed=yearChart``` query parameter.
 * ```charts/*.js```: Each file contains specific logic for each of the different charts.
 * ```rowchart.js```: Contains re-usable logic to draw each of the row charts and is invoked from the modules inside the ```charts``` folder.
+* ```intro.js```: Contains the logic and steps for the introduction slideshow.
 
 ### Build process: packaging and optimization
 

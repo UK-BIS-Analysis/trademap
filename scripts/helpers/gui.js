@@ -19,7 +19,7 @@ define([], function() {
       // DISABLE ZOOM FUNCTION ON SCROLL AND ON CTRL+ and CTRL-
       $(window).bind('mousewheel DOMMouseScroll keydown', function (event) {
         var code = event.keyCode || event.which;
-        if (event.ctrlKey == true && (['wheel', 'mousewheel', 'DOMMouseScroll'].indexOf(event.type) > -1 || event.type == 'mousewheel' || [107, 189, 187, 173, 61].indexOf(code) > -1)) {
+        if (event.ctrlKey == true && (['wheel', 'mousewheel', 'DOMMouseScroll'].indexOf(event.type) > -1 || [107, 189, 187, 173, 61].indexOf(code) > -1)) {
           event.preventDefault();
           if (DEBUG) { console.log('Sorry, zooming is disabled on this app.'); }
         }
@@ -36,10 +36,7 @@ define([], function() {
         var hash = this.hash;
         $('html, body').animate({
           scrollTop: $(hash).offset().top
-        }, 1000, function(){
-          // do something when done like adding hash to location
-          // window.location.hash = hash;
-        });
+        }, 1000);
       });
 
       // ADD SPECIFIC MENU BEHAVIOURS
