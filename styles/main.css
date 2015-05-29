@@ -190,7 +190,7 @@ body.no-fontsupport .glyphicon-arrow-right:before {
   position: absolute;
   top: 0;
   left: 0;
-  padding-left: 38px;
+  margin-left: 38px;
 }
 #s2id_selectPartner .select2-chosen::before {
   font-size: 0.9em;
