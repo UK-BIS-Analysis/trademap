@@ -14,59 +14,67 @@ define(function(require) {
   'use strict';
 
   var steps = [
-    // Welcome & description
+    // 01. Welcome & description
     {
       intro: '<h3>Welcome to the International Trade in Goods visualization.</h3>'+
-             '<p style="font-size: 14px">This tool allows you to explore official trade data using live data from the UN COMTRADE database.</p>'+
+             '<p style="font-size: 14px">This tool allows you to explore official trade in goods data using live data from the UN COMTRADE database.</p>'+
              '<p style="font-size: 14px">The tool was developed by the Department for Business Innovation and Skills (UK).</p>'
     },
-    // Controls (overview)
+    // 02. Controls (overview)
     {
       element: document.querySelector('#controls'),
-      intro: "The controls at the top of the page allow you to filter the data and explore trade statistics.",
+      intro: "The controls at the top of the page allow you to filter the data so you can focus on specific information and find what matters to you most.",
       position: 'bottom-middle-aligned'
     },
-    // Map
-    {
-      element: document.querySelector('#choroplethTitle .chartTitle'),
-      intro: "The map visualization shows at a glance the top trading partners for the selected reporter, optionally for a specific commodity if one is selected.",
-      position: 'bottom-middle-aligned'
-    },
-    // Key facts box
-    {
-      element: document.querySelector('#infoBox'),
-      intro: "The key facts box gives you a breakdown of the main trade statistics between your selected reporter and partner. If you hover your mouse on the map it will also give you quick insights into the areas hovered.",
-      position: 'right'
-    },
-    // Charts
-    {
-      element: document.querySelector('#yearChart .chartTitle'),
-      intro: "Below the map you have a few charts showing you details based on your filter selection. Please note that charts will be displayed and hidden based on your selections.",
-      position: 'top'
-    },
-    // Controls (detail)
+    // 03. Reporter
     {
       element: document.querySelector('#selectReporterContainer'),
-      intro: "The reporter is your starting point. You can't select a partner or commodity without having selected a reporter first.",
+      intro: "Selecting a reporter is your starting point. You will need to select this to be able to select a partner, commodity and year.",
       position: 'right'
     },
+    // 04. Partner
     {
       element: document.querySelector('#selectPartnerContainer'),
-      intro: "Selecting a partner will allow you to see details of commodities and trade flows between your selected reporter and partner. The details will show in the Key facts box and on the graphs below the map.",
+      intro: "Selecting a partner will allow you to see details of trade flows between your selected reporter and partner. These details will show in the Key Facts box and on the graphs below the map.",
       position: 'bottom-middle-aligned'
     },
+    // 05. Commodity
     {
       element: document.querySelector('#selectCommodityContainer'),
-      intro: "The commodities list is a classification of goods that allows you to drill down on the trade data. Selecting a commodity will update the map and the graphs below.",
+      intro: "Selecting the commodity box will display a list of classification of goods. This allows you to drill down the trade data to a greater level of detail. Selecting a commodity will update the map and the graphs below.",
       position: 'left'
     },
-    // Feeback
+    // 06. Flow seleciton
+    {
+      element: document.querySelector('#flowButtons'),
+      intro: "The map and legend will update based on whether you select ‘exports’, ‘imports’ or ‘balance’.",
+      position: 'right'
+    },
+    // 07. Map
+    {
+      element: document.querySelector('#choroplethTitle .chartTitle'),
+      intro: "The map visualization shows at a glance the top trading partners for the selected reporter country, and commodity if selected. You can hover over an area on the map to get quick insights into that area, or select the area as a reporter or partner.",
+      position: 'bottom-middle-aligned'
+    },
+    // 08. Key facts box
+    {
+      element: document.querySelector('#infoBox'),
+      intro: "The Key Facts box gives a breakdown of trade between your selected reporter and partner, such as export, import, balance and bilateral trade figures.",
+      position: 'right'
+    },
+    // 09. Charts
+    {
+      element: document.querySelector('#yearChart .chartTitle'),
+      intro: "Below the map, you will find charts showing further detail based on your filter selection. Please note that these will be displayed or hidden based on your selections. You can download these charts by selecting the arrows to the left of the charts.",
+      position: 'top'
+    },
+    // 10. Feeback
     {
       element: document.querySelector('#feedback-tab'),
-      intro: "When you're done we'd really appreciate your impressions and ideas.",
+      intro: "When you're done we'd really appreciate your thoughts on the visualization.",
       position: 'left'
     },
-    // Goodbye
+    // 11. Goodbye
     {
       intro: "Now try it yourself!"
     }
@@ -94,7 +102,7 @@ define(function(require) {
           scrollToElement = function (target) {
             var topOffset = Math.max(0, $(target).offset().top-$(window).height()/2);
             // Exceptions:
-            if (target.id === 'selectReporterContainer') {
+            if (target.id === 'feedback-tab') {
               topOffset = 0;
             }
             if (target.id === 'infoBox') {
