@@ -418,10 +418,10 @@ define(function(require) {
             d.balanceVal = d.exportVal - d.importVal;
           }
           if (d.importVal && totImports !== 0) {
-            d.importPc = (d.importVal / totImports) / 100;
+            d.importPc = (d.importVal / totImports) * 100;
           }
           if (d.exportVal && totExports !== 0) {
-            d.exportPc = (d.exportVal / totExports) / 100;
+            d.exportPc = (d.exportVal / totExports) * 100;
           }
           return d;
         });
