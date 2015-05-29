@@ -148,6 +148,25 @@ p.navbar-text {
 }
 
 
+/*
+ * IE STYLES
+ */
+body.no-fontsupport .glyphicon:before {
+  font-family: 'Arial';
+}
+body.no-fontsupport .glyphicon-transfer:before {
+  content: '↔'
+}
+body.no-fontsupport .glyphicon-remove:before {
+  content: '˟'
+}
+body.no-fontsupport .glyphicon-arrow-left:before {
+  content: '←'
+}
+body.no-fontsupport .glyphicon-arrow-right:before {
+  content: '→'
+}
+
 
 
 /*

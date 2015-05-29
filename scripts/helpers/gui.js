@@ -16,6 +16,13 @@ define([], function() {
 
     setup: function () {
 
+      // DETECT BROWSERS THAT DON'T SUPPORT EXTERNAL FONTS
+      fontFaceCheck.support(false, function(isSupported) {
+        if (!isSupported) {
+          $('body').addClass('no-fontsupport');
+        }
+      });
+
       // DISABLE ZOOM FUNCTION ON SCROLL AND ON CTRL+ and CTRL-
       $(window).bind('mousewheel DOMMouseScroll keydown', function (event) {
         var code = event.keyCode || event.which;

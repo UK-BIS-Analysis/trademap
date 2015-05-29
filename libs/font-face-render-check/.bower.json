@@ -1,0 +1,14 @@
+{
+  "name": "font-face-render-check",
+  "homepage": "https://github.com/RoelN/font-face-render-check",
+  "_release": "98f0adda9c",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "98f0adda9cfe44fe97f6d538aa893a37905a7add"
+  },
+  "_source": "git://github.com/RoelN/font-face-render-check.git",
+  "_target": "*",
+  "_originalSource": "git://github.com/RoelN/font-face-render-check.git",
+  "_direct": true
+}
