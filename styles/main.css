@@ -57,6 +57,10 @@ nav.navbar {
   display: block;
   color: #FFF;
   text-decoration: none;
+  -webkit-transform:rotate(-90deg);
+  -moz-transform:rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
   transform: rotate(-90deg);
   padding: 30px 0px 50px 0px;
 }
@@ -415,23 +419,6 @@ p.navbar-text {
 #topImportMarkets {
   padding-top: 6em;
 }
-
-
-
-
-/*
- * STYLES FOR DROPDOWNS
- */
-.dropdown-menu > li > a[data-format="png"] {
-  display: none;
-}
-/* Display PNG download only on chrome */
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-  .dropdown-menu > li > a[data-format="png"] {
-    display: block;
-  }
-}
-
 
 
 

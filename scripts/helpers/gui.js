@@ -68,10 +68,26 @@ define([], function() {
       }, false);
 
       // ADD DOWNLOAD GRAPHS FUNCTIONS
-      // If blob constructor is not supported then we hide the download button
+      // If we're not in a webkit browser disable PNG download
+      if (!/AppleWebKit/.test(navigator.userAgent)) {
+        $('a.downloadChart[data-format="png"]')
+          .parent()
+          .addClass('disabled')
+          .attr('title', 'This option is not available on your browser.')
+          .attr('data-toggle', 'tooltip')
+          .attr('data-placement', 'right')
+          .tooltip();
+      }
+      // If blob constructor is not supported then we disable the download button
       // Note: IE<10 could be supported in the future using this: https://github.com/koffsyrup/FileSaver.js#examples
       if (!Modernizr.blobconstructor) {
-        $('a.downloadChart').hide();
+        $('a.downloadChart')
+          .parent()
+          .addClass('disabled')
+          .attr('title', 'This option is not available on your browser.')
+          .attr('data-toggle', 'tooltip')
+          .attr('data-placement', 'right')
+          .tooltip();
       } else {
         $('a.downloadChart').on('click', function (e) {
           // We are copying the SVG element into a virtual DOM (documentFragement)
