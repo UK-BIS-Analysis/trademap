@@ -184,14 +184,16 @@ body.no-fontsupport .glyphicon-arrow-right:before {
   content: "Reporter: ";
 }
 #switchPartners {
+  position: relative;
   font-size: 14px;
+  z-index: 1;
 }
 #s2id_selectPartner {
   position: absolute;
   top: 0;
   left: 0;
   padding-left: 38px;
-  z-index: -1;
+  z-index: 0;
 }
 #s2id_selectPartner .select2-chosen::before {
   font-size: 0.9em;
