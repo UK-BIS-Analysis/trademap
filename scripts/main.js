@@ -32,8 +32,9 @@ require(['helpers/data', 'helpers/gui', 'helpers/controls', 'helpers/charts', 'h
       return;
     }
 
-    // Use Modernizr to check for CORS support and need and if not present display an error and don't even start loading CSV and setting up charts
-    if (location.host !== 'comtrade.un.org' && !Modernizr.cors) {
+    // Use Modernizr to check for CORS support and if not present display an error and don't even start loading CSV and setting up charts
+    //if (location.host !== 'comtrade.un.org' && !Modernizr.cors) {
+    if (!Modernizr.cors) {
       $('#userAlert').removeClass('hidden');
       $('#userAlert .message').html('<strong>Warning</strong>: This application may not work correctly. Your browser does not support querying APIs which is necessary for this application to work. (Missing <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a>).<br /> Please try using a recent version of Firefox or Chrome.');
       $('#loadingDiv').hide();

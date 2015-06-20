@@ -65,6 +65,9 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
           // Bind to window.resize for responsive behaviour
           $(window).on('resize', repositionBox);
 
+          // Set a timeout and call a reposition to ensure positioning on first load
+          setTimeout(repositionBox, 800);
+
           // Bind the refresh function to the refreshFilters event
           $infoBox.on('refreshFilters', this.refresh);
 
