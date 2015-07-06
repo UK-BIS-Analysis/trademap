@@ -592,3 +592,6 @@ body.no-fontsupport .glyphicon-arrow-right:before {
 .introjs-skipbutton {
   float: left;
 }
+.introjs-button.introjs-nextbutton.introjs-disabled {
+  display: none;
+}
