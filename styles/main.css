@@ -71,6 +71,9 @@ nav.navbar {
 }
 /* The folowing media query makes the menu collapse on screen sizes less than 768px
  * See http://stackoverflow.com/a/20249415 */
+#footer p.licence {
+  padding: 3em 2em 0 0;
+}
 @media (max-width: 768px) {
     .navbar-header {
       float: none;
