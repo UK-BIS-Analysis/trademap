@@ -153,18 +153,19 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
           }
 
           data.query(queryFilter, function queryCallback (err, ready) {
-              if (err) { gui.showError(err); }
-              if (err || !ready) { return; }
-              // Redraw map and set title
-              chart._redrawMap(dataFilter);
-              // Set chart title
-              $chartTitle.html(title);
-              // Set download link
-              $chart.find('.downloadData').on('click', function (e) {
-                e.preventDefault();
-                gui.downloadCsv(title, newData);
-              });
+            if (err) { gui.showError(err); }
+            if (err || !ready) { return; }
+            // Redraw map and set title
+            chart._redrawMap(dataFilter);
+            // Set chart title
+            $chartTitle.html(title);
+            var newData = localData.getData(dataFilter);
+            // Set download link
+            $chart.find('.downloadData').unbind().on('click', function (e) {
+              e.preventDefault();
+              gui.downloadCsv(title, newData);
             });
+          });
         },
 
 
