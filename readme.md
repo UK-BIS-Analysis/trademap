@@ -5,8 +5,8 @@
 * **Production URL**: [http://comtrade.un.org/labs/BIS-trade-in-goods/](http://comtrade.un.org/labs/BIS-trade-in-goods/)
 * **Development URL**: [http://play.fm.to.it/trademap](http://play.fm.to.it/trademap)
 * **Private git repository URL**: [https://bitbucket.org/fmerletti/dbis_trademap](https://bitbucket.org/fmerletti/dbis_trademap)
-* **Public git repository**: TBD
-* **Licence**: TBD (MIT, GPL or OGL)
+* **Public git repository**: [https://github.com/UK-BIS-Analysis/trademap](https://github.com/UK-BIS-Analysis/trademap)
+* **Licence**: [GPL](https://www.gnu.org/licenses/gpl-2.0.txt)
 
 ### Libraries, frameworks and tools used:
 
