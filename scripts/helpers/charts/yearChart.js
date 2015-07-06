@@ -168,7 +168,13 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
             // Get the start year of the data and append "since" part to title.
             var startYear = d3.min(newData, function (d) { return d.year });
             title += ' since ' + startYear;
+            // Set chart title
             $chartTitle.html(title);
+            // Set download link
+            $container.find('.downloadData').on('click', function (e) {
+              e.preventDefault();
+              gui.downloadCsv(title, newData);
+            });
             $container.slideDown(400, function () {
               chart._draw(newData);
             });

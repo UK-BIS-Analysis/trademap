@@ -111,8 +111,8 @@ module.exports = function(grunt) {
         },
         files: [
           {src: ['data/*'], dest: './', filter: 'isFile'}, // includes files in path
-          {src: ['img/**', 'pages/**', 'assets/**', 'libs/**'], dest: './'}, // includes files in path and its subdirs
-          {src: ['./*.txt', './*.html', './*.md', './*.php'], dest: './', filter: 'isFile'}
+          {src: ['img/**', 'pages/**', 'assets/**', 'libs/**', 'styles/**', 'scripts/**'], dest: './'}, // includes files in path and its subdirs
+          {src: ['./*.txt', './*.html', './*.md', './*.ico', '!./passwords.md'], dest: './', filter: 'isFile'}
         ]
       }
     }

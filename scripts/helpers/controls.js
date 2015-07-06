@@ -27,6 +27,9 @@ define(['./data'], function(data) {
 
     setup: function () {
 
+      // Display the navBar (which is otherwise hidden)
+      $('#navbar').show();
+
       // SETUP SELECT2 DROPDOWN SELECTORS
       // Setup the reporters dropdown
       this.$selectReporter
@@ -63,6 +66,17 @@ define(['./data'], function(data) {
           disabled: true
         })
         .on('change', controls.onFilterChange);
+
+      // ADD REPORTER<->PARTNER SWITCH BUTTON BEHAVIOUR
+      $('#switchPartners').on('click', function (event) {
+        var currentFilters = controls.getFilters();
+        controls.changeFilters({
+          reporter: currentFilters.partner,
+          partner: currentFilters.reporter,
+          year: currentFilters.year,
+          flow: currentFilters.flow
+        });
+      });
 
 
       // ADD IMPORT/EXPORT/BALANCE BUTTON BEHAVIOURS
@@ -134,7 +148,14 @@ define(['./data'], function(data) {
         return;
       }
 
-      if (DEBUG) { console.log('New filters: %s', JSON.stringify(newfilters)); }
+      // If partner was unselected and is now selected then scroll down to the charts.
+      if (!controls.filters.partner && newfilters.partner) {
+        $('html, body').animate({
+          scrollTop: $('#charts').offset().top
+        }, 2000);
+      }
+
+      // if (DEBUG) { console.log('New filters: %s', JSON.stringify(newfilters)); }
 
       // Activate/deactivate controls appropriately
       controls.fadeControls(newfilters);
@@ -267,10 +288,16 @@ define(['./data'], function(data) {
         $("#selectCommodity").select2('disable');
         $("#selectPartner").select2('disable');
         $("#selectYear").select2('disable');
+        $('#switchPartners').prop('disabled', true);
       } else {
         $("#selectCommodity").select2('enable');
         $("#selectPartner").select2('enable');
         $("#selectYear").select2('enable');
+        if (filters.partner && data.lookup(filters.partner, 'reporterAreas', 'id') != 'unknown') {
+          $('#switchPartners').prop('disabled', false);
+        } else {
+          $('#switchPartners').prop('disabled', true);
+        }
       }
     },
 

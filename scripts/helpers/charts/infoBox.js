@@ -23,7 +23,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
       bottomMargin  = 10,
       getPositionFromTop = function () {
         if ($(document).width() > 992) {
-         return Math.min(
+          return Math.min(
             $('#infoBoxPlaceholder').offset().top,
             $(window).height()-$infoBox.height() - bottomMargin + $(window).scrollTop()
           )+'px';
@@ -47,11 +47,14 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
       box = {
 
         setup: function () {
-          // Position the infoBox on load
-          $infoBox.css({
-            top: getPositionFromTop(),
-            width: getWidth()
-          });
+
+          // Display and position the infoBox (which is otherwise hidden)
+          $infoBox
+            .show()
+            .css({
+              top: $(window).height()-$infoBox.height() - bottomMargin + $(window).scrollTop(),
+              width: getWidth()
+            });
 
           // Bind to the scroll event and move the box
           $(window).scroll(repositionBox);
@@ -61,6 +64,9 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
 
           // Bind to window.resize for responsive behaviour
           $(window).on('resize', repositionBox);
+
+          // Set a timeout and call a reposition to ensure positioning on first load
+          setTimeout(repositionBox, 800);
 
           // Bind the refresh function to the refreshFilters event
           $infoBox.on('refreshFilters', this.refresh);
@@ -179,8 +185,8 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
           $panel.find('.value.balance').html(localData.numFormat(details.balanceVal, null, 1));
           $panel.find('.value.bilateral').html(localData.numFormat(details.bilateralVal, null, 1));
 
-          // Show ranking only if partner is selected
-          if (details.partner && details.partner !== 0) {
+          // Show ranking only if partner and rankings are given
+          if (details.partner && details.partner !== 0 && details.importRank && details.exportRank) {
             var ranking = partnerName + ' was the ' + localData.numOrdinal(details.exportRank) + ' largest export market for ' +
                           reporterName + ' (' + details.exportPc.toFixed(1) + '% of ' + reporterName + ' exports) and the ' +
                           localData.numOrdinal(details.importRank) + ' largest import market for ' + reporterName +

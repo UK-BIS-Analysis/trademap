@@ -10,8 +10,8 @@
  * */
 
 
-define(['./charts/choropleth', './charts/yearChart', './charts/infoBox', './charts/topExportCommodities', './charts/topExportDestinations', './charts/topImportCommodities', './charts/topImportSources'],
-  function(choropleth, yearChart, infoBox, topExportCommodities, topExportDestinations, topImportCommodities, topImportSources) {
+define(['./charts/choropleth', './charts/yearChart', './charts/infoBox', './charts/topExportCommodities', './charts/topExportMarkets', './charts/topImportCommodities', './charts/topImportMarkets'],
+  function(choropleth, yearChart, infoBox, topExportCommodities, topExportMarkets, topImportCommodities, topImportMarkets) {
   'use strict';
 
   var charts = {
@@ -30,44 +30,50 @@ define(['./charts/choropleth', './charts/yearChart', './charts/infoBox', './char
       choropleth.colors = charts.colors;
       yearChart.colors = charts.colors;
       topExportCommodities.colors = charts.colors;
-      topExportDestinations.colors = charts.colors;
+      topExportMarkets.colors = charts.colors;
       topImportCommodities.colors = charts.colors;
-      topImportSources.colors = charts.colors;
+      topImportMarkets.colors = charts.colors;
 
       // Setup charts
       yearChart.setup();
       infoBox.setup();
       topExportCommodities.setup();
-      topExportDestinations.setup();
+      topExportMarkets.setup();
       topImportCommodities.setup();
-      topImportSources.setup();
+      topImportMarkets.setup();
       choropleth.setup(function () {
-        // TODO Inject CSS into SVGs
+        var css = charts._getCssForSVGs();
+        charts._injectCSSintoSVG(css, d3.selectAll('svg'));
         callback();
       });
     },
 
-    _getCssForSVG: function (svg) {
-      // TODO
-      // Get the svg id
-      // Find main.css or main.min.css in document.styleSheets
-      // Find all cssRules where d.selectorText contains 'svg.[id]'
-      // Get the cssText of each of the rules and compile into a single string
+
+
+
+    _getCssForSVGs: function () {
+      var cssText  = '';
+      // Iterate through stylesheets and look for main.svg.css
+      for ( var i=0; i<document.styleSheets.length; i++) {
+        if (document.styleSheets[i].href && document.styleSheets[i].href.indexOf('main.svg.css') >= 0) {
+          // Add rules from stylesheet to our cssText
+          for ( var j=0; j<document.styleSheets[i].cssRules.length; j++ ) {
+            cssText += document.styleSheets[i].cssRules[j].cssText + ' ';
+          };
+        };
+      };
+      return cssText;
     },
 
 
 
 
     _injectCSSintoSVG: function (css, svg) {
-      // TODO
-      // Inject a <defs> tag with the CSS text into the SVG like follows
-      //  <defs>
-      //    <style type="text/css"><![CDATA[
-      //      .socIcon g {
-      //        fill:red;
-      //      }
-      //    ]]></style>
-      //  </defs>
+      svg
+        .insert('defs', ':first-child')
+        .append('style')
+        .attr('type', 'text/css')
+        .text(css);
     }
 
   };

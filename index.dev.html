@@ -9,7 +9,7 @@
     <meta name="author" content="UK Department for Business Innovation and Skills">
     <meta name="Description" content="An interactive visualization of international trade based on UN COMTRADE data.">
     <meta name="Keywords" content="trade, goods, comtrade, united nations, department for business innovation and skills">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="shortcut icon" href="favicon.ico?v=2">
 
     <!-- Facebook tags -->
@@ -35,6 +35,9 @@
     <script type="text/javascript" src="libs/crossfilter/crossfilter.js"></script>
     <script type="text/javascript" src="libs/d3-tip/index.js"></script>
     <script type="text/javascript" src="libs/history.js/scripts/bundled/html4+html5/jquery.history.js"></script>
+    <script type="text/javascript" src="libs/file-saver-saveas-js/FileSaver.js"></script>
+    <script type="text/javascript" src="libs/intro.js/intro.js"></script>
+    <script type="text/javascript" src="libs/font-face-render-check/fontfacecheck-min.js"></script>
     <!-- endbuild -->
 
     <!-- build:css assets/libs.min.css -->
@@ -42,14 +45,16 @@
     <link rel="stylesheet" type="text/css" href="libs/bootstrap/dist/css/bootstrap-theme.css"/>
     <link rel="stylesheet" type="text/css" href="libs/select2/select2.css"/>
     <link rel="stylesheet" type="text/css" href="libs/select2/select2-bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="libs/intro.js/introjs.css"/>
     <!-- endbuild -->
 
     <!-- Specific Trademap CSS files -->
     <!-- build:css assets/main.min.css -->
     <link rel="stylesheet" type="text/css" href="styles/main.css"/>
-    <link rel="stylesheet" type="text/css" href="styles/main.svg.css"/>
     <link rel="stylesheet" type="text/css" href="styles/fonts/bis-custom.css"/>
     <!-- endbuild -->
+
+    <link rel="stylesheet" type="text/css" href="styles/main.svg.css"/>
 
     <!-- Script to support CORS in older versions of IE -->
     <!-- The aight js lib provides some support for IE8 -->
@@ -67,7 +72,7 @@
     <div class="container-fluid" id="main">
 
       <!-- NAVBAR -->
-      <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <nav id="navbar" class="navbar navbar-default navbar-fixed-top" role="navigation" style="display: none">
 
         <!-- LOGO AND COLLAPSED MENU -->
         <div class="navbar-header">
@@ -93,6 +98,7 @@
                 <li><a href="pages/contacts.html" data-toggle="modal" data-target="#myModal">Key contacts</a></li>
                 <li><a href="pages/furtherinfo.html" data-toggle="modal" data-target="#myModal">Further information</a></li>
                 <li><a href="pages/licence.html" data-toggle="modal" data-target="#myModal">Licence and Copyright</a></li>
+                <li><a href="#" id="startIntro">Show intro</a></li>
                 <li><a href="#footer" id="goToFooter">Credits</a></li>
               </ul>
             </li>
@@ -108,15 +114,19 @@
 
         <!-- CONTROLS -->
         <div class="row clearfix" id="controls">
-          <div class="col-md-3 col-sm-6 col-xs-12 column">
+          <div class="col-md-3 col-sm-6 col-xs-12 column" id="selectReporterContainer">
             <!-- Reporter selection -->
             <span id="selectReporter" class="select2control"></span><br />
           </div>
-          <div class="col-md-3 col-sm-6 col-xs-12 column">
+          <div class="col-md-3 col-sm-6 col-xs-12 column" id="selectPartnerContainer">
             <!-- Partner selection -->
             <span id="selectPartner" class="select2control selectPartner"></span>
+            <!-- Switch reporter and partner button -->
+            <button type="button" class="btn btn-xs btn-default" id="switchPartners" data-toggle="tooltip" data-placement="bottom" title="Switch Reporter and Partner">
+              <span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>
+            </button>
           </div>
-          <div class="col-md-4 col-sm-8  col-xs-12 column">
+          <div class="col-md-4 col-sm-8  col-xs-12 column" id="selectCommodityContainer">
             <!-- Commodity selection -->
             <span id="selectCommodity" class="select2control selectCommodity"></span>
           </div>
@@ -181,7 +191,7 @@
 
 
       <!-- ALERT for user when a browser not supporting SVG is being useed -->
-      <div class="alert alert-danger alert-dismissible hidden" role="alert" id="userAlert">
+      <div id="userAlert" class="alert alert-danger alert-dismissible hidden" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
         <span class="message"></span>
@@ -190,15 +200,25 @@
 
 
 
+      <!-- Feedback button -->
+      <div id="feedback-tab">
+        <a href="https://www.surveymonkey.com/s/89TR6MM" target="_blank">Feedback</a>
+      </div>
+
+
+
+
       <!-- CHOROPLETH -->
-      <div id="choropleth" class="fill-screen chart">
+      <div id="choropleth" class="fill-screen chart" style="display: none">
         <!-- Chart title -->
         <div id="choroplethTitle">
           <div class="dropdown titleDropdown">
-            <button class="btn btn-link dropdown-toggle" type="button" id="choroplethDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
+            <button class="btn btn-xs dropdown-toggle" type="button" id="choroplethDropdownMenu" data-toggle="dropdown" aria-expanded="true" data-toggle="tooltip" data-placement="bottom" title="Extra options"><span class="caret"></span></button>
             <ul class="dropdown-menu" role="menu" aria-labelledby="choroplethDropdownMenu">
-              <li role="presentation"><a role="menuitem" tabindex="-1" data-target="choropleth" href="javascript:;" class="downloadSvg"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download as SVG</a></li>
-              <li role="presentation"><a role="menuitem" tabindex="-1" data-target="choropleth" href="javascript:;" class="embedSvg"><span class="icon-code" aria-hidden="true"></span> Embed</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" data-target="choropleth" href="javascript:;"  data-format="svg" class="downloadChart"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download as SVG</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" data-target="choropleth" href="javascript:;"  data-format="png" class="downloadChart"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download as PNG</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" data-target="choropleth" href="javascript:;" class="embedSvg"><span class="icon-code" aria-hidden="true"></span> Embed this chart</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" class="downloadData"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Download data for this chart in CSV</a></li>
             </ul>
           </div>
           <div class="chartTitle"></div>
@@ -227,12 +247,15 @@
           <a href="#charts" data-toggle="tooltip" data-placement="left" title="See more charts"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a>
         </div>
 
-        <!-- SVG will be appended here -->
+        <!-- SVG appended in here -->
+        <div class="chart"></div>
       </div>
 
 
+
+
       <!-- INFO BOX -->
-      <div id="infoBox" class="chart">
+      <div id="infoBox" class="chart" style="display: none">
 
         <div id="defaultPanel" class="panel panel-primary">
           <!-- Default panel contents -->
@@ -274,6 +297,8 @@
       </div>
 
 
+
+
       <!-- CHARTS -->
       <div id="charts" class="fill-screen">
         <!-- Upward chevron to go to charts -->
@@ -286,10 +311,12 @@
           <div id="infoBoxPlaceholder" class="col-xs-12 col-sm-12 col-md-4 column">&nbsp;</div>
           <div id="yearChart" class="col-xs-12 col-sm-12 col-md-8 column">
             <div class="dropdown titleDropdown">
-              <button class="btn btn-link dropdown-toggle" type="button" id="yearlyChartDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
+              <button class="btn btn-xs dropdown-toggle" type="button" id="yearlyChartDropdownMenu" data-toggle="dropdown" aria-expanded="true" data-toggle="tooltip" data-placement="bottom" title="Extra options"><span class="caret"></span></button>
               <ul class="dropdown-menu" role="menu" aria-labelledby="yearlyChartDropdownMenu">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="yearChart" class="downloadSvg"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download as SVG</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="yearChart" class="embedSvg"><span class="icon-code" aria-hidden="true"></span> Embed</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="yearChart" data-format="svg" class="downloadChart"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download as SVG</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="yearChart" data-format="png" class="downloadChart"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download as PNG</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="yearChart" class="embedSvg"><span class="icon-code" aria-hidden="true"></span> Embed this chart</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" class="downloadData"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Download data for this chart in CSV</a></li>
               </ul>
             </div>
             <div class="chartTitle"></div>
@@ -302,23 +329,27 @@
 
         <!-- Top Import/Export Countries -->
         <div class="row clearfix">
-          <div id="topExportDestinations" class="col-md-6 col-sm-12 column">
+          <div id="topExportMarkets" class="col-md-6 col-sm-12 column">
             <div class="dropdown titleDropdown">
-              <button class="btn btn-link dropdown-toggle" type="button" id="topExportDestinationsDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
-              <ul class="dropdown-menu" role="menu" aria-labelledby="topExportDestinationsDropdownMenu">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="topExportDestinations" class="downloadSvg"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download as SVG</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="topExportDestinations" class="embedSvg"><span class="icon-code" aria-hidden="true"></span> Embed</a></li>
+              <button class="btn btn-xs dropdown-toggle" type="button" id="topExportMarketsDropdownMenu" data-toggle="dropdown" aria-expanded="true" data-toggle="tooltip" data-placement="bottom" title="Extra options"><span class="caret"></span></button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="topExportMarketsDropdownMenu">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="topExportMarkets" data-format="svg" class="downloadChart"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download as SVG</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="topExportMarkets" data-format="png" class="downloadChart"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download as PNG</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="topExportMarkets" class="embedSvg"><span class="icon-code" aria-hidden="true"></span> Embed this chart</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" class="downloadData"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Download data for this chart in CSV</a></li>
               </ul>
             </div>
             <div class="chartTitle"></div>
             <div class="chart barchart"></div>
           </div>
-          <div id="topImportSources" class="col-md-6 col-sm-12 column">
+          <div id="topImportMarkets" class="col-md-6 col-sm-12 column">
             <div class="dropdown titleDropdown">
-              <button class="btn btn-link dropdown-toggle" type="button" id="topImportSourcesDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
-              <ul class="dropdown-menu" role="menu" aria-labelledby="topImportSourcesDropdownMenu">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="topImportSources" class="downloadSvg"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download as SVG</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="topImportSources" class="embedSvg"><span class="icon-code" aria-hidden="true"></span> Embed</a></li>
+              <button class="btn btn-xs dropdown-toggle" type="button" id="topImportMarketsDropdownMenu" data-toggle="dropdown" aria-expanded="true" data-toggle="tooltip" data-placement="bottom" title="Extra options"><span class="caret"></span></button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="topImportMarketsDropdownMenu">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="topImportMarkets"  data-format="svg" class="downloadChart"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download as SVG</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="topImportMarkets"  data-format="png" class="downloadChart"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download as PNG</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="topImportMarkets" class="embedSvg"><span class="icon-code" aria-hidden="true"></span> Embed this chart</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" class="downloadData"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Download data for this chart in CSV</a></li>
               </ul>
             </div>
             <div class="chartTitle"></div>
@@ -334,10 +365,12 @@
         <div class="row clearfix">
           <div id="topExportCommodities" class="col-md-6 col-sm-12 column">
             <div class="dropdown titleDropdown">
-              <button class="btn btn-link dropdown-toggle" type="button" id="topExportCommoditiesDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
+              <button class="btn btn-xs dropdown-toggle" type="button" id="topExportCommoditiesDropdownMenu" data-toggle="dropdown" aria-expanded="true" data-toggle="tooltip" data-placement="bottom" title="Extra options"><span class="caret"></span></button>
               <ul class="dropdown-menu" role="menu" aria-labelledby="topExportCommoditiesDropdownMenu">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="topExportCommodities" class="downloadSvg"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download as SVG</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="topExportCommodities" class="embedSvg"><span class="icon-code" aria-hidden="true"></span> Embed</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="topExportCommodities" data-format="svg" class="downloadChart"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download as SVG</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="topExportCommodities" data-format="png" class="downloadChart"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download as PNG</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="topExportCommodities" class="embedSvg"><span class="icon-code" aria-hidden="true"></span> Embed this chart</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" class="downloadData"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Download data for this chart in CSV</a></li>
               </ul>
             </div>
             <div class="chartTitle"></div>
@@ -345,10 +378,12 @@
           </div>
           <div id="topImportCommodities" class="col-md-6 col-sm-12 column">
             <div class="dropdown titleDropdown">
-              <button class="btn btn-link dropdown-toggle" type="button" id="topImportCommoditiesDropdownMenu" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
+              <button class="btn btn-xs dropdown-toggle" type="button" id="topImportCommoditiesDropdownMenu" data-toggle="dropdown" aria-expanded="true" data-toggle="tooltip" data-placement="bottom" title="Extra options"><span class="caret"></span></button>
               <ul class="dropdown-menu" role="menu" aria-labelledby="topImportCommoditiesDropdownMenu">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="topImportCommodities" class="downloadSvg"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download as SVG</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="topImportCommodities" class="embedSvg"><span class="icon-code" aria-hidden="true"></span> Embed</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="topImportCommodities"  data-format="svg" class="downloadChart"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download as SVG</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="topImportCommodities"  data-format="png" class="downloadChart"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download as PNG</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-target="topImportCommodities" class="embedSvg"><span class="icon-code" aria-hidden="true"></span> Embed this chart</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" class="downloadData"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Download data for this chart in CSV</a></li>
               </ul>
             </div>
             <div class="chartTitle"></div>
@@ -358,8 +393,11 @@
 
       </div><!-- Close #chart -->
 
+
+
+
       <!-- Footer -->
-      <div id="footer" class="fill-screen">
+      <div id="footer" class="fill-screen" style="display: none">
         <div class="col-sm-6">
           <p>Developed by:</p>
           <img class="logo" src="img/image-BISLogo-landscapecolour-png.mod.png" width="412" height="40" alt="Department for Business Innovation and Skills Logo">
@@ -371,6 +409,13 @@
         <div class="col-sm-6">
           <small>The designations employed and the presentation of material on UN Comtrade do not imply the expression of any opinion whatsoever on the part of the Secretariat of the United Nations concerning the legal status of any country, territory, city or area, or of its authorities, or concerning the delimitations of its frontiers or boundaries. Where the designation “country or area” appears on this internet site, it covers countries, territories or areas.</small>
         </div>
+      </div>
+
+      <!-- EMBED CREDIT -->
+      <div id="embedCredit" style="display: none">
+        <p>International Trade in Goods based on UN Comtrade data</p>
+        <small>Developed by the Department for Business Innovation and Skills (UK)<br />
+        See the full data <a href="#">here</a>.</small>
       </div>
 
     </div>
@@ -395,7 +440,10 @@
     <!-- LOADING DIV TO DISPLAY DURING AJAX REQUESTS -->
     <div id="loadingDiv">
       <p>Loading data from COMTRADE API. Please wait...</p>
-      <a class="btn btn-danger btn-xs" id="cancelRequest">Cancel request</a>
+      <div class="progress">
+        <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="0" style="width: 50%;"></div>
+      </div>
+      <a class="btn btn-danger btn-xs" id="cancelRequest">Cancel requests</a>
     </div>
 
     <!-- CONTEXT MENU -->
@@ -412,6 +460,17 @@
     <!-- Load the viz application script at the end -->
     <script data-main="scripts/main" src="libs/requirejs/require.js"></script>
 
+    <!-- Google Analytics tracking code -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-62898913-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
 
   </body>
 </html>

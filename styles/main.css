@@ -5,8 +5,6 @@
  */
 
 
-
-
 /*
  * GENERAL, NAVBAR & LAYOUT STYLES
  */
@@ -20,7 +18,7 @@ body,
   min-height: 100%;
 }
 #loadingDiv {
-  background: url('../libs/svg-loaders/svg-loaders/oval.svg') no-repeat scroll 50% 50% #F9F9F9;
+  background: rgba(249, 249, 249, 0.75);
   position: fixed;
   top: 0px;
   right: 0px;
@@ -29,17 +27,42 @@ body,
   border: 1px solid #DDD;
   width: 100%;
   height: 100%;
-  opacity: 0.75;
   z-index: 1031;
   text-align: center;
   font-weight: bold;
   font-size: 20px;
   color: #054D82;
-  padding-top: 30%;
+  padding-top: 15%;
+}
+#loadingDiv .progress {
+  width: 18em;
+  margin: 0 auto 0.5em auto;
 }
 nav.navbar {
   margin-bottom: 3px;
   border-bottom-color: #054D82;
+}
+#feedback-tab {
+  position: fixed;
+  top: 40%;
+  right: -25px;
+  background: none repeat scroll 0% 0% padding-box #054D82;
+  z-index: 1050;
+  height: 7em;
+  border-radius: 5px 0px 0px 5px;
+  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.2);
+  text-shadow: 0px -1px 0px rgba(68, 68, 68, 0.3);
+}
+#feedback-tab a {
+  display: block;
+  color: #FFF;
+  text-decoration: none;
+  -webkit-transform:rotate(-90deg);
+  -moz-transform:rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+  padding: 30px 0px 50px 0px;
 }
 #footer {
   margin-top: 90px;
@@ -125,6 +148,25 @@ p.navbar-text {
 }
 
 
+/*
+ * IE STYLES
+ */
+body.no-fontsupport .glyphicon:before {
+  font-family: 'Arial';
+}
+body.no-fontsupport .glyphicon-transfer:before {
+  content: '↔'
+}
+body.no-fontsupport .glyphicon-remove:before {
+  content: '˟'
+}
+body.no-fontsupport .glyphicon-arrow-left:before {
+  content: '←'
+}
+body.no-fontsupport .glyphicon-arrow-right:before {
+  content: '→'
+}
+
 
 
 /*
@@ -140,6 +182,18 @@ p.navbar-text {
   font-size: 0.9em;
   font-weight: bold;
   content: "Reporter: ";
+}
+#switchPartners {
+  position: relative;
+  font-size: 14px;
+  z-index: 1;
+}
+#s2id_selectPartner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-left: 38px;
+  z-index: 0;
 }
 #s2id_selectPartner .select2-chosen::before {
   font-size: 0.9em;
@@ -367,7 +421,6 @@ p.navbar-text {
 .titleDropdown {
   float: left;
   width: 5%;
-  display: none !important;
 }
 .titleDropdown button {
   margin-top: -1px;
@@ -384,13 +437,10 @@ p.navbar-text {
 }
 #topExportCommodities,
 #topImportCommodities,
-#topExportDestinations,
-#topImportSources {
+#topExportMarkets,
+#topImportMarkets {
   padding-top: 6em;
 }
-
-
-
 
 
 
@@ -444,4 +494,98 @@ p.navbar-text {
   margin: -4px 0 0 -1px;
   top: 50%;
   left: 100%;
+}
+
+
+/*
+ *  ADJUSTMENTS FOR EMBEDDED CHARTS
+ */
+.embed #main {
+  padding-top: 0;
+  margin-top: 0;
+  height: auto;
+}
+.embed #charts {
+  padding-top: 0;
+  margin-top: 5px;
+  border: none;
+}
+.embed .fill-screen {
+  min-height: inherit;
+}
+.embed #goToMap,
+.embed #goToCharts,
+.embed #infoBoxPlaceholder,
+.embed .titleDropdown,
+.embed #flowButtons,
+.embed #choroplethTitle div.titleDropdown {
+  display: none;
+}
+.choroplethEmbedded #choropleth,
+.yearChartEmbedded #yearChart,
+.topImportCommoditiesEmbedded #topImportCommodities,
+.topExportCommoditiesEmbedded #topExportCommodities,
+.topImportMarketsEmbedded #topImportMarkets,
+.topExportMarketsEmbedded #topExportMarkets
+{
+  padding-top: 0;
+  width: 100%;
+
+  max-height: 100%;
+}
+.choroplethEmbedded #choropleth {
+  height: auto;
+}
+.choroplethEmbedded #choropleth .chart {
+  max-height: 100%;
+  padding-top: 1.6em;
+}
+.embed #mapLegend {
+  top: 1.6em;
+}
+.embed dl.dl-horizontal dt {
+  width: 12%;
+  float: left;
+}
+.embed dl.dl-horizontal dd {
+  width: 85%;
+  margin-left: 15%;
+}
+.embed #embedCredit p {
+  margin: 0;
+}
+.embed.yearChartEmbedded #embedCredit {
+  margin-top: 4em;
+}
+.embed.topImportCommoditiesEmbedded #embedCredit,
+.embed.topExportCommoditiesEmbedded #embedCredit,
+.embed.topImportMarketsEmbedded #embedCredit,
+.embed.topExportMarketsEmbedded #embedCredit {
+  margin-top: 0.5em;
+}
+
+
+/*
+ *  Intro.js styles
+ */
+.introjs-helperNumberLayer {
+  line-height: 15px;
+  padding: 0;
+}
+.introjs-tooltip {
+  min-width: 600px;
+  max-width: 800px;
+}
+.introjs-tooltiptext {
+  font-size: 18px;
+}
+.introjs-button {
+  font-size: 14px;
+  color: #333 !important;
+}
+.introjs-tooltipbuttons {
+  text-align: right;
+}
+.introjs-skipbutton {
+  float: left;
 }

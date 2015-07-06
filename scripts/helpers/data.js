@@ -147,7 +147,8 @@ define(function(require) {
 
         var ajaxSettings = {
           dataType: 'json'
-        }
+        };
+
         $.when(
           $.ajax('data/reporterAreas.min.json', ajaxSettings),
           $.ajax('data/partnerAreas.min.json', ajaxSettings),
@@ -185,7 +186,7 @@ define(function(require) {
             try {
               return data[mapName].get(lookupVal)[propertyName];
             } catch (err) {
-              if (DEBUG) { console.warn('There was a problem looking up ' + lookupVal + ' in ' + mapName + '.' + propertyName + ': ' + err); }
+              //if (DEBUG) { console.warn('There was a problem looking up ' + lookupVal + ' in ' + mapName + '.' + propertyName + ': ' + err); }
               return 'unknown';
             }
           };
@@ -238,12 +239,13 @@ define(function(require) {
         }
 
         // If the API was called less than a second ago, or if the query is in the queue then we need to
-        // postpone the call
+        // postpone the call and fire the queryQueueUpdate event
         var timeAgo = time.getTime() - data.timestamp;
         if (timeAgo < 1100 || data.queryRunning.indexOf(requestUrl) > -1) {
           window.setTimeout(function () { data.query(filters, callback); }, timeAgo+100);
           if (this.queryQueue.indexOf(requestUrl) < 0) {
             this.queryQueue.push(requestUrl);
+            this._fireQueryQueueUpdateEvent();
           }
           callback(null, false);
           return;
@@ -268,24 +270,13 @@ define(function(require) {
             $('#loadingDiv').fadeIn();
           },
           success: function success (data, status, xhr) {
-            // Add data to crossfilter
+            // Add data to crossfilter and the query to the history
             this._addData(data, filters);
-            // Add query to history
             this.queryHistory.push(requestUrl);
-            //Remove it from queryQueue and queryRunning if it was there
-            var runningItem = this.queryRunning.indexOf(requestUrl);
-            if (runningItem > -1) { this.queryRunning.splice(runningItem, 1); }
-            var queueItem = this.queryQueue.indexOf(requestUrl);
-            if (queueItem > -1) { this.queryQueue.splice(queueItem, 1); }
             // Callback
             callback(null, true);
           },
           error: function error (xhr, status, err) {
-            //Remove it from queryQueue and queryRunning if it was there
-            var runningItem = this.queryRunning.indexOf(requestUrl);
-            if (runningItem > -1) { this.queryRunning.splice(runningItem, 1); }
-            var queueItem = this.queryQueue.indexOf(requestUrl);
-            if (queueItem > -1) { this.queryQueue.splice(queueItem, 1); }
             // If error is 409 then requeue the request
             if(xhr.status === 409) {
               if (DEBUG) { console.log('API 409 Error: Requeueing the request.'); }
@@ -296,6 +287,16 @@ define(function(require) {
             }
           },
           complete: function () {
+            //Remove it from queryQueue and queryRunning if it was there
+            var runningItem = this.queryRunning.indexOf(requestUrl);
+            if (runningItem > -1) { this.queryRunning.splice(runningItem, 1); }
+            var queueItem = this.queryQueue.indexOf(requestUrl);
+            if (queueItem > -1) { this.queryQueue.splice(queueItem, 1); }
+
+            // Fire the queryQueueUpdate event on window
+            this._fireQueryQueueUpdateEvent();
+
+            // If finished then hide the loadingDiv
             if (this.queryQueue.length === 0 && this.queryRunning.length === 0) {
               $('#loadingDiv').fadeOut();
               $('#loadingDiv #cancelRequest').off('click');
@@ -356,8 +357,7 @@ define(function(require) {
        */
       combineData: function (impExpData) {
         var combinedData = [],
-            imports = d3.map(),
-            exports = [],
+            dataMap = d3.map(),
             totImports = 0,
             totExports = 0,
             worldDetails = {};
@@ -388,30 +388,42 @@ define(function(require) {
         worldDetails.bilateralVal = worldDetails.importVal + worldDetails.exportVal;
         worldDetails.balanceVal = worldDetails.exportVal - worldDetails.importVal;
 
-        // Split the data into an imports map and exports array
+
+        // Iterate through mixed data array and create the combined array in a d3 map
         impExpData.forEach(function (d) {
-          if (+d.flow === 1) { imports.set(d.partner, d); }
-          if (+d.flow === 2) { exports.push(d); }
-        });
-        // Iterate over the exports array, search for matching import and construct new object to return
-        exports.forEach(function (Export) {
-          var Import = imports.get(Export.partner);
-          if (Import) {
-            var combined = {};
-            combined.reporter     = Export.reporter;
-            combined.partner      = Export.partner;
-            combined.commodity    = Export.commodity;
-            combined.year         = Export.year;
-            combined.importVal    = Import.value;
-            combined.exportVal    = Export.value;
-            combined.bilateralVal = Import.value + Export.value;
-            combined.balanceVal   = Export.value - Import.value;
-            if (totImports !== 0 && totExports !== 0) {
-              combined.importPc = (combined.importVal / totImports)*100;
-              combined.exportPc = (combined.exportVal / totExports)*100;
-            }
-            combinedData.push(combined);
+
+          // Copy the item, set the accessor and rename the value property to importVal or exportVal
+          var valName = ['importVal', 'exportVal'][+d.flow-1],
+              record = $.extend({}, d);
+          record.importVal = null;
+          record.exportVal = null;
+          record[valName] = record.value;
+          delete record.value;
+
+          // If data for other flow is already present in combinedData add to it otherwise add record
+          if (dataMap.has(record.partner)) {
+            var previousRecord = dataMap.get(record.partner);
+            previousRecord[valName] = record[valName];
+            dataMap.set(previousRecord.partner, previousRecord)
+          } else {
+            dataMap.set(record.partner, record);
           }
+        });
+
+        // Extract collection from map and then calculate bilateral, balance, import and export pc
+        combinedData = dataMap.values();
+        combinedData = combinedData.map(function (d) {
+          if (d.importVal && d.exportVal) {
+            d.bilateralVal = d.exportVal + d.importVal;
+            d.balanceVal = d.exportVal - d.importVal;
+          }
+          if (d.importVal && totImports !== 0) {
+            d.importPc = (d.importVal / totImports) * 100;
+          }
+          if (d.exportVal && totExports !== 0) {
+            d.exportPc = (d.exportVal / totExports) * 100;
+          }
+          return d;
         });
 
         // Sort by importVal & assign importRank
@@ -419,7 +431,7 @@ define(function(require) {
           return +(b.importVal > a.importVal) || +(b.importVal === a.importVal) - 1;
         });
         combinedData.forEach(function (v, i) {
-          combinedData[i].importRank = i+1;
+          if (v.importVal) { combinedData[i].importRank = i+1; }
         });
 
         // Sort by exportVal & assign exportRank
@@ -427,7 +439,7 @@ define(function(require) {
           return +(b.exportVal > a.exportVal) || +(b.exportVal === a.exportVal) - 1;
         });
         combinedData.forEach(function (v, i) {
-          combinedData[i].exportRank = i+1;
+          if (v.exportVal) { combinedData[i].exportRank = i+1; }
         });
 
         // Add world value back
@@ -497,12 +509,19 @@ define(function(require) {
         this.xFilter.add(insertData);
 
         if(DEBUG) {
-          console.groupCollapsed('%s query: r=%s p=%s c=%s y=%s', filters.initiator, filters.reporter, filters.partner, filters.commodity, filters.year);
+          console.groupCollapsed('API QUERY SUCCESS from %s: r=%s p=%s c=%s y=%s', filters.initiator, filters.reporter, filters.partner, filters.commodity, filters.year);
           console.log('filters: %o', filters);
           console.log('Added %d new records. Retrieved %d records. Checked %d possible matches and discarded %d duplicates. New xFilter size: %d', insertData.length, newData.length, xFdata.length, duplicates.length, this.xFilter.size());
           console.log('duplicates discarded: %o', duplicates);
           console.groupEnd();
         }
+      },
+
+      _fireQueryQueueUpdateEvent: function () {
+        var event = document.createEvent("Events");
+        event.initEvent('queryQueueUpdate', true, true);
+        event.queryCount = this.queryQueue.length + this.queryRunning.length;
+        window.dispatchEvent(event);
       }
 
     };

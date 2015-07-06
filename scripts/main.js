@@ -13,7 +13,7 @@ require.config({
     urlArgs: "build=" + (new Date()).getTime()
 });
 
-require(['helpers/data', 'helpers/gui', 'helpers/controls', 'helpers/charts'], function(data, gui, controls, charts) {
+require(['helpers/data', 'helpers/gui', 'helpers/controls', 'helpers/charts', 'helpers/embed', 'helpers/intro'], function(data, gui, controls, charts, embed, intro) {
   'use strict';
 
   // NOTE: We declare a global boolean DEBUG variable which we'll use to switch on or off console.log messages
@@ -32,8 +32,9 @@ require(['helpers/data', 'helpers/gui', 'helpers/controls', 'helpers/charts'], f
       return;
     }
 
-    // Use Modernizr to check for CORS support and need and if not present display an error and don't even start loading CSV and setting up charts
-    if (location.host !== 'comtrade.un.org' && !Modernizr.cors) {
+    // Use Modernizr to check for CORS support and if not present display an error and don't even start loading CSV and setting up charts
+    //if (location.host !== 'comtrade.un.org' && !Modernizr.cors) {
+    if (!Modernizr.cors) {
       $('#userAlert').removeClass('hidden');
       $('#userAlert .message').html('<strong>Warning</strong>: This application may not work correctly. Your browser does not support querying APIs which is necessary for this application to work. (Missing <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a>).<br /> Please try using a recent version of Firefox or Chrome.');
       $('#loadingDiv').hide();
@@ -49,10 +50,22 @@ require(['helpers/data', 'helpers/gui', 'helpers/controls', 'helpers/charts'], f
         return;
       }
 
-      // TODO check if we have an embed parameter like "embed=yearChart"
+      // Check if we have an embed parameter like "embed=yearChart".
+      var urlParameters = controls.decodeURL(),
+          chartNames = ['choropleth', 'yearChart', 'topImportCommodities', 'topExportCommodities', 'topImportMarkets', 'topExportMarkets'];
+      if (urlParameters.embed && chartNames.indexOf(urlParameters.embed)>-1) {
+        // If we do, then hide all other charts and call the embed setup and skip the rest
+        chartNames.splice(chartNames.indexOf(urlParameters.embed), 1);
+        embed.hide(chartNames);
+        embed.setup(urlParameters);
+        return;
+      }
 
       // Setup the gui
       gui.setup();
+
+      // Setup intro (which will internally check if it should be displayed)
+      intro.setup(urlParameters);
 
       // Setup the controls
       controls.setup();
@@ -63,6 +76,6 @@ require(['helpers/data', 'helpers/gui', 'helpers/controls', 'helpers/charts'], f
       });
 
 
-    }); // Close data.setup()
+    });   // Close data.setup()
   });     // Close $(document).ready
 });       // Close require
