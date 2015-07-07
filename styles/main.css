@@ -254,6 +254,15 @@ body.no-fontsupport .glyphicon-arrow-right:before {
   #charts {
     margin-top: 183px;
   }
+  .navbar-brand {
+    font-size: 0.7em;
+  }
+  .navbar-brand small {
+    font-size: 0.55em;
+  }
+  #selectCommodityContainer {
+    margin-top: 5px;
+  }
 }
 @media (min-width: 768px) {
   div[class^="col"] {
@@ -363,6 +372,11 @@ body.no-fontsupport .glyphicon-arrow-right:before {
   width: 14em;
   z-index: 10;
 }
+#mapLegend {
+  position: absolute;
+  top:  63px;
+  background: rgba(255, 255, 255, 0.5);
+}
 @media (max-width: 768px) {
   #choroplethTitle div.chartTitle {
     font-size: 18px;
@@ -373,11 +387,9 @@ body.no-fontsupport .glyphicon-arrow-right:before {
   #flowButtons .btn-sm {
     padding: 1px 5px;
   }
-}
-#mapLegend {
-  position: absolute;
-  top:  63px;
-  background: rgba(255, 255, 255, 0.5);
+  #mapLegend {
+    top:  84%;
+  }
 }
 #choroplethInfo {
   position: absolute;
