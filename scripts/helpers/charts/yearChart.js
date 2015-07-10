@@ -166,12 +166,12 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
             // Get the data, display panel and update chart
             var newData = localData.getData(dataFilter);
             // Get the start year of the data and append "since" part to title.
-            var startYear = d3.min(newData, function (d) { return d.year });
+            var startYear = d3.min(newData, function (d) { return d.year; });
             title += ' since ' + startYear;
             // Set chart title
             $chartTitle.html(title);
             // Set download link
-            $container.find('.downloadData').on('click', function (e) {
+            $container.find('.downloadData').unbind('click').on('click', function (e) {
               e.preventDefault();
               gui.downloadCsv(title, newData);
             });

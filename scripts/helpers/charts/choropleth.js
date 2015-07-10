@@ -161,7 +161,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
             $chartTitle.html(title);
             var newData = localData.getData(dataFilter);
             // Set download link
-            $chart.find('.downloadData').unbind().on('click', function (e) {
+            $chart.find('.downloadData').unbind('click').on('click', function (e) {
               e.preventDefault();
               gui.downloadCsv(title, newData);
             });
@@ -250,7 +250,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
               try {
                 unCodes.forEach(function (el) {
                   var datum = newDataByPartner.get(el.unCode);
-                  if (datum) countryData.push(newDataByPartner.get(el.unCode));
+                  if (datum) { countryData.push(newDataByPartner.get(el.unCode)); }
                 });
                 if (countryData.length === 0) { throw 'No data points for ' + localData.lookup(d.id, 'countryByUnNum', 'name'); }
                 if (countryData.length > 1)   { throw 'Multiple data points for ' + localData.lookup(d.id, 'countryByUnNum', 'name'); }

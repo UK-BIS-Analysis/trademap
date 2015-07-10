@@ -1,7 +1,7 @@
 /*jslint browser: true*/
 /*jslint white: true */
 /*jslint vars: true */
-/*global $, Modernizr, d3, dc, crossfilter, document, console, alert, define, DEBUG, queryObject, btoa */
+/*global $, Modernizr, d3, dc, crossfilter, document, console, alert, define, DEBUG, queryObject, btoa, fontFaceCheck, Blob, saveAs, unescape */
 
 
 /*
@@ -26,7 +26,7 @@ define([], function() {
       // DISABLE ZOOM FUNCTION ON SCROLL AND ON CTRL+ and CTRL-
       $(window).bind('mousewheel DOMMouseScroll keydown', function (event) {
         var code = event.keyCode || event.which;
-        if (event.ctrlKey == true && (['wheel', 'mousewheel', 'DOMMouseScroll'].indexOf(event.type) > -1 || [107, 189, 187, 173, 61].indexOf(code) > -1)) {
+        if (event.ctrlKey === true && (['wheel', 'mousewheel', 'DOMMouseScroll'].indexOf(event.type) > -1 || [107, 189, 187, 173, 61].indexOf(code) > -1)) {
           event.preventDefault();
           if (DEBUG) { console.log('Sorry, zooming is disabled on this app.'); }
         }
@@ -145,14 +145,14 @@ define([], function() {
           div.appendChild(fragment.cloneNode(true));
           var svgText = div.innerHTML;
 
-          if (format == 'svg') {
+          if (format === 'svg') {
             // Finally, for SVG,  we convert the SVG to a blob and save it
             var blob = new Blob([svgText], {type: "image/svg+xml;charset=utf8"});
             saveAs(blob, svgId+'.svg');
             return;
           }
 
-          if (format == 'png') {
+          if (format === 'png') {
             // For PNG we draw the SVG code to an image, render the image to a canvas and then get it as a download.
             var image = new Image();
 
@@ -169,7 +169,7 @@ define([], function() {
               a.href = dataUrl;
               document.body.appendChild(a);
               a.click();
-            }
+            };
             image.src = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(svgText)));
           }
         });

@@ -104,7 +104,7 @@ define(['../data', '../rowchart', '../gui', '../controls'], function(data, rowch
             // Set chart title
             $chartTitle.html(title);
             // Set download link
-            $container.find('.downloadData').on('click', function (e) {
+            $container.find('.downloadData').unbind('click').on('click', function (e) {
               e.preventDefault();
               gui.downloadCsv(title, newData);
             });

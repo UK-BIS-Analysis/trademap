@@ -88,7 +88,7 @@ define(['./data', './controls'], function(data, controls) {
             .selectAll('text')
             //.filter(function (d,i) { return d!="0"; })
             .attr("transform", 'rotate(-65) translate(-13,-10)')
-            .style("text-anchor", "end");;
+            .style("text-anchor", "end");
           svg.select('.y.axis')
             .transition()
             .call(barchart.yAxis);
