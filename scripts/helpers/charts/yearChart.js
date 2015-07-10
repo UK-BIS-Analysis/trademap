@@ -187,8 +187,8 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
 
         _draw: function (newData) {
 
+          // If no data is available display a "No data available" message.
           if (newData.length === 0) {
-            // If no data is available display a "No data available" message.
             svg.append('text')
               .text('No data available for this chart.')
               .classed('nodata', true)
@@ -213,6 +213,17 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
                 .attr('class', 'd3-tip')
                 .offset([-10, 0])
                 .html(function(d) { return d.year+': '+localData.numFormat(d.value, null, 1)+' '+['imports', 'exports'][d.flow-1]; });
+
+          // If there is data only for one flow direction add an empty nest.
+          if (nestedData.length < 2) {
+            console.log(nestedData);
+            if (+nestedData[0].key === 2) {
+              nestedData.unshift({ key: 1, values: [] });
+            } else {
+              nestedData.push({ key: 2, values: [] });
+            }
+            console.log(nestedData);
+          }
 
           // Update scale domains with newData values and the line generation function
           xScale.domain([yearExtent[0], yearExtent[1]+1]);
