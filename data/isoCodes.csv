@@ -37,7 +37,7 @@ unCode,name,iso2letter,iso3letter,isoNumerical,Notes
 116,Cambodia,KH,KHM,116,
 120,Cameroon,CM,CMR,120,
 124,Canada,CA,CAN,124,
-132,Cape Verde,CV,CPV,132,
+132,Cabo Verde,CV,CPV,132,
 136,Cayman Islands,KY,CYM,136,
 140,Central African Republic,CF,CAF,140,
 144,Sri Lanka,LK,LKA,144,
@@ -289,3 +289,5 @@ unCode,name,iso2letter,iso3letter,isoNumerical,Notes
 890,Former Yugoslavia,YU,YUG,NULL,No display on map
 891,Serbia and Montenegro,CS,SCG,NULL,No display on map
 899,"Areas, not elsewhere specified",NULL,NULL,NULL,No display on map
+535,"Bonaire",BQ,BES,535
+

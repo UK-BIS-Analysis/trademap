@@ -367,7 +367,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
                 var returnTxt = '';
                 switch (i) {
                   case 0:
-                    if (totalPartners < 4) {
+                    if (totalPartners <= 4) {
                       returnTxt = 'Not enough data to map';
                     } else {
                       returnTxt = 'Up to 25th percentile';
