@@ -277,13 +277,21 @@ define(function(require) {
             callback(null, true);
           },
           error: function error (xhr, status, err) {
-            // If error is 409 then requeue the request
-            if(xhr.status === 409) {
+            // If error is 409 then check the response text and requeue if rate limit is reached or display error if hourly limit is reached
+            // Responses have dirty charachters so we use a regex and replace to reduce the response to only printable ASCII chars.
+            if(xhr.status === 409 && xhr.responseText.replace(/[^\x20-\x7E]+/g, '') === 'RATE LIMIT: You must wait 1 seconds.') {
               if (DEBUG) { console.log('API 409 Error: Requeueing the request.'); }
               data.query(requestUrl, callback);
               callback(null, false);
+            } else if (xhr.status === 409 && xhr.responseText.replace(/[^\x20-\x7E]+/g, '').indexOf('USAGE LIMIT: Hourly usage limit of 100 actions reached.') > -1) {
+              if (DEBUG) { console.log('API 409 Error: API LIMIT REACHED!'); }
+              // Clear the queue here FIX this does not work perfectly...
+              this.queryQueue = [];
+              this._fireQueryQueueUpdateEvent();
+              callback('Your IP address has reached 100 requests to the Comtrade API within the hour. Please wait one hour and then try again.', null);
             } else {
-              callback(status+' '+err, null);
+              if (DEBUG) { console.log('Unknown API error'); }
+              callback(status+' '+err+' '+xhr.responseText, null);
             }
           },
           complete: function () {
