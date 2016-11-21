@@ -33,7 +33,17 @@ define(function(require) {
       // reporterAreas.json, partnerAreas.json and clasificationsHS_AG2.json
       reporterAreasSelect: [],
       partnerAreasSelect: [],
+      typeCodesSelect: [{
+          "id": "C",
+          "text": "Commodities",
+          "parent": "#"
+      }, {
+          "id": "S",
+          "text": "Services",
+          "parent": "#"
+      }],
       commodityCodesSelect: [],
+      serviceCodesSelect: [],
       reporterAreas: {},
       partnerAreas: {},
       flowByCode: {},
@@ -51,12 +61,18 @@ define(function(require) {
       xFilterByAmount:    {},
 
       // Formatting functions
-      commodityName: function (commodity) {
+      commodityName: function (commodity, type) {
         try {
-          var text = this.commodityCodes.get(commodity).text;
-          return text.slice(text.indexOf(' - ')+3);
+          if (type == 'C') {
+            var text = data.commodityCodes.get(commodity).text;
+            return text.slice(text.indexOf(' - ')+3);
+          }
+          if (type == 'S') {
+            var text = data.serviceCodes.get(commodity).text;
+            return text.slice(text.indexOf(' ')+1);
+          }
         } catch (err) {
-          if (DEBUG) { console.warn('There was a problem getting a commodity name: ' + err); }
+          if (DEBUG) { console.warn('There was a problem getting a commodity name for '+commodity+' of type '+type+': ' + err); }
           return 'unknown';
         }
       },
@@ -133,15 +149,15 @@ define(function(require) {
         // Decide base query URL and use of CORS based on domain and cors support
         if (location.host !== 'comtrade.un.org' && !Modernizr.cors) {
           // Not same domain and no CORS (basically IE9 locked on dev server) then use proxy.php
-          data.baseQueryUrl = 'proxy.php?fmt=csv&max=50000&type=C&freq=A&px=HS&rg=1%2C2';
+          data.baseQueryUrl = 'proxy.php?fmt=csv&max=50000&freq=A&rg=1%2C2';
           data.useCors = false;
         }
         if (location.host !== 'comtrade.un.org' && Modernizr.cors) {
-          data.baseQueryUrl = 'http://comtrade.un.org/api/get?fmt=csv&max=50000&type=C&freq=A&px=HS&rg=1%2C2'
+          data.baseQueryUrl = 'http://comtrade.un.org/api/get?fmt=csv&max=50000&freq=A&rg=1%2C2'
           data.useCors = true;
         }
         if (location.host === 'comtrade.un.org') {
-          data.baseQueryUrl = '/api/get?fmt=csv&max=50000&type=C&freq=A&px=HS&rg=1%2C2'
+          data.baseQueryUrl = '/api/get?fmt=csv&max=50000&freq=A&rg=1%2C2'
           data.useCors = false;
         }
 
@@ -153,13 +169,15 @@ define(function(require) {
           $.ajax('data/reporterAreas.min.json', ajaxSettings),
           $.ajax('data/partnerAreas.min.json', ajaxSettings),
           $.ajax('data/classificationHS_AG2.min.json', ajaxSettings),
+          $.ajax('data/classificationEB02.json', ajaxSettings),
           $.ajax('data/isoCodes.csv'),
           $.ajax('data/world-110m.json', ajaxSettings)
-        ).then(function success (reporterAreas, partnerAreas, commodityCodes, isoCodes, worldJson) {
+        ).then(function success (reporterAreas, partnerAreas, commodityCodes, serviceCodes, isoCodes, worldJson) {
           // Add results to the data object for use in the app.
           data.reporterAreasSelect  = reporterAreas[0].results;
           data.partnerAreasSelect   = partnerAreas[0].results;
           data.commodityCodesSelect = commodityCodes[0].results;
+          data.serviceCodesSelect   = serviceCodes[0].results;
           data.worldJson = worldJson[0];
 
           // Parse isoCodes csv
@@ -171,6 +189,7 @@ define(function(require) {
           data.flowByCode      = d3.map([{ id: '1', text: 'imports'}, { id: '2', text: 'exports'}, { id: '0', text: 'balance'}], function (d) { return d.id; });
           data.partnerAreas    = d3.map(partnerAreas[0].results,   function (d) { return d.id; });
           data.commodityCodes  = d3.map(commodityCodes[0].results, function (d) { return d.id; });
+          data.serviceCodes    = d3.map(serviceCodes[0].results,   function (d) { return d.id; });
 
           // countryByISONum will return a single result (the last match in isoCodes.csv)
           data.countryByISONum = d3.map(codes,                     function (d) { return d.isoNumerical; });
@@ -195,6 +214,8 @@ define(function(require) {
           data.reporterAreasSelect  = data.reporterAreasSelect.filter( function (d) { return d.id !== 'all'; });
           data.partnerAreasSelect   = data.partnerAreasSelect.filter(  function (d) { return (d.id !== 'all'); });
           data.commodityCodesSelect = data.commodityCodesSelect.filter(function (d) { return (d.id !== 'ALL' && d.id !== 'AG2'); });
+          //TODO There might be more unwanted services to filter here.
+          data.serviceCodesSelect   = data.serviceCodesSelect.filter(function (d) { return (d.id !== 'ALL'); });
 
           // Call the callback
           callback();
@@ -222,7 +243,8 @@ define(function(require) {
        *   reporter: 826,     // Reporter code in UN format
        *   partner:  862,     // Partner code in UN format
        *   year:     'all',   // Year can be 'all' or apecific year: 2012 (FUTURE: Multi-year queries are allowed for up to 5 years)
-       *   commodity:72       // Can be a specific 2-digit HS code or 'TOTAL' or 'AG2'
+       *   commodity:72       // Can be a specific 2-digit HS code or 'TOTAL' or 'AG2' or an EB02 code for a service
+       *   type:     'S'      // Can be either S or C for service or commodities
        * }
        * Callback is called with callback(error, ready)
        * ready will be true if new data was received and added to crossfilter or false otherwise.
@@ -470,7 +492,16 @@ define(function(require) {
         if (typeof filters.partner !== 'undefined')     { requestUrl += '&p=' +filters.partner;  } else { requestUrl += '&p=all'; }
         if (typeof filters.year !== 'undefined' && filters.year !== null)
                                                         { requestUrl += '&ps='+filters.year;     } else { requestUrl += '&ps=now'; }
-        if (typeof filters.commodity !== 'undefined')   { requestUrl += '&cc='+filters.commodity;} else { requestUrl += '&cc=AG2'; }
+        // Build URL for goods
+        if (typeof filters.type !== 'undefned' && filters.type == 'C') {
+          requestUrl += '&type=C&px=HS';
+          if (typeof filters.commodity !== 'undefined')   { requestUrl += '&cc='+filters.commodity;} else { requestUrl += '&cc=AG2'; }
+        }
+        // Build URL for services
+        if (typeof filters.type !== 'undefned' && filters.type == 'S') {
+          requestUrl += '&type=S&px=EB02';
+          if (typeof filters.commodity !== 'undefined')   { requestUrl += '&cc='+filters.commodity;} else { requestUrl += '&cc=ALL'; }
+        }
         return requestUrl;
       },
 

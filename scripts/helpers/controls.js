@@ -17,9 +17,10 @@ define(['./data'], function(data) {
     // Place some common jQuery objects so that we don't need to look for them each time.
     $selectReporter:  $('#selectReporter'),
     $selectPartner:   $('#selectPartner'),
+    $selectType:      $('#selectType'),
     $selectCommodity: $('#selectCommodity'),
     $selectYear:      $('#selectYear'),
-    $selects:         $('#selectReporter, #selectPartner, #selectCommodity, #selectYear'),
+    $selects:         $('#selectReporter, #selectPartner, #selectType, #selectCommodity, #selectYear'),
     $flowButtons:     $('#flowButtons'),
     $clearFilters:    $("#clearFilters"),
 
@@ -49,12 +50,24 @@ define(['./data'], function(data) {
         })
         .on('change', controls.onFilterChange)
         .select2('disable');
-      // Setup the categories dropdown
+      // Setup the type dropdown
+      this.$selectType
+        .select2({
+          minimumResultsForSearch: Infinity,
+          data: data.typeCodesSelect
+        })
+        .on('change', controls.onFilterChange)
+        .select2('disable');
+      // Setup the commodities dropdown
       this.$selectCommodity
         .select2({
           placeholder: "Select a commodity",
           allowClear: true,
-          data: data.commodityCodesSelect
+          data: function() {
+            // Check if services or commodities are selected in controls.filters and return options based on this
+            if (controls.filters.type == 'S') return { text:'services', results: data.serviceCodesSelect };
+            if (controls.filters.type == 'C') return { text:'goods', results: data.commodityCodesSelect };
+            return { text:'undefined', results: [] }; }
         })
         .on('change', controls.onFilterChange)
         .select2('disable');
@@ -125,13 +138,13 @@ define(['./data'], function(data) {
       var newFilters = {};
       if (controls.$selectReporter.val() !== '')  { newFilters.reporter = controls.$selectReporter.val(); }
       if (controls.$selectPartner.val() !== '')   { newFilters.partner = controls.$selectPartner.val(); }
+      if (controls.$selectType.val() !== '')      { newFilters.type = controls.$selectType.val(); }
       if (controls.$selectCommodity.val() !== '') { newFilters.commodity = controls.$selectCommodity.val(); }
       if (controls.$selectYear.val() !== '')      { newFilters.year = controls.$selectYear.val(); }
       if ($('#flowButtons .btn-primary').attr('data-value') !== '')
                                                   { newFilters.flow = $('#flowButtons .btn-primary').attr('data-value'); }
       return newFilters;
     },
-
 
 
 
@@ -143,9 +156,19 @@ define(['./data'], function(data) {
       if (controls.filters.reporter  === newfilters.reporter  &&
           controls.filters.partner   === newfilters.partner   &&
           controls.filters.commodity === newfilters.commodity &&
+          controls.filters.type      === newfilters.type      &&
           controls.filters.year      === newfilters.year      &&
           controls.filters.flow      === newfilters.flow ) {
         return;
+      }
+
+      // If the type was changed then deselect the commodity (the commodity dropdown autopopulates)
+      if (controls.filters.type != newfilters.type) {
+        newfilters.commodity = undefined;
+        // Update placeholder
+        if (newfilters.type == 'S') controls.$selectCommodity.data('select2').opts.placeholder = "Select service";
+        if (newfilters.type == 'C') controls.$selectCommodity.data('select2').opts.placeholder = "Select commodity";
+        controls.$selectCommodity.data('select2').setPlaceholder()
       }
 
       // If partner was unselected and is now selected then scroll down to the charts.
@@ -175,6 +198,11 @@ define(['./data'], function(data) {
 
 
 
+    onTypeSwitch: function (event) {
+    },
+
+
+
 
     changeFilters: function (filters) {
       // If reporter is not currently selected nor being set, don't allow any other updates
@@ -185,6 +213,9 @@ define(['./data'], function(data) {
       // Update the other fields
       if (filters.reporter && filters.reporter !== controls.$selectReporter.val()) {
         controls.$selectReporter.val(filters.reporter);
+      }
+      if (filters.type && filters.type !== controls.$selectType.val()) {
+        controls.$selectType.val(filters.type);
       }
       if (filters.commodity && filters.commodity !== controls.$selectCommodity.val()) {
         controls.$selectCommodity.val(filters.commodity);
@@ -209,12 +240,12 @@ define(['./data'], function(data) {
 
     initializeFilters: function () {
       var URLfilters = this.decodeURL();
-      if (URLfilters && URLfilters.reporter) {
+      if (URLfilters && URLfilters.reporter && URLfilters.type) {
         // Set the filters from the URL
         this.changeFilters(URLfilters);
       } else {
-        // Then initialize filters to reporter=UK
-        controls.changeFilters({ reporter:  826, year: 2014 });
+        // Then initialize filters to reporter=UK year 2014 and type Goods
+        controls.changeFilters({ reporter: 826, year: 2014, type: "C" });
       }
     },
 
@@ -223,18 +254,17 @@ define(['./data'], function(data) {
 
     decodeURL: function () {
       var History = window.History;
-	  try {
+	    try {
         var filters = {},
             state = History.getState();
         state.hash.split('?',2)[1].split('&').forEach(function (param) {
-			param = param.replace(/%20|\+/g, ' ').split('=');
-			filters[decodeURIComponent(param[0])] = (param[1] ? decodeURIComponent(param[1]) : undefined);
-		});
-        if (filters.year) { filters.year = +filters.year }
-		return filters;
-	  } catch (err) {
-		return {};
-	  }
+			    param = param.replace(/%20|\+/g, ' ').split('=');
+			    filters[decodeURIComponent(param[0])] = (param[1] ? decodeURIComponent(param[1]) : undefined);
+		    });
+        if (filters.year) { filters.year = +filters.year } return filters;
+	    } catch (err) {
+  		  return {};
+  	  }
     },
 
 
@@ -285,11 +315,13 @@ define(['./data'], function(data) {
           .val(null)
           .trigger("change")
           .on('change', controls.onFilterChange);
+        $("#selectType").select2('disable');
         $("#selectCommodity").select2('disable');
         $("#selectPartner").select2('disable');
         $("#selectYear").select2('disable');
         $('#switchPartners').prop('disabled', true);
       } else {
+        $("#selectType").select2('enable');
         $("#selectCommodity").select2('enable');
         $("#selectPartner").select2('enable');
         $("#selectYear").select2('enable');

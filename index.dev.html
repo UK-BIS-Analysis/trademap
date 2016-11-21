@@ -8,18 +8,18 @@
     <link rel="author" href="humans.txt" />
     <meta name="author" content="UK Department for Business Innovation and Skills">
     <meta name="Description" content="An interactive visualization of international trade based on UN COMTRADE data.">
-    <meta name="Keywords" content="trade, goods, comtrade, united nations, department for business innovation and skills">
+    <meta name="Keywords" content="trade, goods, services, comtrade, united nations, department for business innovation and skills">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="shortcut icon" href="favicon.ico?v=2">
 
     <!-- Facebook tags -->
-    <meta property="og:title"       content="International Trade in Goods based on UN Comtrade data" />
+    <meta property="og:title"       content="International Trade in Goods and services based on UN Comtrade data" />
     <meta property="og:type"        content="Website" />
     <meta property="og:image"       content="http://comtrade.un.org/labs/BIS-trade-in-goods/img/fbThumb.png" />
     <meta property="og:url"         content="http://comtrade.un.org/labs/BIS-trade-in-goods" />
     <meta property="og:description" content="An interactive data visualization made by the UK Department for Business, Innovation & Skills exploring UN COMTRADE data." />
 
-    <title>International Trade in Goods based on UN Comtrade data</title>
+    <title>International Trade in Goods and services based on UN Comtrade data</title>
 
     <!-- Modernizr should not be compiled/minified with other scripts -->
     <script type="text/javascript" src="libs/modernizr.custom.js"></script>
@@ -83,7 +83,7 @@
             <span class="icon-bar"></span>
           </button>
           <div class="navbar-brand">
-            <p>International Trade in Goods based on UN Comtrade data</p>
+            <p>International Trade in Goods and Services based on UN Comtrade data</p>
             <small>Developed by the Department for Business Innovation and Skills (UK)</small>
           </div>
         </div>
@@ -126,11 +126,15 @@
               <span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>
             </button>
           </div>
-          <div class="col-md-4 col-sm-8  col-xs-12 column" id="selectCommodityContainer">
+          <div class="col-md-1 col-sm-3 col-xs-3 column" id="selectTypeContainer">
+            <!-- Type selector -->
+            <span id="selectType" class="select2control selectType"></span>
+          </div>
+          <div class="col-md-3 col-sm-5 col-xs-9 column" id="selectCommodityContainer">
             <!-- Commodity selection -->
             <span id="selectCommodity" class="select2control selectCommodity"></span>
           </div>
-          <div class="col-md-1 col-sm-2  col-xs-6 column">
+          <div class="col-md-1 col-sm-2 col-xs-6 column">
             <!-- Year selection -->
             <div class="selectYearWrapper">
               <select id="selectYear" class="select2control" disabled>
@@ -177,7 +181,7 @@
               </select>
             </div>
           </div>
-          <div class="col-md-1 col-sm-2  col-xs-6 column">
+          <div class="col-md-1 col-sm-2 col-xs-6 column">
             <!-- Clear all button -->
             <div class="clearBtnWrapper">
               <button type="button" class="btn btn-xs btn-danger" id="clearFilters"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Clear all</button>
