@@ -169,6 +169,8 @@ define(['./data'], function(data) {
         if (newfilters.type == 'S') controls.$selectCommodity.data('select2').opts.placeholder = "Select service";
         if (newfilters.type == 'C') controls.$selectCommodity.data('select2').opts.placeholder = "Select commodity";
         controls.$selectCommodity.data('select2').setPlaceholder()
+        // Purge the displayed value in the commodity dropdown
+        controls.$selectCommodity.select2("val", "")
       }
 
       // If partner was unselected and is now selected then scroll down to the charts.
@@ -195,12 +197,6 @@ define(['./data'], function(data) {
       // And finally store the filters
       controls.filters = newfilters;
     },
-
-
-
-    onTypeSwitch: function (event) {
-    },
-
 
 
 
