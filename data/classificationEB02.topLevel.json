@@ -1,0 +1,55 @@
+{
+    "more": false,
+    "classCode": "EB02",
+    "className": "EBOPS2002",
+    "minimumInputLength": 0,
+    "results": [{
+        "id": "200",
+        "text": "TOTAL - Total EBOPS 2002 Services",
+        "parent": "#"
+    }, {
+        "id": "205",
+        "text": "1. Transportation",
+        "parent": "200"
+    }, {
+        "id": "236",
+        "text": "2. Travel",
+        "parent": "200"
+    }, {
+        "id": "245",
+        "text": "3. Communications services",
+        "parent": "200"
+    }, {
+        "id": "249",
+        "text": "4. Construction services",
+        "parent": "200"
+    }, {
+        "id": "253",
+        "text": "5. Insurance services",
+        "parent": "200"
+    }, {
+        "id": "260",
+        "text": "6. Financial services",
+        "parent": "200"
+    }, {
+        "id": "262",
+        "text": "7. Computer and information services",
+        "parent": "200"
+    }, {
+        "id": "266",
+        "text": "8. Royalties and license fees",
+        "parent": "200"
+    }, {
+        "id": "268",
+        "text": "9. Other business services",
+        "parent": "200"
+    }, {
+        "id": "287",
+        "text": "10. Personal, cultural, and recreational services",
+        "parent": "200"
+    }, {
+        "id": "291",
+        "text": "11. Government services, n.i.e.",
+        "parent": "200"
+    }]
+}

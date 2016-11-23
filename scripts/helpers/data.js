@@ -68,6 +68,7 @@ define(function(require) {
             return text.slice(text.indexOf(' - ')+3);
           }
           if (type == 'S') {
+            //TODO FEATURE this could be imprved to consider parents e.g. "Transport" for "Passengers"
             var text = data.serviceCodes.get(commodity).text;
             return text.slice(text.indexOf(' ')+1);
           }
@@ -169,7 +170,7 @@ define(function(require) {
           $.ajax('data/reporterAreas.min.json', ajaxSettings),
           $.ajax('data/partnerAreas.min.json', ajaxSettings),
           $.ajax('data/classificationHS_AG2.min.json', ajaxSettings),
-          $.ajax('data/classificationEB02.json', ajaxSettings),
+          $.ajax('data/classificationEB02.topLevel.json', ajaxSettings),
           $.ajax('data/isoCodes.csv'),
           $.ajax('data/world-110m.json', ajaxSettings)
         ).then(function success (reporterAreas, partnerAreas, commodityCodes, serviceCodes, isoCodes, worldJson) {
