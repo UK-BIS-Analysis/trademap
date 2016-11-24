@@ -1,28 +1,34 @@
 {
-  "name": "TradeMap",
-  "version": "1.0.0",
+  "name": "trademap",
+  "version": "1.1.0",
   "description": "BIS International Trade visualization based on UN COMTRADE data",
   "main": "Gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
     "type": "git",
-    "url": "git@bitbucket.org:fmerletti/dbis_trademap.git"
+    "url": "git+https://github.com/UK-BIS-Analysis/trademap.git"
   },
   "author": "Francesco Merletti (me@fm.to.it)",
-  "license": "Copyright",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/UK-BIS-Analysis/trademap/issues"
+  },
+  "homepage": "https://github.com/UK-BIS-Analysis/trademap#readme",
   "devDependencies": {
-    "almond": "^0.3.1",
-    "grunt": "~0.4.5",
-    "grunt-contrib-compress": "^0.13.0",
-    "grunt-contrib-concat": "^0.5.1",
-    "grunt-contrib-copy": "^0.8.0",
-    "grunt-contrib-cssmin": "^0.12.2",
-    "grunt-contrib-htmlmin": "^0.4.0",
-    "grunt-contrib-jshint": "~0.10.0",
-    "grunt-contrib-nodeunit": "~0.4.1",
-    "grunt-contrib-requirejs": "^0.4.4",
-    "grunt-contrib-uglify": "^0.9.1",
-    "grunt-filerev": "^2.2.0",
-    "grunt-regex-replace": "^0.2.6",
-    "grunt-usemin": "^3.0.0"
+    "almond": "^0.3.3",
+    "grunt": "^1.0.1",
+    "grunt-contrib-compress": "^1.3.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-cssmin": "^1.0.2",
+    "grunt-contrib-htmlmin": "^2.0.0",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-requirejs": "^1.0.0",
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-filerev": "^2.3.1",
+    "grunt-regex-replace": "^0.4.0",
+    "grunt-usemin": "^3.1.1"
   }
 }

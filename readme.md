@@ -41,19 +41,19 @@ There is no server backend required. Data is pulled by the browser from the [Com
 
 The point of entry for the application is the ```index.html``` file which includes all necessary CSS and JS assets.
 
-[RequireJS](http://requirejs.org/) allows breaking up an application into modules and defining dependencies of each module on 
+[RequireJS](http://requirejs.org/) allows breaking up an application into modules and defining dependencies of each module on
 other modules (AKA dependency injection). The ```scripts/main.js``` file is the main file that boots the application and includes
 all the different modules, initializing them.
 
 The ```scripts/helpers``` folder contains modules for different components of the visualization:
 
-* ```data.js```: This module handles interaction with the Comtrade API as well as managing 
+* ```data.js```: This module handles interaction with the Comtrade API as well as managing
   [Crossfilter](https://github.com/square/crossfilter) which we use as a local database.
-  The _setup_ function of the module loads all necessary JSON and CSV data (see the 
+  The _setup_ function of the module loads all necessary JSON and CSV data (see the
   [data/sources/sources.md](data/sources/sources.md) file). The _query_ function runs API queries
   ensuring throttling (no more than 1 query fired per second) as well as avoiding duplicate queries.
   It also stores the retrieved data into crossfilter avoiding duplicate records.
-  The _getData_ function queries the crossfilter and the _combineData_ function merges import and 
+  The _getData_ function queries the crossfilter and the _combineData_ function merges import and
   export records adding balance and bilateral trade info.
 * ```controls.js```: Sets up and handles the behaviours associated with the main controls (reporter, partner, commodity, flow, year).
   It also fires events, alerting charts if filters are changed so that they can update accordingly. The file also manages the changes
@@ -74,7 +74,7 @@ script. To run the optimization and generate production code make sure you have 
 this once on your system):
 
     npm install
-    
+
 You can then generate production code simply by running:
 
     grunt
@@ -87,13 +87,22 @@ The following files are generated:
 * ```assets/main.min.css``` is a minified version of styles/main.css which contain custom style information for the app.
 * ```assets/main.min.js``` is generated compiling the custom scripts or specific app logic. It uses requirejs to compile.
 
+#### Windows notes
+
+To run the build process on windows install the latest [Nodejs](http://www,nodejs.org) version which will include npm. Then from windows Powershell, in the directory of this visualization, run the following commands
+
+    npm update -g npm
+    npm install -g bower grunt grunt-cli
+    npm install
+    grunt
+
 ### Sources and API information:
 
 More details about the sources and the API can be found in the [data/sources/sources.md](data/sources/sources.md) file.
 
 ### Code style, notes & other practices
 
-* Normally external libraries would be excluded from the repository and be retrieved upon install using bower. However to make the 
+* Normally external libraries would be excluded from the repository and be retrieved upon install using bower. However to make the
   visualization more portable, even on systems that do not have npm and bower installed they are included in this git repo.
 * Remember to modify the index.dev.html file instead of the index.html file in development.
 * Variables are preferably named using camelCase
