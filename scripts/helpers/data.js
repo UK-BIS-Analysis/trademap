@@ -56,6 +56,7 @@ define(function(require) {
       xFilterByReporter:  {},
       xFilterByPartner:   {},
       xFilterByYear:      {},
+      xFilterByType:      {},
       xFilterByCommodity: {},
       xFilterByFlow:      {},
       xFilterByAmount:    {},
@@ -154,7 +155,7 @@ define(function(require) {
           data.useCors = false;
         }
         if (location.host !== 'comtrade.un.org' && Modernizr.cors) {
-          data.baseQueryUrl = 'http://comtrade.un.org/api/get?fmt=csv&max=50000&freq=A&rg=1%2C2'
+          data.baseQueryUrl = 'https://comtrade.un.org/api/get?fmt=csv&max=50000&freq=A&rg=1%2C2'
           data.useCors = true;
         }
         if (location.host === 'comtrade.un.org') {
@@ -229,6 +230,7 @@ define(function(require) {
         this.xFilterByReporter  = this.xFilter.dimension(function(d){ return +d.reporter;  });
         this.xFilterByPartner   = this.xFilter.dimension(function(d){ return +d.partner;   });
         this.xFilterByYear      = this.xFilter.dimension(function(d){ return +d.year;      });
+        this.xFilterByType      = this.xFilter.dimension(function(d){ return d.type;       });
         this.xFilterByCommodity = this.xFilter.dimension(function(d){ return d.commodity;  });
         this.xFilterByFlow      = this.xFilter.dimension(function(d){ return +d.flow;      });
         this.xFilterByAmount    = this.xFilter.dimension(function(d){ return +d.value;     });
@@ -344,6 +346,7 @@ define(function(require) {
        *   reporter: 826,     // Reporter code
        *   partner:  862,     // Partner code
        *   year:     'all',   // Year
+       *   type:     'S'      // Type can be 'S' or 'C' for service or good
        *   commodity:72       // Can be a specific 2-digit HS code or 'TOTAL' or 'AG2'
        * }
        * limit will be used to return the top x number of records
@@ -352,6 +355,7 @@ define(function(require) {
         // Clear all filters on the xFilter
         this.xFilterByReporter.filterAll();
         this.xFilterByPartner.filterAll();
+        this.xFilterByType.filterAll();
         this.xFilterByYear.filterAll();
         this.xFilterByCommodity.filterAll();
         this.xFilterByFlow.filterAll();
@@ -365,9 +369,15 @@ define(function(require) {
         if (typeof filters.partner !== 'undefined' && filters.partner === 'all')     { this.xFilterByPartner.filter(function (d) { return (+d !== 0); }); }
         if (typeof filters.partner !== 'undefined' && filters.partner !== 'all')     { this.xFilterByPartner.filter(+filters.partner); }
         if (typeof filters.year !== 'undefined' && filters.year !== 'all')           { this.xFilterByYear.filter(+filters.year); }
-        if (typeof filters.commodity !== 'undefined' && filters.commodity !== 'AG2') { this.xFilterByCommodity.filter(filters.commodity); }
-        if (typeof filters.commodity !== 'undefined' && filters.commodity === 'AG2') { this.xFilterByCommodity.filter(function (d) { return d !== 'TOTAL'; } ); }
-        if (typeof filters.commodity === 'undefined')                                { this.xFilterByCommodity.filter(function (d) { return d === 'TOTAL'; } ); }
+        if (typeof filters.type !== 'undefined')                                     { this.xFilterByType.filter(filters.type); }
+
+        // If a specific commodity is selected then filter by it
+        if (typeof filters.commodity !== 'undefined' && filters.commodity !== 'AG2' && filters.commodity !== 'TOTAL') { this.xFilterByCommodity.filter(filters.commodity); }
+        // If AG2 is requested return all commodities excluding TOTALS (keeping in account that the value is TOTAL for goods and 200 for services)
+        if (typeof filters.commodity !== 'undefined' && filters.commodity === 'AG2') { this.xFilterByCommodity.filter(function (d) { return (d !== 'TOTAL' && +d !== 200); } ); }
+        // If no commodity is selected or TOTAL is selected then return TOTALS (keeping in account that the value is TOTAL for goods and 200 for services)
+        if (typeof filters.commodity === 'undefined' || filters.commodity === 'TOTAL') { this.xFilterByCommodity.filter(function (d) { return (d === 'TOTAL' || +d == 200); } ); }
+
         if (typeof filters.flow !== 'undefined' && +filters.flow !== 0 )             { this.xFilterByFlow.filter(filters.flow); }
 
         // Get the data from xFilter
@@ -381,8 +391,8 @@ define(function(require) {
 
       /*
        * Takes a dataset where imports and exports are in different records
-       * and combines them into a single dataset with one record per partner
-       * and different properties for import, export, balance and ranking.
+       * and combines them into a dataset with a single record per partner
+       * and different properties for import, export, balance and ranking (on the same record).
        * This should be called after getting data which includes "world" as a
        * partner so that percentages of imports and exports will be calculated.
        */
@@ -397,20 +407,17 @@ define(function(require) {
         impExpData = impExpData.filter(function (v) {
           if (+v.partner !== 0) { return true; }
           else {
+            worldDetails.reporter = v.reporter;
+            worldDetails.partner = v.partner;
+            worldDetails.type = v.type;
+            worldDetails.commodity = v.commodity;
+            worldDetails.year = v.year;
             if (v.flow === 1) {
               totImports = v.value;
-              worldDetails.reporter = v.reporter;
-              worldDetails.partner = v.partner;
-              worldDetails.commodity = v.commodity;
-              worldDetails.year = v.year;
               worldDetails.importVal = v.value;
             }
             if (v.flow === 2) {
               totExports = v.value;
-              worldDetails.reporter = v.reporter;
-              worldDetails.partner = v.partner;
-              worldDetails.commodity = v.commodity;
-              worldDetails.year = v.year;
               worldDetails.exportVal = v.value;
             }
             return false;
@@ -491,8 +498,23 @@ define(function(require) {
         var requestUrl = data.baseQueryUrl;
         if (typeof filters.reporter !== 'undefined')    { requestUrl += '&r=' +filters.reporter; } else { requestUrl += '&r=0'; }
         if (typeof filters.partner !== 'undefined')     { requestUrl += '&p=' +filters.partner;  } else { requestUrl += '&p=all'; }
-        if (typeof filters.year !== 'undefined' && filters.year !== null)
-                                                        { requestUrl += '&ps='+filters.year;     } else { requestUrl += '&ps=now'; }
+
+        if (typeof filters.year !== 'undefined' && filters.year !== null) {
+          // -------- START WORKAROUND ---------
+          // TODO: Temporary FIX because of bug in Comtrade API, revert this when the bug is fixed.
+          // If filters.year is 'all' and type is services the API will not return any records at the moment.
+          // As a workarund for this case we will search for years 2011, 2012, 2013, 2014, 2015 only (we can specify five)
+          if (filters.type == 'S' && filters.year == 'all') {
+            requestUrl += '&ps=2011%2C2012%2C2013%2C2014%2C2015';
+          } else {
+            requestUrl += '&ps='+filters.year;
+          }
+          // -------- END WORKAROUND ---------
+          // When proper functioning is restored delete above workaround and uncomment original code below:
+          // requestUrl += '&ps='+filters.year;
+        } else {
+          requestUrl += '&ps=now';
+        }
         // Build URL for goods
         if (typeof filters.type !== 'undefned' && filters.type == 'C') {
           requestUrl += '&type=C&px=HS';
@@ -501,7 +523,24 @@ define(function(require) {
         // Build URL for services
         if (typeof filters.type !== 'undefned' && filters.type == 'S') {
           requestUrl += '&type=S&px=EB02';
-          if (typeof filters.commodity !== 'undefined')   { requestUrl += '&cc='+filters.commodity;} else { requestUrl += '&cc=ALL'; }
+          if (typeof filters.commodity == 'undefined' || filters.commodity == 'TOTAL' || filters.commodity == 'ALL' || filters.commodity == 'AG2' ) {
+            // If no specific commodity code is specified or a TOTAL or ALL has been requested,
+            // instead using ALL that would return all nested levels, if we have less than 20
+            // options in the dropdown we query the api listing all of those instead
+            // e.g. for the 11 top level categories.
+            if (data.serviceCodesSelect.length < 20) {
+              requestUrl += '&cc=';
+              data.serviceCodesSelect.forEach(function (i) {
+                requestUrl += i.id+'%2C';
+              });
+              requestUrl.slice(0,-3);
+            } else {
+              requestUrl += '&cc=ALL';
+            }
+          } else  {
+            // If a commodityCode is specified then add it to the query
+            requestUrl += '&cc='+filters.commodity;
+          }
         }
         return requestUrl;
       },
@@ -513,6 +552,8 @@ define(function(require) {
             reporter:   +d['Reporter Code'],
             partner:    +d['Partner Code'],
             year:       +d.Year,
+            // We ifer the type from the classification field. Goods start with "H" but can be H0, H1, H2, H3, H4 while services have classification EB
+            type:        ({ H: 'C', E: 'S'})[d.Classification.slice(0,1)],
             commodity:   d['Commodity Code'],
             flow:       +d['Trade Flow Code'],
             value:      +d['Trade Value (US$)']
@@ -533,6 +574,7 @@ define(function(require) {
             if (
               nd.reporter  === xd.reporter  &&
               nd.partner   === xd.partner   &&
+              nd.type      === xd.type      &&
               nd.commodity === xd.commodity &&
               nd.flow      === xd.flow      &&
               nd.year      === xd.year      &&
@@ -549,7 +591,7 @@ define(function(require) {
         this.xFilter.add(insertData);
 
         if(DEBUG) {
-          console.groupCollapsed('API QUERY SUCCESS from %s: r=%s p=%s c=%s y=%s', filters.initiator, filters.reporter, filters.partner, filters.commodity, filters.year);
+          console.groupCollapsed('API QUERY SUCCESS from %s: r=%s p=%s cc=%s type=%s y=%s', filters.initiator, filters.reporter, filters.partner, filters.commodity, filters.type, filters.year);
           console.log('filters: %o', filters);
           console.log('Added %d new records. Retrieved %d records. Checked %d possible matches and discarded %d duplicates. New xFilter size: %d', insertData.length, newData.length, xFdata.length, duplicates.length, this.xFilter.size());
           console.log('duplicates discarded: %o', duplicates);
