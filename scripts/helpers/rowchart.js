@@ -131,7 +131,7 @@ define(['./data', './controls'], function(data, controls) {
               if (filters.partner === 'all') {  // top partner chart: select partner
                 return localData.lookup(d.partner, 'partnerAreas', 'text');
               } else {                          // top commodities chart: select commodity
-                return localData.commodityName(d.commodity);
+                return localData.commodityName(d.commodity, filters.type);
               }
             });
           values

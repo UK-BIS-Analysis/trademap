@@ -57,13 +57,15 @@ define(['../data', '../rowchart', '../gui', '../controls'], function(data, rowch
                 partner:  'all',
                 year:   filters.year,
                 commodity:   'AG2',
-                initiator: 'topExportMarkets'
+                initiator: 'topExportMarkets',
+                type: filters.type
               },
               dataFilter = {
                 reporter: +filters.reporter,
                 partner:  'all',
                 year:   filters.year,
-                commodity:   'AG2'
+                commodity:   'AG2',
+                type: filters.type
               },
               title = '';
 
@@ -72,7 +74,7 @@ define(['../data', '../rowchart', '../gui', '../controls'], function(data, rowch
 
           // CASE 2: reporter = selected    commodity = null        partner = null or 0
           if(filters.reporter && !filters.commodity && (!filters.partner || +filters.partner === 0)) {
-            title = localData.lookup(filters.reporter, 'reporterAreas', 'text') + ' - Top-10 export markets for goods in ' + filters.year;
+            title = localData.lookup(filters.reporter, 'reporterAreas', 'text') + ' - Top-10 export markets for '+({ S: 'services', C: 'goods' })[filters.type]+' in ' + filters.year;
             queryFilter.commodity = 'TOTAL';
             dataFilter.commodity = 'TOTAL';
           }
@@ -94,7 +96,7 @@ define(['../data', '../rowchart', '../gui', '../controls'], function(data, rowch
           // CASE 5: reporter = selected    commodity = selected    partner = null
           // This is already covered by the data in CASE 2 so we don't specify the commodity in the api query to avoid duplicate data and requests
           if(filters.reporter && filters.commodity && (!filters.partner || +filters.partner === 0)) {
-            title = localData.lookup(filters.reporter, 'reporterAreas', 'text') + ' - Top-10 export markets for ' + localData.commodityName(filters.commodity) + ' in ' + filters.year;
+            title = localData.lookup(filters.reporter, 'reporterAreas', 'text') + ' - Top-10 export markets for ' + localData.commodityName(filters.commodity, filters.type) + ' in ' + filters.year;
             queryFilter.commodity = filters.commodity;
             dataFilter.commodity = filters.commodity;
           }

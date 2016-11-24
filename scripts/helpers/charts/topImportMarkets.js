@@ -57,13 +57,15 @@ define(['../data', '../rowchart', '../gui', '../controls'], function(data, rowch
                 partner:  'all',
                 year:   filters.year,
                 commodity:   'AG2',
-                initiator: 'topImportMarkets'
+                initiator: 'topImportMarkets',
+                type: filters.type
               },
               dataFilter = {
                 reporter: +filters.reporter,
                 partner:  'all',
                 year:   filters.year,
-                commodity:   'AG2'
+                commodity:   'AG2',
+                type: filters.type
               },
               title = '';
 
@@ -74,7 +76,7 @@ define(['../data', '../rowchart', '../gui', '../controls'], function(data, rowch
           if(filters.reporter && !filters.commodity && (!filters.partner || +filters.partner === 0)) {
             queryFilter.commodity = 'TOTAL';
             dataFilter.commodity = 'TOTAL';
-            title = localData.lookup(filters.reporter, 'reporterAreas', 'text') + ' - Top-10 import markets for goods in ' + filters.year;
+            title = localData.lookup(filters.reporter, 'reporterAreas', 'text') + ' - Top-10 import markets for '+({ S: 'services', C: 'goods' })[filters.type]+' in ' + filters.year;
           }
 
           // CASE 3: reporter = selected    commodity = null        partner = selected
@@ -96,7 +98,7 @@ define(['../data', '../rowchart', '../gui', '../controls'], function(data, rowch
           if(filters.reporter && filters.commodity && (!filters.partner || +filters.partner === 0)) {
             queryFilter.commodity = filters.commodity;
             dataFilter.commodity = filters.commodity;
-            title = localData.lookup(filters.reporter, 'reporterAreas', 'text') + ' - Top-10 import markets for ' + localData.commodityName(filters.commodity) + ' in ' + filters.year;
+            title = localData.lookup(filters.reporter, 'reporterAreas', 'text') + ' - Top-10 import markets for ' + localData.commodityName(filters.commodity, filters.type) + ' in ' + filters.year;
           }
 
           // Run API query

@@ -115,17 +115,19 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
           var queryFilter = {
                 reporter: +filters.reporter,
                 year:   'all',
-                initiator: 'yearChart'
+                initiator: 'yearChart',
+                type: filters.type
               },
               dataFilter = {
                 reporter: +filters.reporter,
-                year:   'all'
+                year:   'all',
+                type: filters.type
               },
               title = '';
 
           // CASE 2: reporter = selected    commodity = null        partner = null
           if(filters.reporter && !filters.commodity && !filters.partner) {
-            title = localData.lookup(filters.reporter, 'reporterAreas', 'text') + ' trade in goods with the world';
+            title = localData.lookup(filters.reporter, 'reporterAreas', 'text') + ' trade in '+({ S: 'services', C: 'goods' })[filters.type]+' with the world';
             queryFilter.partner =  0;
             queryFilter.commodity = 'TOTAL';
             dataFilter = queryFilter;
@@ -133,7 +135,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
 
           // CASE 3: reporter = selected    commodity = null        partner = selected
           if(filters.reporter && !filters.commodity && filters.partner) {
-            title = localData.lookup(filters.reporter, 'reporterAreas', 'text') + ' trade in goods with ' + localData.lookup(filters.partner, 'partnerAreas', 'text');
+            title = localData.lookup(filters.reporter, 'reporterAreas', 'text') + ' trade in '+({ S: 'services', C: 'goods' })[filters.type]+' with ' + localData.lookup(filters.partner, 'partnerAreas', 'text');
             queryFilter.partner = filters.partner;
             queryFilter.commodity = 'TOTAL';
             dataFilter.partner = +filters.partner;
@@ -143,7 +145,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
           // CASE 4: reporter = selected    commodity = selected    partner = selected
           // NOTE This is already covered by the data in CASE 3 so we don't specify the commodity in the query to avoid duplicate data
           if(filters.reporter && filters.commodity && filters.partner) {
-            title = localData.lookup(filters.reporter, 'reporterAreas', 'text') + ' trade in ' + localData.commodityName(filters.commodity) + ' with ' + localData.lookup(filters.partner, 'partnerAreas', 'text');
+            title = localData.lookup(filters.reporter, 'reporterAreas', 'text') + ' trade in ' + localData.commodityName(filters.commodity, filters.type) + ' with ' + localData.lookup(filters.partner, 'partnerAreas', 'text');
             queryFilter.partner = +filters.partner;
             queryFilter.commodity = filters.commodity;
             dataFilter.partner = +filters.partner;
@@ -152,7 +154,7 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
 
           // CASE 5: reporter = selected    commodity = selected    partner = null
           if(filters.reporter && filters.commodity && !filters.partner) {
-            title = localData.lookup(filters.reporter, 'reporterAreas', 'text') + ' trade in ' + localData.commodityName(filters.commodity) + ' with the world';
+            title = localData.lookup(filters.reporter, 'reporterAreas', 'text') + ' trade in ' + localData.commodityName(filters.commodity, filters.type) + ' with the world';
             queryFilter.partner = 0;
             queryFilter.commodity = filters.commodity;
             dataFilter.partner = 0;

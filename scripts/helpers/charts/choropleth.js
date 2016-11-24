@@ -138,18 +138,27 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
 
           // CASE 2&3: reporter = selected    commodity = null
           if(filters.reporter && !filters.commodity) {
-            // Set query and data retrieval filters (forcing partners to all, commodity to total and ignoring flow)
+            // Set query and data retrieval filters (forcing commodity to total)
             queryFilter.commodity = 'TOTAL';
+            queryFilter.type = filters.type;
             dataFilter.commodity =  'TOTAL';
-            title = localData.lookup(filters.reporter, 'countryByUnNum', 'name') + [' trade in goods balance ', ' imports of goods ', ' exports of goods '][filters.flow] + ' in ' + filters.year;
+            dataFilter.type = filters.type;
+            title = localData.lookup(filters.reporter, 'countryByUnNum', 'name')
+                    + [' trade in '+({ S: 'services', G: 'goods'})[filters.type]+' balance ', ' imports of '+({ S: 'services', G: 'goods'})[filters.type]+' ', ' exports of '+({ S: 'services', G: 'goods'})[filters.type]+' '][filters.flow]
+                    + ' in '
+                    + filters.year;
           }
 
           // CASE 4&5: reporter = selected    commodity = selected
           if(filters.reporter && filters.commodity) {
-            // Set query and data retrieval filters (forcing partners to all and commodity to total)
+            // Set query and data retrieval filters
             queryFilter.commodity = filters.commodity;
+            queryFilter.type = filters.type;
             dataFilter.commodity = filters.commodity;
-            title = localData.lookup(filters.reporter, 'countryByUnNum', 'name') + [' trade in ' + localData.commodityName(filters.commodity, filters.type) + ' balance ', ' imports of ' + localData.commodityName(filters.commodity, filters.type) + ' ', ' exports of ' + localData.commodityName(filters.commodity,filters.type) + ' '][filters.flow] + ' in ' + filters.year;
+            dataFilter.type = filters.type;
+            title = localData.lookup(filters.reporter, 'countryByUnNum', 'name')
+                    + [' trade in ' + localData.commodityName(filters.commodity, filters.type) + ' balance ', ' imports of ' + localData.commodityName(filters.commodity, filters.type) + ' ', ' exports of ' + localData.commodityName(filters.commodity,filters.type) + ' '][filters.flow]
+                    + ' in ' + filters.year;
           }
 
           data.query(queryFilter, function queryCallback (err, ready) {
@@ -179,7 +188,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
           if (+filters.flow === 0) { flowRank = 'balanceVal'; flowVal = 'balanceVal';}
 
           // Get the relevant data for both flows and then combine the data
-          var newData = localData.getData({ reporter: filters.reporter, commodity: filters.commodity, year: +filters.year });
+          var newData = localData.getData({ reporter: filters.reporter, type: filters.type, commodity: filters.commodity, year: +filters.year });
           newData = localData.combineData(newData);
 
           // Filter out records that relate to partner: 0 (world) which would distort the scale
