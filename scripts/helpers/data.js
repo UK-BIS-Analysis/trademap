@@ -363,9 +363,9 @@ define(function(require) {
 
         // Add filters by each dimension
         if (typeof filters.reporter !== 'undefined')                                 { this.xFilterByReporter.filter(+filters.reporter); }
-        // NOTE: when partner=all we return all but the world
-        //       when partner=num we  return that
-        //       when partner=undefined we return all including world
+        // NOTE: when partner=all we return all except the world
+        //       when partner=num we return that
+        //       when partner=undefined we return all including world by not filtering
         if (typeof filters.partner !== 'undefined' && filters.partner === 'all')     { this.xFilterByPartner.filter(function (d) { return (+d !== 0); }); }
         if (typeof filters.partner !== 'undefined' && filters.partner !== 'all')     { this.xFilterByPartner.filter(+filters.partner); }
         if (typeof filters.year !== 'undefined' && filters.year !== 'all')           { this.xFilterByYear.filter(+filters.year); }
@@ -529,7 +529,7 @@ define(function(require) {
             // options in the dropdown we query the api listing all of those instead
             // e.g. for the 11 top level categories.
             if (data.serviceCodesSelect.length < 20) {
-              requestUrl += '&cc=';
+              requestUrl += '&cc=200%2C';
               data.serviceCodesSelect.forEach(function (i) {
                 requestUrl += i.id+'%2C';
               });
@@ -552,7 +552,7 @@ define(function(require) {
             reporter:   +d['Reporter Code'],
             partner:    +d['Partner Code'],
             year:       +d.Year,
-            // We ifer the type from the classification field. Goods start with "H" but can be H0, H1, H2, H3, H4 while services have classification EB
+            // We infer the type from the classification field. Goods start with "H" but can be H0, H1, H2, H3, H4 while services have classification EB
             type:        ({ H: 'C', E: 'S'})[d.Classification.slice(0,1)],
             commodity:   d['Commodity Code'],
             flow:       +d['Trade Flow Code'],
@@ -586,7 +586,7 @@ define(function(require) {
           });
           return !dup;
         });
-
+console.log('DEBUG: filters: ',filters);
         // Add the new data to xFilter
         this.xFilter.add(insertData);
 

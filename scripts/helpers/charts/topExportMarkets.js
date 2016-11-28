@@ -55,7 +55,7 @@ define(['../data', '../rowchart', '../gui', '../controls'], function(data, rowch
           var queryFilter = {
                 reporter: +filters.reporter,
                 partner:  'all',
-                year:   filters.year,
+                year:   +filters.year,
                 commodity:   'AG2',
                 initiator: 'topExportMarkets',
                 type: filters.type
