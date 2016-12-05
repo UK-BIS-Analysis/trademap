@@ -528,8 +528,10 @@ define(function(require) {
             // instead using ALL that would return all nested levels, if we have less than 20
             // options in the dropdown we query the api listing all of those instead
             // e.g. for the 11 top level categories.
-            if (data.serviceCodesSelect.length < 20) {
-              requestUrl += '&cc=200%2C';
+            if (filters.commodity == 'TOTAL') {
+              requestUrl += '&cc=200';
+            } else if (data.serviceCodesSelect.length < 20) {
+              requestUrl += '&cc=';
               data.serviceCodesSelect.forEach(function (i) {
                 requestUrl += i.id+'%2C';
               });
@@ -586,7 +588,6 @@ define(function(require) {
           });
           return !dup;
         });
-console.log('DEBUG: filters: ',filters);
         // Add the new data to xFilter
         this.xFilter.add(insertData);
 
