@@ -144,7 +144,7 @@ define(['../data', '../gui', './infoBox', '../controls'], function(data, gui, in
             dataFilter.commodity =  'TOTAL';
             dataFilter.type = filters.type;
             title = localData.lookup(filters.reporter, 'countryByUnNum', 'name')
-                    + [' trade in '+({ S: 'services', G: 'goods'})[filters.type]+' balance ', ' imports of '+({ S: 'services', G: 'goods'})[filters.type]+' ', ' exports of '+({ S: 'services', G: 'goods'})[filters.type]+' '][filters.flow]
+                    + [' trade in '+({ S: 'services', C: 'goods'})[filters.type]+' balance ', ' imports of '+({ S: 'services', C: 'goods'})[filters.type]+' ', ' exports of '+({ S: 'services', C: 'goods'})[filters.type]+' '][filters.flow]
                     + ' in '
                     + filters.year;
           }

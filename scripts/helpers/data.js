@@ -35,7 +35,7 @@ define(function(require) {
       partnerAreasSelect: [],
       typeCodesSelect: [{
           "id": "C",
-          "text": "Commodities",
+          "text": "Goods",
           "parent": "#"
       }, {
           "id": "S",
@@ -162,6 +162,10 @@ define(function(require) {
           data.baseQueryUrl = '/api/get?fmt=csv&max=50000&freq=A&rg=1%2C2'
           data.useCors = false;
         }
+		
+		// DEBUG/LOCAL just override here for local usage
+		  data.baseQueryUrl = 'http://localhost:8888/beis/comtrade/trademap/api/get/?fmt=csv&max=50000&freq=A&rg=1%2C2';
+          data.useCors = true;
 
         var ajaxSettings = {
           dataType: 'json'
@@ -516,12 +520,12 @@ define(function(require) {
           requestUrl += '&ps=now';
         }
         // Build URL for goods
-        if (typeof filters.type !== 'undefned' && filters.type == 'C') {
+        if (typeof filters.type !== 'undefined' && filters.type == 'C') {
           requestUrl += '&type=C&px=HS';
           if (typeof filters.commodity !== 'undefined')   { requestUrl += '&cc='+filters.commodity;} else { requestUrl += '&cc=AG2'; }
         }
         // Build URL for services
-        if (typeof filters.type !== 'undefned' && filters.type == 'S') {
+        if (typeof filters.type !== 'undefined' && filters.type == 'S') {
           requestUrl += '&type=S&px=EB02';
           if (typeof filters.commodity == 'undefined' || filters.commodity == 'TOTAL' || filters.commodity == 'ALL' || filters.commodity == 'AG2' ) {
             // If no specific commodity code is specified or a TOTAL or ALL has been requested,
@@ -532,9 +536,11 @@ define(function(require) {
               requestUrl += '&cc=200';
             } else if (data.serviceCodesSelect.length < 20) {
               requestUrl += '&cc=';
+              var svc_types = [];
               data.serviceCodesSelect.forEach(function (i) {
-                requestUrl += i.id+'%2C';
+                svc_types.push(i.id);
               });
+              requestUrl += svc_types.join();              
               requestUrl.slice(0,-3);
             } else {
               requestUrl += '&cc=ALL';
