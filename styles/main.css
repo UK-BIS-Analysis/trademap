@@ -209,6 +209,11 @@ body.no-fontsupport .glyphicon-arrow-right:before {
 .clearBtnWrapper .btn {
   width: 100%;
 }
+/* 
+.btn-xs {
+  background-color: #3aa9f8;
+}
+ */
 #clearFilters {
   font-size: 14px;
 }

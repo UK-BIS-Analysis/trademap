@@ -240,8 +240,10 @@ define(['./data'], function(data) {
         // Set the filters from the URL
         this.changeFilters(URLfilters);
       } else {
-        // Then initialize filters to reporter=UK year 2014 and type Goods
-        controls.changeFilters({ reporter: 826, year: 2014, type: "C" });
+      	var today = new Date();
+      	var init_year = today.getMonth() < 7 ? today.getFullYear() - 2 : today.getFullYear() - 1;
+        // Then initialize filters to reporter=UK, year is estimate of most recent year where there is data, and type Goods
+        controls.changeFilters({ reporter: 826, year: init_year, type: "C" });
       }
     },
 
@@ -354,8 +356,6 @@ define(['./data'], function(data) {
       $('#myModal .modal-body').html(err);
       $('#myModal').modal({ show: true });
     }
-
-
 
 
   };

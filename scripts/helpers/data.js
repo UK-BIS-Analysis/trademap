@@ -162,7 +162,7 @@ define(function(require) {
           data.baseQueryUrl = '/api/get?fmt=csv&max=50000&freq=A&rg=1%2C2'
           data.useCors = false;
         }
-		
+		//debugger;
 		// DEBUG/LOCAL just override here for local usage
 		  data.baseQueryUrl = 'http://localhost:8888/beis/comtrade/trademap/api/get/?fmt=csv&max=50000&freq=A&rg=1%2C2';
           data.useCors = true;
@@ -508,14 +508,14 @@ define(function(require) {
           // TODO: Temporary FIX because of bug in Comtrade API, revert this when the bug is fixed.
           // If filters.year is 'all' and type is services the API will not return any records at the moment.
           // As a workarund for this case we will search for years 2011, 2012, 2013, 2014, 2015 only (we can specify five)
-          if (filters.type == 'S' && filters.year == 'all') {
+          /* if (filters.type == 'S' && filters.year == 'all') {
             requestUrl += '&ps=2011%2C2012%2C2013%2C2014%2C2015';
           } else {
             requestUrl += '&ps='+filters.year;
-          }
+          } */
           // -------- END WORKAROUND ---------
           // When proper functioning is restored delete above workaround and uncomment original code below:
-          // requestUrl += '&ps='+filters.year;
+          requestUrl += '&ps='+filters.year;
         } else {
           requestUrl += '&ps=now';
         }

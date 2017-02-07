@@ -189,10 +189,17 @@ define(['../data', '../gui', '../controls'], function(data, gui, controls) {
 
           // Show ranking only if partner and rankings are given
           if (details.partner && details.partner !== 0 && details.importRank && details.exportRank) {
+          try {
             var ranking = partnerName + ' was the ' + localData.numOrdinal(details.exportRank) + ' largest export market for ' +
                           reporterName + ' (' + details.exportPc.toFixed(1) + '% of ' + reporterName + ' exports) and the ' +
                           localData.numOrdinal(details.importRank) + ' largest import market for ' + reporterName +
                           ' (' + details.importPc.toFixed(1) + '% of ' + reporterName + ' imports)';
+            } catch (err) {
+            	//debugger;
+            	var ranking = partnerName + ' was the ' + localData.numOrdinal(details.exportRank) + ' largest export market for ' +
+                          reporterName + '  and the ' + localData.numOrdinal(details.importRank) + 
+                          ' largest import market for ' + reporterName + '.';
+            }
             if (details.commodity && details.commodity !== 'TOTAL') {
               ranking += ' for '+ localData.commodityName(details.commodity, details.type);
             }

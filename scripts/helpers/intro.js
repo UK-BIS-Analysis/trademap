@@ -38,43 +38,55 @@ define(function(require) {
       intro: "Selecting a partner will allow you to see details of trade flows between your selected reporter and partner. These details will show in the Key Facts box and on the graphs below the map.",
       position: 'bottom-middle-aligned'
     },
-    // 05. Commodity
+    // 05 Goods/Service selector
+    {
+      element: document.querySelector('#selectTypeContainer'),
+      intro: "This will update the map and legend to display data on either goods or services, as selected.",
+      position: 'left'
+    },    
+    // 06. Commodity
     {
       element: document.querySelector('#selectCommodityContainer'),
-      intro: "Selecting the commodity box will display a list of classification of goods. This allows you to drill down the trade data to a greater level of detail. Selecting a commodity will update the map and the graphs below.",
+      intro: "Selecting the commodity/service box will display a list of classification of goods or services. This allows you to drill down the trade data to a greater level of detail. Selecting a commodity or service will update the map and the graphs below.",
       position: 'left'
     },
-    // 06. Flow seleciton
+    // 07. Flow seleciton
     {
       element: document.querySelector('#flowButtons'),
       intro: "The map and legend will update based on whether you select ‘exports’, ‘imports’ or ‘balance’.",
       position: 'right'
     },
-    // 07. Map
+    // 08. Map
     {
       element: document.querySelector('#choroplethTitle .chartTitle'),
       intro: "The map visualization shows at a glance the top trading partners for the selected reporter country, and commodity if selected. You can hover over an area on the map to get quick insights into that area, or select the area as a reporter or partner.",
       position: 'bottom-middle-aligned'
     },
-    // 08. Key facts box
+    // 09. Download buttons
+    {
+      element: document.querySelector('#choroplethDropdownMenuDiv'),
+      intro: "You can download the map, and the charts below, using the download options in the small menu next to the map or chart title.",
+      position: 'right'
+    },
+    // 10. Key facts box
     {
       element: document.querySelector('#infoBox'),
       intro: "The Key Facts box gives a breakdown of trade between your selected reporter and partner, such as export, import, balance and bilateral trade figures.",
       position: 'right'
     },
-    // 09. Charts
+    // 11. Charts
     {
       element: document.querySelector('#yearChart .chartTitle'),
       intro: "Below the map, you will find charts showing further detail based on your filter selection. Please note that these will be displayed or hidden based on your selections. You can download these charts by selecting the arrows to the left of the charts.",
       position: 'top'
     },
-    // 10. Feeback
+    // 12. Feeback
     {
       element: document.querySelector('#feedback-tab'),
       intro: "When you're done we'd really appreciate your thoughts on the visualization.",
       position: 'left'
     },
-    // 11. Goodbye
+    // 13. Goodbye
     {
       intro: "Now try it yourself!"
     }

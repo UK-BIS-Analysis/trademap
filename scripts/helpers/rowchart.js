@@ -170,7 +170,7 @@ define(['./data', './controls'], function(data, controls) {
           // Update bars & text
           var groups = svg.selectAll('g.item');
           groups.selectAll('rect')
-            .attr('width', function (d,i) { return barchart.xScale(+d.value); });
+            .attr('width', function (d,i) { return barchart.xScale(+d.value) || 1; });
           groups.selectAll('text.value')
             .attr('x', function (d,i) { return barchart.xScale(+d.value)+3; });
         }

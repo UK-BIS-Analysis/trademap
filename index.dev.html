@@ -6,7 +6,7 @@
 
     <!-- General meta tags -->
     <link rel="author" href="humans.txt" />
-    <meta name="author" content="UK Department for Business, Energy and Industrial Strategy / Department for International Trade">
+    <meta name="author" content="Department for International Trade / Department for Business, Energy and Industrial Strategy (UK)">
     <meta name="Description" content="An interactive visualization of international trade based on UN COMTRADE data.">
     <meta name="Keywords" content="trade, goods, services, comtrade, united nations, department for business, energy and industrial strategy / department for international trade">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -19,7 +19,7 @@
     <meta property="og:url"         content="http://comtrade.un.org/labs/BIS-trade-in-goods" />
     <meta property="og:description" content="An interactive data visualization made by the UK Department for Business, Energy and Industrial Strategy / Department for International Trade exploring UN COMTRADE data." />
 
-    <title>International trade in goods and services based on UN data</title>
+    <title>International trade in goods and services based on UN data.</title>
 
     <!-- Modernizr should not be compiled/minified with other scripts -->
     <script type="text/javascript" src="libs/modernizr.custom.js"></script>
@@ -84,7 +84,7 @@
           </button>
           <div class="navbar-brand">
             <p>International Trade in goods and services based on UN data</p>
-            <small>Developed by the Department for Business, Energy and Industrial Strategy / Department for International Trade (UK)</small>
+            <small>Developed by the Department for International Trade / Department for Business, Energy and Industrial Strategy (UK)</small>
           </div>
         </div>
 
@@ -138,8 +138,9 @@
             <!-- Year selection -->
             <div class="selectYearWrapper">
               <select id="selectYear" class="select2control" disabled>
+                <option value="2014" selected>2015</option>
                 <option value="2014">2014</option>
-                <option value="2013" selected>2013</option>
+                <option value="2013">2013</option>
                 <option value="2012">2012</option>
                 <option value="2011">2011</option>
                 <option value="2010">2010</option>
@@ -216,7 +217,7 @@
       <div id="choropleth" class="fill-screen chart" style="display: none">
         <!-- Chart title -->
         <div id="choroplethTitle">
-          <div class="dropdown titleDropdown">
+          <div class="dropdown titleDropdown" id="choroplethDropdownMenuDiv">
             <button class="btn btn-xs dropdown-toggle" type="button" id="choroplethDropdownMenu" data-toggle="dropdown" aria-expanded="true" data-toggle="tooltip" data-placement="bottom" title="Extra options"><span class="caret"></span></button>
             <ul class="dropdown-menu" role="menu" aria-labelledby="choroplethDropdownMenu">
               <li role="presentation"><a role="menuitem" tabindex="-1" data-target="choropleth" href="javascript:;"  data-format="svg" class="downloadChart"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download as SVG</a></li>
@@ -404,7 +405,8 @@
       <div id="footer" class="fill-screen" style="display: none">
         <div class="col-sm-6">
           <p>Developed by:</p>
-          <img class="logo" src="img/image-BISLogo-landscapecolour-png.mod.png" width="412" height="40" alt="Department for Business, Energy and Industrial Strategy Logo">
+          <img class="logo" src="img/DIT_logo.png" width="223" height="106" alt="Department for International Trade Logo"> &nbsp; &nbsp; &nbsp; &nbsp;
+          <img class="logo" src="img/img-low-res-Dept-for-Business-Energy-and-Industrial-Strat_294_SML_AW.png" width="220" height="117" alt="Department for Business, Energy and Industrial Strategy Logo">
           <p>&nbsp;</p>
           <p>&nbsp;</p>
           <p>Based on data from:</p>
@@ -423,7 +425,7 @@
       <!-- EMBED CREDIT -->
       <div id="embedCredit" style="display: none">
         <p>International trade in goods based on UN data</p>
-        <small>Developed by the Department for Business, Energy and Industrial Strategy / Department for International Trade (UK)<br />
+        <small>Department for International Trade / Developed by the Department for Business, Energy and Industrial Strategy (UK)<br />
         See the full data <a href="#">here</a>.</small>
       </div>
 
