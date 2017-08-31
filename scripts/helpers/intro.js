@@ -20,7 +20,7 @@ define(function(require) {
              '<p style="font-size: 14px">This tool allows you to explore official trade in goods data using live data from the UN COMTRADE database.</p>'+
              '<p style="font-size: 14px">The tool was developed by the Department for International Trade and the Department for Business, Energy and Industrial Strategy in the UK.</p>'+
              '<p style="font-size: 14px">This site uses cookies to make the site simpler. To find out more about cookies used here, please go to the "Cookie policy" page under the "About" menu.</p>'+
-             '<p style="font-size: 14px">Please note that there may be occasions when no data is loaded. In this case, the map will be shaded grey, and the graphs will display the message "No data available for this chart". This is most likely because it is unavailable in the UN Comtrade database for the particular query made.</p>'
+             '<p style="font-size: 14px">Please note that there may be occasions when no data is loaded. In this case, the map will be shaded grey, and the graphs will display the message "No data available for this chart". This is because data is unavailable in the UN Comtrade database for the particular query made.</p>'
     },
     // 02. Controls (overview)
     {
