@@ -58,7 +58,7 @@ define([], function() {
         e.preventDefault();
         var winTop = (screen.height / 2) - (520 / 2);
         var winLeft = (screen.width / 2) - (350 / 2);
-        window.open('https://twitter.com/share?text=Check%20out%20the%20International%20Trade%20in%20Goods%20DataViz&url='+window.location.href, 'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width=' + 520 + ',height=' + 350);
+        window.open('https://twitter.com/share?text=Check%20out%20the%20International%20Trade%20in%20Goods%20and%20Services%20DataViz%20tool&url='+window.location.href, 'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width=' + 520 + ',height=' + 350);
       });
 
       // ADD LOADING PROGRESSBAR BEHAVIOUR
@@ -136,8 +136,8 @@ define([], function() {
             .attr('height', height+75)
             .append('<text y="' + footerPos + '">'
                       +'<tspan x="10" class="creditTitle">' + title + '</tspan>'
-                      +'<tspan x="10" dy="15" class="creditSource">International Trade in Goods based on UN Comtrade data</tspan>'
-                      +'<tspan x="10" dy="15" class="creditSource">Developed by the Department for Business Innovation and Skills (UK)</tspan>'
+                      +'<tspan x="10" dy="15" class="creditSource">International Trade in Goods and Services based on UN Comtrade data</tspan>'
+                      +'<tspan x="10" dy="15" class="creditSource">Developed by the Department for International Trade and the Department for Business, Energy and Industrial Strategy in the UK</tspan>'
                       +'<tspan x="10" dy="15" class="creditLink">' + document.location.href + '</tspan>'
                     +'</text>');
 

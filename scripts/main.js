@@ -18,7 +18,7 @@ require(['helpers/data', 'helpers/gui', 'helpers/controls', 'helpers/charts', 'h
 
   // NOTE: We declare a global boolean DEBUG variable which we'll use to switch on or off console.log messages
   if (typeof DEBUG === 'undefined') {
-    window.DEBUG = true;
+    window.DEBUG = false;
   }
 
   // This jQuery callback makes sure that all code is run after the document and scripts have all loaded properly

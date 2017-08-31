@@ -66,6 +66,7 @@ define(['./data', './controls'], function(data, controls) {
 
 
         draw: function (svg, newData, filters, color) {
+          if (DEBUG) { if (newData.length == 0) {console.warn('no new data', filters)} }
           // Setup scales & axises
           barchart.xScale.domain([0, d3.max(newData, function (d) { return d.value; })])
             .nice();

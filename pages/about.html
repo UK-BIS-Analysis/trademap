@@ -4,58 +4,46 @@
 </div>
 <div class="modal-body">
 
-  <p>The United Nations Commodity Trade Statistics Database (UN Comtrade) contains detailed goods imports and exports statistics reported
-    by statistical authorities of close to 200 countries or areas. It concerns annual trade data from 1962 to the most recent year.
-    UN Comtrade is considered the most comprehensive trade database available with more than 3 billion records. </p>
+<p>This interactive visualisation tool makes use of the United Nations (UN) Comtrade Application Programming Interface (API). This means that the data available through the visualisation will always reflect the very latest data available from the UN Comtrade (goods) and UN Services Trade (services) databases.</p>
 
-  <p>This interactive visualisation tool makes use of the UN Comtrade Application Programming Interface (API). This means that the data
-    available through the visualisation will always reflect the very latest data available on the UN Comtrade website. </p>
+<p>All data are reported in current US dollar values. For goods this is calculated using an average annual exchange rate, created by weighting the monthly exchange rate with the monthly volume of trade. For services currency conversion uses the average annual exchange rates published by the International Monetary Fund and the European Central Bank (for the EU).</p>
 
-  <p>UN Comtrade data covers trade in goods only and are compiled on a customs basis. This means they are not compatible with data
-    collected on a balance of payments basis. All data are reported in current US dollar values, calculated using an average annual
-    exchange rate. This is calculated by weighting the monthly exchange rate with the monthly volume of trade.</p>
+<h3>Trade in goods data</h3>
 
-  <p>Commodity data are available through the interactive tool, based on the Harmonised System (HS) at the 2 digit level.
-    There are a number of different revisions of the HS coding system. The data available through this interactive tool are on the basis
-    of ‘HS as reported’ (for example if data was originally submitted to UN Comtrade in HS1996 then HS1996 is displayed). ‘HS as reported’
-    will generally provide the user with more data but it can result in some inconsistencies over time.</p>
+<p>The UN International Trade Statistics Database (UN Comtrade) contains detailed goods imports and exports statistics reported by statistical authorities of close to 200 countries or areas. It concerns annual trade data from 1962 to the most recent year. UN Comtrade is considered the most comprehensive trade database available with more than 3 billion records.</p>
 
-  <p>For detailed information on which commodities fall into each 2-digit HS code see this
-    <a href="http://www.foreign-trade.com/reference/hscode.htm" target="_blank">web site</a>.</p>
+<p>UN Comtrade data covers trade in goods only and are compiled on a customs basis. This means they are not compatible with data collected on a balance of payments basis (such as the trade in services data).</p>
 
-  <p>As documented in UN Comtrade guidance the value of ‘re-exports’ and ‘re-imports’ are included in the value of ‘exports’ and ‘imports’
-    respectively. Data in this visualisation are as reported by UN Comtrade, BIS does not do any processing of this data except to represent
-    as a proportion or as a rank. For further information on re-exports and re-imports please see
-    <a href="http://unstats.un.org/unsd/tradekb/Knowledgebase/Reexports-and-Reimports">here</a>.</p>
+<p>Commodity data are available through the interactive tool, based on the Harmonised System (HS) at the 2 digit level. There are a number of different revisions of the HS coding system. The data available through this interactive tool are on the basis of ‘HS as reported’ (for example if data was originally submitted to UN Comtrade in HS1996 then HS1996 is displayed). ‘HS as reported’ will generally provide the user with more data but it can result in some inconsistencies over time.</p>
 
-  <h3>Limitations</h3>
+<p>For detailed information on which commodities fall into each 2-digit HS code see this <a href="http://www.foreign-trade.com/reference/hscode.htm" target="_blank">web site.</a></p>
 
-  <p>Data on trade in services are not included in this visualisation. For data on international trade in services see the
-    <a href="http://unstats.un.org/unsd/servicetrade/default.aspx" target="_blank">UN Service Trade database</a>.</p>
+<p>As documented in UN Comtrade guidance the value of ‘re-exports’ and ‘re-imports’ are included in the value of ‘exports’ and ‘imports’ respectively. Data in this visualisation are as reported by UN Comtrade, DIT/BEIS do not do any processing of this data except to represent as a proportion or as a rank. For further information on re-exports and re-imports please see <a href="http://unstats.un.org/unsd/tradekb/Knowledgebase/Reexports-and-Reimports" target="_blank">here</a>.</p>
 
-  <p>The partner "Areas NES (not elsewhere specified)" is used (a) for low value trade and (b) if the partner designation was
-    unknown to the country or if an error was made in the partner assignment. The reporting country does not send the UN details of the
-    trading partner in these specific cases. Sometimes reporters do this to protect company information. It is not possible to display
-    “Areas, NES” and other non-geographically specific areas on the map. When data are available for these partners it will be displayed
-    in the relevant charts.</p>
+<h3>Trade in services data</h3>
 
-  <p>The values of the reported detailed commodity data do not necessarily sum up to the total trade value for a given country dataset.
-    Due to confidentiality, countries may not report some of its detailed trade. This trade will - however - be included at the higher
-    commodity level and in the total trade value.</p>
+<p>The UN Trade in Services Database contains services exports and imports broken down by services category and partner country on an annual basis. The database contains data from 2000, though data are not available for all countries and all years.</p>
 
-  <p>Countries (or areas) do not necessarily report their trade statistics for each and every year.</p>
+<p>The UN collects trade in services data from statistical authorities in accordance with the Extended Balance of Payments Services Classifications (EBOPS) as described in the Manual on Statistics of International Trade in Services (<a href="http://unstats.un.org/unsd/tradeserv/TFSITS/MSITS2002.htm" target="_blank">MSITS 2002</a> and <a href="http://unstats.un.org/unsd/tradeserv/TFSITS/msits2010.htm" target="_blank">MSITS 2010</a>). The API currently only works with data by EBOPS 2002 and this is the classification of the services data available through this visualisation. Many countries still report in EBOPS 2002, but for those reporting in EBOPS 2010 the data are converted back to EBOPS 2002 by the UN. The conversion is based on the IMF’s BPM5-to-BPM6 Conversion Matrix available <a href="http://www.imf.org/external/pubs/ft/bop/2008/08-10b.pdf" target="_blank">here</a>. Information on the EBOPS 2002 classification can be found in this <a href="http://unstats.un.org/unsd/tradeserv/db/docs/ebops2002_eng.pdf" target="_blank">guide</a>.</p>
 
-  <p>Imports reported by one country do not coincide with exports reported by its trading partner. Differences are due to various
-    factors including valuation (imports CIF, exports FOB), differences in inclusions/ exclusions of particular commodities, timing etc.</p>
+<p>Full documentation relating to the UN Trade in Services Database can be found on <a href="http://unstats.un.org/unsd/tradekb/Knowledgebase/7" target="_blank">Knowledgebase</a>.</p>
 
-  <p>Almost all countries report as partner country for imports the country of origin, which is determined by the rules of origin established
-    by each country.</p>
+<h3>Limitations</h3>
 
-  <h3>Map</h3>
+<p>Commodities and services data taken from this visualisation should not be combined to give total trade values. This is because the goods data are compiled on a customs basis (goods crossing the border) and the services data on a Balance of Payments (BOP) basis. Headline goods and services trade by country are available from other sources, such as <a href="http://unctadstat.unctad.org/wds/TableViewer/tableView.aspx?ReportId=89795" target="_blank">UNCTAD</a>.</p>
 
-  <p>Please note that the boundaries on the map may not reflect current political delimitations of countries.</p>
+<p>The partner "Areas NES (not elsewhere specified)" is used (a) for low value trade and (b) if the partner designation was unknown to the country or if an error was made in the partner assignment. The reporting country does not send the UN details of the trading partner in these specific cases. Sometimes reporters do this to protect company information. It is not possible to display “Areas, NES” and other non-geographically specific areas on the map. When data are available for these partners it will be displayed in the relevant charts.</p>
 
-</div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-</div>
+<p>The values of the reported detailed commodity/service data do not necessarily sum up to the total trade value for a given country dataset. Due to confidentiality, countries may not report some of its detailed trade. For merchandise trade, this trade will - however - be included at the higher commodity level and in the total trade value for both goods and services.</p>
+
+<p>Countries (or areas) do not necessarily report their trade statistics for each and every year. The availability of data is dependent on the reporting national statistical authorities. To collect information by type of service and partner national statistical authorities may have to conduct large scale enterprise surveys which can be expensive and time consuming. This explains why there are substantial data gaps in the services data when looking at type of service by partner, and why there are longer time-lags for publishing the services data than there are for goods data (which comes from transactional data).</p>
+
+<p>Imports reported by one country do not always agree with exports reported by its trading partner. Differences are due to various factors including the application of different criteria of partner attribution in import and export statistics, valuation (imports CIF, exports FOB), differences in inclusions/exclusions of particular commodities or types of services, differences in survey methods, exchange rates, timing etc. Information on bilateral asymmetries in trade in goods can be found <a href="http://unstats.un.org/unsd/tradekb/Knowledgebase/50657/Bilateral-asymmetries" target="_blank">here</a>.  Information on bilateral asymmetries in trade in services can be found <a href="http://unstats.un.org/unsd/tradekb/Knowledgebase/50684/Bilateral-Trade-Asymmetries-in-Trade-in-Services" target="_blank">here</a>.</p>
+
+<p>For merchandise trade statistics, almost all countries report as partner country for imports the country of origin, which is determined by the rules of origin established by each country, and country of last known destination as the partner country for exports.</p>
+
+<p>Caution is advised when interpreting negative values for trade in services, which can occur for a number of reasons. They may reflect the nature of genuine transactions within the areas of insurance, financial services or merchanting. Negative values in these categories may in turn have impacts on aggregated categories. Negative values could possibly result from timing issues and /or estimation, especially in the case of freight and manufacturing services.  For further information see the UN note on <a href="http://unstats.un.org/unsd/tradekb/Knowledgebase/50666/Negative-values-in-trade-in-services" target="_blank">negative values in trade in services</a>.</p>
+
+<h3>Map</h3>
+
+<p>The designations employed and the presentation of material on UN Comtrade do not imply the expression of any opinion whatsoever on the part of the Secretariat of the United Nations concerning the legal status of any country, territory, city or area, or of its authorities, or concerning the delimitations of its frontiers or boundaries. Where the designation “country or area” appears on this internet site, it covers countries, territories or areas.</p>

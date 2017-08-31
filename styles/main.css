@@ -1,7 +1,7 @@
 /*
  * HTML ONLY STYLES
  * Color palette:
- * BIS blue: #054D82;
+ * BEIS blue: #054D82;
  */
 
 
@@ -599,4 +599,19 @@ body.no-fontsupport .glyphicon-arrow-right:before {
 }
 .introjs-button.introjs-nextbutton.introjs-disabled {
   display: none;
+}
+
+
+/*
+ *  Cookies policy styles
+ */
+.cookies table th,
+.cookies table td {
+  vertical-align: top;
+  padding: 10px 10px 10px 0;
+  border-bottom: solid 1px #bfc1c3;
+}
+.cookies h5 {
+  font-weight: bold;
+  padding-top: 14px;
 }

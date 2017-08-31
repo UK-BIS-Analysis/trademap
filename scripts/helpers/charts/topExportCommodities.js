@@ -104,6 +104,7 @@ define(['../data', '../rowchart', '../gui', '../controls'], function(data, rowch
             if (err || !ready) { return; }
             // Get the data, update title, display panel and update chart
             var newData = localData.getData(dataFilter, numEntries);
+//             if (newData.length == 0) {console.warn('no new data in ' + title)}
             // Set chart title
             $chartTitle.html(title);
             // Set download link

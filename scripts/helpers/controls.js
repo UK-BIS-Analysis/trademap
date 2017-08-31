@@ -166,7 +166,7 @@ define(['./data'], function(data) {
       if (controls.filters.type != newfilters.type) {
         newfilters.commodity = undefined;
         // Update placeholder
-        if (newfilters.type == 'S') controls.$selectCommodity.data('select2').opts.placeholder = "Select service";
+        if (newfilters.type == 'S') controls.$selectCommodity.data('select2').opts.placeholder = "Select service type";
         if (newfilters.type == 'C') controls.$selectCommodity.data('select2').opts.placeholder = "Select commodity";
         controls.$selectCommodity.data('select2').setPlaceholder()
         // Purge the displayed value in the commodity dropdown
@@ -280,7 +280,7 @@ define(['./data'], function(data) {
         query += '&';
       }
       query = query.slice(0, -1);
-      History.replaceState(null,'International Trade in Goods by Country and Commodity',query)
+      History.replaceState(null,'International Trade in Goods and Services by Country and Commodity',query)
     },
 
 

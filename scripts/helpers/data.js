@@ -162,10 +162,13 @@ define(function(require) {
           data.baseQueryUrl = '/api/get?fmt=csv&max=50000&freq=A&rg=1%2C2'
           data.useCors = false;
         }
-		//debugger;
-		// DEBUG/LOCAL just override here for local usage
-		  data.baseQueryUrl = 'http://localhost:8888/beis/comtrade/trademap/api/get/?fmt=csv&max=50000&freq=A&rg=1%2C2';
-          data.useCors = true;
+		//console.log(data);console.log(window.location.href);console.log(location.host);
+		// DEBUG/LOCAL just override here for local usage 2016-10
+		//data.baseQueryUrl = '/data/RequestURL_0' + requestCount + '.csv';
+		//data.baseQueryUrl = 'http://localhost/trademap/api/get/?fmt=csv&max=50000&type=C&freq=A&px=HS&rg=1%2C2';
+		// data.baseQueryUrl = 'http://localhost:8888/beis/trademap/api/get/?fmt=csv&max=50000&freq=A&px=HS&rg=1%2C2';
+		// data.useCors = true;
+
 
         var ajaxSettings = {
           dataType: 'json'
@@ -211,7 +214,7 @@ define(function(require) {
             try {
               return data[mapName].get(lookupVal)[propertyName];
             } catch (err) {
-              //if (DEBUG) { console.warn('There was a problem looking up ' + lookupVal + ' in ' + mapName + '.' + propertyName + ': ' + err); }
+              if (DEBUG) { console.warn('There was a problem looking up ' + lookupVal + ' in ' + mapName + '.' + propertyName + ': ' + err); }
               return 'unknown';
             }
           };
@@ -504,17 +507,6 @@ define(function(require) {
         if (typeof filters.partner !== 'undefined')     { requestUrl += '&p=' +filters.partner;  } else { requestUrl += '&p=all'; }
 
         if (typeof filters.year !== 'undefined' && filters.year !== null) {
-          // -------- START WORKAROUND ---------
-          // TODO: Temporary FIX because of bug in Comtrade API, revert this when the bug is fixed.
-          // If filters.year is 'all' and type is services the API will not return any records at the moment.
-          // As a workarund for this case we will search for years 2011, 2012, 2013, 2014, 2015 only (we can specify five)
-          /* if (filters.type == 'S' && filters.year == 'all') {
-            requestUrl += '&ps=2011%2C2012%2C2013%2C2014%2C2015';
-          } else {
-            requestUrl += '&ps='+filters.year;
-          } */
-          // -------- END WORKAROUND ---------
-          // When proper functioning is restored delete above workaround and uncomment original code below:
           requestUrl += '&ps='+filters.year;
         } else {
           requestUrl += '&ps=now';
@@ -567,7 +559,6 @@ define(function(require) {
             value:      +d['Trade Value (US$)']
           };
         });
-
         // Run the filters on xFilter and extract the data we already may have (unset the partner filter to include world)
         var dataFilter = $.extend({},filters);
         if (dataFilter.partner == 'all') { delete dataFilter.partner; }
@@ -594,8 +585,17 @@ define(function(require) {
           });
           return !dup;
         });
-        // Add the new data to xFilter
-        this.xFilter.add(insertData);
+        // Add the new data to xFilter (check first it is valid )
+        if ((insertData.length == 1) && (typeof(insertData[0].type) == "undefined")){
+			if(DEBUG) {
+          		console.warn('API QUERY FAILED from %s: r=%s p=%s cc=%s type=%s y=%s', filters.initiator, filters.reporter, filters.partner, filters.commodity, filters.type, filters.year);
+          		console.groupCollapsed('details...');
+				console.log(csvData, newData, insertData);
+				console.groupEnd();
+			}
+        } else {
+			this.xFilter.add(insertData);        
+        }
 
         if(DEBUG) {
           console.groupCollapsed('API QUERY SUCCESS from %s: r=%s p=%s cc=%s type=%s y=%s', filters.initiator, filters.reporter, filters.partner, filters.commodity, filters.type, filters.year);
