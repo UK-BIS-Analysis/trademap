@@ -1,3 +1,5 @@
+Note: this project has been further developed in this fork: https://github.com/mjs2020/trademap
+
 # Trade Map Visualization
 
 ## Quick details
